@@ -1,0 +1,17 @@
+float64 x_axis
+float64 y_axis
+float64 z_axis
+float64 pitch_axis
+float64 yaw_axis
+bool dc_button
+bool servo_button
+bool left_gripper_button
+bool right_gripper_button
+bool flash_button
+bool button6
+bool button7
+bool button8
+bool button9
+bool button10
+bool button11
+bool button12

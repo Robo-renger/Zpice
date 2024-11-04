@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROS Interface with WebRTC Video Stream</title>
+</head>
+
+<body>
+    <h1>ROS Interface with WebRTC Video Stream</h1>
+
+    <!-- ROS Interface Section -->
+    <div id="ros-interface">
+        <!-- Your existing ROS GUI elements go here, for example, buttons or controls that interact with ROS -->
+    </div>
+
+    <!-- Video Stream Section -->
+    <h2>Camera Stream</h2>
+    <video id="video" autoplay playsinline style="width: 100%; border: 1px solid #ccc;"></video>
+
+    <script>
+        async function startWebRTCStream() {
+            const peerConnection = new RTCPeerConnection();
+
+            // Create a dummy canvas track to ensure SDP includes video
+            const canvas = document.createElement('canvas');
+            canvas.width = 1;
+            canvas.height = 1;
+            const stream = canvas.captureStream();
+            const [track] = stream.getVideoTracks();
+            peerConnection.addTrack(track, stream);
+
+            // Collect ICE candidates
+            peerConnection.onicecandidate = (event) => {
+                if (event.candidate) {
+                    console.log("New ICE candidate: ", event.candidate);
+                }
+            };
+
+            // Create an offer and send it to the server
+            const offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+            
+            const response = await fetch('/offer', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    sdp: peerConnection.localDescription.sdp,
+                    type: peerConnection.localDescription.type
+                })
+            });
+
+            // Process the answer from the server
+            const answer = await response.json();
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+
+            // Attach the incoming stream to the video element
+            peerConnection.ontrack = (event) => {
+                const videoElement = document.getElementById('video');
+                if (!videoElement.srcObject) {
+                    videoElement.srcObject = event.streams[0];
+                }
+            };
+
+            // Remove the dummy track after setting up the connection
+            peerConnection.removeTrack(peerConnection.getSenders().find(sender => sender.track === track));
+        }
+
+        // Start the WebRTC stream when the page loads
+        window.onload = () => {
+            startWebRTCStream();
+        };
+    </script>
+</body>
+
+</html>

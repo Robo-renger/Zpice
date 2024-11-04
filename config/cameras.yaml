@@ -1,0 +1,15 @@
+camera1:
+  width: 1920
+  height: 1080
+  fps: 30
+  port: 8080
+camera2:
+  width: 1280
+  height: 720
+  fps: 60
+  port: 8081
+camera3:
+  width: 640
+  height: 480
+  fps: 25
+  port: 8082
