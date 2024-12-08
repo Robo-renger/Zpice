@@ -3,11 +3,10 @@ import yaml
 import rospkg
 class Configurator():
     CAMERAS = "cameras"
-    BUTTONS = "buttons"
+    BUTTONS = "joystick_buttons"
 
     def __init__(self):
         self.__configFile = ''
-
     def __raiseTypeError(self,data_type):
         consts = [attr for attr in dir(self) if not callable(getattr(self, attr)) and not attr.startswith("_")]
         raise TypeError(f"Config file of type {data_type} doesn't exist, only {', '.join(consts)} are allowed.")
@@ -21,7 +20,6 @@ class Configurator():
             self.__configFile = workspace_path + f'/../../config/{Configurator.BUTTONS}.yaml'
         else: 
             self.__raiseTypeError(data_type)
-        
     def fetchData(self,data_type):
         try:
             self.__getYamlFile(data_type)

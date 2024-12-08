@@ -3,11 +3,11 @@ float64 y_axis
 float64 z_axis
 float64 pitch_axis
 float64 yaw_axis
-bool dc_button
-bool servo_button
-bool left_gripper_button
-bool right_gripper_button
-bool flash_button
+bool button1
+bool button2
+bool button3
+bool button4
+bool button5
 bool button6
 bool button7
 bool button8
