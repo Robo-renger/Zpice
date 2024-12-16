@@ -1,17 +1,33 @@
-import board
-import busio
-from adafruit_pca9685 import PCA9685
+
 from zope.interface import implementer
 from interface.PWMDriver import PWMDriver
 @implementer(PWMDriver)
 class PCA:
     __inst = None
 
-    def __init__(self, i2c_address=0x40, frequency=50):
-        i2c = busio.I2C(board.SCL, board.SDA)
-        self.pca = PCA9685(i2c, address=i2c_address)
-        self.pca.frequency = frequency
+    def __init__(self, i2c_address=0x40, frequency=50, simulation_mode=False):
+        
+        self.__initializePCA(i2c_address, frequency)
 
+    def __initializePCA(self, i2c_address, frequency):
+        """
+        Initialize the PCA9685 driver.
+        """
+        if self.simulation_mode:
+            print("Running in simulation mode. PCA9685 not initialized.")
+        else:
+            try:
+                import board
+                import busio
+                from adafruit_pca9685 import PCA9685
+                self.board_avaliable = True
+                i2c = busio.I2C(board.SCL, board.SDA)
+                self.pca = PCA9685(i2c, address=i2c_address)
+                self.pca.frequency = frequency
+            except (RuntimeError, ImportError):
+                self.simulation_mode = True
+        
+    
     def _microsecondsToDutycycle(self, microseconds):
         """
         Converts microseconds to a duty cycle value.
