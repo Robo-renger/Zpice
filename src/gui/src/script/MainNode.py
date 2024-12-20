@@ -6,6 +6,7 @@ import sys
 from utils.Configurator import Configurator
 from services.CameraStreamer import CameraStreamer
 from services.GUIPresistence import GUIPresistence
+import os
 
 class CameraStreamerNode:
     def __init__(self):
@@ -18,9 +19,13 @@ class CameraStreamerNode:
         return self.configurator.fetchData(Configurator.CAMERAS)
 
     def runStreams(self):
+        print(os.getcwd())
+        os.chdir('/dev')
+        path = os.path.join(os.getcwd(), 'video0')
+        print(path)
         for camera, details in self.camerasDetails.items():
-            html_content = GUIPresistence("/home/ziad/zpice_ws/src/gui/src/index.html").getGUI()
-            cameraStreamer = CameraStreamer("/dev/rapoo_camera",html_content)
+            html_content = GUIPresistence("/home/mypi/Zpice/src/gui/src/index.html").getGUI()
+            cameraStreamer = CameraStreamer(path, html_content)
             self.cameraStreamers.append(cameraStreamer)
             cameraStreamer.setFPS(details['fps'])
             cameraStreamer.setFrameSize(details['width'], details['height'])

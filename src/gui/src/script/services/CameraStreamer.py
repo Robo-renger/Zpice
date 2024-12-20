@@ -5,7 +5,7 @@ import cv2
 import pyshine as ps
 
 class CameraStreamer:
-    def __init__(self, cameraIndex,html_content) -> None:
+    def __init__(self, cameraIndex: str,html_content) -> None:
         self.address = "192.168.1.233"  # Fetch from a config file/dynamically
         self.cameraIndex = cameraIndex
         self.width = 1280
@@ -31,7 +31,8 @@ class CameraStreamer:
             StreamProps = ps.StreamProps
             StreamProps.set_Page(StreamProps, self.html_content)
             address = (self.address, port)
-            self.capture = cv2.VideoCapture(self.cameraIndex)
+            self.capture = cv2.VideoCapture(self.cameraIndex, cv2.CAP_V4L2)
+            # cap = cv2.VideoCapture("/dev/rapoo_camera", cv2.CAP_V4L2)
             StreamProps.set_Mode(StreamProps, 'cv2')
             self.__setCVAttrs(self.capture)
             StreamProps.set_Capture(StreamProps, self.capture)
