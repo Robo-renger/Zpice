@@ -14,18 +14,16 @@ class CameraStreamerNode:
         self.configurator = Configurator()
         self.camerasDetails = self.__getCameraSteamDetails()
         self.cameraStreamers = []
+        
+        # print(os.getcwd())
 
     def __getCameraSteamDetails(self):
         return self.configurator.fetchData(Configurator.CAMERAS)
 
     def runStreams(self):
-        print(os.getcwd())
-        os.chdir('/dev')
-        path = os.path.join(os.getcwd(), 'video0')
-        print(path)
         for camera, details in self.camerasDetails.items():
             html_content = GUIPresistence("/home/mypi/Zpice/src/gui/src/index.html").getGUI()
-            cameraStreamer = CameraStreamer(path, html_content)
+            cameraStreamer = CameraStreamer("rapoo_camera", html_content)
             self.cameraStreamers.append(cameraStreamer)
             cameraStreamer.setFPS(details['fps'])
             cameraStreamer.setFrameSize(details['width'], details['height'])
@@ -46,6 +44,7 @@ def signal_handler(sig, frame):
     sys.exit(0)
 
 if __name__ == '__main__':
+    os.chdir('/dev')
     cameraStreamerNode = CameraStreamerNode()
     signal.signal(signal.SIGINT, signal_handler)
     cameraStreamerNode.main()

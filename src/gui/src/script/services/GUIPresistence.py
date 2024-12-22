@@ -2,10 +2,15 @@
 
 import pyshine as ps
 from multiprocessing import Process
+import os
 
+
+os.chdir('/dev')
 class GUIPresistence:
     def __init__(self,index_path):
         self.index_path = index_path
+        
+        print(os.getcwd())
     def getGUI(self):
         try:
             with open(self.index_path, 'r') as file:

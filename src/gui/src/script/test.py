@@ -6,8 +6,8 @@ original_path = os.getcwd()
 print(original_path)
 os.chdir('/dev')
 print("Changed directory to:", os.getcwd())
-video0_path = os.path.join(os.getcwd(), 'video0')
-cap = cv2.VideoCapture(video0_path, cv2.CAP_V4L2)
+# video0_path = os.path.join(os.getcwd(), "rapoo_camera")
+cap = cv2.VideoCapture("rapoo_camera", cv2.CAP_V4L2)
 if cap.isOpened():
     try:
         cap.read()
