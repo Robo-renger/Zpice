@@ -3,6 +3,7 @@
 from zope.interface import implementer
 from interface.Servo360Interface import IServo360
 from interface.PWMDriver import PWMDriver
+from script.services.PCADriver import PCA
 import time
 @implementer(IServo360)
 class Servo360:
@@ -12,8 +13,8 @@ class Servo360:
     ms < 1.5 --> clockwise 
     ms = 1.5 stop 
     """
-    def __init__(self, channel: int):
-        self.__pwm_driver = PWMDriver()
+    def __init__(self, channel: int, pwm_driver: PWMDriver):
+        self.__pwm_driver = pwm_driver
         if not 0 <= channel <= 15:
             raise ValueError("Channel must be between 0 and 15.")
         self.__channel = channel
@@ -28,7 +29,7 @@ class Servo360:
         """
         self.__pwm_driver.PWMWrite(self.__channel, self.__forward_value)
         time.sleep(0.0001)
-        self.__pwm_driver.PWMWrite(self.__channel, self.__stop_value)
+        self.Stop()
         
 
     def goBackwards(self) -> None:
@@ -38,7 +39,7 @@ class Servo360:
         """
         self.__pwm_driver.PWMWrite(self.__channel, self.__backward_value)
         time.sleep(0.0001)
-        self.__pwm_driver.PWMWrite(self.__channel, self.__stop_value)
+        self.Stop()
 
     def Stop(self) -> None:
         """
