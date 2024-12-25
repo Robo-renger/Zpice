@@ -14,9 +14,9 @@ class Servo360:
     ms = 1.5 stop 
     """
     def __init__(self, channel: int, pwm_driver: PWMDriver):
-        self.__pwm_driver = pwm_driver
         if not 0 <= channel <= 15:
             raise ValueError("Channel must be between 0 and 15.")
+        self.__pwm_driver = pwm_driver
         self.__channel = channel
         self.__forward_value = self.__pwm_driver.microsecondsToDutycycle(1495) 
         self.__stop_value = self.__pwm_driver.microsecondsToDutycycle(1500)
