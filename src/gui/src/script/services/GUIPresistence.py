@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 
-import pyshine as ps
-from multiprocessing import Process
-
 class GUIPresistence:
     def __init__(self,index_path):
         self.index_path = index_path

@@ -32,14 +32,3 @@ class Configurator():
             print("Error: Failed to parse the YAML file.")
         except TypeError as e:
             print(e)
-
-    # def putData(self, new_data): --> UNDER CONSTRUCTION
-    #     try:
-    #         data = self.fetchData()
-    #         if data is None:
-    #             data = {}
-    #         data.update(new_data)
-    #         with open(self.__configFile, 'w') as file:
-    #             yaml.dump(data, file, default_flow_style=False)
-    #     except Exception as e:
-    #         print(f"Error: {e}")
