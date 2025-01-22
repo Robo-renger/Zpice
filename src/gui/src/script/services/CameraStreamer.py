@@ -3,10 +3,13 @@
 from multiprocessing import Process
 import cv2
 import pyshine as ps
+import os
+from services.DirectoryChanger import capGetter
 
+os.chdir('/dev')
 class CameraStreamer:
-    def __init__(self, cameraIndex,html_content) -> None:
-        self.address = "localhost"  # Fetch from a config file/dynamically
+    def __init__(self, cameraIndex: str,html_content) -> None:
+        self.address = "192.168.1.233"  # Fetch from a config file/dynamically
         self.cameraIndex = cameraIndex
         self.width = 1280
         self.height = 720
@@ -28,10 +31,12 @@ class CameraStreamer:
         capture.set(cv2.CAP_PROP_FPS, self.FPS)
     def __run(self, port):
         try:
+            print(os.getcwd())
             StreamProps = ps.StreamProps
             StreamProps.set_Page(StreamProps, self.html_content)
             address = (self.address, port)
-            self.capture = cv2.VideoCapture(self.cameraIndex)
+            # self.capture = cv2.VideoCapture(path, cv2.CAP_V4L2)
+            self.capture = capGetter()
             StreamProps.set_Mode(StreamProps, 'cv2')
             self.__setCVAttrs(self.capture)
             StreamProps.set_Capture(StreamProps, self.capture)
