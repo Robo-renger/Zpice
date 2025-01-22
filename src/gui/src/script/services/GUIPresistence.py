@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import pyshine as ps
-from multiprocessing import Process
 import os
 
 
