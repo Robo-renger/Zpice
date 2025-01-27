@@ -19,8 +19,8 @@ class CameraStreamerNode:
 
     def runStreams(self):
         for camera, details in self.camerasDetails.items():
-            html_content = GUIPresistence("/home/ziad/zpice_ws/src/gui/src/index.html").getGUI()
-            cameraStreamer = CameraStreamer("test.mp4",html_content)
+            html_content = GUIPresistence("/home/mypi/Zpice/src/gui/src/index.html").getGUI()
+            cameraStreamer = CameraStreamer(details['index'],html_content)
             self.cameraStreamers.append(cameraStreamer)
             cameraStreamer.setFPS(details['fps'])
             cameraStreamer.setFrameSize(details['width'], details['height'])
