@@ -6,6 +6,7 @@ import sys
 from utils.Configurator import Configurator
 from services.CameraStreamer import CameraStreamer
 from services.GUIPresistence import GUIPresistence
+import os
 
 class CameraStreamerNode:
     def __init__(self):
@@ -13,6 +14,8 @@ class CameraStreamerNode:
         self.configurator = Configurator()
         self.camerasDetails = self.__getCameraSteamDetails()
         self.cameraStreamers = []
+        
+        # print(os.getcwd())
 
     def __getCameraSteamDetails(self):
         return self.configurator.fetchData(Configurator.CAMERAS)
@@ -41,6 +44,7 @@ def signal_handler(sig, frame):
     sys.exit(0)
 
 if __name__ == '__main__':
+    os.chdir('/dev')
     cameraStreamerNode = CameraStreamerNode()
     signal.signal(signal.SIGINT, signal_handler)
     cameraStreamerNode.main()
