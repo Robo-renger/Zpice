@@ -1,6 +1,6 @@
 from services.PCADriver import PCA
 from services.Vectorizer import Vectorizer
-# from services.Thruster import Thruster
+from services.Thruster import Thruster
 
 class MockThruster:
 
