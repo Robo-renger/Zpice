@@ -7,10 +7,10 @@ from interface.PWMDriver import PWMDriver
 @implementer(IServo180)
 class Servo180:
     """
-    180Servo class to control the rotation angle of 180servo moves in range of (1 - 2 ms)
-    ms = 2 --> Servo goes to angle 180
-    ms = 1.5 --> Servo goes to angle 90 
-    ms = 1 --> Servo goes to angle 0 
+    180Servo class to control the rotation angle of 180servo moves in range of (1000 - 2000 us)
+    us = 2000 --> Servo goes to angle 180
+    us = 1500 --> Servo goes to angle 90 
+    us = 1000 --> Servo goes to angle 0 
     """
     def __init__(self, channel : int, pwm_driver: PWMDriver, max_limit: int = 2000, min_limit: int = 1000) -> None:
         if (min_limit > max_limit):

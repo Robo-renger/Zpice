@@ -7,10 +7,10 @@ import time
 @implementer(IServo360)
 class Servo360:
     """
-    360Servo class to control the rotation angle of 360servo moves in range of (1 - 2 ms)
-    ms > 1.5 --> counter clockwise 
-    ms < 1.5 --> clockwise 
-    ms = 1.5 stop 
+    360Servo class to control the rotation angle of 360servo moves in range of (1000 - 2000 us)
+    ms > 1500 --> counter clockwise 
+    ms < 1500 --> clockwise 
+    ms = 1500 stop 
     """
     def __init__(self, channel: int, pwm_driver: PWMDriver):
         """
@@ -40,7 +40,7 @@ class Servo360:
         :param channel: the channel the servo is connected to.
         """
         self.__pwm_driver.PWMWrite(self.__channel, self.__forward_value)
-        time.sleep(0.0001)
+        time.sleep(delay)
         self.Stop()
         
     """"
@@ -54,7 +54,7 @@ class Servo360:
         :param channel: the channel the servo is connected to.
         """
         self.__pwm_driver.PWMWrite(self.__channel, self.__backward_value)
-        time.sleep(0.0001)
+        time.sleep(delay)
         self.Stop()
 
     def Stop(self) -> None:

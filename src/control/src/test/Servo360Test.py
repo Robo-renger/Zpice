@@ -1,32 +1,52 @@
 #!/usr/bin/env python3
 
+import unittest
 from script.Servo360 import Servo360
-from script.services.PCADriver import PCA
-import rospy
-import time
+from mock.PCAMock import PCAMock  
 
 
-class TestServo360():
+class TestServo360(unittest.TestCase):
+    def setUp(self):
+        self.mock_pwm_driver = PCAMock()
+        self.servo = Servo360(9, self.mock_pwm_driver)
 
-    def __init__(self) -> None:
-        # rospy.init_node('test_servo_360', anonymous=True)
-        self.servo = Servo360(9, PCA.getInst())
-    
-    def testForward(self) -> None:
-        forward_value = self.servo._Servo360__pwm_driver.getLastWrittenValue(3)
-        self.assertEqual(forward_value, 1495, "Forward PWM value is incorrect.")
+    def test_channel_out_of_range(self):
+        # Test that an error is raised when the channel is out of range.
+        with self.assertRaises(ValueError, msg="Channel must be between 0 and 15."):
+            Servo360(20, self.mock_pwm_driver)
 
-        # After the slight delay, ensure the stop value is written
-        time.sleep(0.001)  # Wait for the stop value to be written
-        stop_value = self.servo._Servo360__pwm_driver.getLastWrittenValue(3)
-        self.assertEqual(stop_value, 1500, "Stop PWM value is incorrect.")
-    def testBackward(self) -> None:
-        assert self.servo.goBackwards()
+    def test_go_forward(self):
+        # Test that the servo moves forward with the correct value, however the delay in Servo needs to be commented out.
+        self.servo.goForward()
+        expected_value = self.mock_pwm_driver.microsecondsToDutycycle(1495)
+        # print(f"expected_value of forward = {expected_value}")
+        self.assertEqual(
+            self.mock_pwm_driver.PCA_channels[9].duty_cycle,
+            expected_value,
+            "goForward should set the correct duty cycle."
+        )
 
-    def testStop(self) -> None:
-        assert self.servo.Stop()
+    def test_go_backward(self):
+        # Test that the servo moves backward with the correct value, however the delay in Servo needs to be commented out.
+        self.servo.goBackwards()
+        expected_value = self.mock_pwm_driver.microsecondsToDutycycle(1505)
+        # print(f"expected_value of backward = {expected_value}")
+        self.assertEqual(
+            self.mock_pwm_driver.PCA_channels[9].duty_cycle,
+            expected_value,
+            "goBackwards should set the correct duty cycle."
+        )
+
+    def test_stop(self):
+        self.servo.Stop()
+        expected_value = self.mock_pwm_driver.microsecondsToDutycycle(1500)
+        # print(f"expected_value of stop = {expected_value}")
+        self.assertEqual(
+            self.mock_pwm_driver.PCA_channels[9].duty_cycle,
+            expected_value,
+            "Stop should set the correct duty cycle."
+        )
 
 
-if __name__ == "__main__":
-    test = TestServo360()
-    test.testForward()
+if __name__ == '__main__':
+    unittest.main()
