@@ -26,7 +26,7 @@ class Servo360:
         self.__forward_value = self.__pwm_driver.microsecondsToDutycycle(1495) 
         self.__stop_value = self.__pwm_driver.microsecondsToDutycycle(1500)
         self.__backward_value = self.__pwm_driver.microsecondsToDutycycle(1505)  
-    
+        self.__delay = 0.001
     
     
     """"
@@ -40,7 +40,7 @@ class Servo360:
         :param channel: the channel the servo is connected to.
         """
         self.__pwm_driver.PWMWrite(self.__channel, self.__forward_value)
-        time.sleep(delay)
+        time.sleep(self.__delay)
         self.Stop()
         
     """"
@@ -54,7 +54,7 @@ class Servo360:
         :param channel: the channel the servo is connected to.
         """
         self.__pwm_driver.PWMWrite(self.__channel, self.__backward_value)
-        time.sleep(delay)
+        time.sleep(self.__delay)
         self.Stop()
 
     def Stop(self) -> None:
