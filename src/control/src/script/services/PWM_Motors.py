@@ -1,5 +1,7 @@
 from zope.interface import implementer
 from interface.iPWM_Motors import iPWM_Motors
+# from control.src.interface.iPWM_Motors import iPWM_Motors
+import time
 
 @implementer(iPWM_Motors)
 class PWM_Motors:
@@ -34,9 +36,6 @@ class PWM_Motors:
         else:
             self.pca.PWMWrite(self.channel, value)
         
-        self.__smoothing = self._smoothing(value)
-        self.pca.PWMWrite(0, self.__smoothing)
-
     def _smoothing(self, value: int) -> None:
         """
         Smooth the PWM signal to the motor controller.

@@ -1,4 +1,4 @@
-from zope.interface import Interface, implementer
+from zope.interface import Interface
 
 class PWMDriver(Interface):
     def microsecondsToDutycycle(microseconds: int) -> int:

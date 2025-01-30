@@ -13,7 +13,7 @@ class Configurator():
 
     def __getYamlFile(self,data_type):
         rospack = rospkg.RosPack()
-        workspace_path = rospack.get_path('utils') # CHANGE: when deploying or actual ws  
+        workspace_path = rospack.get_path('control') # CHANGE: when deploying or actual ws  
         if data_type == Configurator.CAMERAS:
             self.__configFile = workspace_path + f'/../../config/{Configurator.CAMERAS}.yaml'
         elif data_type == Configurator.BUTTONS:
