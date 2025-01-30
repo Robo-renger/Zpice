@@ -1,6 +1,6 @@
 from zope.interface import Interface
 
-class iPWM_Motors(Interface):
+class iPWMMotor(Interface):
     
     def output_raw(self, value: int) -> None:
         """

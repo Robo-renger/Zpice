@@ -1,8 +1,8 @@
 from zope.interface import implementer
-from interface.iPWM_Motors import iPWM_Motors
-
-@implementer(iPWM_Motors)
-class PWM_Motors:
+from interface.iPWMMotor import iPWMMotor
+import time
+@implementer(iPWMMotor)
+class PWMMotor:
     def __init__(self, pca, channel, min_value, max_val, init_value = 1500):
         self.pca = pca
         self.channel = channel

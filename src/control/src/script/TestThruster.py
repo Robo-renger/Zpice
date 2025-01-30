@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
-from services.check_simulation import check_simulation_mode 
+# from services.check_simulation import check_simulation_mode --> Better fetch it from an .env file
 from services.Thruster import Thruster
-
+from utils.EnvParams import EnvParams
+from services.PCADriver import PCA
+import time
 class MockPCA:
     @staticmethod
     def getInst():
@@ -16,8 +18,8 @@ class MockPCA:
 
 class TestThruster:
     def __init__(self):
-        self.simulation_mode = check_simulation_mode()
-        if self.simulation_mode:
+        env_params = EnvParams()
+        if env_params.ENV == "SIMULATION":
             self.pca_driver = MockPCA.getInst()
         else:
             self.pca_driver = PCA.getInst()
