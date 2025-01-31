@@ -15,6 +15,9 @@ class Servo360:
     def __init__(self, channel: int, pwm_driver: PWMDriver):
         self.__pwm_driver = pwm_driver
         self.__channel = channel
+        self.__forward_value = 1495
+        self.__stop_value = 1500
+        self.__backward_value = 1505
         self.setValues()
     
     def goForward(self) -> None:
@@ -42,21 +45,58 @@ class Servo360:
         """
         self.__pwm_driver.PWMWrite(self.__channel, self.__stop_value)
 
-    def setValues(self, forward_value: int = 1495 , stop_value: int = 1500, backward_value: int = 1505, delay: float = 0.001) -> None:
+    def setForward(self, value: int) -> None:
         """
-        Set the values for the servo.
-        param: forward_value: Forward value to be set.
-        param: stop_value: Stop value to be set.
-        param: backward_value: Backward value to be set.
-        param: delay: Delay value to be set.
+        Set the forward value for the servo.
+        param: value: Value to be set.
         """
-        self.__forward_value = forward_value
-        self.__stop_value = stop_value
-        self.__backward_value = backward_value
-        self.__delay = delay
+        self.__forward_value = value
+        
+    def setStop(self, value: int) -> None:
+        """
+        Set the stop value for the servo.
+        param: value: Value to be set.
+        """
+        self.__stop_value = value
+    
+    def setBackward(self, value: int) -> None:
+        """
+        Set the backward value for the servo.
+        param: value: Value to be set.
+        """
+        self.__backward_value = value
+        
+    def setDelay(self, value: float) -> None:
+        """
+        Set the delay value for the servo.
+        param: value: Value to be set.
+        """
+        self.__delay = value
 
-    def getValues(self) -> tuple:
+    def getForward(self) -> int:
         """
-        Get the values for the servo.
+        Get the forward value for the servo.
+        return: forward value.
         """
-        return (self.__forward_value, self.__stop_value, self.__backward_value, self.__delay)
+        return self.__forward_value
+    
+    def getStop(self) -> int:
+        """
+        Get the stop value for the servo.
+        return: stop value.
+        """
+        return self.__stop_value
+    
+    def getBackward(self) -> int:
+        """
+        Get the backward value for the servo.
+        return: backward value.
+        """
+        return self.__backward_value
+    
+    def getDelay(self) -> float:
+        """
+        Get the delay value for the servo.
+        return: delay value.
+        """
+        return self.__delay
