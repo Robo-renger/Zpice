@@ -18,7 +18,6 @@ class Servo360:
         self.__forward_value = 1495
         self.__stop_value = 1500
         self.__backward_value = 1505
-        self.setValues()
     
     def goForward(self) -> None:
         """
