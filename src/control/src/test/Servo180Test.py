@@ -21,7 +21,8 @@ class TestServo180(unittest.TestCase):
     def test_move_forward(self):
         """Test if servo moves forward by increasing the step."""
         initial_value = self.mock_pwm_driver.PCA_channels[9].duty_cycle
-        self.servo.move(10)
+        self.servo.setStep(10)
+        self.servo.move()
         self.assertGreater(
             self.mock_pwm_driver.PCA_channels[9].duty_cycle,
             initial_value,
@@ -37,7 +38,8 @@ class TestServo180(unittest.TestCase):
     def test_move_backward(self):
         """Test if servo moves backward by decreasing the step."""
         initial_value = self.mock_pwm_driver.PCA_channels[9].duty_cycle
-        self.servo.move(-10)
+        self.servo.setStep(-10)
+        self.servo.move()
         self.assertLess(
             self.mock_pwm_driver.PCA_channels[9].duty_cycle,
             initial_value,

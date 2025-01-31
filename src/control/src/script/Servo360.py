@@ -13,27 +13,10 @@ class Servo360:
     ms = 1500 stop 
     """
     def __init__(self, channel: int, pwm_driver: PWMDriver):
-        """
-        We shouldnt handle channel issues in component other than the PWM driver
-        As if for some reason the PWM driver was changed to have a 20 channel this
-        if condition would stil raise an error (Single responsibilty prinicple)
-        Reviewed by Ziad
-        """
-        if not 0 <= channel <= 15:
-            raise ValueError("Channel must be between 0 and 15.")
         self.__pwm_driver = pwm_driver
         self.__channel = channel
-        self.__forward_value = self.__pwm_driver.microsecondsToDutycycle(1495) 
-        self.__stop_value = self.__pwm_driver.microsecondsToDutycycle(1500)
-        self.__backward_value = self.__pwm_driver.microsecondsToDutycycle(1505)  
-        self.__delay = 0.001
+        self.setValues()
     
-    
-    """"
-    We need a way to somehow change the step that it moves with
-    Without changing the implementation of the class (e.g setter for the client side)
-    Reviewed by Ziad
-    """
     def goForward(self) -> None:
         """
         Makes the servo move clockwise with a very small angle
@@ -43,11 +26,6 @@ class Servo360:
         time.sleep(self.__delay)
         self.Stop()
         
-    """"
-    We need a way to somehow change the step that it moves with
-    Without changing the implementation of the class (e.g setter for the client side)
-    Reviewed by Ziad
-    """
     def goBackwards(self) -> None:
         """
         Makes the servo move counter clockwise with a very small angle
@@ -63,4 +41,22 @@ class Servo360:
         :param channel: the channel the servo is connected to.
         """
         self.__pwm_driver.PWMWrite(self.__channel, self.__stop_value)
-    
+
+    def setValues(self, forward_value: int = 1495 , stop_value: int = 1500, backward_value: int = 1505, delay: float = 0.001) -> None:
+        """
+        Set the values for the servo.
+        param: forward_value: Forward value to be set.
+        param: stop_value: Stop value to be set.
+        param: backward_value: Backward value to be set.
+        param: delay: Delay value to be set.
+        """
+        self.__forward_value = forward_value
+        self.__stop_value = stop_value
+        self.__backward_value = backward_value
+        self.__delay = delay
+
+    def getValues(self) -> tuple:
+        """
+        Get the values for the servo.
+        """
+        return (self.__forward_value, self.__stop_value, self.__backward_value, self.__delay)
