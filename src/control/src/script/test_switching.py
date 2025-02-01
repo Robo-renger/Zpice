@@ -11,26 +11,26 @@ def test_switching():
     switching = Switching(pin)
     
     
-    print("Opening the switch...")
+    print("Opening the switch")
     switching.open()
     assert switching.is_open == True, "The switch should be open"
-    time.sleep(1)  # Optional: Add a delay to observe the action
+    time.sleep(2)  
     
-    # Test closing the switch
-    print("Closing the switch...")
+    
+    print("Closing the switch")
     switching.close()
     assert switching.is_open == False, "The switch should be closed"
-    time.sleep(1)  # Optional: Add a delay to observe the action
+    time.sleep(2)  
     
-    # Test toggling the switch
-    print("Toggling the switch...")
+   
+    print("Toggling the switch")
     switching.toggle()
     assert switching.is_open == True, "The switch should be open after toggle"
-    time.sleep(1)
+    time.sleep(2)
     
     switching.toggle()
     assert switching.is_open == False, "The switch should be closed after second toggle"
-    time.sleep(1)
+    time.sleep(2)
     
     print("All tests passed successfully!")
 
