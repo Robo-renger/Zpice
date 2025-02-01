@@ -1,7 +1,12 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+
 from zope.interface import implementer
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from interface.iSmoothingStrategy import ISmoothingStrategy
-
+from ISmoothingStrategy import ISmoothingStrategy
 
 @implementer(ISmoothingStrategy)
 class DefaultSmoothing:

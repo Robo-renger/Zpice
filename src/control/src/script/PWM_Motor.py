@@ -1,9 +1,12 @@
+#!/usr/bin/env python3
+
 from zope.interface import implementer
 from interface.iPWMMotor import iPWMMotor
+from smoothing_strategies.DefaultSmoothing import DefaultSmoothing
 import time
 @implementer(iPWMMotor)
 class PWMMotor:
-    def __init__(self, pca, channel, min_value, max_val, init_value = 1500, smoothing_strategy = None):
+    def __init__(self, pca, channel, min_value, max_val, init_value = 1500, smoothing_strategy=None):
         self.pca = pca
         self.channel = channel
         self.min_value = min_value
@@ -22,6 +25,7 @@ class PWMMotor:
         if value < self.min_value or value > self.max_val:
             raise ValueError(f"Value must be between {self.min_value} and {self.max_val}.")
         self.pca.PWMWrite(self.channel, value)
+        self.current_value = value
 
     def drive(self, value: int, en_smoothing: bool = True) -> None:
 
@@ -33,8 +37,10 @@ class PWMMotor:
         if en_smoothing:
             self.current_value = self.smoothing_strategy.smooth(self.current_value, value)
             self.pca.PWMWrite(self.channel, self.current_value)
+            time.sleep(0.1)
         else:
             self.pca.PWMWrite(self.channel, value)
+            self.current_value = value
         
         
         
