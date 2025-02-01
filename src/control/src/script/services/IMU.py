@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 import time
 import board
-import busio
+import math
 from digitalio import DigitalInOut
 from adafruit_bno08x import BNO_REPORT_ACCELEROMETER, BNO_REPORT_GYROSCOPE, BNO_REPORT_MAGNETOMETER, BNO_REPORT_ROTATION_VECTOR, REPORT_ACCURACY_STATUS
 from adafruit_bno08x.i2c import BNO08X_I2C
+from adafruit_extended_bus import ExtendedI2C
 
 class BNO085:
     def __init__(self, reset_pin: DigitalInOut = None, debug: bool =False):
-        i2c = busio.I2C(board.SCL, board.SDA, frequency=400000)
+        i2c = ExtendedI2C(3, frequency=400000)
         self.reset_pin = reset_pin
-        self.bno = BNO08X_I2C(i2c, reset=self.reset_pin, debug=debug)
+        self.bno = BNO08X_I2C(i2c, address=0x4b, reset=self.reset_pin, debug=debug)
 
     def enableFeature(self, feature):
         self.bno.enable_feature(feature)
@@ -76,6 +77,22 @@ class BNO085:
         print("")
         return quat_i, quat_j, quat_k, quat_real
     
+    def getYaw(self):
+        # print("Yaw:")
+        q1, q2, q3, q0 = self.bno.quaternion
+        yaw = math.atan2(2 * (q0 * q3 + q1 * q2), 1 - 2 * (q2 * q2 + q3 * q3))
+        print("Yaw: %0.6f" % math.degrees(yaw))
+        return yaw
+
+    def getPitch(self):
+        # print("Pitch:")
+        q1, q2, q3, q0 = self.bno.quaternion
+        pitch = math.asin(2 * (q0 * q2 - q3 * q1))
+        print("Pitch: %0.6f" % math.degrees(pitch))
+        return pitch
+
+
+    
 
 if __name__ == "__main__":
     try:
@@ -92,9 +109,11 @@ if __name__ == "__main__":
             imu.enableFeature(BNO_REPORT_ROTATION_VECTOR)
             while True:
                 time.sleep(0.5)
-                imu.getAcceleration()
-                imu.getGyro()
-                imu.getMagnetometer()
-                imu.getQuaternion()
+                # imu.getAcceleration()
+                # imu.getGyro()
+                # imu.getMagnetometer()
+                # imu.getQuaternion()
+                imu.getYaw()
+                imu.getPitch()
     except KeyboardInterrupt:
         print("Stopping...")
