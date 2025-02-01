@@ -5,7 +5,9 @@ from Switching import Switching
 
 def test_switching():
 
-    pin = 17  
+    pin = 5
+    
+    #26
     
    
     switching = Switching(pin)
