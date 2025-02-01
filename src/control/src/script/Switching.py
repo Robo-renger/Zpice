@@ -1,11 +1,16 @@
-from zope.interface import implementer
-from iSwitching import iSwitching
+#!/usr/bin/env python3
 
+from zope.interface import implementer
+from interface.iSwitching import iSwitching
+
+SIMULATION_MODE = False
 try:
     import RPi.GPIO as GPIO
-    SIMULATION_MODE = False
-except ImportError:
+    
+except (RuntimeError, ImportError):
     SIMULATION_MODE = True
+    print("RPi.GPIO not found. Running in simulation mode.")
+    
 
 @implementer(iSwitching)
 class Switching:
@@ -15,13 +20,16 @@ class Switching:
         gpio_interface used for mocking the GPIO library.
         """
         self.simulation_mode = SIMULATION_MODE
-        self.gpio = gpio_interface if gpio_interface else (GPIO if not self.simulation_mode else None)
+        # self.gpio = gpio_interface if gpio_interface else (GPIO if not self.simulation_mode else None)
         if not self.simulation_mode:
+            self.gpio = GPIO
             self.gpio.setmode(GPIO.BCM)
             self.gpio.setup(pin, GPIO.OUT)
             self.gpio.output(pin, GPIO.LOW) # Initialize the pin to low
+        else:
+            self.gpio = None
         self.pin = pin
-        self.is_open = False
+        self._is_open = False
         
     def open(self) -> None:
         if not self.simulation_mode:
