@@ -1,6 +1,7 @@
 from services.PCADriver import PCA
 from services.Vectorizer import Vectorizer
 from services.Thruster import Thruster
+from services.PWM_Mapper import PWM_Mapper
 
 class MockThruster:
 
@@ -51,12 +52,13 @@ class Navigation:
     def moveUp(value) -> None:
         """
         Moves the ROV upward.
-        :param value: The speed percentage for the upward thrust (e.g., 0-100).
+        :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
-            Navigation._activateThrusters({
-                "front": value,
-                "back": value,
+            pwm_value = PWM_Mapper.percentageToPWM(value, reverse=False)
+            Navigation._applyThrusts({
+                "front": pwm_value,
+                "back": pwm_value,
                 "front_right": 1500,
                 "front_left": 1500,
                 "back_right": 1500,
@@ -69,16 +71,137 @@ class Navigation:
     def moveDown(value) -> None:
         """
         Moves the ROV downward.
-        :param value: The speed percentage for the downward thrust (e.g., 0-100).
+        :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
-            Navigation._activateThrusters({
-                "front": value,
-                "back": value,
+            pwm_value = PWM_Mapper.percentageToPWM(value, reverse=True)
+            Navigation._applyThrusts({
+                "front": pwm_value,
+                "back": pwm_value,
                 "front_right": 1500,
                 "front_left": 1500,
                 "back_right": 1500,
                 "back_left": 1500,
+            })
+        except ValueError as e:
+            print(f"Error: {e}")
+
+    @staticmethod
+    def moveRight(value) -> None:
+        """
+        Moves the ROV to the right.
+        :param value: The speed percentage for the thrust (e.g., 0-100).
+        """
+        try:
+            pwm_value_forward = PWM_Mapper.percentageToPWM(value, reverse=False)
+            pwm_value_reverse = PWM_Mapper.percentageToPWM(value, reverse=True)
+            Navigation._applyThrusts({
+                "front": 1500,
+                "back": 1500,
+                "front_right": pwm_value_reverse,
+                "front_left": pwm_value_forward,
+                "back_right": pwm_value_reverse,
+                "back_left": pwm_value_forward,
+            })
+        except ValueError as e:
+            print(f"Error: {e}")
+
+    @staticmethod
+    def moveLeft(value) -> None:
+        """
+        Moves the ROV to the left.
+        :param value: The speed percentage for the thrust (e.g., 0-100).
+        """
+        try:
+            pwm_value_forward = PWM_Mapper.percentageToPWM(value, reverse=False)
+            pwm_value_reverse = PWM_Mapper.percentageToPWM(value, reverse=True)
+            Navigation._applyThrusts({
+                "front": 1500,
+                "back": 1500,
+                "front_right": pwm_value_forward,
+                "front_left": pwm_value_reverse,
+                "back_right": pwm_value_forward,
+                "back_left": pwm_value_reverse,
+            })
+        except ValueError as e:
+            print(f"Error: {e}")
+
+    @staticmethod
+    def moveForward(value) -> None:
+        """
+        Moves the ROV forward.
+        :param value: The speed percentage for the thrust (e.g., 0-100).
+        """
+        try:
+            pwm_value_forward = PWM_Mapper.percentageToPWM(value, reverse=False)
+            pwm_value_reverse = PWM_Mapper.percentageToPWM(value, reverse=True)
+            Navigation._applyThrusts({
+                "front": 1500,
+                "back": 1500,
+                "front_right": pwm_value_forward,
+                "front_left": pwm_value_forward,
+                "back_right": pwm_value_reverse,
+                "back_left": pwm_value_reverse,
+            })
+        except ValueError as e:
+            print(f"Error: {e}")
+
+    @staticmethod
+    def moveBackward(value) -> None:
+        """
+        Moves the ROV backward.
+        :param value: The speed percentage for the thrust (e.g., 0-100).
+        """
+        try:
+            pwm_value_forward = PWM_Mapper.percentageToPWM(value, reverse=False)
+            pwm_value_reverse = PWM_Mapper.percentageToPWM(value, reverse=True)
+            Navigation._applyThrusts({
+                "front": 1500,
+                "back": 1500,
+                "front_right": pwm_value_reverse,
+                "front_left": pwm_value_reverse,
+                "back_right": pwm_value_forward,
+                "back_left": pwm_value_forward,
+            })
+        except ValueError as e:
+            print(f"Error: {e}")
+
+    @staticmethod
+    def rotateClockwise(value) -> None:
+        """
+        Rotates the ROV clockwise (to the right).
+        :param value: The speed percentage for the thrust (e.g., 0-100).
+        """
+        try:
+            pwm_value_forward = PWM_Mapper.percentageToPWM(value, reverse=False)
+            pwm_value_reverse = PWM_Mapper.percentageToPWM(value, reverse=True)
+            Navigation._applyThrusts({
+                "front": 1500,
+                "back": 1500,
+                "front_right": pwm_value_reverse,
+                "front_left": pwm_value_forward,
+                "back_right": pwm_value_forward,
+                "back_left": pwm_value_reverse,
+            })
+        except ValueError as e:
+            print(f"Error: {e}")
+
+    @staticmethod
+    def rotateAnticlockwise(value) -> None:
+        """
+        Rotates the ROV anticlockwise (to the left).
+        :param value: The speed percentage for the thrust (e.g., 0-100).
+        """
+        try:
+            pwm_value_forward = PWM_Mapper.percentageToPWM(value, reverse=False)
+            pwm_value_reverse = PWM_Mapper.percentageToPWM(value, reverse=True)
+            Navigation._applyThrusts({
+                "front": 1500,
+                "back": 1500,
+                "front_right": pwm_value_forward,
+                "front_left": pwm_value_reverse,
+                "back_right": pwm_value_reverse,
+                "back_left": pwm_value_forward,
             })
         except ValueError as e:
             print(f"Error: {e}")
@@ -90,13 +213,12 @@ class Navigation:
         """
         try:
             vectorized = Vectorizer.calculateThrusterSpeeds(x_axis, y_axis, z_axis, pitch_axis, yaw_axis)
-            Navigation._activateThrusters(vectorized)
-
+            Navigation._applyThrusts(vectorized)
         except ValueError as e:
             print(f"Error: {e}")
 
     @staticmethod
-    def _activateThrusters(thrust_values: dict) -> None:
+    def _applyThrusts(thrust_values: dict) -> None:
         """
         Activate thrusters based on provided thrust values.
         :param thrust_values: Dictionary mapping thruster names to PWM values.

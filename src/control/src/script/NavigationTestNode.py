@@ -2,11 +2,21 @@
 
 import rospy
 from services.Navigation import Navigation
+from services.Vectorizer import Vectorizer
 
 def test_navigation():
     rospy.loginfo("Testing navigate function with joystick inputs...")
 
-    Navigation.navigate(1, 1, 1, -1, 0)
+    Vectorizer.yaw_only = True
+    Navigation.navigate(0, 1, 0, 0, 0)
+    # Navigation.moveUp(50)
+    # Navigation.moveDown(50)
+    # Navigation.moveRight(100)
+    # Navigation.moveLeft(100)
+    # Navigation.moveForward(50)
+    # Navigation.moveBackward(50)
+    # Navigation.rotateClockwise(75)
+    # Navigation.rotateAnticlockwise(75)
     
 
 if __name__ == "__main__":
