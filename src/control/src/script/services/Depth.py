@@ -35,16 +35,6 @@ class DepthSensor:
         @returns depth reading."""
         return self.sensor.depth()
     
-
-if __name__ == "__main__":
-    try:
-        depth_sensor = DepthSensor(bus=3)
-        while True:
-            depth_sensor.readData()
-            print(f"Pressure = {depth_sensor.getPressure()} millibar")
-            print(f"Depth = {depth_sensor.getDepth()} m")
-    except KeyboardInterrupt:
-        print("Exiting...")
     
 
 
