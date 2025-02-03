@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-from ms5837 import MS5837_02BA, UNITS_atm
+from ms5837 import MS5837_02BA
 from zope.interface import implementer
-class Depth:
-    def __init__(self, bus: int = 0, fluid_density: int = 1000):
-        self.sensor = MS5837_02BA(bus) # Specify model and bus
+from interface.IDepth import IDepthSensor
+@implementer(IDepthSensor)
+class DepthSensor:
+    def __init__(self, bus: int = 0, fluid_density: int = 1000) -> None:
+        self.sensor = MS5837_02BA(bus) # Specify bus
         if not self.sensor.init():
             print("Sensor couldn't be initialized.\n Exiting...")
             exit()
@@ -14,7 +16,13 @@ class Depth:
         @param density: density of the fluid the sensor will be soaked in."""
         self._fluid_density = density
 
+    def getFluidDensity(self) -> int:
+        """Get the already set fluid density
+        @return fluid density"""
+        return self._fluid_density
+
     def readData(self) -> None:
+        """Read the sensor data and update the temperature and pressure readings."""
         self.sensor.read()
     
     def getPressure(self) -> float:
@@ -30,7 +38,7 @@ class Depth:
 
 if __name__ == "__main__":
     try:
-        depth_sensor = Depth(bus=3)
+        depth_sensor = DepthSensor(bus=3)
         while True:
             depth_sensor.readData()
             print(f"Pressure = {depth_sensor.getPressure()} millibar")
