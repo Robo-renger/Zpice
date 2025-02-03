@@ -1,6 +1,5 @@
 from zope.interface import implementer
 from interface.iPWM_Motors import iPWM_Motors
-# from control.src.interface.iPWM_Motors import iPWM_Motors
 import time
 
 @implementer(iPWM_Motors)

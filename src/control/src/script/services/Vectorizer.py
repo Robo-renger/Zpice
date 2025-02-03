@@ -1,5 +1,5 @@
 import math
-from services.PWM_Mapper import PWM_Mapper
+from services.PWMMapper import PWMMapper
 
 class Vectorizer:
     """
@@ -86,7 +86,7 @@ class Vectorizer:
         # Convert normalized speeds to PWM
         try:
             pwm_signals = {
-                f"t{i+1}": PWM_Mapper.joystickToPWM(speed)
+                f"t{i+1}": PWMMapper.joystickToPWM(speed)
                 for i, speed in enumerate(thruster_speeds)
             }
         except ValueError as e:

@@ -1,8 +1,14 @@
 from services.PCADriver import PCA
 from services.Vectorizer import Vectorizer
 from services.Thruster import Thruster
-from services.PWM_Mapper import PWM_Mapper
+from services.PWMMapper import PWMMapper
+from interface.iLoggable import iLoggable
+from zope.interface import implementer
+from services.JsonFileHandler import JsonFileHandler
+from entities.Log import Log
+from entities.LogSeverity import LogSeverity
 
+@implementer(iLoggable)
 class MockThruster:
 
     def __init__(self, pca, channel):
@@ -17,14 +23,25 @@ class MockThruster:
             4 : "back_left",
             5 : "front_left",
         }
+        self.json_handler = JsonFileHandler()
 
     def drive(self, pwm_value):
         self.last_pwm = pwm_value
+        self.logToFile()
         print(f"{self.thrusters.get(self.channel)} set to {pwm_value}")
+        # self.json_handler.downloadFile()
 
     def stop(self):
         self.last_pwm = 1500 
         print(f"Thruster on channel {self.channel} stopped (set to {self.last_pwm})")
+
+    def logToFile(self):
+        log = Log(LogSeverity.INFO, f"Thruster on channel {self.channel} set to {self.last_pwm}", "MockThruster")
+        self.json_handler.writeToFile(log)
+        return log
+
+    def logToGUI(self):
+        pass
 
 class Navigation:
     """
@@ -55,7 +72,7 @@ class Navigation:
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
-            pwm_value = PWM_Mapper.percentageToPWM(value, reverse=False)
+            pwm_value = PWMMapper.percentageToPWM(value, reverse=False)
             Navigation._applyThrusts({
                 "front": pwm_value,
                 "back": pwm_value,
@@ -74,7 +91,7 @@ class Navigation:
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
-            pwm_value = PWM_Mapper.percentageToPWM(value, reverse=True)
+            pwm_value = PWMMapper.percentageToPWM(value, reverse=True)
             Navigation._applyThrusts({
                 "front": pwm_value,
                 "back": pwm_value,
@@ -93,8 +110,8 @@ class Navigation:
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
-            pwm_value_forward = PWM_Mapper.percentageToPWM(value, reverse=False)
-            pwm_value_reverse = PWM_Mapper.percentageToPWM(value, reverse=True)
+            pwm_value_forward = PWMMapper.percentageToPWM(value, reverse=False)
+            pwm_value_reverse = PWMMapper.percentageToPWM(value, reverse=True)
             Navigation._applyThrusts({
                 "front": 1500,
                 "back": 1500,
@@ -113,8 +130,8 @@ class Navigation:
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
-            pwm_value_forward = PWM_Mapper.percentageToPWM(value, reverse=False)
-            pwm_value_reverse = PWM_Mapper.percentageToPWM(value, reverse=True)
+            pwm_value_forward = PWMMapper.percentageToPWM(value, reverse=False)
+            pwm_value_reverse = PWMMapper.percentageToPWM(value, reverse=True)
             Navigation._applyThrusts({
                 "front": 1500,
                 "back": 1500,
@@ -133,8 +150,8 @@ class Navigation:
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
-            pwm_value_forward = PWM_Mapper.percentageToPWM(value, reverse=False)
-            pwm_value_reverse = PWM_Mapper.percentageToPWM(value, reverse=True)
+            pwm_value_forward = PWMMapper.percentageToPWM(value, reverse=False)
+            pwm_value_reverse = PWMMapper.percentageToPWM(value, reverse=True)
             Navigation._applyThrusts({
                 "front": 1500,
                 "back": 1500,
@@ -153,8 +170,8 @@ class Navigation:
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
-            pwm_value_forward = PWM_Mapper.percentageToPWM(value, reverse=False)
-            pwm_value_reverse = PWM_Mapper.percentageToPWM(value, reverse=True)
+            pwm_value_forward = PWMMapper.percentageToPWM(value, reverse=False)
+            pwm_value_reverse = PWMMapper.percentageToPWM(value, reverse=True)
             Navigation._applyThrusts({
                 "front": 1500,
                 "back": 1500,
@@ -173,8 +190,8 @@ class Navigation:
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
-            pwm_value_forward = PWM_Mapper.percentageToPWM(value, reverse=False)
-            pwm_value_reverse = PWM_Mapper.percentageToPWM(value, reverse=True)
+            pwm_value_forward = PWMMapper.percentageToPWM(value, reverse=False)
+            pwm_value_reverse = PWMMapper.percentageToPWM(value, reverse=True)
             Navigation._applyThrusts({
                 "front": 1500,
                 "back": 1500,
@@ -193,8 +210,8 @@ class Navigation:
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
-            pwm_value_forward = PWM_Mapper.percentageToPWM(value, reverse=False)
-            pwm_value_reverse = PWM_Mapper.percentageToPWM(value, reverse=True)
+            pwm_value_forward = PWMMapper.percentageToPWM(value, reverse=False)
+            pwm_value_reverse = PWMMapper.percentageToPWM(value, reverse=True)
             Navigation._applyThrusts({
                 "front": 1500,
                 "back": 1500,

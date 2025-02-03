@@ -1,4 +1,4 @@
-class PWM_Mapper:
+class PWMMapper:
     """
     Static class for mapping normalized values to PWM ranges.
     """
