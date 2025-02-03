@@ -20,7 +20,7 @@ class Depth:
     def getPressure(self) -> float:
         """Get the pressure.
         @returns pressure reading."""
-        return self.sensor.pressure(UNITS_atm)
+        return self.sensor.pressure()
     
     def getDepth(self) -> float:
         """Get the depth.
@@ -33,7 +33,8 @@ if __name__ == "__main__":
         depth_sensor = Depth(bus=3)
         while True:
             depth_sensor.readData()
-            print(f"Depth = {depth_sensor.getDepth()}")
+            print(f"Pressure = {depth_sensor.getPressure()} millibar")
+            print(f"Depth = {depth_sensor.getDepth()} m")
     except KeyboardInterrupt:
         print("Exiting...")
     
