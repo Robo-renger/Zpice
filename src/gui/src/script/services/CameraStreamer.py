@@ -32,10 +32,20 @@ class CameraStreamer:
             StreamProps.set_Page(StreamProps, self.html_content)
             address = (self.address, port)
             self.capture = cv2.VideoCapture(self.cameraIndex)
+            use_format = 'MJPG'  # Change to 'YUYV' if you want YUYV format
+            fourcc = cv2.VideoWriter_fourcc(*use_format)
+            self.capture.set(cv2.CAP_PROP_FOURCC, fourcc)
             StreamProps.set_Mode(StreamProps, 'cv2')
             self.__setCVAttrs(self.capture)
             StreamProps.set_Capture(StreamProps, self.capture)
             StreamProps.set_Quality(StreamProps, 90)
+            width = self.capture.get(cv2.CAP_PROP_FRAME_WIDTH)
+            height = self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT)
+            fps = self.capture.get(cv2.CAP_PROP_FPS)
+            fourcc_code = int(self.capture.get(cv2.CAP_PROP_FOURCC))
+            format_used = "".join([chr((fourcc_code >> 8 * i) & 0xFF) for i in range(4)])  # Decode FourCC code
+
+            print(f"Resolution: {int(width)}x{int(height)}, FPS: {int(fps)}, Format: {format_used}")
             self.server = ps.Streamer(address, StreamProps)
             self.server.serve_forever()
         except Exception as e:
