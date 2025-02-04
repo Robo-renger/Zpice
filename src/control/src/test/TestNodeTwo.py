@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import rospy
-from services.Joystick import CJoystick
+from script.services.Joystick import CJoystick
 
 class TestNodeTwo:
     def __init__(self):
