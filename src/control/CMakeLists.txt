@@ -55,6 +55,7 @@ find_package(catkin REQUIRED COMPONENTS
   FILES
   Joystick.msg
   IMU.msg
+  Depth.msg
 )
 
 ## Generate services in the 'srv' folder
