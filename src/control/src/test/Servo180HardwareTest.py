@@ -7,10 +7,11 @@ import time
 
 class Servo180HardwareTest:
     def __init__(self, channel: int, pwm_driver: PWMDriver):
-        self.servo360 = Servo180(channel, pwm_driver)
+        self.servo180 = Servo180(channel, pwm_driver)
 
     def test(self, step: int):
-        self.servo360.move(step)
+        self.servo180.setStep(step)
+        self.servo180.move()
         time.sleep(1)
 
 if __name__ == '__main__':

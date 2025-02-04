@@ -10,11 +10,6 @@ class TestServo360(unittest.TestCase):
         self.mock_pwm_driver = PCAMock()
         self.servo = Servo360(9, self.mock_pwm_driver)
 
-    def test_channel_out_of_range(self):
-        # Test that an error is raised when the channel is out of range.
-        with self.assertRaises(ValueError, msg="Channel must be between 0 and 15."):
-            Servo360(20, self.mock_pwm_driver)
-
     def test_go_forward(self):
         # Test that the servo moves forward with the correct value, however the delay in Servo needs to be commented out.
         self.servo.goForward()
