@@ -1,4 +1,4 @@
-from services.PCADriver import PCA
+from PCADriver import PCA
 from services.Vectorizer import Vectorizer
 from services.Thruster import Thruster
 from services.PWMMapper import PWMMapper
