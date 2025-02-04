@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
-from zope.interface import implementer, Interface
-from interface.PWMDriver import PWMDriver
+from zope.interface import Interface
 
-@implementer(PWMDriver)
 class IServo360(Interface):
     def goForward() -> None:
         """
