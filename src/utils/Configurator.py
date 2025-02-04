@@ -4,6 +4,8 @@ import rospkg
 class Configurator():
     CAMERAS = "cameras"
     BUTTONS = "joystick_buttons"
+    KEYBOARD_AXES = "keyboard_axes"
+    KEYBOARD_BUTTONS = "keyboard_buttons"
 
     def __init__(self):
         self.__configFile = ''
@@ -18,6 +20,10 @@ class Configurator():
             self.__configFile = workspace_path + f'/../../config/{Configurator.CAMERAS}.yaml'
         elif data_type == Configurator.BUTTONS:
             self.__configFile = workspace_path + f'/../../config/{Configurator.BUTTONS}.yaml'
+        elif data_type == Configurator.KEYBOARD_AXES:
+            self.__configFile = workspace_path + f'/../../config/{Configurator.KEYBOARD_AXES}.yaml'
+        elif data_type == Configurator.KEYBOARD_BUTTONS:
+            self.__configFile = workspace_path + f'/../../config/{Configurator.KEYBOARD_BUTTONS}.yaml'
         else: 
             self.__raiseTypeError(data_type)
     def fetchData(self,data_type):
