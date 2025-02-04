@@ -29,7 +29,7 @@ class MockThruster:
         self.last_pwm = pwm_value
         self.logToFile()
         print(f"{self.thrusters.get(self.channel)} set to {pwm_value}")
-        # self.json_handler.downloadFile()
+        # self.json_handler.downloadFile("192.168.220.62", "root", "", self.json_handler.file_path, "")
 
     def stop(self):
         self.last_pwm = 1500 

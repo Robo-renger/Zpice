@@ -3,72 +3,192 @@
         "severity": "INFO",
         "message": "Thruster on channel 1 set to 1300",
         "component_name": "MockThruster",
-        "timestamp": "2025-02-03T00:06:19.951201"
+        "timestamp": "2025-02-03T23:34:33.822232"
     },
     {
         "severity": "INFO",
         "message": "Thruster on channel 5 set to 1700",
         "component_name": "MockThruster",
-        "timestamp": "2025-02-03T00:06:19.961544"
+        "timestamp": "2025-02-03T23:34:33.822602"
     },
     {
         "severity": "INFO",
         "message": "Thruster on channel 4 set to 1300",
         "component_name": "MockThruster",
-        "timestamp": "2025-02-03T00:06:19.965758"
+        "timestamp": "2025-02-03T23:34:33.822782"
     },
     {
         "severity": "INFO",
         "message": "Thruster on channel 2 set to 1700",
         "component_name": "MockThruster",
-        "timestamp": "2025-02-03T00:06:19.969390"
+        "timestamp": "2025-02-03T23:34:33.822952"
     },
     {
         "severity": "INFO",
         "message": "Thruster on channel 0 set to 1500",
         "component_name": "MockThruster",
-        "timestamp": "2025-02-03T00:06:19.972932"
+        "timestamp": "2025-02-03T23:34:33.823112"
     },
     {
         "severity": "INFO",
         "message": "Thruster on channel 3 set to 1500",
         "component_name": "MockThruster",
-        "timestamp": "2025-02-03T00:06:19.976913"
+        "timestamp": "2025-02-03T23:34:33.823312"
     },
     {
         "severity": "INFO",
         "message": "Thruster on channel 1 set to 1300",
         "component_name": "MockThruster",
-        "timestamp": "2025-02-03T00:14:12.234843"
+        "timestamp": "2025-02-03T23:34:47.380286"
     },
     {
         "severity": "INFO",
         "message": "Thruster on channel 5 set to 1700",
         "component_name": "MockThruster",
-        "timestamp": "2025-02-03T00:14:22.979933"
+        "timestamp": "2025-02-03T23:34:47.380597"
     },
     {
         "severity": "INFO",
         "message": "Thruster on channel 4 set to 1300",
         "component_name": "MockThruster",
-        "timestamp": "2025-02-03T00:14:37.711818"
+        "timestamp": "2025-02-03T23:34:47.380803"
     },
     {
         "severity": "INFO",
         "message": "Thruster on channel 2 set to 1700",
         "component_name": "MockThruster",
-        "timestamp": "2025-02-03T00:14:39.553795"
+        "timestamp": "2025-02-03T23:34:47.381023"
     },
     {
         "severity": "INFO",
         "message": "Thruster on channel 0 set to 1500",
         "component_name": "MockThruster",
-        "timestamp": "2025-02-03T00:14:41.134042"
+        "timestamp": "2025-02-03T23:34:47.381237"
     },
     {
         "severity": "INFO",
         "message": "Thruster on channel 3 set to 1500",
         "component_name": "MockThruster",
-        "timestamp": "2025-02-03T00:14:42.674751"
+        "timestamp": "2025-02-03T23:34:47.381466"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 1 set to 1300",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-03T23:36:51.922459"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 1 set to 1300",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-03T23:38:50.165229"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 1 set to 1300",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-03T23:42:39.982681"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 5 set to 1700",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-03T23:42:40.645558"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 4 set to 1300",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-03T23:42:41.226383"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 2 set to 1700",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-03T23:42:41.791934"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 0 set to 1500",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-03T23:42:42.380883"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 3 set to 1500",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-03T23:42:42.941781"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 1 set to 1300",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-04T00:14:33.677499"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 5 set to 1700",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-04T00:14:34.337548"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 4 set to 1300",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-04T00:14:34.929273"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 2 set to 1700",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-04T00:14:35.530158"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 0 set to 1500",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-04T00:14:36.108828"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 3 set to 1500",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-04T00:14:36.708843"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 1 set to 1300",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-04T00:17:23.084248"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 5 set to 1700",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-04T00:17:23.692760"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 4 set to 1300",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-04T00:17:24.267719"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 2 set to 1700",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-04T00:17:24.855053"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 0 set to 1500",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-04T00:17:25.422349"
+    },
+    {
+        "severity": "INFO",
+        "message": "Thruster on channel 3 set to 1500",
+        "component_name": "MockThruster",
+        "timestamp": "2025-02-04T00:17:26.020678"
     }
 ]

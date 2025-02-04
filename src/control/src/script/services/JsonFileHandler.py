@@ -1,15 +1,20 @@
 import json
-import os
-import subprocess
+from pathlib import Path
+import paramiko
 from entities.Log import Log
 
 class JsonFileHandler:
-    def __init__(self, file_path: str = "logs/logs.json"):
-        self.file_path = file_path
+    def __init__(self, file_path: str = None):
+        # Get the absolute path to the logs directory relative to the script's location
+        base_dir = Path(__file__).resolve().parent.parent  # Moves up to `src/control/src`
+        log_dir = base_dir / "logs"
+        log_dir.mkdir(parents=True, exist_ok=True)  # Ensure logs directory exists
+        
+        self.file_path = file_path if file_path else log_dir / "logs.json"
 
     def create(self):
         """Creates the JSON file if it doesn't already exist."""
-        if not os.path.exists(self.file_path):
+        if not self.file_path.exists():
             with open(self.file_path, "w") as file:
                 json.dump([], file)  # Initialize with an empty list
 
@@ -37,27 +42,38 @@ class JsonFileHandler:
         return logs
 
     def downloadFile(self, remote_host: str, remote_username: str, remote_password: str, remote_path: str, local_path: str = "downloaded_logs.json"):
-        """
-        Downloads the JSON file from a remote system to the local machine using SCP.
-        Args:
-            remote_host (str): The remote host (e.g., IP address or hostname).
-            remote_username (str): The username for the remote system.
-            remote_password (str): The password for the remote system.
-            remote_path (str): The path to the JSON file on the remote system.
-            local_path (str): The local path where the file will be saved.
-        """
         try:
-            # Construct the SCP command
-            scp_command = [
-                "scp",
-                f"{remote_username}@{remote_host}:{remote_path}",
-                local_path
-            ]
+            remote_path = str(remote_path)
+            local_path = str(local_path)
 
-            # Run the SCP command
-            subprocess.run(scp_command, check=True)
-            print(f"File downloaded to: {local_path}")
-        except subprocess.CalledProcessError as e:
-            print(f"Error downloading file: {e}")
+            print(f"Connecting to {remote_username}@{remote_host}...")
+            # Create an SSH client
+            ssh = paramiko.SSHClient()
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+            # Connect to the remote system
+            ssh.connect(remote_host, username=remote_username, password=remote_password)
+            print("SSH connection established.")
+
+            # Create an SFTP client
+            sftp = ssh.open_sftp()
+            print("SFTP session opened.")
+
+            # Verify the remote file exists and is not empty
+            remote_file_size = sftp.stat(remote_path).st_size
+            print(f"Remote file size: {remote_file_size} bytes")
+
+            if remote_file_size == 0:
+                print("Warning: Remote file is empty.")
+            else:
+                # Download the file
+                print(f"Downloading {remote_path} to {local_path}...")
+                sftp.get(remote_path, local_path)
+                print(f"File downloaded to: {local_path}")
+
+            # Close the SFTP and SSH connections
+            sftp.close()
+            ssh.close()
+            print("SFTP and SSH connections closed.")
         except Exception as e:
-            print(f"An unexpected error occurred: {e}")
+            print(f"Error downloading file: {e}")
