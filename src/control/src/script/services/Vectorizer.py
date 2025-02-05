@@ -1,5 +1,5 @@
 import math
-from services.PWMMapper import PWMMapper
+from control.src.script.helpers.PWMMapper import PWMMapper
 
 class Vectorizer:
     """
