@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import rospy
 from utils.Configurator import Configurator
-from services.ManualJoystick import ManualJoystickMock
-from services.Keyboard import Keyboard
+from control.src.script.helpers.ManualJoystick import ManualJoystickMock
+from control.src.script.helpers.Keyboard import Keyboard
 
 class ManualJoystickNode:
     def __init__(self):

@@ -1,10 +1,10 @@
 from PCADriver import PCA
 from services.Vectorizer import Vectorizer
 from services.Thruster import Thruster
-from services.PWMMapper import PWMMapper
+from control.src.script.helpers.PWMMapper import PWMMapper
 from interface.iLoggable import iLoggable
 from zope.interface import implementer
-from services.JsonFileHandler import JsonFileHandler
+from control.src.script.helpers.JsonFileHandler import JsonFileHandler
 from entities.Log import Log
 from entities.LogSeverity import LogSeverity
 

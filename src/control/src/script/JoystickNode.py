@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from control.msg import Joystick
-from services.Joystick import CJoystick
+from control.src.script.services.Joystick import CJoystick
 import signal
 class JoystickNode:
     def __init__(self):
