@@ -5,9 +5,10 @@ from interface.IDepth import IDepthSensor
 from interface.iLoggable import iLoggable
 from exceptions.SensorInitializationError import SensorInitializationError
 from exceptions.SensorReadError import SensorReadError
-from entities.Log import Log
-from entities.LogSeverity import LogSeverity
-from services.JsonFileHandler import JsonFileHandler
+from DTOs.Log import Log
+from DTOs.LogSeverity import LogSeverity
+from helpers.JsonFileHandler import JsonFileHandler
+from LogPublisherNode import LogPublisherNode
 
 @implementer(IDepthSensor, iLoggable)
 class DepthSensor:
@@ -20,11 +21,13 @@ class DepthSensor:
         Raises:
             SensorInitializationError: If the sensor fails to initialize.
         """
-        self.jsonfilehandler = JsonFileHandler()
+        self.json_file_handler = JsonFileHandler()
+        self.log_publisher = LogPublisherNode()
         self.sensor = MS5837_02BA(bus) # Specify bus
 
         if not self.sensor.init():
             self.logToFile(LogSeverity.ERROR, "Depth sensor initialization failed.", "DepthSensor")
+            self.logToGUI(LogSeverity.ERROR, "Depth sensor initialization failed.", "DepthSensor")
             raise SensorInitializationError("Depth sensor initialization failed.")
         
         self._fluid_density = fluid_density
@@ -48,6 +51,7 @@ class DepthSensor:
             self.sensor.read()
         except Exception as e:
             self.logToFile(LogSeverity.ERROR, f"Failed to read sensor data: {str(e)}", "DepthSensor")
+            self.logToGUI(LogSeverity.ERROR, f"Failed to read sensor data: {str(e)}", "DepthSensor")
             raise SensorReadError(f"Failed to read depth sensor data: {str(e)}")
     
     def getPressure(self) -> float:
@@ -59,6 +63,7 @@ class DepthSensor:
             return self.sensor.pressure()
         except Exception as e:
             self.logToFile(LogSeverity.ERROR, f"Failed to read pressure data: {str(e)}", "DepthSensor")
+            self.logToGUI(LogSeverity.ERROR, f"Failed to read pressure data: {str(e)}", "DepthSensor")
             raise SensorReadError(f"Failed to read pressure data: {str(e)}")
 
     def getDepth(self) -> float:
@@ -70,11 +75,17 @@ class DepthSensor:
             return self.sensor.depth()
         except Exception as e:
             self.logToFile(LogSeverity.ERROR, f"Failed to read depth data: {str(e)}", "DepthSensor")
+            self.logToGUI(LogSeverity.ERROR, f"Failed to read depth data: {str(e)}", "DepthSensor")
             raise SensorReadError(f"Failed to read depth data: {str(e)}")
     
-    def logToFile(self, logSeverity: LogSeverity.value, msg: str, component_name: str) -> Log:
+    def logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
         log = Log(logSeverity, msg, component_name)
-        self.jsonfilehandler.writeToFile(log.toDictionary())
+        self.json_file_handler.writeToFile(log.toDictionary())
+        return log
+    
+    def logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
+        log = Log(logSeverity, msg, component_name)
+        self.log_publisher.publish(logSeverity.value, msg, component_name)
         return log
 
     

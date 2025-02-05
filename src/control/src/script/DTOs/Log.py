@@ -1,4 +1,4 @@
-from LogSeverity import LogSeverity
+from DTOs.LogSeverity import LogSeverity
 from datetime import datetime
 
 class Log:

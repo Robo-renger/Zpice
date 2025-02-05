@@ -1,12 +1,13 @@
 from PCADriver import PCA
 from services.Vectorizer import Vectorizer
 from services.Thruster import Thruster
-from control.src.script.helpers.PWMMapper import PWMMapper
+from helpers.PWMMapper import PWMMapper
 from interface.iLoggable import iLoggable
 from zope.interface import implementer
-from control.src.script.helpers.JsonFileHandler import JsonFileHandler
-from entities.Log import Log
-from entities.LogSeverity import LogSeverity
+from helpers.JsonFileHandler import JsonFileHandler
+from DTOs.Log import Log
+from DTOs.LogSeverity import LogSeverity
+from control.src.script.LogPublisherNode import LogPublisherNode
 
 @implementer(iLoggable)
 class MockThruster:
@@ -24,10 +25,12 @@ class MockThruster:
             5 : "front_left",
         }
         self.json_handler = JsonFileHandler()
+        self.log_publisher = LogPublisherNode()
 
     def drive(self, pwm_value):
         self.last_pwm = pwm_value
-        self.logToFile()
+        self.logToFile(LogSeverity.INFO, f"{self.thrusters.get(self.channel)} set to {pwm_value}", "MockThruster")
+        self.logToGUI(LogSeverity.INFO, f"{self.thrusters.get(self.channel)} set to {pwm_value}", "MockThruster")
         print(f"{self.thrusters.get(self.channel)} set to {pwm_value}")
         # self.json_handler.downloadFile("192.168.220.62", "root", "", self.json_handler.file_path, "")
 
@@ -35,13 +38,15 @@ class MockThruster:
         self.last_pwm = 1500 
         print(f"Thruster on channel {self.channel} stopped (set to {self.last_pwm})")
 
-    def logToFile(self):
-        log = Log(LogSeverity.INFO, f"Thruster on channel {self.channel} set to {self.last_pwm}", "MockThruster")
+    def logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
+        log = Log(logSeverity, msg, component_name)
         self.json_handler.writeToFile(log)
         return log
 
-    def logToGUI(self):
-        pass
+    def logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
+        log = Log(logSeverity, msg, component_name)
+        self.log_publisher.publish(logSeverity.value, msg, component_name)
+        return log
 
 class Navigation:
     """

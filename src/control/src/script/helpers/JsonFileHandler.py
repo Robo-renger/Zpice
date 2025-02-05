@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
-import paramiko
-from entities.Log import Log
+# import paramiko
+from DTOs.Log import Log
 
 class JsonFileHandler:
     def __init__(self, file_path: str = None):
@@ -41,7 +41,7 @@ class JsonFileHandler:
                 logs = []
         return logs
 
-    def downloadFile(self, remote_host: str, remote_username: str, remote_password: str, remote_path: str, local_path: str = "downloaded_logs.json"):
+    # def downloadFile(self, remote_host: str, remote_username: str, remote_password: str, remote_path: str, local_path: str = "downloaded_logs.json"):
         try:
             remote_path = str(remote_path)
             local_path = str(local_path)
