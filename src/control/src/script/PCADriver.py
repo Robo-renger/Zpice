@@ -1,7 +1,6 @@
-#!/usr/bin/env python3
-
 from zope.interface import implementer
 from interface.PWMDriver import PWMDriver
+
 
 @implementer(PWMDriver)
 class PCA:
@@ -10,6 +9,7 @@ class PCA:
     def __init__(self, i2c_address=0x40, frequency=50, simulation_mode=False):
         self.simulation_mode = simulation_mode
         self.__initializePCA(i2c_address, frequency)
+        self.frequency = frequency
 
     def __initializePCA(self, i2c_address, frequency):
         """
@@ -17,6 +17,8 @@ class PCA:
         """
         if self.simulation_mode:
             print("Running in simulation mode. PCA9685 not initialized.")
+            self.pca = type('DummyPCA', (), {
+                'frequency': frequency})
         else:
             try:
                 import board
@@ -28,6 +30,7 @@ class PCA:
                 self.pca.frequency = frequency
             except (RuntimeError, ImportError):
                 self.simulation_mode = True
+                self.pca = type('DummyPCA', (), {'frequency': frequency})
 
     def _microsecondsToDutycycle(self, microseconds):
         """
@@ -41,11 +44,16 @@ class PCA:
         """
         Set the PWM duty cycle for a specific channel based on the pulse width in microseconds.
         """
+
         if not 0 <= channel <= 15:
             raise ValueError("Channel must be between 0 and 15.")
 
-        duty_cycle_value = self._microsecondsToDutycycle(microseconds)
-        self.pca.channels[channel].duty_cycle = duty_cycle_value
+        if self.simulation_mode:
+            print(
+                f"[Simulation Mode] Setting channel {channel} to {microseconds} microseconds.")
+        else:
+            duty_cycle_value = self._microsecondsToDutycycle(microseconds)
+            self.pca.channels[channel].duty_cycle = duty_cycle_value
 
     def stopAll(self):
         """
@@ -63,12 +71,13 @@ class PCA:
         Get or create the singleton instance.
         """
         if PCA.__inst is None:
-            PCA.__inst = PCA(simulation_mode=simulation_mode) # added simulation_mode parameter
+            # added simulation_mode parameter
+            PCA.__inst = PCA(simulation_mode=simulation_mode)
         return PCA.__inst
-    
 
 
 if __name__ == "__main__":
-    driver = PCA.getInst(simulation_mode=False) # added simulation_mode parameter
+    # added simulation_mode parameter
+    driver = PCA.getInst(simulation_mode=True)
     driver.PWMWrite(0, 1500)
     driver.close()

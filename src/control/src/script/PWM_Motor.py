@@ -1,15 +1,20 @@
+#!/usr/bin/env python3
+
 from zope.interface import implementer
 from interface.iPWMMotor import iPWMMotor
+from smoothing_strategies.DefaultSmoothing import DefaultSmoothing
 import time
 @implementer(iPWMMotor)
 class PWMMotor:
-    def __init__(self, pca, channel, min_value, max_val, init_value = 1500):
+    def __init__(self, pca, channel, min_value, max_val, init_value = 1500, smoothing_strategy=None):
         self.pca = pca
         self.channel = channel
         self.min_value = min_value
         self.max_val = max_val
         self.current_value = init_value
         self.__smoothing = 0
+        
+        self.smoothing_strategy = smoothing_strategy or DefaultSmoothing()
         
         self.stop() # Initialize the motor by 1500 value
 
@@ -20,6 +25,7 @@ class PWMMotor:
         if value < self.min_value or value > self.max_val:
             raise ValueError(f"Value must be between {self.min_value} and {self.max_val}.")
         self.pca.PWMWrite(self.channel, value)
+        self.current_value = value
 
     def drive(self, value: int, en_smoothing: bool = True) -> None:
 
@@ -29,34 +35,14 @@ class PWMMotor:
         value = self._ensure_bounds(value) 
         
         if en_smoothing:
-            self._smoothing(value)
-        
+            self.current_value = self.smoothing_strategy.smooth(self.current_value, value)
+            self.pca.PWMWrite(self.channel, self.current_value)
+            time.sleep(0.1)
         else:
             self.pca.PWMWrite(self.channel, value)
-        
-        self.__smoothing = self._smoothing(value)
-        self.pca.PWMWrite(0, self.__smoothing)
-
-    def _smoothing(self, value: int) -> None:
-        """
-        Smooth the PWM signal to the motor controller.
-        Used by drive method.
-        """
-        smoothing_factor = 20
-        
-        if(abs(value - self.current_value) > smoothing_factor):
-            if value > self.current_value:
-                self.current_value += smoothing_factor
-            else:
-                self.current_value -= smoothing_factor
             self.current_value = value
-            
-        if self.pca is not None:
-            self.pca.PWMWrite(self.channel, self.current_value)
-        else:
-            print("PCA is not initialized.")
         
-        time.sleep(0.01)
+        
         
     def stop(self) -> None:
         """
