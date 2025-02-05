@@ -1,8 +1,12 @@
 from zope.interface import implementer
 from interface.PWMDriver import PWMDriver
+from interface.iLoggable import iLoggable
+from DTOs.Log import Log
+from DTOs.LogSeverity import LogSeverity
+from helpers.JsonFileHandler import JsonFileHandler
+from LogPublisherNode import LogPublisherNode
 
-
-@implementer(PWMDriver)
+@implementer(PWMDriver, iLoggable)
 class PCA:
     __inst = None
 
@@ -10,10 +14,16 @@ class PCA:
         self.simulation_mode = simulation_mode
         self.__initializePCA(i2c_address, frequency)
         self.frequency = frequency
+        self.json_file_handler = JsonFileHandler()
+        self.log_publisher = LogPublisherNode()
 
     def __initializePCA(self, i2c_address, frequency):
         """
         Initialize the PCA9685 driver.
+
+        raises:
+            RuntimeError: If the PCA9685 driver fails to initialize.
+            ImportError: If the required libraries are not installed.
         """
         if self.simulation_mode:
             print("Running in simulation mode. PCA9685 not initialized.")
@@ -29,6 +39,8 @@ class PCA:
                 self.pca = PCA9685(i2c, address=i2c_address)
                 self.pca.frequency = frequency
             except (RuntimeError, ImportError):
+                self.logToFile(LogSeverity.ERROR, "Failed to initialize PCA9685 driver.", "PCA9685")
+                self.logToGUI(LogSeverity.ERROR, "Failed to initialize PCA9685 driver.", "PCA9685")
                 self.simulation_mode = True
                 self.pca = type('DummyPCA', (), {'frequency': frequency})
 
@@ -43,9 +55,14 @@ class PCA:
     def PWMWrite(self, channel, microseconds):
         """
         Set the PWM duty cycle for a specific channel based on the pulse width in microseconds.
+
+        raises:
+            ValueError: If the channel is not between 0 and 15.
         """
 
         if not 0 <= channel <= 15:
+            self.logToFile(LogSeverity.ERROR, "Channel must be between 0 and 15.", "PCA9685")
+            self.logToGUI(LogSeverity.ERROR, "Channel must be between 0 and 15.", "PCA9685")
             raise ValueError("Channel must be between 0 and 15.")
 
         if self.simulation_mode:
@@ -74,7 +91,16 @@ class PCA:
             # added simulation_mode parameter
             PCA.__inst = PCA(simulation_mode=simulation_mode)
         return PCA.__inst
-
+    
+    def logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
+        log = Log(logSeverity, msg, component_name)
+        self.json_file_handler.writeToFile(log.toDictionary())
+        return log
+    
+    def logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
+        log = Log(logSeverity, msg, component_name)
+        self.log_publisher.publish(logSeverity.value, msg, component_name)
+        return log
 
 if __name__ == "__main__":
     # added simulation_mode parameter

@@ -6,7 +6,7 @@ import os
 from zope.interface import implementer
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from control.src.script.interface.ISmoothingStrategy import ISmoothingStrategy
+from interface.ISmoothingStrategy import ISmoothingStrategy
 
 @implementer(ISmoothingStrategy)
 class DefaultSmoothing:

@@ -2,6 +2,11 @@
 
 from zope.interface import implementer
 from interface.iSwitching import iSwitching
+from interface.iLoggable import iLoggable
+from DTOs.Log import Log
+from DTOs.LogSeverity import LogSeverity
+from helpers.JsonFileHandler import JsonFileHandler
+from LogPublisherNode import LogPublisherNode
 
 SIMULATION_MODE = False
 try:
@@ -19,6 +24,8 @@ class Switching:
         Initialize the Switching object With specified pin.
         gpio_interface used for mocking the GPIO library.
         """
+        self.json_file_handler = JsonFileHandler()
+        self.log_publisher = LogPublisherNode()
         self.simulation_mode = SIMULATION_MODE
         # self.gpio = gpio_interface if gpio_interface else (GPIO if not self.simulation_mode else None)
         if not self.simulation_mode:
@@ -34,6 +41,8 @@ class Switching:
     def open(self) -> None:
         if not self.simulation_mode:
             self.gpio.output(self.pin, GPIO.HIGH)
+            self.logToFile(LogSeverity.INFO, "Switching open.", "Switching")
+            self.logToGUI(LogSeverity.INFO, "Switching open.", "Switching")
         else:
             print("Simulating opening the switch")
         self.is_open = True
@@ -41,6 +50,8 @@ class Switching:
     def close(self) -> None:
         if not self.simulation_mode:
             self.gpio.output(self.pin, GPIO.LOW)
+            self.logToFile(LogSeverity.INFO, "Switching close.", "Switching")
+            self.logToGUI(LogSeverity.INFO, "Switching close.", "Switching")
         else:
             print("Simulating closing the switch")
         self.is_open = False
@@ -48,11 +59,25 @@ class Switching:
     def toggle(self) -> None:
         if self.is_open:
             self.close()
+            self.logToFile(LogSeverity.INFO, "Switching close.", "Switching")
+            self.logToGUI(LogSeverity.INFO, "Switching close.", "Switching")
         else:
             self.open()
+            self.logToFile(LogSeverity.INFO, "Switching open.", "Switching")
+            self.logToGUI(LogSeverity.INFO, "Switching open.", "Switching")
             
     def is_open(self) -> bool:
         return self.is_open
     
     def is_closed(self) -> bool:
         return not self.is_open
+
+    def logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
+        log = Log(logSeverity, msg, component_name)
+        self.json_file_handler.writeToFile(log.toDictionary())
+        return log
+    
+    def logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
+        log = Log(logSeverity, msg, component_name)
+        self.log_publisher.publish(logSeverity.value, msg, component_name)
+        return log

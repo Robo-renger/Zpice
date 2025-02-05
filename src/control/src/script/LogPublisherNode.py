@@ -10,6 +10,6 @@ class LogPublisherNode:
         """
         Publishes a log to the /logs topic.
         """
-        log_msg = f"[{severity}]: {message} -> {component_name}"
+        log_msg = f"[{severity}]: {message} => {component_name}"
         self.log_pub.publish(log_msg)
         # rospy.loginfo(f"Published log: {log_msg}")
