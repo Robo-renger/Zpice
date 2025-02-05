@@ -1,4 +1,4 @@
-from entities.LogSeverity import LogSeverity
+from LogSeverity import LogSeverity
 from datetime import datetime
 
 class Log:
