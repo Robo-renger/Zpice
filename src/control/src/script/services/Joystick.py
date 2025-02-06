@@ -59,12 +59,13 @@ class CJoystick:
         """
         return pickle.loads(buffer.rstrip(b"\x00"))  # Remove padding
 
-    def updateData(self, data):
+    def updateData(self, buttons_data, axis_data):
         """
-        Write the entire joystick data to shared memory (writer).
+        Write the joystick data (buttons and axes) to shared memory (writer).
         
         Parameters:
-            data (object): Joystick data (can be any serializable Python object, e.g., dictionary, object).
+            buttons_data (object): Button data (can be any serializable object like a dictionary).
+            axis_data (list): List containing joystick axis values [left_x, left_y, right_x, right_y].
         """
         if not self.is_writer:
             raise PermissionError("Only the writer instance can update data.")
@@ -72,7 +73,8 @@ class CJoystick:
         with self.lock:
             data_with_timestamp = {
                 "timestamp": time.time(),
-                "data": data
+                "buttons": buttons_data,
+                "axes": axis_data
             }
             serialized_data = self._serialize_data(data_with_timestamp)
             if len(serialized_data) > self.buffer_size:
@@ -82,8 +84,7 @@ class CJoystick:
 
     def __getData(self):
         """
-        Read the entire joystick data from shared memory (reader).
-        Reconnect to shared memory if it becomes unavailable.
+        Read the joystick data from shared memory (reader).
         
         Returns:
             object: The deserialized joystick data, or None if invalid or unavailable.
@@ -96,7 +97,7 @@ class CJoystick:
 
                 with self.lock:
                     data_with_timestamp = self._deserialize_data(bytes(self.shared_memory.buf))
-                    return data_with_timestamp["data"]
+                    return data_with_timestamp
             except FileNotFoundError:
                 print("Shared memory not found. Retrying...")
                 time.sleep(1)
@@ -118,14 +119,26 @@ class CJoystick:
             bool: True if the button is clicked, False otherwise.
         """
         data = self.__getData()
-        if data is None:
+        if data is None or "buttons" not in data:
             return False  # No data available
 
         button_number = getattr(self, button_name, None)
         if button_number is None:
             raise ValueError(f"Button name '{button_name}' is not defined.")
 
-        return getattr(data, f"button{button_number}", False)
+        return data["buttons"].get(f"button{button_number}", False)
+
+    def getAxis(self):
+        """
+        Returns an array of joystick axis values.
+        
+        Returns:
+            list: List of joystick axis values [left_x, left_y, right_x, right_y].
+        """
+        data = self.__getData()
+        if data is None or "axes" not in data:
+            return [0, 0, 0, 0]  # Default values if no data available
+        return data["axes"]
 
     def _signal_cleanup(self, signum, frame):
         """

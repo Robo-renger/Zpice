@@ -1,4 +1,4 @@
-from PCADriver import PCA
+from control.src.script.services.PCADriver import PCA
 from services.Vectorizer import Vectorizer
 from services.Thruster import Thruster
 from control.src.script.helpers.PWMMapper import PWMMapper
