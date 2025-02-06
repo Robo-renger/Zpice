@@ -71,6 +71,40 @@ class PiHealth:
             output = subprocess.check_output("top -bn1 | grep 'Cpu(s)' | awk '{print 100 - $8}'", shell=True).decode('utf-8')
             rospy.loginfo(f"Total CPU Usage: {float(output.strip())}")
             return float(output.strip())
-        except:
-            rospy.logerr(f"Error in getting CPU usage")
+        except Exception as e:
+            rospy.logerr(f"Error in getting CPU usage: {e}")
+            return None
+
+    @staticmethod
+    def checkCoreVoltage() -> bool:
+        """Checks if the voltages across the GPU core and the SDRAM rails are within normal ranges.
+        Typical nominal values on a raspberry pi4: around 1.3 V (voltage >= 1.2V is normal) 
+        @return core_state: True if core voltage is within normal range."""
+        try:
+            core_output = subprocess.check_output(['vcgencmd', 'measure_volts', 'core']).decode('utf-8').strip()
+            core_voltage = float(core_output.replace("volt=", "").replace("V", ""))
+            core_state = core_voltage >= 1.2
+            rospy.loginfo(f"GPU core voltage = {core_voltage}")
+            return core_state
+        except Exception as e:
+            rospy.logerr(f"Error in getting checking GPU core voltage: {e}")
+            return None
+        
+    @staticmethod
+    def checkSDRAMVoltage() -> bool:
+        """Checks if the voltages across the SDRAM Rails are within normal ranges.
+        Trypical nominal values on a raspberry pi4:
+            - sdram_c, sdram_i, sdram_p: around 1.225-1.25 V (voltages >= 1.1V are normal).
+        @return sdram_state: True if all SDRAM rails are within normal range."""
+        try:
+            sdram_state = True
+            for rail in ["sdram_c", "sdram_i", "sdram_p"]:
+                rail_output = subprocess.check_output(['vcgencmd', 'measure_volts', rail]).decode('utf-8').strip()
+                voltage = float(rail_output.replace("volt=", "").replace("V", ""))
+                if voltage < 1.1:
+                    sdram_state = False
+                rospy.loginfo(f"Voltage on {rail} = {voltage}")
+            return sdram_state
+        except Exception as e:
+            rospy.logerr(f"Error in checking SDRAM voltage: {e}")
             return None
