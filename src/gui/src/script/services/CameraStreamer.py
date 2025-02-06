@@ -2,11 +2,13 @@
 
 from multiprocessing import Process
 import cv2
+from utils.EnvParams import EnvParams
 import pyshine as ps
 
 class CameraStreamer:
     def __init__(self, cameraIndex,html_content) -> None:
-        self.address = "192.168.1.233"  # Fetch from a config file/dynamically
+        # self.address = "192.168.1.233"  # Fetch from a config file/dynamically
+        self.address = EnvParams().WEB_DOMAIN
         self.cameraIndex = cameraIndex
         self.width = 1280
         self.height = 720

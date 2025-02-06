@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from control.msg import Joystick
-from control.src.script.services.Joystick import CJoystick
+from services.Joystick import CJoystick
 import signal
 class JoystickNode:
     def __init__(self):
@@ -16,8 +16,18 @@ class JoystickNode:
         rospy.signal_shutdown("Node terminated.")  # Stop rospy.spin()
         
     def callback(self, data):
-        # Update shared memory with the joystick data
-        self.joystick.updateData(data)
+        # Extract button data (keys containing "button")
+        button_data = {key: getattr(data, key) for key in dir(data) if "button" in key}
+
+        # Extract axis data (keys containing "axis")
+        axis_data = {key: getattr(data, key) for key in dir(data) if "axis" in key}
+        
+        print(button_data)
+        print(axis_data)
+
+        # Update shared memory with extracted data
+        self.joystick.updateData(button_data, axis_data)
+
 
     def run(self):
         rospy.Subscriber("/joystick", Joystick, self.callback)

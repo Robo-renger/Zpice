@@ -5,26 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Streams</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="roslib.min.js"></script>
+    
 </head>
 <body>
-
+    
     <div class="stream-container">
         <div class="stream">
             <h3>Stream 1</h3>
-            <img src="http://192.168.1.233:8080/stream.mjpg" width="720" height="540">
+            <img src="http://localhost:8081/stream.mjpg" width="720" height="540">
         </div>
         <div class="stream">
             <h3>Stream 2</h3>
-            <img src="http://192.168.1.233:8081/stream.mjpg" width="720" height="540">
+            <img src="http://localhost:8082/stream.mjpg" width="720" height="540">
         </div>
         <div class="stream">
             <h3>Stream 3</h3>
-            <img src="http://192.168.1.233:8082/stream.mjpg" width="720" height="540">
+            <img src="http://localhost:8083/stream.mjpg" width="720" height="540">
         </div>
     </div>
-
-    <script src="joystick.js"></script>
-
+    
 </body>
+<script src="roslib.min.js"></script>
+<script src="joystick.js"></script>
 </html>
