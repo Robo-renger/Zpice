@@ -8,7 +8,7 @@ def test_navigation():
     rospy.loginfo("Testing navigate function with joystick inputs...")
 
     Vectorizer.yaw_only = True
-    Navigation.navigate(0, 0, 0, 0, 0.5)
+    Navigation.navigate(0, 0, 0, 0, 1)
     # Navigation.moveUp(50)
     # Navigation.moveDown(50)
     # Navigation.moveRight(100)

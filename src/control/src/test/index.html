@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #log-container {
+            width: 80%;
+            height: 400px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+        .log-entry {
+            margin-bottom: 5px;
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        .log-entry.info {
+            color: #004085;
+            background-color: #cce5ff;
+        }
+        .log-entry.warn {
+            color: #856404;
+            background-color: #fff3cd;
+        }
+        .log-entry.error {
+            color: #721c24;
+            background-color: #f8d7da;
+        }
+    </style>
+</head>
+<body>
+    <h1>Log Viewer</h1>
+    <div id="log-container"></div>
+
+    <script src= "roslib.min.js"></script>
+    <script>
+        // Connect to ROSBridge
+        const ros = new ROSLIB.Ros({
+            url: 'ws://localhost:9090'
+        });
+
+        ros.on('connection', () => {
+            console.log('Connected to ROSBridge');
+        });
+
+        ros.on('error', (error) => {
+            console.error('Error connecting to ROSBridge:', error);
+        });
+
+        ros.on('close', () => {
+            console.log('Connection to ROSBridge closed');
+        });
+
+        // Subscribe to the /logs topic
+        const logTopic = new ROSLIB.Topic({
+            ros: ros,
+            name: '/logs',
+            messageType: 'std_msgs/String'
+        });
+
+        const logContainer = document.getElementById('log-container');
+
+        logTopic.subscribe((message) => {
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+
+            // Determine the severity class
+            if (message.data.includes('[INFO]')) {
+                logEntry.classList.add('info');
+            } else if (message.data.includes('[WARN]')) {
+                logEntry.classList.add('warn');
+            } else if (message.data.includes('[ERROR]')) {
+                logEntry.classList.add('error');
+            }
+
+            logEntry.textContent = message.data;
+            logContainer.appendChild(logEntry);
+
+            // Auto-scroll to the bottom
+            logContainer.scrollTop = logContainer.scrollHeight;
+        });
+    </script>
+</body>
+</html>
