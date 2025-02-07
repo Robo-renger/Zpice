@@ -217,182 +217,20 @@
     },
     {
         "severity": "INFO",
-        "message": "front_right set to 1100",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:38:35.182489"
+        "message": "Shared memory created successfully.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-07T02:35:38.236888"
     },
     {
-        "severity": "INFO",
-        "message": "front_left set to 1900",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:38:35.187426"
+        "severity": "ERROR",
+        "message": "Error during cleanup: [Errno 2] No such file or directory: '/joystick_data'",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-07T02:36:09.075972"
     },
     {
-        "severity": "INFO",
-        "message": "back_left set to 1100",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:38:35.190205"
-    },
-    {
-        "severity": "INFO",
-        "message": "back_right set to 1900",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:38:35.192872"
-    },
-    {
-        "severity": "INFO",
-        "message": "front set to 1500",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:38:35.195580"
-    },
-    {
-        "severity": "INFO",
-        "message": "back set to 1500",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:38:35.198507"
-    },
-    {
-        "severity": "INFO",
-        "message": "front_right set to 1100",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:49:47.568511"
-    },
-    {
-        "severity": "INFO",
-        "message": "front_left set to 1900",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:49:47.580574"
-    },
-    {
-        "severity": "INFO",
-        "message": "back_left set to 1100",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:49:47.584697"
-    },
-    {
-        "severity": "INFO",
-        "message": "back_right set to 1900",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:49:47.605592"
-    },
-    {
-        "severity": "INFO",
-        "message": "front set to 1500",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:49:47.619499"
-    },
-    {
-        "severity": "INFO",
-        "message": "back set to 1500",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:49:47.628815"
-    },
-    {
-        "severity": "INFO",
-        "message": "front_right set to 1100",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:51:35.184266"
-    },
-    {
-        "severity": "INFO",
-        "message": "front_left set to 1900",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:51:35.188647"
-    },
-    {
-        "severity": "INFO",
-        "message": "back_left set to 1100",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:51:35.193400"
-    },
-    {
-        "severity": "INFO",
-        "message": "back_right set to 1900",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:51:35.198034"
-    },
-    {
-        "severity": "INFO",
-        "message": "front set to 1500",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:51:35.202662"
-    },
-    {
-        "severity": "INFO",
-        "message": "back set to 1500",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:51:35.207622"
-    },
-    {
-        "severity": "INFO",
-        "message": "front_right set to 1100",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:52:44.442877"
-    },
-    {
-        "severity": "INFO",
-        "message": "front_left set to 1900",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:52:44.447987"
-    },
-    {
-        "severity": "INFO",
-        "message": "back_left set to 1100",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:52:44.456239"
-    },
-    {
-        "severity": "INFO",
-        "message": "back_right set to 1900",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:52:44.462355"
-    },
-    {
-        "severity": "INFO",
-        "message": "front set to 1500",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:52:44.466693"
-    },
-    {
-        "severity": "INFO",
-        "message": "back set to 1500",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-06T22:52:44.470645"
-    },
-    {
-        "severity": "INFO",
-        "message": "front_right set to 1100",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-07T00:00:30.492199"
-    },
-    {
-        "severity": "INFO",
-        "message": "front_left set to 1900",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-07T00:00:30.497884"
-    },
-    {
-        "severity": "INFO",
-        "message": "back_left set to 1100",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-07T00:00:30.503112"
-    },
-    {
-        "severity": "INFO",
-        "message": "back_right set to 1900",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-07T00:00:30.508452"
-    },
-    {
-        "severity": "INFO",
-        "message": "front set to 1500",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-07T00:00:30.515388"
-    },
-    {
-        "severity": "INFO",
-        "message": "back set to 1500",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-07T00:00:30.521787"
+        "severity": "ERROR",
+        "message": "Error during cleanup: [Errno 2] No such file or directory: '/joystick_data'",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-07T02:36:09.080260"
     }
 ]

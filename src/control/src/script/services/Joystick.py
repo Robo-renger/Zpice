@@ -35,14 +35,14 @@ class CJoystick:
             try:
                 # Try to attach to an existing shared memory block
                 self.shared_memory = SharedMemory(name=self.shared_memory_name)
-                # self.logToFile(LogSeverity.INFO, "Shared memory attached successfully.", "CJoystick")
-                # self.logToGUI(LogSeverity.INFO, "Shared memory attached successfully.", "CJoystick")
+                self.logToFile(LogSeverity.INFO, "Shared memory attached successfully.", "CJoystick")
+                self.logToGUI(LogSeverity.INFO, "Shared memory attached successfully.", "CJoystick")
             except FileNotFoundError:
                 # If not found, create a new shared memory block
                 self.shared_memory = SharedMemory(name=self.shared_memory_name, create=True, size=self.buffer_size)
                 self.is_writer = True  # This instance will act as the writer
-                # self.logToFile(LogSeverity.INFO, "Shared memory created successfully.", "CJoystick")
-                # self.logToGUI(LogSeverity.INFO, "Shared memory created successfully.", "CJoystick")
+                self.logToFile(LogSeverity.INFO, "Shared memory created successfully.", "CJoystick")
+                self.logToGUI(LogSeverity.INFO, "Shared memory created successfully.", "CJoystick")
 
             atexit.register(self.cleanup)
             signal.signal(signal.SIGINT, self._signal_cleanup)
@@ -81,8 +81,8 @@ class CJoystick:
             axis_data (list): List containing joystick axis values [left_x, left_y, right_x, right_y].
         """
         if not self.is_writer:
-            # self.logToFile(LogSeverity.ERROR, "Only the writer instance can update data.", "CJoystick")
-            # self.logToGUI(LogSeverity.ERROR, "Only the writer instance can update data.", "CJoystick")
+            self.logToFile(LogSeverity.ERROR, "Only the writer instance can update data.", "CJoystick")
+            self.logToGUI(LogSeverity.ERROR, "Only the writer instance can update data.", "CJoystick")
             raise PermissionError("Only the writer instance can update data.")
 
         with self.lock:
@@ -93,8 +93,8 @@ class CJoystick:
             }
             serialized_data = self._serialize_data(data_with_timestamp)
             if len(serialized_data) > self.buffer_size:
-                # self.logToFile(LogSeverity.ERROR, "Data exceeds shared memory buffer size.", "CJoystick")
-                # self.logToGUI(LogSeverity.ERROR, "Data exceeds shared memory buffer size.", "CJoystick")
+                self.logToFile(LogSeverity.ERROR, "Data exceeds shared memory buffer size.", "CJoystick")
+                self.logToGUI(LogSeverity.ERROR, "Data exceeds shared memory buffer size.", "CJoystick")
                 raise ValueError("Data exceeds shared memory buffer size.")
             self.shared_memory.buf[:len(serialized_data)] = serialized_data
             self.shared_memory.buf[len(serialized_data):] = b"\x00" * (self.buffer_size - len(serialized_data))
@@ -116,14 +116,14 @@ class CJoystick:
                     data_with_timestamp = self._deserialize_data(bytes(self.shared_memory.buf))
                     return data_with_timestamp
             except FileNotFoundError:
-                # self.logToFile(LogSeverity.ERROR, "Shared memory not found. Retrying...", "CJoystick")
-                # self.logToGUI(LogSeverity.ERROR, "Shared memory not found. Retrying...", "CJoystick")
+                self.logToFile(LogSeverity.ERROR, "Shared memory not found. Retrying...", "CJoystick")
+                self.logToGUI(LogSeverity.ERROR, "Shared memory not found. Retrying...", "CJoystick")
                 print("Shared memory not found. Retrying...")
                 time.sleep(1)
                 retries -= 1
             except (pickle.UnpicklingError, EOFError, KeyError):
-                # self.logToFile(LogSeverity.ERROR, "Failed to deserialize data.", "CJoystick")
-                # self.logToGUI(LogSeverity.ERROR, "Failed to deserialize data.", "CJoystick")
+                self.logToFile(LogSeverity.ERROR, "Failed to deserialize data.", "CJoystick")
+                self.logToGUI(LogSeverity.ERROR, "Failed to deserialize data.", "CJoystick")
                 return None
 
         print("Failed to connect to shared memory after retries.")
@@ -148,8 +148,8 @@ class CJoystick:
 
         button_number = getattr(self, button_name, None)
         if button_number is None:
-            # self.logToFile(LogSeverity.ERROR, f"Button name '{button_name}' is not defined.", "CJoystick")
-            # self.logToGUI(LogSeverity.ERROR, f"Button name '{button_name}' is not defined.", "CJoystick")
+            self.logToFile(LogSeverity.ERROR, f"Button name '{button_name}' is not defined.", "CJoystick")
+            self.logToGUI(LogSeverity.ERROR, f"Button name '{button_name}' is not defined.", "CJoystick")
             raise ValueError(f"Button name '{button_name}' is not defined.")
 
         return data["buttons"].get(f"button{button_number}", False)
@@ -182,6 +182,19 @@ class CJoystick:
                 self.shared_memory.unlink()
             self.shared_memory.close()
         except Exception as e:
-            # self.logToFile(LogSeverity.ERROR, f"Error during cleanup: {e}", "CJoystick")
-            # self.logToGUI(LogSeverity.ERROR, f"Error during cleanup: {e}", "CJoystick")
+            self.logToFile(LogSeverity.ERROR, f"Error during cleanup: {e}", "CJoystick")
+            self.logToGUI(LogSeverity.ERROR, f"Error during cleanup: {e}", "CJoystick")
             print(f"Error during cleanup: {e}")
+    
+    
+    
+    def logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
+        log = Log(logSeverity, msg, component_name)
+        print(type(log))
+        self.json_file_handler.writeToFile(log)
+        return log
+    
+    def logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
+        log = Log(logSeverity, msg, component_name)
+        self.log_publisher.publish(logSeverity.value, msg, component_name) 
+        return log
