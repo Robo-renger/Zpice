@@ -8,7 +8,7 @@ from exceptions.SensorReadError import SensorReadError
 from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
 from helpers.JsonFileHandler import JsonFileHandler
-from script.LogPublisherNode import LogPublisherNode
+from nodes.LogPublisherNode import LogPublisherNode
 
 @implementer(IDepthSensor, iLoggable)
 class DepthSensor:
