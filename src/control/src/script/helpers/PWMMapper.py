@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 class PWMMapper:
     """
     Static class for mapping normalized values to PWM ranges.

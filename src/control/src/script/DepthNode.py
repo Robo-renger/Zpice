@@ -14,7 +14,7 @@ class DepthNode:
         self.sensor.readData()
         self.msg.pressure = self.sensor.getPressure()
         self.msg.depth = self.sensor.getDepth()
-        self.pub.publish()
+        self.pub.publish(self.msg)
 
 if __name__ == "__main__":
     try:

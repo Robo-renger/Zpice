@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from DTOs.LogSeverity import LogSeverity
 from datetime import datetime
 
