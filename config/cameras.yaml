@@ -1,5 +1,5 @@
 camera1:
-  index: '/home/ziad/zpice_ws/src/gui/src/test.mp4'
+  index: '/home/mypi/Zpice/src/gui/src/test.mp4'
   width: 640
   height: 480
   fps: 20
