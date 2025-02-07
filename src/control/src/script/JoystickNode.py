@@ -17,14 +17,11 @@ class JoystickNode:
         
     def callback(self, data):
         # Extract button data (keys containing "button")
+        print(data)
         button_data = {key: getattr(data, key) for key in dir(data) if "button" in key}
 
         # Extract axis data (keys containing "axis")
         axis_data = {key: getattr(data, key) for key in dir(data) if "axis" in key}
-        
-        print(button_data)
-        print(axis_data)
-
         # Update shared memory with extracted data
         self.joystick.updateData(button_data, axis_data)
 
