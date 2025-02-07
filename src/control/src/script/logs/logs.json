@@ -214,5 +214,23 @@
         "message": "back set to 1500",
         "component_name": "MockThruster",
         "timestamp": "2025-02-05T21:20:05.865611"
+    },
+    {
+        "severity": "INFO",
+        "message": "Shared memory created successfully.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-07T02:35:38.236888"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Error during cleanup: [Errno 2] No such file or directory: '/joystick_data'",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-07T02:36:09.075972"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Error during cleanup: [Errno 2] No such file or directory: '/joystick_data'",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-07T02:36:09.080260"
     }
 ]
