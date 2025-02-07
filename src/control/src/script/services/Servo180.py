@@ -7,7 +7,7 @@ from interface.iLoggable import iLoggable
 from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
 from helpers.JsonFileHandler import JsonFileHandler
-from LogPublisherNode import LogPublisherNode
+from nodes.LogPublisherNode import LogPublisherNode
 logging.basicConfig(level=logging.INFO)
 
 @implementer(IServo180, iLoggable)
@@ -88,7 +88,7 @@ class Servo180:
 
     def logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
         log = Log(logSeverity, msg, component_name)
-        self.json_file_handler.writeToFile(log.toDictionary())
+        self.json_file_handler.writeToFile(log)
         return log
     
     def logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:

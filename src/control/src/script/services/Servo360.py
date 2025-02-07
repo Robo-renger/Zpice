@@ -6,7 +6,7 @@ from interface.iLoggable import iLoggable
 from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
 from helpers.JsonFileHandler import JsonFileHandler
-from LogPublisherNode import LogPublisherNode
+from nodes.LogPublisherNode import LogPublisherNode
 import time
 @implementer(IServo360, iLoggable)
 class Servo360:
@@ -120,7 +120,7 @@ class Servo360:
     
     def logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
         log = Log(logSeverity, msg, component_name)
-        self.json_file_handler.writeToFile(log.toDictionary())
+        self.json_file_handler.writeToFile(log)
         return log
     
     def logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:

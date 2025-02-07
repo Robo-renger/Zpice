@@ -190,11 +190,10 @@ class CJoystick:
     
     def logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
         log = Log(logSeverity, msg, component_name)
-        print(type(log))
         self.json_file_handler.writeToFile(log)
         return log
     
     def logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
         log = Log(logSeverity, msg, component_name)
-        self.log_publisher.publish(logSeverity.value, msg, component_name) 
+        self.log_publisher.publish(logSeverity.value, msg, component_name)
         return log
