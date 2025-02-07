@@ -1,5 +1,6 @@
+#!/usr/bin/env python3
 from zope.interface import implementer
-from script.interface.PWMDriver import PWMDriver
+from interface.PWMDriver import PWMDriver
 
 class PCAChannelMock:
     def __init__(self):

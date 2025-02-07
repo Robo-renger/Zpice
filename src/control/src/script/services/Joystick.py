@@ -12,7 +12,7 @@ from interface.iLoggable import iLoggable
 from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
 from helpers.JsonFileHandler import JsonFileHandler
-from LogPublisherNode import LogPublisherNode
+from nodes.LogPublisherNode import LogPublisherNode
 
 @implementer(iLoggable)
 class CJoystick:
@@ -72,16 +72,13 @@ class CJoystick:
         """
         return pickle.loads(buffer.rstrip(b"\x00"))  # Remove padding
 
-    def updateData(self, data):
+    def updateData(self, buttons_data, axis_data):
         """
-        Write the entire joystick data to shared memory (writer).
+        Write the joystick data (buttons and axes) to shared memory (writer).
         
         Parameters:
-            data (object): Joystick data (can be any serializable Python object, e.g., dictionary, object).
-
-        Raises:
-            PermissionError: If the instance is not the writer.
-            ValueError: If the data exceeds the shared memory buffer size.
+            buttons_data (object): Button data (can be any serializable object like a dictionary).
+            axis_data (list): List containing joystick axis values [left_x, left_y, right_x, right_y].
         """
         if not self.is_writer:
             self.logToFile(LogSeverity.ERROR, "Only the writer instance can update data.", "CJoystick")
@@ -91,7 +88,8 @@ class CJoystick:
         with self.lock:
             data_with_timestamp = {
                 "timestamp": time.time(),
-                "data": data
+                "buttons": buttons_data,
+                "axes": axis_data
             }
             serialized_data = self._serialize_data(data_with_timestamp)
             if len(serialized_data) > self.buffer_size:
@@ -103,8 +101,7 @@ class CJoystick:
 
     def __getData(self):
         """
-        Read the entire joystick data from shared memory (reader).
-        Reconnect to shared memory if it becomes unavailable.
+        Read the joystick data from shared memory (reader).
         
         Returns:
             object: The deserialized joystick data, or None if invalid or unavailable.
@@ -117,7 +114,7 @@ class CJoystick:
 
                 with self.lock:
                     data_with_timestamp = self._deserialize_data(bytes(self.shared_memory.buf))
-                    return data_with_timestamp["data"]
+                    return data_with_timestamp
             except FileNotFoundError:
                 self.logToFile(LogSeverity.ERROR, "Shared memory not found. Retrying...", "CJoystick")
                 self.logToGUI(LogSeverity.ERROR, "Shared memory not found. Retrying...", "CJoystick")
@@ -146,7 +143,7 @@ class CJoystick:
             ValueError: If the button name is not defined
         """
         data = self.__getData()
-        if data is None:
+        if data is None or "buttons" not in data:
             return False  # No data available
 
         button_number = getattr(self, button_name, None)
@@ -155,7 +152,19 @@ class CJoystick:
             self.logToGUI(LogSeverity.ERROR, f"Button name '{button_name}' is not defined.", "CJoystick")
             raise ValueError(f"Button name '{button_name}' is not defined.")
 
-        return getattr(data, f"button{button_number}", False)
+        return data["buttons"].get(f"button{button_number}", False)
+
+    def getAxis(self):
+        """
+        Returns an array of joystick axis values.
+        
+        Returns:
+            list: List of joystick axis values [left_x, left_y, right_x, right_y].
+        """
+        data = self.__getData()
+        if data is None or "axes" not in data:
+            return [0, 0, 0, 0]  # Default values if no data available
+        return data["axes"]
 
     def _signal_cleanup(self, signum, frame):
         """
@@ -176,14 +185,16 @@ class CJoystick:
             self.logToFile(LogSeverity.ERROR, f"Error during cleanup: {e}", "CJoystick")
             self.logToGUI(LogSeverity.ERROR, f"Error during cleanup: {e}", "CJoystick")
             print(f"Error during cleanup: {e}")
-
+    
+    
+    
     def logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
         log = Log(logSeverity, msg, component_name)
-        self.json_file_handler.writeToFile(log.toDictionary())
+        print(type(log))
+        self.json_file_handler.writeToFile(log)
         return log
     
     def logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
         log = Log(logSeverity, msg, component_name)
-        self.log_publisher.publish(logSeverity.value, msg, component_name)
+        self.log_publisher.publish(logSeverity.value, msg, component_name) 
         return log
-

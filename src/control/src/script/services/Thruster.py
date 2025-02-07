@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from services.PWM_Motors import PWM_Motors
 
 class Thruster(PWM_Motors):

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from zope.interface import implementer
 from interface.iSwitching import iSwitching
 import RPi.GPIO as GPIO
@@ -5,7 +6,7 @@ from interface.iLoggable import iLoggable
 from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
 from helpers.JsonFileHandler import JsonFileHandler
-from LogPublisherNode import LogPublisherNode
+from nodes.LogPublisherNode import LogPublisherNode
 
 @implementer(iSwitching, iLoggable)
 class Switching:

@@ -14,7 +14,7 @@ from exceptions.SensorCalibrationError import SensorCalibrationError
 from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
 from helpers.JsonFileHandler import JsonFileHandler
-from LogPublisherNode import LogPublisherNode
+from nodes.LogPublisherNode import LogPublisherNode
 
 @implementer(IBNO085, iLoggable)
 class BNO085:

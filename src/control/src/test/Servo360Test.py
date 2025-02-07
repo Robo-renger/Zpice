@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import unittest
-from script.Servo360 import Servo360
+from services.Servo360 import Servo360
 from mock.PCAMock import PCAMock  
 
 

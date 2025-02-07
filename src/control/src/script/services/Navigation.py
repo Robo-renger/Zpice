@@ -1,4 +1,5 @@
-from PCADriver import PCA
+#!/usr/bin/env python3
+from services.PCADriver import PCA
 from services.Vectorizer import Vectorizer
 from services.Thruster import Thruster
 from helpers.PWMMapper import PWMMapper
@@ -7,7 +8,7 @@ from zope.interface import implementer
 from helpers.JsonFileHandler import JsonFileHandler
 from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
-from LogPublisherNode import LogPublisherNode
+from nodes.LogPublisherNode import LogPublisherNode
 
 @implementer(iLoggable)
 class MockThruster:
