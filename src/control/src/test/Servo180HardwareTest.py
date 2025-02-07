@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from script.Servo180 import Servo180
+from services.Servo180 import Servo180
 from services.PCADriver import PCA
 from interface.PWMDriver import PWMDriver
 import time
