@@ -6,7 +6,7 @@ from interface.iLoggable import iLoggable
 from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
 from helpers.JsonFileHandler import JsonFileHandler
-from nodes.LogPublisherNode import LogPublisherNode
+from script.LogPublisherNode import LogPublisherNode
 
 @implementer(iPWM_Motors, iLoggable)
 class PWM_Motors:
@@ -21,6 +21,8 @@ class PWM_Motors:
         self.log_publisher = LogPublisherNode()
         
         self.stop() # Initialize the motor by 1500 value
+        print("ana nayem")
+        time.sleep(3)
 
     def output_raw(self, value: int) -> None:
         """
@@ -51,9 +53,10 @@ class PWM_Motors:
         
         if en_smoothing:
             self._smoothing(value)
-        
+            print(value)
         else:
             self.pca.PWMWrite(self.channel, value)
+            print(self.channel,value)
         
     def _smoothing(self, value: int) -> None:
         """

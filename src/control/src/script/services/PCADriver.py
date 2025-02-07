@@ -2,7 +2,6 @@
 from zope.interface import implementer
 from interface.PWMDriver import PWMDriver
 
-
 @implementer(PWMDriver)
 class PCA:
     __inst = None
@@ -30,7 +29,7 @@ class PCA:
                 self.pca = PCA9685(i2c, address=i2c_address)
                 self.pca.frequency = frequency
             except (RuntimeError, ImportError):
-                self.simulation_mode = True
+                self.simulation_mode = False
                 self.pca = type('DummyPCA', (), {'frequency': frequency})
 
     def _microsecondsToDutycycle(self, microseconds):
@@ -74,11 +73,6 @@ class PCA:
         if PCA.__inst is None:
             # added simulation_mode parameter
             PCA.__inst = PCA(simulation_mode=simulation_mode)
+            print(simulation_mode)
         return PCA.__inst
 
-
-if __name__ == "__main__":
-    # added simulation_mode parameter
-    driver = PCA.getInst(simulation_mode=True)
-    driver.PWMWrite(0, 1500)
-    driver.close()
