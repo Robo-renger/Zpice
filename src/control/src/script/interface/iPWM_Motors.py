@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from zope.interface import Interface
 
 class iPWM_Motors(Interface):

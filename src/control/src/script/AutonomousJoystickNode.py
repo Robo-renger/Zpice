@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 import random
-from control.src.script.helpers.AutonomousJoystick import AutonomousJoystickMock
+from helpers.AutonomousJoystick import AutonomousJoystickMock
 
 class AutonomousJoystickNode:
     def __init__(self):

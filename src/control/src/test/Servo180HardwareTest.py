@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 from script.Servo180 import Servo180
-from control.src.script.services.PCADriver import PCA
-from script.interface.PWMDriver import PWMDriver
+from services.PCADriver import PCA
+from interface.PWMDriver import PWMDriver
 import time
 
 class Servo180HardwareTest:

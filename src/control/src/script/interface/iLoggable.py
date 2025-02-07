@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from zope.interface import Interface
 from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import pyshine as ps
 from flask import Flask, send_from_directory
 
