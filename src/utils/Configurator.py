@@ -6,7 +6,7 @@ class Configurator():
     BUTTONS = "joystick_buttons"
     KEYBOARD_AXES = "keyboard_axes"
     KEYBOARD_BUTTONS = "keyboard_buttons"
-
+    CHANGEABLE_MODULES = "hardware_changeable_modueles"
     def __init__(self):
         self.__configFile = ''
     def __raiseTypeError(self,data_type):
@@ -24,6 +24,8 @@ class Configurator():
             self.__configFile = workspace_path + f'/../../config/{Configurator.KEYBOARD_AXES}.yaml'
         elif data_type == Configurator.KEYBOARD_BUTTONS:
             self.__configFile = workspace_path + f'/../../config/{Configurator.KEYBOARD_BUTTONS}.yaml'
+        elif data_type == Configurator.CHANGEABLE_MODULES:
+            self.__configFile = workspace_path + f'/../../config/{Configurator.CHANGEABLE_MODULES}.yaml'
         else: 
             self.__raiseTypeError(data_type)
     def fetchData(self,data_type):
