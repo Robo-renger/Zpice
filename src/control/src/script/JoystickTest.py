@@ -11,11 +11,11 @@ class JoystickTest:
         try:
             while not rospy.is_shutdown():
                 print(self.joystick.getAxis())
-                if self.joystick.isClicked("RIGHTGRIPPER"):
-                    rospy.loginfo("RIGHTGRIPPER button is clicked! TEST NODE TWO")
+                if self.joystick.isClicked("DCRIGHTGRIPPER_RIGHT"):
+                    rospy.loginfo("DCRIGHTGRIPPER_RIGHT button is clicked! TEST NODE TWO")
                 else:
-                    rospy.loginfo("RIGHTGRIPPER button is not clicked. TEST NODE TWO")
-                rospy.sleep(1)
+                    rospy.loginfo("DCRIGHTGRIPPER_RIGHT button is not clicked. TEST NODE TWO")
+                # rospy.sleep(0.3)
         finally:
             self.joystick.cleanup()
 

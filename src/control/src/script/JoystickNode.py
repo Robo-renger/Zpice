@@ -3,21 +3,27 @@ import rospy
 from control.msg import Joystick
 from services.Joystick import CJoystick
 import signal
+from multiprocessing.shared_memory import SharedMemory
+
 class JoystickNode:
     def __init__(self):
         rospy.init_node('joystick_node', anonymous=True)
-        self.joystick = CJoystick()
+        self.joystick = CJoystick(is_writer=True)
         signal.signal(signal.SIGINT, self.handle_exit)
         signal.signal(signal.SIGTERM, self.handle_exit)
 
     def handle_exit(self, signum, frame):
         rospy.loginfo(f"Received termination signal {signum}. Cleaning up shared memory.")
         self.joystick.cleanup()
+        try:
+            shm = SharedMemory(name="joystick_data")
+            shm.unlink()
+        except FileNotFoundError:
+            pass
         rospy.signal_shutdown("Node terminated.")  # Stop rospy.spin()
         
     def callback(self, data):
         # Extract button data (keys containing "button")
-        print(data)
         button_data = {key: getattr(data, key) for key in dir(data) if "button" in key}
 
         # Extract axis data (keys containing "axis")
