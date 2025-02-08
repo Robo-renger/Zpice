@@ -33,7 +33,7 @@ if __name__ == "__main__":
         if mode == "c":
             reset_pin = DigitalInOut(board.D5)
             imu = IMUNode(reset_pin, True)
-            imu.Calibrate()
+            imu.calibrate()
         else:
             imu = IMUNode()
             imu.enableFeature(bno.BNO_REPORT_ACCELEROMETER)

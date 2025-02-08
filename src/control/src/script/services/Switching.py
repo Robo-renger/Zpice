@@ -55,7 +55,7 @@ class Switching:
     
     def logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
         log = Log(logSeverity, msg, component_name)
-        self.json_file_handler.writeToFile(log.toDictionary())
+        self.json_file_handler.writeToFile(log)
         return log
     
     def logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
