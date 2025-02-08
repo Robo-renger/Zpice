@@ -13,17 +13,17 @@ class Servo360Node:
         self.servo = Servo360(channel, pca)
         self.up_button = up_button
         self.down_button = down_button
-        self.servo.setDelay(0.001)
+        self.servo.setDelay(0.0001)
 
     def run(self):
         try:
             while not rospy.is_shutdown():
                 if self.joystick.isClicked(self.up_button):
                     self.servo.goForward()
-                    rospy.loginfo("Going Up")
+                    rospy.loginfo(f"Going Up: {self.up_button}")
                 elif self.joystick.isClicked(self.down_button):
                     self.servo.goBackwards()
-                    rospy.loginfo("Going Down")
+                    rospy.loginfo(f"Going Down: {self.down_button}")
                 else:
                     self.servo.Stop()
                     rospy.loginfo("Stopping")    
@@ -34,7 +34,7 @@ class Servo360Node:
 
 if __name__ == "__main__":
     try:
-        servo = Servo360Node(8, PCA.getInst(), "SERVO_UP", "SERVO_DOWN")
+        servo = Servo360Node(6, PCA.getInst(), "SERVO_UP", "SERVO_DOWN")
         servo.run()
     except KeyboardInterrupt:
         rospy.loginfo("Exiting...")

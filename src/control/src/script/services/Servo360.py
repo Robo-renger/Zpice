@@ -15,9 +15,10 @@ class Servo360:
     def __init__(self, channel: int, pwm_driver: PWMDriver):
         self.__pwm_driver = pwm_driver
         self.__channel = channel
-        self.__forward_value = 1495
-        self.__stop_value = 1500
-        self.__backward_value = 1505
+        self.__forward_value = 1000
+        self.__stop_value = 1475
+        self.__backward_value = 2000
+        self.__delay = 0.0001
     
     def goForward(self) -> None:
         """
@@ -25,8 +26,9 @@ class Servo360:
         :param channel: the channel the servo is connected to.
         """
         self.__pwm_driver.PWMWrite(self.__channel, self.__forward_value)
-        time.sleep(self.__delay)
-        self.Stop()
+        # time.sleep(self.__delay)
+        # self.Stop()
+        # time.sleep(0.01)
         
     def goBackwards(self) -> None:
         """
@@ -34,8 +36,9 @@ class Servo360:
         :param channel: the channel the servo is connected to.
         """
         self.__pwm_driver.PWMWrite(self.__channel, self.__backward_value)
-        time.sleep(self.__delay)
-        self.Stop()
+        # time.sleep(self.__delay)
+        # self.Stop()
+        # time.sleep(0.01)
 
     def Stop(self) -> None:
         """

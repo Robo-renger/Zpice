@@ -6,7 +6,7 @@ import time
 
 @implementer(iDCMotor)
 class SinglePWMDCMotor:
-    def __init__(self, pca, channel, dir_pin, min_value=350, max_value=4095):
+    def __init__(self, pca, channel, dir_pin, min_value=350, max_value=19500):
         self.pca = pca
         self.channel = channel
         self.dir_pin = dir_pin
@@ -23,7 +23,7 @@ class SinglePWMDCMotor:
         Set the speed of the motor using a PWM signal.
         Speed is given as an 8-bit value (0-255).
         """
-        self.drive(4095)
+        self.drive(350)
         self.direction('f')
 
         
@@ -32,7 +32,7 @@ class SinglePWMDCMotor:
         Set the speed of the motor using a PWM signal.
         Speed is given as an 8-bit value (0-255).
         """
-        self.drive(4095)
+        self.drive(19500)
         self.direction('r')
 
 
@@ -67,6 +67,7 @@ class SinglePWMDCMotor:
         Stop the motor.
         """
         self.pca.PWMWrite(self.channel, 350)
+        GPIO.output(self.dir_pin, GPIO.LOW)
 
     def pcaHabal(self) -> None: 
         channels = [i for i in range(6, 16)]

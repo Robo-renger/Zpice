@@ -1,13 +1,15 @@
 [
     {
-        "severity": "INFO",
-        "message": "front_right set to 1300",
-        "component_name": "MockThruster",
-        "timestamp": "2025-02-05T21:19:06.614751"
-    },
-    {
-        "severity": "INFO",
-        "message": "front_left set to 1700",
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T19:00:02.895232"
+    }
+]
+    }
+]stamp": "2025-02-08T15:57:54.048011"
+    }
+]front_left set to 1700",
         "component_name": "MockThruster",
         "timestamp": "2025-02-05T21:19:06.615965"
     },
@@ -23410,5 +23412,11 @@
         "message": "Failed to deserialize data.",
         "component_name": "CJoystick",
         "timestamp": "2025-02-08T14:47:44.996965"
+    },
+    {
+        "severity": "INFO",
+        "message": "Shared memory created successfully.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T15:54:44.498264"
     }
-]
+]]

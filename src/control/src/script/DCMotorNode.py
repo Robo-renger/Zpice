@@ -9,6 +9,7 @@ from mock.PCAMock import PCAMock
 class DCNode:
     def __init__(self, pca, channel: int, gpio: int, forward_button: str, backward_button: str) -> None:
         rospy.init_node("dc_motor_node", anonymous=False)
+        self.pca = pca
         self.dc = SinglePWMDCMotor(pca, channel, gpio)
         self.joystick = CJoystick()
         self.forward_button = forward_button
@@ -19,11 +20,10 @@ class DCNode:
             while not rospy.is_shutdown():
                 if self.joystick.isClicked(self.forward_button):
                     self.dc.driveForward()
-                    # self.dc.pcaHabal()
-                    rospy.loginfo("Going Forward")
+                    rospy.loginfo(f"Going Forward: {self.forward_button}")
                 elif self.joystick.isClicked(self.backward_button):
                     self.dc.driveBackward()
-                    rospy.loginfo("Going Backward")
+                    rospy.loginfo(f"Going Backwards: {self.backward_button}")
                 else:
                     self.dc.stop()
                     rospy.loginfo("Stopping")
@@ -34,7 +34,7 @@ class DCNode:
 
 if __name__ == "__main__":
     try:
-        left_gripper = DCNode(PCAMock.getInst(), 11, 8, "DCLEFTGRIPPER_LEFT", "DCLEFTGRIPPER_RIGHT")
+        left_gripper = DCNode(PCA.getInst(), 11, 8, "DCLEFTGRIPPER_LEFT", "DCLEFTGRIPPER_RIGHT")
         left_gripper.run()
     except KeyboardInterrupt:
         rospy.loginfo("Exiting...")
