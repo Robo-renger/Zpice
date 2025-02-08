@@ -20146,5 +20146,287 @@
         "message": "Failed to deserialize data.",
         "component_name": "CJoystick",
         "timestamp": "2025-02-08T03:01:29.259008"
+    },
+    {
+        "severity": "INFO",
+        "message": "Shared memory created successfully.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:07.636072"
+    },
+    {
+        "severity": "INFO",
+        "message": "Shared memory attached successfully.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:51.839458"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:52.296182"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:52.456289"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:52.635209"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:52.795401"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:52.959287"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:53.117556"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:53.277352"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:53.458566"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:53.619244"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:53.764627"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:53.911133"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:54.055912"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:54.203349"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:54.346205"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:54.491835"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:54.635007"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:54.784680"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:54.931685"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:55.079857"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:55.224327"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:55.379020"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:55.533899"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:55.693894"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:55.850928"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:56.015109"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:56.174627"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:56.320782"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:56.466085"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:56.614389"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:56.761083"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:56.909659"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:57.056522"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:57.205560"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:57.350093"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:57.499303"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:57.645219"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:57.795897"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:57.942112"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:58.090804"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:58.236622"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:58.385464"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:58.533165"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:58.682373"
+    },
+    {
+        "severity": "ERROR",
+        "message": "Failed to deserialize data.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:08:58.831625"
+    },
+    {
+        "severity": "INFO",
+        "message": "Shared memory created successfully.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-02-08T11:31:33.250681"
     }
 ]
