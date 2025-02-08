@@ -1,36 +1,43 @@
 #!/usr/bin/env python3
 from zope.interface import implementer
 from interface.PWMDriver import PWMDriver
+from utils.EnvParams import EnvParams
+import board
+import busio
+from adafruit_pca9685 import PCA9685
+from DTOs.Log import Log
+from DTOs.LogSeverity import LogSeverity
+from script.LogPublisherNode import LogPublisherNode
+from helpers.JsonFileHandler import JsonFileHandler
 
 @implementer(PWMDriver)
 class PCA:
     __inst = None
 
-    def __init__(self, i2c_address=0x40, frequency=50, simulation_mode=False):
-        self.simulation_mode = simulation_mode
+    def __init__(self, i2c_address=0x40, frequency=50):
+        self.__simulation_mode =  EnvParams().ENVIRONMENT == "SIMULATION"
         self.__initializePCA(i2c_address, frequency)
         self.frequency = frequency
+        self.log_publisher = LogPublisherNode()
+        self.json_file_handler = JsonFileHandler()
 
     def __initializePCA(self, i2c_address, frequency):
         """
         Initialize the PCA9685 driver.
         """
-        if self.simulation_mode:
+        if self.__simulation_mode:
             print("Running in simulation mode. PCA9685 not initialized.")
             self.pca = type('DummyPCA', (), {
                 'frequency': frequency})
         else:
             try:
-                import board
-                import busio
-                from adafruit_pca9685 import PCA9685
                 self.board_avaliable = True
                 i2c = busio.I2C(board.SCL, board.SDA)
                 self.pca = PCA9685(i2c, address=i2c_address)
                 self.pca.frequency = frequency
             except (RuntimeError, ImportError):
-                self.simulation_mode = False
-                self.pca = type('DummyPCA', (), {'frequency': frequency})
+                self.__logToFile(LogSeverity.ERROR,"Couldnt find PCA on i2c bus, while Environemnt is not set to 'SIMULATION'")
+                self.__logToGUI(LogSeverity.ERROR,"Couldnt find PCA on i2c bus, while Environemnt is not set to 'SIMULATION'")
 
     def _microsecondsToDutycycle(self, microseconds):
         """
@@ -48,7 +55,7 @@ class PCA:
         if not 0 <= channel <= 15:
             raise ValueError("Channel must be between 0 and 15.")
 
-        if self.simulation_mode:
+        if self.__simulation_mode:
             print(
                 f"[Simulation Mode] Setting channel {channel} to {microseconds} microseconds.")
         else:
@@ -66,13 +73,22 @@ class PCA:
         self.pca.deinit()
 
     @staticmethod
-    def getInst(simulation_mode=False):
+    def getInst():
         """
         Get or create the singleton instance.
         """
         if PCA.__inst is None:
             # added simulation_mode parameter
-            PCA.__inst = PCA(simulation_mode=simulation_mode)
-            print(simulation_mode)
+            PCA.__inst = PCA()
         return PCA.__inst
-
+    
+    
+    def __logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
+        log = Log(logSeverity, msg, component_name)
+        self.json_file_handler.writeToFile(log)
+        return log
+    
+    def __logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
+        log = Log(logSeverity, msg, component_name)
+        self.log_publisher.publish(logSeverity.value, msg, component_name) 
+        return log
