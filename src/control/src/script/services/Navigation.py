@@ -17,12 +17,12 @@ class Navigation:
     Static class for ROV navigation.
     """
     _thrusters = {
-        "front_right": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 1),
-        "front_left": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 5),
+        "front_right": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 5),
+        "front_left": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 1),
         "back_left": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 4),
-        "back_right": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 2),
-        "front": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 0),
-        "back": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 3),
+        "back_right": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 0),
+        "front": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 3),
+        "back": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 2),
     }
 
     @staticmethod
@@ -76,9 +76,9 @@ class Navigation:
                 "front": 1500,
                 "back": 1500,
                 "front_right": pwm_value_reverse,
-                "front_left": pwm_value_forward,
+                "front_left": pwm_value_reverse,
                 "back_right": pwm_value_reverse,
-                "back_left": pwm_value_forward,
+                "back_left": pwm_value_reverse,
             })
         except ValueError as e:
             print(f"Error: {e}")
@@ -96,9 +96,9 @@ class Navigation:
                 "front": 1500,
                 "back": 1500,
                 "front_right": pwm_value_forward,
-                "front_left": pwm_value_reverse,
+                "front_left": pwm_value_forward,
                 "back_right": pwm_value_forward,
-                "back_left": pwm_value_reverse,
+                "back_left": pwm_value_forward,
             })
         except ValueError as e:
             print(f"Error: {e}")
@@ -117,9 +117,9 @@ class Navigation:
                 "front": 1500,
                 "back": 1500,
                 "front_right": pwm_value_forward,
-                "front_left": pwm_value_forward,
+                "front_left": pwm_value_reverse,
                 "back_right": pwm_value_reverse,
-                "back_left": pwm_value_reverse,
+                "back_left": pwm_value_forward,
             })
         except ValueError as e:
             print(f"Error: {e}")
@@ -137,9 +137,9 @@ class Navigation:
                 "front": 1500,
                 "back": 1500,
                 "front_right": pwm_value_reverse,
-                "front_left": pwm_value_reverse,
+                "front_left": pwm_value_forward,
                 "back_right": pwm_value_forward,
-                "back_left": pwm_value_forward,
+                "back_left": pwm_value_reverse,
             })
         except ValueError as e:
             print(f"Error: {e}")
@@ -157,9 +157,9 @@ class Navigation:
                 "front": 1500,
                 "back": 1500,
                 "front_right": pwm_value_reverse,
-                "front_left": pwm_value_forward,
+                "front_left": pwm_value_reverse,
                 "back_right": pwm_value_forward,
-                "back_left": pwm_value_reverse,
+                "back_left": pwm_value_forward,
             })
         except ValueError as e:
             print(f"Error: {e}")
@@ -177,9 +177,9 @@ class Navigation:
                 "front": 1500,
                 "back": 1500,
                 "front_right": pwm_value_forward,
-                "front_left": pwm_value_reverse,
+                "front_left": pwm_value_forward,
                 "back_right": pwm_value_reverse,
-                "back_left": pwm_value_forward,
+                "back_left": pwm_value_reverse,
             })
         except ValueError as e:
             print(f"Error: {e}")

@@ -9,7 +9,7 @@ class Servo360HardwareTest:
     def __init__(self, channel: int, pwm_driver: PWMDriver):
         self.servo360 = Servo360(channel, pwm_driver) 
 
-    def test_go_forward(self):
+    def test_go_forward(self, delay):
         while True:
             delay = input("Enter delay in seconds (or 'c' to change motion): ").strip()
             if delay.lower() == 'c':

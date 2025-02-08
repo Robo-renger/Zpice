@@ -26,7 +26,7 @@ class SwitchingNode:
 
 if __name__ == "__main__":
     try:
-        flash = SwitchingNode(12, "FLASH")
+        flash = SwitchingNode(26, "FLASH")
         flash.switch()
     except KeyboardInterrupt:
         rospy.loginfo("Exiting...")

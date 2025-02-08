@@ -34,7 +34,7 @@ class Servo360Node:
 
 if __name__ == "__main__":
     try:
-        servo = Servo360Node(9, PCA.getInst(), "SERVO_UP", "SERVO_DOWN")
+        servo = Servo360Node(8, PCA.getInst(), "SERVO_UP", "SERVO_DOWN")
         servo.run()
     except KeyboardInterrupt:
         rospy.loginfo("Exiting...")
