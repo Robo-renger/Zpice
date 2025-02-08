@@ -16,7 +16,7 @@ class Servo360HardwareTest:
                 break
             else:
                 delay = float(delay)
-                self.servo360.setValues(delay=delay)
+                self.servo360.setDelay(delay=delay)
                 self.servo360.goForward()
 
     def test_go_backward(self):
@@ -26,7 +26,7 @@ class Servo360HardwareTest:
                 break
             else:
                 delay = float(delay)
-                self.servo360.setValues(delay=delay)
+                self.servo360.setDelay(delay=delay)
                 self.servo360.goBackwards()
 
     def test_stop(self):
