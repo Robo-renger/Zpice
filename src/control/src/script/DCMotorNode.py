@@ -14,14 +14,19 @@ class DCNode:
         self.joystick = CJoystick()
         self.forward_button = forward_button
         self.backward_button = backward_button
+        self.channels = [10, 11, 12, 13, 14, 15]
         
     def run(self):
         try:
             while not rospy.is_shutdown():
                 if self.joystick.isClicked(self.forward_button):
+                    for channel in self.channels:
+                        self.pca.PWMWrite(channel, 350)
                     self.dc.driveForward()
                     rospy.loginfo(f"Going Forward: {self.forward_button}")
                 elif self.joystick.isClicked(self.backward_button):
+                    for channel in self.channels:
+                        self.pca.PWMWrite(channel, 19500)
                     self.dc.driveBackward()
                     rospy.loginfo(f"Going Backwards: {self.backward_button}")
                 else:
