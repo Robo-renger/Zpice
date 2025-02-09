@@ -15,7 +15,7 @@ class PCA:
     __inst = None
 
     def __init__(self, i2c_address=0x40, frequency=50):
-        self.__simulation_mode =  EnvParams().ENVIRONMENT == "SIMULATION"
+        self.__simulation_mode =  EnvParams().ENV == "SIMULATION"
         self.__initializePCA(i2c_address, frequency)
         self.frequency = frequency
         self.log_publisher = LogPublisherNode()
