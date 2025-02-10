@@ -5,10 +5,8 @@ from utils.EnvParams import EnvParams
 import board
 import busio
 from adafruit_pca9685 import PCA9685
-from DTOs.Log import Log
+from services.Logger import Logger
 from DTOs.LogSeverity import LogSeverity
-from script.LogPublisherNode import LogPublisherNode
-from helpers.JsonFileHandler import JsonFileHandler
 
 @implementer(PWMDriver)
 class PCA:
@@ -18,8 +16,6 @@ class PCA:
         self.__simulation_mode =  EnvParams().ENV == "SIMULATION"
         self.__initializePCA(i2c_address, frequency)
         self.frequency = frequency
-        self.log_publisher = LogPublisherNode()
-        self.json_file_handler = JsonFileHandler()
 
     def __initializePCA(self, i2c_address, frequency):
         """
@@ -40,8 +36,8 @@ class PCA:
                 self.pca = PCA9685(i2c, address=i2c_address)
                 self.pca.frequency = frequency
             except (RuntimeError, ImportError):
-                self.__logToFile(LogSeverity.ERROR,"Couldnt find PCA on i2c bus, while Environemnt is not set to 'SIMULATION'")
-                self.__logToGUI(LogSeverity.ERROR,"Couldnt find PCA on i2c bus, while Environemnt is not set to 'SIMULATION'")
+                Logger.logToFile(LogSeverity.ERROR,"Couldnt find PCA on i2c bus, while Environemnt is not set to 'SIMULATION'")
+                Logger.logToGUI(LogSeverity.ERROR,"Couldnt find PCA on i2c bus, while Environemnt is not set to 'SIMULATION'")
 
     def _microsecondsToDutycycle(self, microseconds):
         """
@@ -60,8 +56,8 @@ class PCA:
         """
 
         if not 0 <= channel <= 15:
-            self.logToFile(LogSeverity.ERROR, "Channel must be between 0 and 15.", "PCA9685")
-            self.logToGUI(LogSeverity.ERROR, "Channel must be between 0 and 15.", "PCA9685")
+            Logger.logToFile(LogSeverity.ERROR, "Channel must be between 0 and 15.", "PCA9685")
+            Logger.logToGUI(LogSeverity.ERROR, "Channel must be between 0 and 15.", "PCA9685")
             raise ValueError("Channel must be between 0 and 15.")
 
         if self.__simulation_mode:
@@ -90,14 +86,3 @@ class PCA:
             # added simulation_mode parameter
             PCA.__inst = PCA()
         return PCA.__inst
-    
-    
-    def __logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
-        log = Log(logSeverity, msg, component_name)
-        self.json_file_handler.writeToFile(log)
-        return log
-    
-    def __logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
-        log = Log(logSeverity, msg, component_name)
-        self.log_publisher.publish(logSeverity.value, msg, component_name) 
-        return log

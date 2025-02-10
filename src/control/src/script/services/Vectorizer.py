@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 import math
 from helpers.PWMMapper import PWMMapper
+from services.Logger import Logger
+from DTOs.LogSeverity import LogSeverity
 
 class Vectorizer:
     """
     Static class for ROV Vectorization.
+    
     :param: yaw_only (bool): If True, yaw is active only when x and y are zero. If False, yaw is always active.
     """
     yaw_only = True
@@ -87,19 +90,21 @@ class Vectorizer:
         # Convert normalized speeds to PWM
         try:
             pwm_signals = {
-                f"t{i+1}": PWMMapper.joystickToPWM(speed)
+                f"t{i+1}": PWMMapper.axesToPWM(speed)
                 for i, speed in enumerate(thruster_speeds)
             }
+
+            thrusters = {
+                "front_right": pwm_signals["t1"],
+                "front_left": pwm_signals["t2"],
+                "back_left": pwm_signals["t3"],
+                "back_right": pwm_signals["t4"],
+                "front": pwm_signals["t5"],
+                "back": pwm_signals["t6"]
+            }
+
+            return thrusters
+        
         except ValueError as e:
-            print(f"Error: {e}")
-
-        thrusters = {
-            "front_right": pwm_signals["t1"],
-            "front_left": pwm_signals["t2"],
-            "back_left": pwm_signals["t3"],
-            "back_right": pwm_signals["t4"],
-            "front": pwm_signals["t5"],
-            "back": pwm_signals["t6"]
-        }
-
-        return thrusters
+            Logger.logToFile(LogSeverity.ERROR, f"{e}", "Vectorizer")
+            Logger.logToGUI(LogSeverity.ERROR, f"{e}", "Vectorizer")

@@ -2,16 +2,11 @@
 import time
 from serial import Serial
 from adafruit_bno08x_rvc import BNO08x_RVC, RVCReadTimeoutError
-from zope.interface import implementer
-from interface.iLoggable import iLoggable
 from exceptions.SensorReadError import SensorReadError
 from exceptions.SensorInitializationError import SensorInitializationError
-from DTOs.Log import Log
+from services.Logger import Logger
 from DTOs.LogSeverity import LogSeverity
-from helpers.JsonFileHandler import JsonFileHandler
-from script.LogPublisherNode import LogPublisherNode
 
-@implementer(iLoggable)
 class BNO085RVC:
     def __init__(self, path: str, baudrate: int = 115200):
         """
@@ -21,14 +16,12 @@ class BNO085RVC:
         Raises:
             SensorInitializationError: If the UART connection fails to initialize.
         """
-        self.json_file_handler = JsonFileHandler()
-        self.log_publisher = LogPublisherNode()
         try:
             self.uart = Serial(path, baudrate)
             self.rvc = BNO08x_RVC(self.uart)
         except Exception as e:
-            self.logToFile(LogSeverity.ERROR, f"Failed to initialize BNO085RVC sensor: {str(e)}", "BNO085RVC")
-            self.logToGUI(LogSeverity.ERROR, f"Failed to initialize BNO085RVC sensor: {str(e)}", "BNO085RVC")
+            Logger.logToFile(LogSeverity.ERROR, f"Failed to initialize BNO085RVC sensor: {str(e)}", "BNO085RVC")
+            Logger.logToGUI(LogSeverity.ERROR, f"Failed to initialize BNO085RVC sensor: {str(e)}", "BNO085RVC")
             raise SensorInitializationError(f"Failed to initialize BNO085RVC sensor: {str(e)}")
 
     def getReadings(self) -> tuple:
@@ -42,12 +35,12 @@ class BNO085RVC:
             yaw, pitch, roll, x_accel, y_accel, z_accel = self.rvc.heading
             return yaw, pitch, roll, x_accel, y_accel, z_accel
         except RVCReadTimeoutError as e:
-            self.logToFile(LogSeverity.ERROR, f"Failed to read sensor data: {str(e)}", "BNO085RVC")
-            self.logToGUI(LogSeverity.ERROR, f"Failed to read sensor data: {str(e)}", "BNO085RVC")
+            Logger.logToFile(LogSeverity.ERROR, f"Failed to read sensor data: {str(e)}", "BNO085RVC")
+            Logger.logToGUI(LogSeverity.ERROR, f"Failed to read sensor data: {str(e)}", "BNO085RVC")
             raise SensorReadError(f"Failed to read sensor data: {str(e)}")
         except Exception as e:
-            self.logToFile(LogSeverity.ERROR, f"Unexpected error while reading sensor data: {str(e)}", "BNO085RVC")
-            self.logToGUI(LogSeverity.ERROR, f"Unexpected error while reading sensor data: {str(e)}", "BNO085RVC")
+            Logger.logToFile(LogSeverity.ERROR, f"Unexpected error while reading sensor data: {str(e)}", "BNO085RVC")
+            Logger.logToGUI(LogSeverity.ERROR, f"Unexpected error while reading sensor data: {str(e)}", "BNO085RVC")
             raise SensorReadError(f"Unexpected error while reading sensor data: {str(e)}")
 
     def close(self) -> None:
@@ -56,17 +49,7 @@ class BNO085RVC:
         """
         if self.uart:
             self.uart.close()
-
-    def logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
-        log = Log(logSeverity, msg, component_name)
-        self.json_file_handler.writeToFile(log)
-        return log
-    
-    def logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
-        log = Log(logSeverity, msg, component_name)
-        self.log_publisher.publish(logSeverity.value, msg, component_name)
-        return log
-
+            
 if __name__ == "__main__":
     try:
         imu = BNO085RVC("/dev/serial0", 115200)

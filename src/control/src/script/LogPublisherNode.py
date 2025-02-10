@@ -9,6 +9,11 @@ class LogPublisherNode:
     def publish(self, severity: str, message: str, component_name: str) -> None:
         """
         Publishes a log to the /logs topic.
+
+        Parameters:
+            severity (str): Severity of the log.
+            message (str): the Message to log.
+            component_name (str): The name of the component that generated the log.
         """
         log_msg = f"[{severity}]: {message} => {component_name}"
         self.log_pub.publish(log_msg)

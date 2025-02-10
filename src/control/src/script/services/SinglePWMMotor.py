@@ -2,6 +2,8 @@
 from zope.interface import implementer
 from interface.iDCMotor import iDCMotor
 import RPi.GPIO as GPIO
+from services.Logger import Logger
+from DTOs.LogSeverity import LogSeverity
 import time
 
 @implementer(iDCMotor)
@@ -41,6 +43,8 @@ class SinglePWMDCMotor:
         Set speed based on the current direction.
         """
         if speed < self.min_value or speed > self.max_value:
+            Logger.logToFile(LogSeverity.ERROR, f"Value must be between {self.min_value} and {self.max_value}.", "SinglePWMMotor")
+            Logger.logToGUI(LogSeverity.ERROR, f"Value must be between {self.min_value} and {self.max_value}.", "SinglePWMMotor")
             raise ValueError(f"Value must be between {self.min_value} and {self.max_value}.")
         
         self.pca.PWMWrite(self.channel, speed)
@@ -52,6 +56,8 @@ class SinglePWMDCMotor:
         Parameters: direction --> 'f' for forward, 'r' for reverse
         """
         if direction not in ["f", "r"]:
+            Logger.logToFile(LogSeverity.ERROR, "Invalid direction. Use 'f' for forward or 'r' for reverse.", "SinglePWMMotor")
+            Logger.logToGUI(LogSeverity.ERROR, "Invalid direction. Use 'f' for forward or 'r' for reverse.", "SinglePWMMotor")
             raise ValueError("Invalid direction. Use 'f' for forward or 'r' for reverse.")
 
         if direction == "f":

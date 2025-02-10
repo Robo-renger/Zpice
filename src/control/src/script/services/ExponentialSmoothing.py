@@ -7,13 +7,16 @@ from zope.interface import implementer
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from interface.ISmoothingStrategy import ISmoothingStrategy
-
+from services.Logger import Logger
+from DTOs.LogSeverity import LogSeverity
 
 @implementer(ISmoothingStrategy)
 class ExponentialSmoothing:
     def __init__(self, alpha: float = 0.1):
 
         if not (0 < alpha < 1):
+            Logger.logToFile(LogSeverity.ERROR, "Alpha must be between 0 and 1.", "ExponentialSmoothing")
+            Logger.logToGUI(LogSeverity.ERROR, "Alpha must be between 0 and 1.", "ExponentialSmoothing")
             raise ValueError("Alpha must be between 0 and 1.")
         self.alpha = alpha
 
