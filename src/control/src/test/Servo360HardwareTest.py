@@ -10,24 +10,24 @@ class Servo360HardwareTest:
         self.servo360 = Servo360(channel, pwm_driver) 
 
     def test_go_forward(self):
-        while True:
-            delay = input("Enter delay in seconds (or 'c' to change motion): ").strip()
-            if delay.lower() == 'c':
-                break
-            else:
-                delay = float(delay)
-                self.servo360.setValues(delay=delay)
-                self.servo360.goForward()
+        # while True:
+        #     delay = input("Enter delay in seconds (or 'c' to change motion): ").strip()
+        #     if delay.lower() == 'c':
+        #         break
+        #     else:
+        #         delay = float(delay)
+        #         self.servo360.setDelay(value=delay)
+        self.servo360.goForward()
 
     def test_go_backward(self):
-        while True:
-            delay = input("Enter delay in seconds (or 'c' to change motion): ").strip()
-            if delay.lower() == 'c':
-                break
-            else:
-                delay = float(delay)
-                self.servo360.setValues(delay=delay)
-                self.servo360.goBackwards()
+        # while True:
+        #     delay = input("Enter delay in seconds (or 'c' to change motion): ").strip()
+        #     if delay.lower() == 'c':
+        #         break
+        #     else:
+        #         delay = float(delay)
+        #         self.servo360.setDelay(value=delay)
+        self.servo360.goBackwards()
 
     def test_stop(self):
         self.servo360.Stop()

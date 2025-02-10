@@ -8,67 +8,21 @@ from zope.interface import implementer
 from helpers.JsonFileHandler import JsonFileHandler
 from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
-from nodes.LogPublisherNode import LogPublisherNode
+from script.LogPublisherNode import LogPublisherNode
 
 @implementer(iLoggable)
-class MockThruster:
-
-    def __init__(self, pca, channel):
-        self.pca = pca
-        self.channel = channel
-        self.last_pwm = None
-        self.thrusters = {
-            0 : "front",
-            1 : "front_right",
-            2 : "back_right",
-            3 : "back",
-            4 : "back_left",
-            5 : "front_left",
-        }
-        self.json_handler = JsonFileHandler()
-        self.log_publisher = LogPublisherNode()
-
-    def drive(self, pwm_value):
-        self.last_pwm = pwm_value
-        self.logToFile(LogSeverity.INFO, f"{self.thrusters.get(self.channel)} set to {pwm_value}", "MockThruster")
-        self.logToGUI(LogSeverity.INFO, f"{self.thrusters.get(self.channel)} set to {pwm_value}", "MockThruster")
-        print(f"{self.thrusters.get(self.channel)} set to {pwm_value}")
-        # self.json_handler.downloadFile("192.168.220.62", "root", "", self.json_handler.file_path, "")
-
-    def stop(self):
-        self.last_pwm = 1500 
-        print(f"Thruster on channel {self.channel} stopped (set to {self.last_pwm})")
-
-    def logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
-        log = Log(logSeverity, msg, component_name)
-        self.json_handler.writeToFile(log)
-        return log
-
-    def logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
-        log = Log(logSeverity, msg, component_name)
-        self.log_publisher.publish(logSeverity.value, msg, component_name)
-        return log
 
 class Navigation:
     """
     Static class for ROV navigation.
     """
-    # _thrusters = {
-    #     "front_right": Thruster(pca=PCA.getInst(simulation_mode = True), channel = 1),
-    #     "front_left": Thruster(pca=PCA.getInst(simulation_mode = True), channel = 5),
-    #     "back_left": Thruster(pca=PCA.getInst(simulation_mode = True), channel = 4),
-    #     "back_right": Thruster(pca=PCA.getInst(simulation_mode = True), channel = 2),
-    #     "front": Thruster(pca=PCA.getInst(simulation_mode = True), channel = 0),
-    #     "back": Thruster(pca=PCA.getInst(simulation_mode = True), channel = 3),
-    # }
-
     _thrusters = {
-        "front_right": MockThruster(pca=None, channel=1),
-        "front_left": MockThruster(pca=None, channel=5),
-        "back_left": MockThruster(pca=None, channel=4),
-        "back_right": MockThruster(pca=None, channel=2),
-        "front": MockThruster(pca=None, channel=0),
-        "back": MockThruster(pca=None, channel=3),
+        "front_right": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 5),
+        "front_left": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 1),
+        "back_left": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 4),
+        "back_right": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 0),
+        "front": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 3),
+        "back": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 2),
     }
 
     @staticmethod
@@ -122,9 +76,9 @@ class Navigation:
                 "front": 1500,
                 "back": 1500,
                 "front_right": pwm_value_reverse,
-                "front_left": pwm_value_forward,
+                "front_left": pwm_value_reverse,
                 "back_right": pwm_value_reverse,
-                "back_left": pwm_value_forward,
+                "back_left": pwm_value_reverse,
             })
         except ValueError as e:
             print(f"Error: {e}")
@@ -142,9 +96,9 @@ class Navigation:
                 "front": 1500,
                 "back": 1500,
                 "front_right": pwm_value_forward,
-                "front_left": pwm_value_reverse,
+                "front_left": pwm_value_forward,
                 "back_right": pwm_value_forward,
-                "back_left": pwm_value_reverse,
+                "back_left": pwm_value_forward,
             })
         except ValueError as e:
             print(f"Error: {e}")
@@ -158,13 +112,14 @@ class Navigation:
         try:
             pwm_value_forward = PWMMapper.percentageToPWM(value, reverse=False)
             pwm_value_reverse = PWMMapper.percentageToPWM(value, reverse=True)
+            
             Navigation._applyThrusts({
                 "front": 1500,
                 "back": 1500,
                 "front_right": pwm_value_forward,
-                "front_left": pwm_value_forward,
+                "front_left": pwm_value_reverse,
                 "back_right": pwm_value_reverse,
-                "back_left": pwm_value_reverse,
+                "back_left": pwm_value_forward,
             })
         except ValueError as e:
             print(f"Error: {e}")
@@ -182,9 +137,9 @@ class Navigation:
                 "front": 1500,
                 "back": 1500,
                 "front_right": pwm_value_reverse,
-                "front_left": pwm_value_reverse,
+                "front_left": pwm_value_forward,
                 "back_right": pwm_value_forward,
-                "back_left": pwm_value_forward,
+                "back_left": pwm_value_reverse,
             })
         except ValueError as e:
             print(f"Error: {e}")
@@ -202,9 +157,9 @@ class Navigation:
                 "front": 1500,
                 "back": 1500,
                 "front_right": pwm_value_reverse,
-                "front_left": pwm_value_forward,
+                "front_left": pwm_value_reverse,
                 "back_right": pwm_value_forward,
-                "back_left": pwm_value_reverse,
+                "back_left": pwm_value_forward,
             })
         except ValueError as e:
             print(f"Error: {e}")
@@ -222,9 +177,9 @@ class Navigation:
                 "front": 1500,
                 "back": 1500,
                 "front_right": pwm_value_forward,
-                "front_left": pwm_value_reverse,
+                "front_left": pwm_value_forward,
                 "back_right": pwm_value_reverse,
-                "back_left": pwm_value_forward,
+                "back_left": pwm_value_reverse,
             })
         except ValueError as e:
             print(f"Error: {e}")
