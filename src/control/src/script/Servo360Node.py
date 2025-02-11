@@ -20,13 +20,10 @@ class Servo360Node:
             while not rospy.is_shutdown():
                 if self.joystick.isClicked(self.up_button):
                     self.servo.goForward()
-                    rospy.loginfo(f"Going Up: {self.up_button}")
                 elif self.joystick.isClicked(self.down_button):
                     self.servo.goBackwards()
-                    rospy.loginfo(f"Going Down: {self.down_button}")
                 else:
-                    self.servo.Stop()
-                    rospy.loginfo("Stopping")    
+                    self.servo.Stop()    
         except Exception as e:
             rospy.logerr(f"Error in Servo360Node: {e}")
         finally:

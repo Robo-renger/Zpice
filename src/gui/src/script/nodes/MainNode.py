@@ -8,7 +8,7 @@ from services.CameraStreamer import CameraStreamer
 from services.GUIPresistence import GUIPresistence
 import subprocess
 from utils.EnvParams import EnvParams
-
+import time
 class CameraStreamerNode:
     def __init__(self):
         rospy.init_node('cameras_streamer', anonymous=False)
@@ -28,6 +28,8 @@ class CameraStreamerNode:
             cameraStreamer.setFPS(details['fps'])
             cameraStreamer.setFrameSize(details['width'], details['height'])
             cameraStreamer.stream(details['port'])
+            cameraStreamer.capture.release()
+
 
 
     def stopAllStreams(self):
@@ -38,9 +40,14 @@ class CameraStreamerNode:
     def main(self):
         self.runStreams()
         # command = f'mjpg-streamer -o "output_http.so -p 8080 -w /home/mypi/Zpice/src/gui/src"'
-        command = f'mjpg_streamer -o "output_http.so -p 8080 -w {EnvParams().WEB_INDEX_LOCATION}"'
+        command = f'mjpg_streamer -o "output_http.so -p 8080 -w {EnvParams().WEB_INDEX_LOCATION}" &'
         subprocess.run(command, shell=True)
-        rospy.spin()
+        time.sleep(10)
+        print("released")
+        # print(self.cameraStreamers[0].cameraIndex)
+        self.cameraStreamers[0].capture.release()
+        # self.stopAllStreams()
+        # rospy.spin()
 
 def signal_handler(sig, frame):
     print("\nCtrl+C detected. Stopping streaming...")

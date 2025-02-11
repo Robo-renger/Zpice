@@ -23,15 +23,12 @@ class DCNode:
                     for channel in self.channels:
                         self.pca.PWMWrite(channel, 350)
                     self.dc.driveForward()
-                    rospy.loginfo(f"Going Forward: {self.forward_button}")
                 elif self.joystick.isClicked(self.backward_button):
                     for channel in self.channels:
                         self.pca.PWMWrite(channel, 19500)
                     self.dc.driveBackward()
-                    rospy.loginfo(f"Going Backwards: {self.backward_button}")
                 else:
                     self.dc.stop()
-                    rospy.loginfo("Stopping")
         except Exception as e:
             rospy.logerr(f"Error in DCNode: {e}")
         finally:

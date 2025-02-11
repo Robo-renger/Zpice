@@ -16,9 +16,6 @@ class SwitchingNode:
             while not rospy.is_shutdown():
                 if self.joystick.isClicked(self.button_name):
                     self.switching.toggle()
-                    rospy.loginfo(f"{self.button_name.lower()} button is clicked! TEST NODE TWO")
-                else:
-                    rospy.loginfo(f"{self.button_name.lower()} button is not clicked. TEST NODE TWO")
         except Exception as e:
             rospy.logerr(f"Error in Swtiching Node: {e}")
         finally:

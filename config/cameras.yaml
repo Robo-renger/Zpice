@@ -1,15 +1,15 @@
-camera1:
-  index: '/home/mypi/Zpice/src/gui/src/guiContent/test.mp4'
-  width: 640
-  height: 480
-  fps: 20
-  port: 8081
-# camera2:
-#   index: '/dev/right_camera'
+# camera1:
+#   index: '/dev/left_camera'
 #   width: 640
 #   height: 480
-#   fps: 30
-#   port: 8082
+#   fps: 20
+#   port: 8081
+camera2:
+  index: '/dev/right_camera'
+  width: 640
+  height: 480
+  fps: 30
+  port: 8082
 # camera3:
 #   index: '/dev/rapoo_camera'
 #   width: 1280

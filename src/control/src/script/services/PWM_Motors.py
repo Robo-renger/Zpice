@@ -21,7 +21,7 @@ class PWM_Motors:
         self.log_publisher = LogPublisherNode()
         
         self.stop() # Initialize the motor by 1500 value
-        print("ana nayem")
+        # print("ana nayem")
         time.sleep(3)
 
     def output_raw(self, value: int) -> None:

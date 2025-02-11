@@ -17,12 +17,12 @@ class Navigation:
     Static class for ROV navigation.
     """
     _thrusters = {
-        "front_right": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 5),
-        "front_left": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 1),
-        "back_left": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 4),
-        "back_right": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 0),
-        "front": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 3),
-        "back": Thruster(pca=PCA.getInst(simulation_mode = False), channel = 2),
+        "front_right": Thruster(pca=PCA.getInst(), channel = 5),
+        "front_left": Thruster(pca=PCA.getInst(), channel = 1),
+        "back_left": Thruster(pca=PCA.getInst(), channel = 4),
+        "back_right": Thruster(pca=PCA.getInst(), channel = 0),
+        "front": Thruster(pca=PCA.getInst(), channel = 3),
+        "back": Thruster(pca=PCA.getInst(), channel = 2),
     }
 
     @staticmethod
