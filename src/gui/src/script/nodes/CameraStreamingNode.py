@@ -6,9 +6,7 @@ import sys
 from utils.Configurator import Configurator
 from services.CameraStreamer import CameraStreamer
 from services.GUIPresistence import GUIPresistence
-import subprocess
-from utils.EnvParams import EnvParams
-
+import time
 class CameraStreamerNode:
     def __init__(self):
         rospy.init_node('cameras_streamer', anonymous=False)
@@ -32,7 +30,7 @@ class CameraStreamerNode:
 
     def stopAllStreams(self):
         for cameraStreamer in self.cameraStreamers:
-            cameraStreamer.closeStream()
+            cameraStreamer.releaseCapture()
         rospy.logwarn("All streams terminated")
 
     def main(self):

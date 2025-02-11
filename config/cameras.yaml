@@ -4,6 +4,12 @@ camera1:
   height: 480
   fps: 20
   port: 8081
+camera2:
+  index: '/home/ziad/zpice_ws/src/gui/src/test.mp4'
+  width: 640
+  height: 480
+  fps: 20
+  port: 8082
 # camera2:
 #   index: '/dev/right_camera'
 #   width: 640
