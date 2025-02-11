@@ -6,9 +6,7 @@ import sys
 from utils.Configurator import Configurator
 from services.CameraStreamer import CameraStreamer
 from services.GUIPresistence import GUIPresistence
-import subprocess
-from utils.EnvParams import EnvParams
-
+import time
 class CameraStreamerNode:
     def __init__(self):
         rospy.init_node('cameras_streamer', anonymous=False)
@@ -21,7 +19,6 @@ class CameraStreamerNode:
 
     def runStreams(self):
         for camera, details in self.camerasDetails.items():
-            # html_content = GUIPresistence(EnvParams().WEB_INDEX_LOCATION+"/index.html").getGUI()
             html_content = GUIPresistence("/home/ziad/zpice_ws/src/gui/src/index.html").getGUI()
             cameraStreamer = CameraStreamer(details['index'],html_content)
             self.cameraStreamers.append(cameraStreamer)
@@ -32,14 +29,25 @@ class CameraStreamerNode:
 
     def stopAllStreams(self):
         for cameraStreamer in self.cameraStreamers:
-            cameraStreamer.closeStream()
+            cameraStreamer.releaseCapture()
         rospy.logwarn("All streams terminated")
 
     def main(self):
         self.runStreams()
-        # command = f'mjpg-streamer -o "output_http.so -p 8080 -w /home/mypi/Zpice/src/gui/src"'
-        command = f'mjpg-streamer -o "output_http.so -p 8080 -w {EnvParams().WEB_INDEX_LOCATION}"'
-        subprocess.run(command, shell=True)
+        time.sleep(5)
+        self.cameraStreamers[0].releaseCapture()
+        rospy.logwarn("Camera with index 0 has been terminated")
+        # self.stopAllStreams()
+        time.sleep(2)
+        for camera, details in self.camerasDetails.items():
+            html_content = GUIPresistence("/home/ziad/zpice_ws/src/gui/src/index.html").getGUI()
+            cameraStreamer = CameraStreamer(details['index'],html_content)
+            self.cameraStreamers.append(cameraStreamer)
+            cameraStreamer.setFPS(details['fps'])
+            cameraStreamer.setFrameSize(details['width'], details['height'])
+            cameraStreamer.stream(details['port'])
+            break
+        rospy.logwarn("Camera with index 0 is now ready!")
         rospy.spin()
 
 def signal_handler(sig, frame):
