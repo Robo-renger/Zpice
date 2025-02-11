@@ -1,0 +1,4 @@
+../BLDC/BLDC_program.c:13:6:BLDC_T200_PWM_Init	8	static
+../BLDC/BLDC_program.c:22:6:BLDC_T200_Init	8	static
+../BLDC/BLDC_program.c:32:6:BLDC_T200_StopAll	4	static
+../BLDC/BLDC_program.c:42:6:BLDC_T200_SetMotor	16	static
