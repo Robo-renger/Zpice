@@ -42,6 +42,7 @@ class STM32:
         :param microseconds: Pulse width in microseconds
         """
         self.channels[channel] = microseconds  # Update the channel dictionary
+        # formatted_message = f"{channel:02d}-{microseconds}"
         self.__sendMessage(f"{channel}-{microseconds}")
 
     def stop_all(self):
@@ -57,15 +58,15 @@ class STM32:
         """Closes the I2C bus connection."""
         self.bus.close()
 
-# Example Usage --> in Node
-if __name__ == "__main__":
-    stm32 = STM32(i2c_address=0x20)  # Replace with your STM32's I2C address
-    stm32.PWMWrite(1, 1500)  # Set channel 1 to 1500 microseconds
-    stm32.PWMWrite(2, 1200)  # Set channel 2 to 1200 microseconds
+# # Example Usage --> in Node
+# if __name__ == "__main__":
+#     stm32 = STM32(i2c_address=0x20)  # Replace with your STM32's I2C address
+#     stm32.PWMWrite(1, 1500)  # Set channel 1 to 1500 microseconds
+#     stm32.PWMWrite(2, 1200)  # Set channel 2 to 1200 microseconds
     
-    print(stm32.channels)  # Check the stored values
+#     print(stm32.channels)  # Check the stored values
     
-    stm32.stop_all()  # Stop all channels
-    print(stm32.channels)  # Check that all values are now 0
+#     stm32.stop_all()  # Stop all channels
+#     print(stm32.channels)  # Check that all values are now 0
 
-    stm32.close()
+#     stm32.close()

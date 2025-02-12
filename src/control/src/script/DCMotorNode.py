@@ -20,12 +20,10 @@ class DCNode:
         try:
             while not rospy.is_shutdown():
                 if self.joystick.isClicked(self.forward_button):
-                    for channel in self.channels:
-                        self.pca.PWMWrite(channel, 350)
+                    print("7mada")
                     self.dc.driveForward()
                 elif self.joystick.isClicked(self.backward_button):
-                    for channel in self.channels:
-                        self.pca.PWMWrite(channel, 19500)
+                    print("7mada lwara")
                     self.dc.driveBackward()
                 else:
                     self.dc.stop()
@@ -36,7 +34,7 @@ class DCNode:
 
 if __name__ == "__main__":
     try:
-        left_gripper = DCNode(PCA.getInst(), 11, 8, "DCLEFTGRIPPER_LEFT", "DCLEFTGRIPPER_RIGHT")
+        left_gripper = DCNode(PCA.getInst(), 9, 25, "DCLEFTGRIPPER_LEFT", "DCLEFTGRIPPER_RIGHT")
         left_gripper.run()
     except KeyboardInterrupt:
         rospy.loginfo("Exiting...")

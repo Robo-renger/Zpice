@@ -24,7 +24,6 @@ class CameraStreamerNode:
             cameraStreamer.setFPS(details['fps'])
             cameraStreamer.setFrameSize(details['width'], details['height'])
             cameraStreamer.stream(details['port'])
-            cameraStreamer.capture.release()
 
 
 

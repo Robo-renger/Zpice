@@ -9,6 +9,8 @@ from helpers.JsonFileHandler import JsonFileHandler
 from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
 from script.LogPublisherNode import LogPublisherNode
+from services.PWMFactory import PWMFactory
+
 
 @implementer(iLoggable)
 
@@ -17,12 +19,12 @@ class Navigation:
     Static class for ROV navigation.
     """
     _thrusters = {
-        "front_right": Thruster(pca=PCA.getInst(), channel = 5),
-        "front_left": Thruster(pca=PCA.getInst(), channel = 1),
-        "back_left": Thruster(pca=PCA.getInst(), channel = 4),
-        "back_right": Thruster(pca=PCA.getInst(), channel = 0),
-        "front": Thruster(pca=PCA.getInst(), channel = 3),
-        "back": Thruster(pca=PCA.getInst(), channel = 2),
+        "front_right": Thruster(pca=PWMFactory().getPWMDriver(), channel = 5),
+        "front_left": Thruster(pca=PWMFactory().getPWMDriver(), channel = 1),
+        "back_left": Thruster(pca=PWMFactory().getPWMDriver(), channel = 4),
+        "back_right": Thruster(pca=PWMFactory().getPWMDriver(), channel = 0),
+        "front": Thruster(pca=PWMFactory().getPWMDriver(), channel = 3),
+        "back": Thruster(pca=PWMFactory().getPWMDriver(), channel = 2),
     }
 
     @staticmethod
