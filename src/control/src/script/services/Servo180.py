@@ -3,6 +3,8 @@ import logging
 from zope.interface import implementer
 from interface.Servo180Interface import IServo180
 from interface.PWMDriver import PWMDriver
+from services.Logger import Logger
+from DTOs.LogSeverity import LogSeverity
 logging.basicConfig(level=logging.INFO)
 
 @implementer(IServo180)
@@ -14,7 +16,14 @@ class Servo180:
     us = 1000 --> Servo goes to angle 0 
     """
     def __init__(self, channel : int, pwm_driver: PWMDriver, max_limit: int = 2000, min_limit: int = 1000) -> None:
+        """
+        Initialize the servo.
+        raises:
+            ValueError: If min_limit is greater than max_limit.
+        """
         if (min_limit > max_limit):
+            Logger.logToFile(LogSeverity.ERROR, "min_limit must be less than max_limit.", "Servo180")
+            Logger.logToGUI(LogSeverity.ERROR, "min_limit must be less than max_limit.", "Servo180")
             raise ValueError("min_limit must be less than max_limit.")
         self.__channel = channel
         self.__pwm_driver = pwm_driver
@@ -50,8 +59,12 @@ class Servo180:
         Clamp the value within the allowable range.
         """ 
         if value < self.__min_limit:
+            Logger.logToFile(LogSeverity.WARNING, "Servo value is below 1000us", "Servo180")
+            Logger.logToGUI(LogSeverity.WARNING, "Servo value is below 1000us", "Servo180")
             logging.warning("Servo value is below 1000us")
         elif value > self.__max_limit:
+            Logger.logToFile(LogSeverity.WARNING, "Servo value is above 2000us", "Servo180")
+            Logger.logToGUI(LogSeverity.WARNING, "Servo value is above 2000us", "Servo180")
             logging.warning("Servo value is above 2000us")
         return max(self.__min_limit, min(value, self.__max_limit))
     
@@ -61,7 +74,13 @@ class Servo180:
         :param: angle: Desired angle
         """
         if not 0 <= angle <= 180:
+            Logger.logToFile(LogSeverity.ERROR, "Angle must be between 0 and 180 degrees.", "Servo180")
+            Logger.logToGUI(LogSeverity.ERROR, "Angle must be between 0 and 180 degrees.", "Servo180")
             raise ValueError("Angle must be between 0 and 180 degrees.")
         pulse_width = int(self.__min_limit + ((angle / 180.0) * (self.__max_limit - self.__min_limit)))
-        self.__pwm_driver.PWMWrite(self.__channel, pulse_width)
-        self.__prev_value = pulse_width
+        try:
+            self.__pwm_driver.PWMWrite(self.__channel, pulse_width)
+            self.__prev_value = pulse_width
+        except ValueError as e:
+            Logger.logToFile(LogSeverity.ERROR, f"Failed to set the angle. {e}", "Servo180")
+            Logger.logToGUI(LogSeverity.ERROR, f"Failed to set the angle. {e}", "Servo180")

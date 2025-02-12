@@ -1,22 +1,17 @@
 #!/usr/bin/env python3
-from services.PCADriver import PCA
 from services.Vectorizer import Vectorizer
 from services.Thruster import Thruster
 from helpers.PWMMapper import PWMMapper
-from interface.iLoggable import iLoggable
-from zope.interface import implementer
-from helpers.JsonFileHandler import JsonFileHandler
-from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
-from script.LogPublisherNode import LogPublisherNode
+from services.Logger import Logger
 from services.PWMFactory import PWMFactory
-
-
-@implementer(iLoggable)
 
 class Navigation:
     """
     Static class for ROV navigation.
+
+    Attributes:
+        _thrusters (dict): Dictionary mapping thruster names to Thruster objects.
     """
     _thrusters = {
         "front_right": Thruster(pca=PWMFactory().getPWMDriver(), channel = 5),
@@ -31,6 +26,7 @@ class Navigation:
     def moveUp(value) -> None:
         """
         Moves the ROV upward.
+
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
@@ -44,12 +40,14 @@ class Navigation:
                 "back_left": 1500,
             })
         except ValueError as e:
-            print(f"Error: {e}")
+            Logger.logToFile(LogSeverity.ERROR, f"{e}", "Navigation")
+            Logger.logToGUI(LogSeverity.ERROR, f"{e}", "Navigation")
 
     @staticmethod
     def moveDown(value) -> None:
         """
         Moves the ROV downward.
+
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
@@ -63,12 +61,14 @@ class Navigation:
                 "back_left": 1500,
             })
         except ValueError as e:
-            print(f"Error: {e}")
+            Logger.logToFile(LogSeverity.ERROR, f"{e}", "Navigation")
+            Logger.logToGUI(LogSeverity.ERROR, f"{e}", "Navigation")
 
     @staticmethod
     def moveRight(value) -> None:
         """
         Moves the ROV to the right.
+
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
@@ -83,12 +83,14 @@ class Navigation:
                 "back_left": pwm_value_reverse,
             })
         except ValueError as e:
-            print(f"Error: {e}")
+            Logger.logToFile(LogSeverity.ERROR, f"{e}", "Navigation")
+            Logger.logToGUI(LogSeverity.ERROR, f"{e}", "Navigation")
 
     @staticmethod
     def moveLeft(value) -> None:
         """
         Moves the ROV to the left.
+
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
@@ -103,12 +105,14 @@ class Navigation:
                 "back_left": pwm_value_forward,
             })
         except ValueError as e:
-            print(f"Error: {e}")
+            Logger.logToFile(LogSeverity.ERROR, f"{e}", "Navigation")
+            Logger.logToGUI(LogSeverity.ERROR, f"{e}", "Navigation")
 
     @staticmethod
     def moveForward(value) -> None:
         """
         Moves the ROV forward.
+
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
@@ -124,12 +128,14 @@ class Navigation:
                 "back_left": pwm_value_forward,
             })
         except ValueError as e:
-            print(f"Error: {e}")
+            Logger.logToFile(LogSeverity.ERROR, f"{e}", "Navigation")
+            Logger.logToGUI(LogSeverity.ERROR, f"{e}", "Navigation")
 
     @staticmethod
     def moveBackward(value) -> None:
         """
         Moves the ROV backward.
+
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
@@ -144,12 +150,14 @@ class Navigation:
                 "back_left": pwm_value_reverse,
             })
         except ValueError as e:
-            print(f"Error: {e}")
+            Logger.logToFile(LogSeverity.ERROR, f"{e}", "Navigation")
+            Logger.logToGUI(LogSeverity.ERROR, f"{e}", "Navigation")
 
     @staticmethod
     def rotateClockwise(value) -> None:
         """
         Rotates the ROV clockwise (to the right).
+
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
@@ -164,12 +172,14 @@ class Navigation:
                 "back_left": pwm_value_forward,
             })
         except ValueError as e:
-            print(f"Error: {e}")
+            Logger.logToFile(LogSeverity.ERROR, f"{e}", "Navigation")
+            Logger.logToGUI(LogSeverity.ERROR, f"{e}", "Navigation")
 
     @staticmethod
     def rotateAnticlockwise(value) -> None:
         """
         Rotates the ROV anticlockwise (to the left).
+
         :param value: The speed percentage for the thrust (e.g., 0-100).
         """
         try:
@@ -184,40 +194,51 @@ class Navigation:
                 "back_left": pwm_value_reverse,
             })
         except ValueError as e:
-            print(f"Error: {e}")
+            Logger.logToFile(LogSeverity.ERROR, f"{e}", "Navigation")
+            Logger.logToGUI(LogSeverity.ERROR, f"{e}", "Navigation")
 
     @staticmethod
     def navigate(x_axis: float, y_axis: float, z_axis: float, pitch_axis: float, yaw_axis: float) -> None:
         """
         Main method to control ROV navigation based on joystick inputs.
+
+        Parameters:
+            x_axis (float): Horizontal joystick input (-1 to 1) (Right is +, Left is -).
+            y_axis (float): Vertical joystick input (-1 to 1) (Forward is +, Backward is -).
+            z_axis (float): Vertical joystick input (-1 to 1) (Up is +, Down is -).
+            pitch_axis (float): Pitch input (-1 to 1) (Forward tilt is +, Backward tilt is -).
+            yaw_axis (float): Rotation input (-1 to 1). (Clockwise is +, Counterclockwise is -).
         """
         try:
             vectorized = Vectorizer.calculateThrusterSpeeds(x_axis, y_axis, z_axis, pitch_axis, yaw_axis)
             Navigation._applyThrusts(vectorized)
         except ValueError as e:
-            print(f"Error: {e}")
-
+            Logger.logToFile(LogSeverity.ERROR, f"{e}", "Navigation")
+            Logger.logToGUI(LogSeverity.ERROR, f"{e}", "Navigation")
+            
     @staticmethod
     def _applyThrusts(thrust_values: dict) -> None:
         """
         Activate thrusters based on provided thrust values.
+        
         :param thrust_values: Dictionary mapping thruster names to PWM values.
         """
         try:
-            for thruster_name, pwm_value in thrust_values.items():
-                if thruster_name in Navigation._thrusters:
-                    Navigation._thrusters[thruster_name].drive(pwm_value)
-                else:
-                    print(f"Thruster '{thruster_name}' not found in _thrusters dictionary.")
+            if thrust_values is not None:
+                for thruster_name, pwm_value in thrust_values.items():
+                    if thruster_name in Navigation._thrusters:
+                        Navigation._thrusters[thruster_name].drive(pwm_value)
+                    else:
+                        Logger.logToFile(LogSeverity.ERROR, f"Thruster [{thruster_name}] not found in _thrusters dictionary", "Navigation")
+                        Logger.logToGUI(LogSeverity.ERROR, f"Thruster [{thruster_name}] not found in _thrusters dictionary", "Navigation")
         except ValueError as e:
-            print(f"Error activating thrusters: {e}")
+            Logger.logToFile(LogSeverity.ERROR, f"{e}", "Navigation")
+            Logger.logToGUI(LogSeverity.ERROR, f"{e}", "Navigation")
 
     @staticmethod
     def stopAll() -> None:
         """
-        Stops all thrusters.
+        Stops all the thrusters.
         """
         for thruster in Navigation._thrusters.values():
             thruster.stop()
-
-        
