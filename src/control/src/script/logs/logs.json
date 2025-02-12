@@ -3,10 +3,19 @@
         "severity": "ERROR",
         "message": "Failed to deserialize data.",
         "component_name": "CJoystick",
+<<<<<<< HEAD
         "timestamp": "2025-02-11T17:55:15.637697"
     }
 ]    }
 ]]stamp": "2025-02-08T15:57:54.048011"
+=======
+        "timestamp": "2025-02-12T19:42:41.685659"
+    }
+]
+    }
+]}
+]046"
+>>>>>>> CoreFeatures
     }
 ]front_left set to 1700",
         "component_name": "MockThruster",
