@@ -6,7 +6,7 @@ from interface.iLoggable import iLoggable
 from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
 from helpers.JsonFileHandler import JsonFileHandler
-from nodes.LogPublisherNode import LogPublisherNode
+from LogPublisherNode import LogPublisherNode
 
 @implementer(iPWM_Motors, iLoggable)
 class PWM_Motors:

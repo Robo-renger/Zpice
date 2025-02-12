@@ -6,17 +6,19 @@ from utils.EnvParams import EnvParams
 import pyshine as ps
 
 class CameraStreamer:
-    def __init__(self, cameraIndex,html_content) -> None:
-        # self.address = "192.168.1.233"  # Fetch from a config file/dynamically
+    def __init__(self, cameraIndex, port,format = "H264") -> None:
         self.address = EnvParams().WEB_DOMAIN
         self.cameraIndex = cameraIndex
         self.width = 1280
         self.height = 720
         self.FPS = 60
+        self.port = port
         self.process = None
         self.capture = None
         self.server = None
-        self.html_content = html_content
+        self.format_type = format
+        
+        
     def setFrameSize(self, width=1280, height=720):
         self.width = width
         self.height = height
@@ -28,28 +30,66 @@ class CameraStreamer:
         capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.width)
         capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
         capture.set(cv2.CAP_PROP_FPS, self.FPS)
-    def __run(self, port):
+        
+    def __setup_camera(self):
+        """Sets up the camera capture based on the selected format."""
+        if self.format_type == "H264":
+            return self._setup_h264()
+        elif self.format_type == "MJPG":
+            return self._setup_mjpg()
+        else:
+            raise ValueError("Unsupported format. Choose either 'MJPG' or 'H264'.")
+        
+    def _setup_mjpg(self):
+        """Sets up MJPEG streaming using OpenCV."""
+        print("Initializing camera with MJPEG format...")
+        self.capture = cv2.VideoCapture(self.cameraIndex)
+        fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+        self.capture.set(cv2.CAP_PROP_FOURCC, fourcc)
+        return self.capture
+
+    def _setup_h264(self):
+        """Sets up H.264 streaming using GStreamer."""
+        print("Initializing camera with H.264 format...")
+        gst_pipeline = (
+            "nvarguscamerasrc ! "
+            "video/x-raw(memory:NVMM), width=640, height=480, format=(string)NV12, framerate=30/1 ! "
+            "nvvidconv ! "
+            "video/x-raw, format=(string)I420 ! "
+            "x264enc speed-preset=ultrafast tune=zerolatency bitrate=500 ! "
+            "rtph264pay config-interval=1 pt=96 ! "
+            "udpsink host={} port={}".format(self.address, self.port)
+        )
+        self.capture = cv2.VideoCapture(gst_pipeline, cv2.CAP_GSTREAMER)
+        return self.capture
+        
+    def __run(self):
         try:
             StreamProps = ps.StreamProps
-            StreamProps.set_Page(StreamProps, self.html_content)
-            address = (self.address, port)
-            self.capture = cv2.VideoCapture(self.cameraIndex)
-            use_format = 'MJPG'  # Change to 'YUYV' if you want YUYV format
-            fourcc = cv2.VideoWriter_fourcc(*use_format)
-            self.capture.set(cv2.CAP_PROP_FOURCC, fourcc)
+            StreamProps.set_Page(StreamProps, "")
+            address = (self.address, self.port)
+    
+            self.capture = self.__setup_camera()
+    
+            if not self.capture.isOpened():
+                raise Exception("Failed to open camera with GStreamer pipeline.")
+    
             StreamProps.set_Mode(StreamProps, 'cv2')
             self.__setCVAttrs(self.capture)
             StreamProps.set_Capture(StreamProps, self.capture)
             StreamProps.set_Quality(StreamProps, 90)
+    
             width = self.capture.get(cv2.CAP_PROP_FRAME_WIDTH)
             height = self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT)
             fps = self.capture.get(cv2.CAP_PROP_FPS)
             fourcc_code = int(self.capture.get(cv2.CAP_PROP_FOURCC))
-            format_used = "".join([chr((fourcc_code >> 8 * i) & 0xFF) for i in range(4)])  # Decode FourCC code
-
+            format_used = "".join([chr((fourcc_code >> 8 * i) & 0xFF) for i in range(4)])
+    
             print(f"Resolution: {int(width)}x{int(height)}, FPS: {int(fps)}, Format: {format_used}")
+    
             self.server = ps.Streamer(address, StreamProps)
             self.server.serve_forever()
+
         except Exception as e:
             print(f"Error occurred: {e}")
         finally:

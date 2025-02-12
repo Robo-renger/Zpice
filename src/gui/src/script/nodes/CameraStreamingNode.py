@@ -19,12 +19,11 @@ class CameraStreamerNode:
 
     def runStreams(self):
         for camera, details in self.camerasDetails.items():
-            html_content = GUIPresistence("/home/ziad/zpice_ws/src/gui/src/index.html").getGUI()
-            cameraStreamer = CameraStreamer(details['index'],html_content)
+            cameraStreamer = CameraStreamer(details['index'],details['port'])
             self.cameraStreamers.append(cameraStreamer)
             cameraStreamer.setFPS(details['fps'])
             cameraStreamer.setFrameSize(details['width'], details['height'])
-            cameraStreamer.stream(details['port'])
+            cameraStreamer.stream()
 
 
     def stopAllStreams(self):
@@ -35,19 +34,17 @@ class CameraStreamerNode:
     def main(self):
         self.runStreams()
         time.sleep(5)
-        self.cameraStreamers[0].releaseCapture()
-        rospy.logwarn("Camera with index 0 has been terminated")
-        # self.stopAllStreams()
-        time.sleep(2)
-        for camera, details in self.camerasDetails.items():
-            html_content = GUIPresistence("/home/ziad/zpice_ws/src/gui/src/index.html").getGUI()
-            cameraStreamer = CameraStreamer(details['index'],html_content)
-            self.cameraStreamers.append(cameraStreamer)
-            cameraStreamer.setFPS(details['fps'])
-            cameraStreamer.setFrameSize(details['width'], details['height'])
-            cameraStreamer.stream(details['port'])
-            break
-        rospy.logwarn("Camera with index 0 is now ready!")
+        # self.cameraStreamers[0].releaseCapture()
+        # rospy.logwarn("Camera with index 0 has been terminated")
+        # time.sleep(2)
+        # for camera, details in self.camerasDetails.items():
+        #     cameraStreamer = CameraStreamer(details['index'],details['port'])
+        #     self.cameraStreamers.append(cameraStreamer)
+        #     cameraStreamer.setFPS(details['fps'])
+        #     cameraStreamer.setFrameSize(details['width'], details['height'])
+        #     cameraStreamer.stream()
+        #     break
+        # rospy.logwarn("Camera with index 0 is now ready!")
         rospy.spin()
 
 def signal_handler(sig, frame):

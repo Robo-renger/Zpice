@@ -8,7 +8,7 @@ from zope.interface import implementer
 from helpers.JsonFileHandler import JsonFileHandler
 from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
-from nodes.LogPublisherNode import LogPublisherNode
+from LogPublisherNode import LogPublisherNode
 
 @implementer(iLoggable)
 class MockThruster:
