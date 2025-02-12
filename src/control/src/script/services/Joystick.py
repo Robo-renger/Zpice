@@ -51,10 +51,10 @@ class CJoystick:
 
         Example Config:
         {
-            "button0": "FLASH",
-            "button1": "LEFTGRIPPER_OPEN",
-            "button2": "LEFTGRIPPER_CLOSE",
-            "button3": "RIGHTGRIPPER_OPEN"
+            "button_0": "FLASH",
+            "button_x": "LEFTGRIPPER_OPEN",
+            "button_l1": "LEFTGRIPPER_CLOSE",
+            "button_4": "RIGHTGRIPPER_OPEN"
         }
         """
         joystickButtons = Configurator().fetchData(Configurator.BUTTONS)
@@ -190,11 +190,11 @@ class CJoystick:
         Returns an array of joystick axis values.
         
         Returns:
-            list: List of joystick axis values [left_x, left_y, right_x, right_y].
+            dictionary: Dictionary of joystick axis values {left_x_axis: 0.0, left_y_axis: 0.0, right_x_axis: 0.0, right_y_axis: 0.0}.
         """
         data = self.__getData()
         if data is None or "axes" not in data:
-            return [0, 0, 0, 0]  # Default values if no data available
+            return {"left_x_axis": 0.0, "left_y_axis": 0.0, "right_x_axis": 0.0, "right_y_axis": 0.0}  # Default values if no data available
         return data["axes"]
 
     def _signal_cleanup(self, signum, frame):
