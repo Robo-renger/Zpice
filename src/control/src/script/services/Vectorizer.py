@@ -13,12 +13,12 @@ class Vectorizer:
     yaw_only = True
 
     @staticmethod 
-    def calculateThrusterSpeeds(x: float, y: float, z: float, pitch: float, yaw: float) -> dict:
+    def vectorize(x: float, y: float, z: float, pitch: float, yaw: float) -> dict:
         """
         Calculate the PWM signal for each thruster based on joystick x, y, z, pitch, and yaw input.
         Parameters:
             x (float): Horizontal joystick input (-1 to 1) (Right is +, Left is -).
-            y (float): Vertical joystick input (-1 to 1) (Forward is +, Backward is -).
+            y (float): Horizontal joystick input (-1 to 1) (Forward is +, Backward is -).
             z (float): Vertical joystick input (-1 to 1) (Up is +, Down is -).
             pitch (float): Pitch input (-1 to 1) (Forward tilt is +, Backward tilt is -).
             yaw (float): Rotation input (-1 to 1). (Clockwise is +, Counterclockwise is -).
@@ -52,7 +52,8 @@ class Vectorizer:
                 else:  # t2 and t4
                     yaw_contrib = yaw   # Positive yaw contribution for counterclockwise rotation
             else:
-                yaw_contrib = 0  # No yaw contribution if yaw_mode is True and x or y is non-zero
+                yaw = 0
+                yaw_contrib = yaw  # No yaw contribution if yaw_mode is True and x or y is non-zero
 
             speed = forward_contrib + strafe_contrib + yaw_contrib
             thruster_speeds.append(speed)

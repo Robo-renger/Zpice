@@ -2,10 +2,7 @@
 from utils.Configurator import Configurator
 from services.Logger import Logger
 from DTOs.LogSeverity import LogSeverity
-<<<<<<< HEAD
 from services.STM32 import STM32
-=======
->>>>>>> Logs
 
 class PWMFactory:
     _instance = None

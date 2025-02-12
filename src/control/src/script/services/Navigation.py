@@ -204,13 +204,13 @@ class Navigation:
 
         Parameters:
             x_axis (float): Horizontal joystick input (-1 to 1) (Right is +, Left is -).
-            y_axis (float): Vertical joystick input (-1 to 1) (Forward is +, Backward is -).
+            y_axis (float): Horizontal joystick input (-1 to 1) (Forward is +, Backward is -).
             z_axis (float): Vertical joystick input (-1 to 1) (Up is +, Down is -).
             pitch_axis (float): Pitch input (-1 to 1) (Forward tilt is +, Backward tilt is -).
             yaw_axis (float): Rotation input (-1 to 1). (Clockwise is +, Counterclockwise is -).
         """
         try:
-            vectorized = Vectorizer.calculateThrusterSpeeds(x_axis, y_axis, z_axis, pitch_axis, yaw_axis)
+            vectorized = Vectorizer.vectorize(x_axis, y_axis, z_axis, pitch_axis, yaw_axis)
             Navigation._applyThrusts(vectorized)
         except ValueError as e:
             Logger.logToFile(LogSeverity.ERROR, f"{e}", "Navigation")
