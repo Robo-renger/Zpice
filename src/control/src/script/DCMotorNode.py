@@ -20,10 +20,8 @@ class DCNode:
         try:
             while not rospy.is_shutdown():
                 if self.joystick.isClicked(self.forward_button):
-                    print("7mada")
                     self.dc.driveForward()
                 elif self.joystick.isClicked(self.backward_button):
-                    print("7mada lwara")
                     self.dc.driveBackward()
                 else:
                     self.dc.stop()

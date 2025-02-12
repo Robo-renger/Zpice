@@ -12,14 +12,13 @@ class NavigationNode:
         self.joystick = CJoystick()
 
     def navigate(self):
-        # Vectorizer.yaw_only = True
-        x_left, y_left, x_right, y_right = self.joystick.getAxis()
-        rospy.loginfo(f"x_left = {x_left}")
-        rospy.loginfo(f"y_left = {y_left}")
-        rospy.loginfo(f"x_right = {x_right}")
-        rospy.loginfo(f"y_right = {y_right}")
+        axis = self.joystick.getAxis()
+        left_x  = float(axis['left_x_axis'])
+        left_y  = float(axis['left_y_axis'])
+        right_x = float(axis['right_x_axis'])
+        right_y = float(axis['right_y_axis'])
 
-        # Navigation().navigate(x_left, 0, y_left, y_right, x_right)
+        Navigation().navigate(left_x, left_y, 0, right_y, right_x)
 
 if __name__ == "__main__":
     try:
