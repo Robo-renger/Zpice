@@ -38,5 +38,12 @@ class IPiHealth(Interface):
             - sdram_c, sdram_i, sdram_p: around 1.225-1.25 V (voltages >= 1.1V are normal).
         @return sdram_state: True if all SDRAM rails are within normal range."""
 
+    @staticmethod
+    def getGPIOStatus() -> str:
+        """Gets the realtime status of all the 27GPIOs eihter input or output, pulled high or low and incase of output does it have a high or low.
+        @return string containing all the status of the GPIOs."""
+
+        
+
     
     

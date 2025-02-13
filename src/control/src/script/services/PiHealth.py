@@ -108,3 +108,15 @@ class PiHealth:
         except Exception as e:
             rospy.logerr(f"Error in checking SDRAM voltage: {e}")
             return None
+
+    @staticmethod
+    def getGPIOStatus() -> str:
+        """Gets the realtime status of all the 27GPIOs eihter input or output, pulled high or low and incase of output does it have a high or low.
+        @return string containing all the status of the GPIOs."""
+        try:
+            gpio_status = subprocess.check_output(['raspi-gpio', 'get']).decode('utf-8').strip()
+            rospy.loginfo(f"GPIO Status:\n{gpio_status}")
+            return gpio_status
+        except Exception as e:
+            rospy.logerr(f"Error in getting GPIO status: {e}")
+            return None
