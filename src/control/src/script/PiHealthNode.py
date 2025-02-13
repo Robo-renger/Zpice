@@ -32,10 +32,7 @@ class PiHealthNode:
                 self._pub.publish(self._msg)
             self._rate.sleep()
         except Exception as e:
-            rospy.logerr(f"Error Publishing pi status: {e}")
-
-
-    
+            rospy.logerr(f"Error Publishing pi status: {e}")  
 
 if __name__ == "__main__":
     try:

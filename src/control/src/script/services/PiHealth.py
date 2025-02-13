@@ -4,6 +4,8 @@ import psutil
 import rospy
 from zope.interface import implementer
 from interface.IPiHealth import IPiHealth
+from services.Logger import Logger
+from DTOs.LogSeverity import LogSeverity
 
 @implementer(IPiHealth)
 class PiHealth:
@@ -15,10 +17,12 @@ class PiHealth:
         try:
             temp_output = subprocess.check_output(['vcgencmd', 'measure_temp']).decode('utf-8')
             temp = float(temp_output.replace('temp=', '').replace("'C\n", ''))
-            rospy.loginfo(f"Temperature = {temp}")
+            Logger.logToFile(LogSeverity.INFO, f"Temperature = {str(temp)}", "Pi")
+            Logger.logToGUI(LogSeverity.INFO, f"Temperature = {str(temp)}", "Pi")
             return temp
         except Exception as e:
-            rospy.logerr(f"Error getting temperature: {e}")
+            Logger.logToFile(LogSeverity.ERROR, f"Error getting temperature: {str(e)}", "Pi")
+            Logger.logToGUI(LogSeverity.ERROR, f"Error getting temperature: {str(e)}", "Pi")
             return None
 
     @staticmethod
@@ -34,14 +38,17 @@ class PiHealth:
                 # Bit 16 (0x10000): Undervoltage has occurred since boot.
                 # Bit 16 (0x50005): Undervoltage and throttling have been detected
             if (status & undervoltage_flags):
-                rospy.loginfo(f"Undervoltage detected: {throttled}")
+                Logger.logToFile(LogSeverity.WARNING, f"Undervoltage detected: {str(throttled)}", "Pi")
+                Logger.logToGUI(LogSeverity.WARNING, f"Undervoltage detected: {str(throttled)}", "Pi")
                 return True
             else:
-                rospy.loginfo(f"No undervoltage detected: {throttled}")
+                Logger.logToFile(LogSeverity.INFO, f"No undervoltage detected: {str(throttled)}", "Pi")
+                Logger.logToGUI(LogSeverity.INFO, f"No undervoltage detected: {str(throttled)}", "Pi")
                 return False
 
-        except Exception as e:  
-            rospy.logerr(f"Error checking undervoltage: {e}")
+        except Exception as e:
+            Logger.logToFile(LogSeverity.ERROR, f"Error checking undervoltage: {str(e)}", "Pi")
+            Logger.logToGUI(LogSeverity.ERROR, f"Error checking undervoltage: {str(e)}", "Pi")  
             return None
         
     @staticmethod
@@ -57,10 +64,12 @@ class PiHealth:
             used = (mem.total - mem.available) / (1024 ** 3)
             free = float(f"{mem.available / (1024 ** 3):.2f}")
             percent_free =  float(f"{(free / total) * 100:.2f}")
-            rospy.loginfo(f"total = {total:.2f} GB, used = {used:.2f} GB, free = {free} GB, percent_free = {percent_free}%")
+            Logger.logToFile(LogSeverity.INFO, f"total = {total:.2f} GB, used = {used:.2f} GB, free = {free} GB, percent_free = {percent_free}%", "Pi")
+            Logger.logToGUI(LogSeverity.INFO, f"total = {total:.2f} GB, used = {used:.2f} GB, free = {free} GB, percent_free = {percent_free}%", "Pi")
             return (free, percent_free)
         except Exception as e:
-            rospy.logerr(f"Error in getting ram usage: {e}")
+            Logger.logToFile(LogSeverity.ERROR, f"Error in getting ram usage: {str(e)}", "Pi")
+            Logger.logToGUI(LogSeverity.ERROR, f"Error in getting ram usage: {str(e)}", "Pi")  
             return (None, None) 
     
     @staticmethod
@@ -69,10 +78,12 @@ class PiHealth:
         @returns percentage of used CPU"""
         try:
             output = subprocess.check_output("top -bn1 | grep 'Cpu(s)' | awk '{print 100 - $8}'", shell=True).decode('utf-8')
-            rospy.loginfo(f"Total CPU Usage: {float(output.strip())}")
+            Logger.logToFile(LogSeverity.INFO, f"Total CPU Usage: {output.strip()}", "Pi")
+            Logger.logToGUI(LogSeverity.INFO, f"Total CPU Usage: {output.strip()}", "Pi")
             return float(output.strip())
         except Exception as e:
-            rospy.logerr(f"Error in getting CPU usage: {e}")
+            Logger.logToFile(LogSeverity.ERROR, f"Error in getting CPU usage: {str(e)}", "Pi")
+            Logger.logToGUI(LogSeverity.ERROR, f"Error in getting CPU usage: {str(e)}", "Pi")  
             return None
 
     @staticmethod
@@ -84,10 +95,12 @@ class PiHealth:
             core_output = subprocess.check_output(['vcgencmd', 'measure_volts', 'core']).decode('utf-8').strip()
             core_voltage = float(core_output.replace("volt=", "").replace("V", ""))
             core_state = core_voltage >= 1.2
-            rospy.loginfo(f"GPU core voltage = {core_voltage}")
+            Logger.logToFile(LogSeverity.INFO, f"GPU core voltage = {str(core_voltage)}", "Pi")
+            Logger.logToGUI(LogSeverity.INFO, f"GPU core voltage = {str(core_voltage)}", "Pi")
             return core_state
         except Exception as e:
-            rospy.logerr(f"Error in getting checking GPU core voltage: {e}")
+            Logger.logToFile(LogSeverity.ERROR, f"Error in getting checking GPU core voltage: {str(e)}", "Pi")
+            Logger.logToGUI(LogSeverity.ERROR, f"Error in getting checking GPU core voltage: {str(e)}", "Pi")  
             return None
         
     @staticmethod
@@ -103,10 +116,12 @@ class PiHealth:
                 voltage = float(rail_output.replace("volt=", "").replace("V", ""))
                 if voltage < 1.1:
                     sdram_state = False
-                rospy.loginfo(f"Voltage on {rail} = {voltage}")
+                Logger.logToFile(LogSeverity.INFO, f"Voltage on {rail} = {str(voltage)}", "Pi")
+                Logger.logToGUI(LogSeverity.INFO, f"Voltage on {rail} = {str(voltage)}", "Pi")
             return sdram_state
         except Exception as e:
-            rospy.logerr(f"Error in checking SDRAM voltage: {e}")
+            Logger.logToFile(LogSeverity.ERROR, f"Error in checking SDRAM voltage: {str(e)}", "Pi")
+            Logger.logToGUI(LogSeverity.ERROR, f"Error in checking SDRAM voltage: {str(e)}", "Pi")  
             return None
 
     @staticmethod
@@ -115,8 +130,10 @@ class PiHealth:
         @return string containing all the status of the GPIOs."""
         try:
             gpio_status = subprocess.check_output(['raspi-gpio', 'get']).decode('utf-8').strip()
-            rospy.loginfo(f"GPIO Status:\n{gpio_status}")
+            Logger.logToFile(LogSeverity.INFO, f"GPIO Status: {gpio_status}", "Pi")
+            Logger.logToGUI(LogSeverity.INFO, f"GPIO Status: {gpio_status}", "Pi")
             return gpio_status
         except Exception as e:
-            rospy.logerr(f"Error in getting GPIO status: {e}")
+            Logger.logToFile(LogSeverity.ERROR, f"Error in getting GPIO status: {str(e)}", "Pi")
+            Logger.logToGUI(LogSeverity.ERROR, f"Error in getting GPIO status: {str(e)}", "Pi")  
             return None
