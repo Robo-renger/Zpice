@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import time
-from services.Switching import Switching
+from script.services.Switching import Switching
 
 def test_switching():
 

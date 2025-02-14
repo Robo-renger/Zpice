@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import unittest
-from services.Servo180 import Servo180
+from script.services.Servo180 import Servo180
 from mock.PCAMock import PCAMock
 
 class TestServo180(unittest.TestCase):

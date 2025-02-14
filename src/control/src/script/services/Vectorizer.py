@@ -1,21 +1,24 @@
 #!/usr/bin/env python3
 import math
 from helpers.PWMMapper import PWMMapper
+from services.Logger import Logger
+from DTOs.LogSeverity import LogSeverity
 
 class Vectorizer:
     """
     Static class for ROV Vectorization.
+    
     :param: yaw_only (bool): If True, yaw is active only when x and y are zero. If False, yaw is always active.
     """
     yaw_only = True
 
     @staticmethod 
-    def calculateThrusterSpeeds(x: float, y: float, z: float, pitch: float, yaw: float) -> dict:
+    def vectorize(x: float, y: float, z: float, pitch: float, yaw: float) -> dict:
         """
         Calculate the PWM signal for each thruster based on joystick x, y, z, pitch, and yaw input.
         Parameters:
             x (float): Horizontal joystick input (-1 to 1) (Right is +, Left is -).
-            y (float): Vertical joystick input (-1 to 1) (Forward is +, Backward is -).
+            y (float): Horizontal joystick input (-1 to 1) (Forward is +, Backward is -).
             z (float): Vertical joystick input (-1 to 1) (Up is +, Down is -).
             pitch (float): Pitch input (-1 to 1) (Forward tilt is +, Backward tilt is -).
             yaw (float): Rotation input (-1 to 1). (Clockwise is +, Counterclockwise is -).
@@ -49,7 +52,8 @@ class Vectorizer:
                 else:  # t2 and t4
                     yaw_contrib = yaw   # Positive yaw contribution for counterclockwise rotation
             else:
-                yaw_contrib = 0  # No yaw contribution if yaw_mode is True and x or y is non-zero
+                yaw = 0
+                yaw_contrib = yaw  # No yaw contribution if yaw_mode is True and x or y is non-zero
 
             speed = forward_contrib + strafe_contrib + yaw_contrib
             thruster_speeds.append(speed)
@@ -87,19 +91,21 @@ class Vectorizer:
         # Convert normalized speeds to PWM
         try:
             pwm_signals = {
-                f"t{i+1}": PWMMapper.joystickToPWM(speed)
+                f"t{i+1}": PWMMapper.axesToPWM(speed)
                 for i, speed in enumerate(thruster_speeds)
             }
+
+            thrusters = {
+                "front_right": pwm_signals["t1"],
+                "front_left": pwm_signals["t2"],
+                "back_left": pwm_signals["t3"],
+                "back_right": pwm_signals["t4"],
+                "front": pwm_signals["t5"],
+                "back": pwm_signals["t6"]
+            }
+
+            return thrusters
+        
         except ValueError as e:
-            print(f"Error: {e}")
-
-        thrusters = {
-            "front_right": pwm_signals["t1"],
-            "front_left": pwm_signals["t2"],
-            "back_left": pwm_signals["t3"],
-            "back_right": pwm_signals["t4"],
-            "front": pwm_signals["t5"],
-            "back": pwm_signals["t6"]
-        }
-
-        return thrusters
+            Logger.logToFile(LogSeverity.ERROR, f"{e}", "Vectorizer")
+            Logger.logToGUI(LogSeverity.ERROR, f"{e}", "Vectorizer")

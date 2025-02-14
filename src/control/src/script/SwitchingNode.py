@@ -7,47 +7,56 @@ class SwitchingNode:
     def __init__(self) -> None:
         rospy.init_node("switching_node", anonymous=False)
         self.joystick = CJoystick()
-        
+        self.switchablePins = {
+            'RIGHTGRIPPER': 5,
+            'LEFTGRIPPER': 6,
+            'FLASH': 26
+        }
     def run(self):
         try:
             while not rospy.is_shutdown():
-                self.flash()
-                self.rightGripper()
-                self.leftGripper()
+                self.__flash()
+                self.__rightGripper()
+                self.__leftGripper()
         except Exception as e:
             rospy.logerr(f"Error in DCNode: {e}")
         finally:
             self.joystick.cleanup()
 
-    def flash(self):
-        flashSwitch = Switching(12) 
-        if self.joystick.isClicked("FLASH"):
-            print("FLASH")
+    def __flash(self):
+        componentName = 'FLASH'
+        switchablePin = self.switchablePins[componentName]
+        flashSwitch = Switching(switchablePin) 
+        
+        if self.joystick.isClicked(componentName):
+            print(componentName)
             flashSwitch.open()
-        # else:
-        #     flashSwitch(26).close()
-    def rightGripper(self):
-        rightGripper = Switching(5)
-        if self.joystick.isClicked("RIGHTGRIPPER_OPEN"):
-            print("RIGHT_OPEN")
-            rightGripper.open()
-        # else:
-        #     rightGripper.close()
+            
+    def __rightGripper(self):
+        componentName = 'RIGHTGRIPPER'
+        switchablePin = self.switchablePins[componentName]
+        rightGripper = Switching(switchablePin)
+        
+        if self.joystick.isClicked(componentName):
+            print(f"{componentName} TOGGLE")
+            rightGripper.toggle()
 
-    def leftGripper(self):
-        leftGripper = Switching(6)
-        if self.joystick.isClicked("LEFTGRIPPER_OPEN"):
-            print("LEFT_OPEN")
+    def __leftGripper(self):
+        componentName = 'LEFTGRIPPER'
+        switchablePin = self.switchablePins[componentName]
+        leftGripper = Switching(switchablePin)
+        
+        if self.joystick.isClicked(componentName):
+            print(f"{componentName} TOGGLE")
             leftGripper.open()
-        # else:
-        #     leftGripper.close()
+        
 
 if __name__ == "__main__":
     try:
         left_gripper = SwitchingNode()
         left_gripper.run()
     except KeyboardInterrupt:
-        rospy.loginfo("Exiting...")
+        rospy.loginfo("Exiting Switching Node...")
         
     
 

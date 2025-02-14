@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-
 from zope.interface import implementer
 from interface.Servo360Interface import IServo360
 from interface.PWMDriver import PWMDriver
+from services.Logger import Logger
+from DTOs.LogSeverity import LogSeverity
 import time
+
 @implementer(IServo360)
 class Servo360:
     """
@@ -45,7 +47,11 @@ class Servo360:
         Makes the servo stop the motion
         :param channel: the channel the servo is connected to.
         """
-        self.__pwm_driver.PWMWrite(self.__channel, self.__stop_value)
+        try:
+            self.__pwm_driver.PWMWrite(self.__channel, self.__stop_value)
+        except ValueError as e:
+            Logger.logToFile(LogSeverity.ERROR, f"Failed to stop the servo. {e}", "Servo360")
+            Logger.logToGUI(LogSeverity.ERROR, f"Failed to stop the servo. {e}", "Servo360")
 
     def setForward(self, value: int) -> None:
         """

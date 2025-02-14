@@ -7,7 +7,6 @@ from zope.interface import implementer
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from interface.ISmoothingStrategy import ISmoothingStrategy
 
-
 @implementer(ISmoothingStrategy)
 class ExponentialSmoothing:
     def __init__(self, alpha: float = 0.1):
