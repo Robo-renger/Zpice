@@ -6,8 +6,8 @@
 #   port: 8081
 camera2:
   index: '/dev/right_camera'
-  width: 640
-  height: 480
+  width: 2560
+  height: 1440
   fps: 30
   port: 8082
 # camera3:
