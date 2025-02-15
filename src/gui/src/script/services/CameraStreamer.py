@@ -52,14 +52,14 @@ class CameraStreamer:
         """Sets up H.264 streaming using GStreamer."""
         print("Initializing camera with H.264 format...")
         gst_pipeline = (
-            "nvarguscamerasrc ! "
-            "video/x-raw(memory:NVMM), width=640, height=480, format=(string)NV12, framerate=30/1 ! "
-            "nvvidconv ! "
-            "video/x-raw, format=(string)I420 ! "
-            "x264enc speed-preset=ultrafast tune=zerolatency bitrate=500 ! "
+            "v4l2src device=/dev/right_camera ! "
+            "image/jpeg, width=1280, height=720, framerate=30/1 ! "
+            "jpegdec ! videoconvert ! "
+            "x264enc speed-preset=ultrafast tune=zerolatency bitrate=2000 ! "
             "rtph264pay config-interval=1 pt=96 ! "
-            "udpsink host={} port={}".format(self.address, self.port)
+            f"udpsink host={self.address} port={self.port}"
         )
+
         self.capture = cv2.VideoCapture(gst_pipeline, cv2.CAP_GSTREAMER)
         return self.capture
         

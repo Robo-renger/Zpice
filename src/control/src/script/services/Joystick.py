@@ -10,7 +10,6 @@ import time
 from services.Logger import Logger
 from DTOs.LogSeverity import LogSeverity
 
-@implementer(iLoggable)
 class CJoystick:
     _instance = None
     def __new__(cls, *args, **kwargs):
@@ -25,6 +24,7 @@ class CJoystick:
             self.buffer_size = buffer_size
             self.is_writer = is_writer  # Distinguish between writer and reader
             self.lock = threading.Lock()
+            self.previous_button_states = {}
 
             try:
                 # Try to attach to an existing shared memory block
@@ -150,7 +150,7 @@ class CJoystick:
         print("Failed to connect to shared memory after retries.")
         return None
 
-    def isClicked(self, button_name):
+    def isPressed(self, button_name):
         """
         Check whether a specific button is clicked.
 
@@ -183,7 +183,55 @@ class CJoystick:
             Logger.logToGUI(LogSeverity.ERROR, f"Button name '{button_name}' is not defined.", "CJoystick")
             raise ValueError(f"Button name '{button_name}' is not defined.")
         return data["buttons"].get(f"button{button_number}", False)
+    def isClicked(self, button_name):
+        """
+        Check whether a specific button is clicked (rising edge detection).
 
+        This version only returns True **once per click** when the button changes from False -> True.
+        Holding the button will not trigger multiple "clicks".
+
+        Parameters:
+            button_name (str): The name of the button constant (e.g., LEFTGRIPPER_OPEN, _1).
+
+        Returns:
+            bool: True if the button was just clicked, False otherwise.
+
+        Raises:
+            ValueError: If the button name is not defined.
+        """
+        data = self.__getData()
+        if data is None or "buttons" not in data:
+            return False  # No data available
+
+        # Resolve button number (either "_X" or BUTTON_NAME)
+        if button_name.startswith("_"):
+            try:
+                button_number = int(button_name[1:])  # Extract the number
+            except ValueError:
+                Logger.logToFile(LogSeverity.ERROR, f"Invalid button number format: '{button_name}'", "CJoystick")
+                Logger.logToGUI(LogSeverity.ERROR, f"Invalid button number format: '{button_name}'", "CJoystick")
+                raise ValueError(f"Invalid button number format: '{button_name}'")
+        else:
+            button_number = getattr(self, button_name, None)
+
+        if button_number is None:
+            Logger.logToFile(LogSeverity.ERROR, f"Button name '{button_name}' is not defined.", "CJoystick")
+            Logger.logToGUI(LogSeverity.ERROR, f"Button name '{button_name}' is not defined.", "CJoystick")
+            raise ValueError(f"Button name '{button_name}' is not defined.")
+
+        button_key = f"button{button_number}"
+
+        # Current button state
+        current_state = data["buttons"].get(button_key, False)
+
+        # Previous state (default to False if this button is checked for the first time)
+        previous_state = self.previous_button_states.get(button_key, False)
+
+        # Update state for future checks
+        self.previous_button_states[button_key] = current_state
+
+        # Detect rising edge (button went from False -> True)
+        return current_state and not previous_state
 
     def getAxis(self):
         """

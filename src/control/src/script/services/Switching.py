@@ -18,22 +18,22 @@ class Switching:
         self.gpio.setup(pin, GPIO.OUT)
         self.gpio.output(pin, GPIO.LOW) # Initialize the pin to low
         self.pin = pin
-        self.is_open = False
+        self.opened = False
         
     def open(self) -> None:
         self.gpio.output(self.pin, GPIO.HIGH)
-        self.is_open = True
+        self.opened = True
         Logger.logToFile(LogSeverity.INFO, "Switching open.", "Switching")
         Logger.logToGUI(LogSeverity.INFO, "Switching open.", "Switching")
         
     def close(self) -> None:
         self.gpio.output(self.pin, GPIO.LOW)
-        self.is_open = False
+        self.opened = False
         Logger.logToFile(LogSeverity.INFO, "Switching close.", "Switching")
         Logger.logToGUI(LogSeverity.INFO, "Switching close.", "Switching")
         
     def toggle(self) -> None:
-        if self.is_open:
+        if self.opened:
             self.close()
             Logger.logToFile(LogSeverity.INFO, "Switching close.", "Switching")
             Logger.logToGUI(LogSeverity.INFO, "Switching close.", "Switching")
@@ -43,7 +43,7 @@ class Switching:
             Logger.logToGUI(LogSeverity.INFO, "Switching open.", "Switching")
             
     def is_open(self) -> bool:
-        return self.is_open
+        return self.opened
     
     def is_closed(self) -> bool:
-        return not self.is_open
+        return not self.opened

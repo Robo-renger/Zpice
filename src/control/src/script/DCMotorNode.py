@@ -3,28 +3,33 @@ import rospy
 from services.SinglePWMMotor import SinglePWMDCMotor
 from services.PCADriver import PCA
 from services.Joystick import CJoystick
-from control.msg import Joystick
-from mock.PCAMock import PCAMock
+from utils.Configurator import Configurator
 
 class DCNode:
-    def __init__(self, pca, channel: int, gpio: int, forward_button: str, backward_button: str) -> None:
+    def __init__(self) -> None:
         rospy.init_node("dc_motor_node", anonymous=False)
-        self.pca = pca
-        self.dc = SinglePWMDCMotor(pca, channel, gpio)
+        self.pca = PCA.getInst()
+        self.__pins = Configurator().fetchData(Configurator().PINS)
+        self.left_dc = SinglePWMDCMotor(self.pca, self.__pins['DC_LEFT_PCA_CHANNEL'], self.__pins['DC_LEFT_GPIO'])
+        self.right_dc = SinglePWMDCMotor(self.pca, self.__pins['DC_RIGH_PCA_CHANNEL'], self.__pins['DC_RIGHT_PCA_GPIO'])
         self.joystick = CJoystick()
-        self.forward_button = forward_button
-        self.backward_button = backward_button
-        self.channels = [10, 11, 12, 13, 14, 15]
         
     def run(self):
         try:
             while not rospy.is_shutdown():
-                if self.joystick.isClicked(self.forward_button):
-                    self.dc.driveForward()
-                elif self.joystick.isClicked(self.backward_button):
-                    self.dc.driveBackward()
+                if self.joystick.isPressed("DCLEFTGRIPPER_RIGHT"):
+                    self.left_dc.driveForward()
+                elif self.joystick.isPressed("DCLEFTGRIPPER_LEFT"):
+                    self.left_dc.driveBackward()
                 else:
-                    self.dc.stop()
+                    self.left_dc.stop()
+
+                if self.joystick.isPressed("DCRIGHTGRIPPER_RIGHT"):
+                    self.right_dc.driveForward()
+                elif self.joystick.isPressed("DCRIGHTGRIPPER_LEFT"):
+                    self.right_dc.driveBackward()
+                else:
+                    self.right_dc.stop()
         except Exception as e:
             rospy.logerr(f"Error in DCNode: {e}")
         finally:
@@ -32,41 +37,9 @@ class DCNode:
 
 if __name__ == "__main__":
     try:
-        left_gripper = DCNode(PCA.getInst(), 9, 25, "DCLEFTGRIPPER_LEFT", "DCLEFTGRIPPER_RIGHT")
+        left_gripper = DCNode()
         left_gripper.run()
     except KeyboardInterrupt:
         rospy.loginfo("Exiting...")
         
     
-
-# class DCMotor:
-
-#     def __init__(self):
-#         rospy.init_node("dc_motor_node", anonymous=False)
-#         self.rightGripperButton_F = False
-#         self.rightGripperButton_R = False
-#     def callback(self,data):
-#         self.rightGripperButton_F = data.button10
-#         self.rightGripperButton_R = data.button3
-#     def run(self):
-#         rospy.Subscriber("/joystick", Joystick, self.callback)
-#         pca = PCA().getInst()
-#         rightGripper = SinglePWMDCMotor(pca, 11,8) 
-#         if self.rightGripperButton_F:
-#             print("Forward")
-#             rightGripper.driveForward()
-#             rightGripper.pcaHabal()
-#         elif self.rightGripperButton_R:
-#             print("Reverse")
-#             rightGripper.driveBackward()
-#             rightGripper.pcaHabal()
-#         else:
-#             print("ana hena")
-#             rightGripper.stop()
-# if __name__ == "__main__":
-#     try:
-#         node = DCMotor()
-#         while not rospy.is_shutdown():
-#             node.run()
-#     except KeyboardInterrupt:
-#         print("Exiting...")

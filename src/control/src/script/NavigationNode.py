@@ -25,14 +25,14 @@ class NavigationNode:
         self.y = axis_values.get('left_y_axis', 0)
         self.pitch = axis_values.get('right_x_axis', 0)
         self.yaw = axis_values.get('right_y_axis', 0)
-        if self.joystick.isClicked("HEAVE_DOWN") and self.joystick.isClicked("HEAVE_UP"):
+        if self.joystick.isPressed("HEAVE_DOWN") and self.joystick.isPressed("HEAVE_UP"):
             self.z = 0.0
             self.last_reset_time = current_time 
 
         elif current_time - self.last_reset_time > 0.2:  
-            if self.joystick.isClicked("HEAVE_UP"):
+            if self.joystick.isPressed("HEAVE_UP"):
                 self.z = min(self.z + 0.01, 1)
-            elif self.joystick.isClicked("HEAVE_DOWN"):
+            elif self.joystick.isPressed("HEAVE_DOWN"):
                 self.z = max(self.z - 0.01, -1)
         # rospy.loginfo(f"X TRAVERSAL = {self.x}")
         # rospy.loginfo(f"Y TRAVERSAL = {self.y}")
@@ -40,7 +40,7 @@ class NavigationNode:
         # rospy.loginfo(f"PITCH = {self.pitch}")
         # rospy.loginfo(f"YAW = {self.yaw}")
 
-        Navigation().navigate(left_x, left_y, 0, right_y, right_x)
+        # Navigation().navigate(left_x, left_y, 0, right_y, right_x)
 
 if __name__ == "__main__":
     try:
