@@ -19,14 +19,14 @@ class ExponentialSmoothing:
         smoothed_value = (1 - self.alpha) * current_value + self.alpha * target_value
 
         # Debugging prints
-        print(f"[DEBUG] current_value: {current_value}, target_value: {target_value}, alpha: {self.alpha}")
-        print(f"[DEBUG] Computed smoothed_value: {smoothed_value:.2f}")
+        # print(f"[DEBUG] current_value: {current_value}, target_value: {target_value}, alpha: {self.alpha}")
+        # print(f"[DEBUG] Computed smoothed_value: {smoothed_value:.2f}")
 
         # If the smoothed value is within the tolerance, snap to the target value
         if abs(smoothed_value - target_value) <= tolerance:
-            print(f"[DEBUG] smoothed_value {smoothed_value:.2f} is within tolerance {tolerance} of target {target_value}. Snapping to target.")
+            # print(f"[DEBUG] smoothed_value {smoothed_value:.2f} is within tolerance {tolerance} of target {target_value}. Snapping to target.")
             return target_value
 
         smoothed_int = int(smoothed_value)
-        print(f"[DEBUG] smoothed_value is outside tolerance. Returning {smoothed_int}")
+        # print(f"[DEBUG] smoothed_value is outside tolerance. Returning {smoothed_int}")
         return smoothed_int
