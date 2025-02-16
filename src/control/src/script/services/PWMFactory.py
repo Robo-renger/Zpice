@@ -6,8 +6,6 @@ from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
 from script.LogPublisherNode import LogPublisherNode
 from helpers.JsonFileHandler import JsonFileHandler
-from services.STM32 import STM32
-
 
 @implementer(iLoggable)
 class PWMFactory:
@@ -31,8 +29,9 @@ class PWMFactory:
     def getPWMDriver(self):
         if self.__PWMDriverType == "PCA":
             from services.PCADriver import PCA
-            self.__PWMDriverType = PCA().getInst()
+            self.__PWMDriver = PCA().getInst()
         elif self.__PWMDriverType == "STM32":
+            from services.STM32 import STM32
             #DO SMT32 REUIRED IMPORTS
             self.__PWMDriver = STM32(i2c_address=0x08)
             pass

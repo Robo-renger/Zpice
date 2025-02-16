@@ -6,7 +6,7 @@ class Configurator():
     BUTTONS = "joystick_buttons"
     KEYBOARD_AXES = "keyboard_axes"
     KEYBOARD_BUTTONS = "keyboard_buttons"
-    CHANGEABLE_MODULES = "hardware_changeable_modules"
+    CHANGEABLE_MODULES = "changeable_modules"
     def __init__(self):
         self.__configFile = ''
     def __raiseTypeError(self,data_type):
