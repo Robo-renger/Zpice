@@ -55,8 +55,8 @@ class SwitchingNode:
         leftGripper = self.switches[componentName]
 
         if self.joystick.isClicked(componentName):
-            print(f"{componentName} OPEN")
-            leftGripper.open()
+            print(f"{componentName} TOGGLE")
+            leftGripper.toggle()
 
 
 if __name__ == "__main__":

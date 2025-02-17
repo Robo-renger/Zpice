@@ -52,7 +52,8 @@ class IMUNode:
             self.msg.roll = roll
             self.msg.pitch = pitch 
             self.msg.yaw = yaw
-            self.pub.publish()
+            self.pub.publish(self.msg)
+            rospy.loginfo(f"yaw: {yaw}, pitch: {pitch}")
         except SensorReadError as e:
             rospy.logerr(f"{e} Skipping this cycle...")
 

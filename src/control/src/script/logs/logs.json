@@ -1,15 +1,11 @@
 [
     {
         "severity": "ERROR",
-        "message": "Failed to deserialize data.",
-        "component_name": "CJoystick",
-        "timestamp": "2025-02-15T00:14:23.669499"
+        "message": "BNO085 sensor initialization failed: No I2C device at address: 0x4b",
+        "component_name": "BNO085",
+        "timestamp": "2025-02-17T13:50:51.066155"
     }
-]
-    }
-]    }
-]   }
-]stamp": "2025-02-08T15:57:54.048011"
+]-08T15:57:54.048011"
     }
 ]front_left set to 1700",
         "component_name": "MockThruster",

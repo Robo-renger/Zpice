@@ -5,7 +5,7 @@ from helpers.PWMMapper import PWMMapper
 from DTOs.LogSeverity import LogSeverity
 from services.Logger import Logger
 from services.PWMFactory import PWMFactory
-
+from utils.Configurator import Configurator
 class Navigation:
     """
     Static class for ROV navigation.
@@ -13,13 +13,16 @@ class Navigation:
     Attributes:
         _thrusters (dict): Dictionary mapping thruster names to Thruster objects.
     """
+    print("ana lgdeed")
+    __pins = Configurator().fetchData(Configurator().PINS)
+
     _thrusters = {
-        "front_right": Thruster(pca=PWMFactory().getPWMDriver(), channel = 5),
-        "front_left": Thruster(pca=PWMFactory().getPWMDriver(), channel = 1),
-        "back_left": Thruster(pca=PWMFactory().getPWMDriver(), channel = 4),
-        "back_right": Thruster(pca=PWMFactory().getPWMDriver(), channel = 0),
-        "front": Thruster(pca=PWMFactory().getPWMDriver(), channel = 3),
-        "back": Thruster(pca=PWMFactory().getPWMDriver(), channel = 2),
+        "front_right": Thruster(pca=PWMFactory().getPWMDriver(), channel = __pins['FRONT_RIGHT_PCA_CHANNEL']),
+        "front_left": Thruster(pca=PWMFactory().getPWMDriver(), channel =__pins['FRONT_LEFT_PCA_CHANNEL']),
+        "back_left": Thruster(pca=PWMFactory().getPWMDriver(), channel = __pins['BACK_LEFT_PCA_CHANNEL']),
+        "back_right": Thruster(pca=PWMFactory().getPWMDriver(), channel = __pins['BACK_RIGHT_PCA_CHANNEL']),
+        "front": Thruster(pca=PWMFactory().getPWMDriver(), channel = __pins['FRONT_PCA_CHANNEL']),
+        "back": Thruster(pca=PWMFactory().getPWMDriver(), channel = __pins['BACK_PCA_CHANNEL']),
     }
 
     @staticmethod
