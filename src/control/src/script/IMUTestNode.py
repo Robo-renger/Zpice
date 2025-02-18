@@ -2,6 +2,7 @@
 import rospy
 import board
 import time
+import math
 import adafruit_bno08x as bno
 from services.IMU import BNO085
 from control.msg import IMU
@@ -10,13 +11,13 @@ from exceptions.SensorInitializationError import SensorInitializationError
 from exceptions.SensorReadError import SensorReadError
 from exceptions.SensorCalibrationError import SensorCalibrationError
 
-class IMUNode:
+class IMUTestNode:
     def __init__(self, reset_pin = None) -> None:
         rospy.init_node("imu_test_node")
+        self.reset_pin = reset_pin
         self.imu = self.initialize_sensor_with_retry()
         self.pub = rospy.Publisher("IMU", IMU, queue_size=10)
         self.msg = IMU()
-        self.reset_pin = reset_pin
 
     def initialize_sensor_with_retry(self) -> BNO085:
         """
@@ -50,11 +51,11 @@ class IMUNode:
     def run(self):
         try:
             roll, pitch, yaw = self.imu.getEulerAngles()
-            self.msg.roll = roll
-            self.msg.pitch = pitch 
-            self.msg.yaw = yaw
+            self.msg.roll = math.degrees(roll)
+            self.msg.pitch = math.degrees(pitch)
+            self.msg.yaw = math.degrees(yaw)
             self.pub.publish(self.msg)
-            rospy.loginfo(f"yaw: {yaw}, pitch: {pitch}")
+            rospy.loginfo(f"yaw: {math.degrees(yaw)}, pitch: {math.degrees(pitch)}")
         except SensorReadError as e:
             rospy.logerr(f"{e} Skipping this cycle...")
 
@@ -63,10 +64,10 @@ if __name__ == "__main__":
         mode = input("Enter mode: c -> Calibration, r -> Read data: ")
         if mode == "c":
             reset_pin = DigitalInOut(board.D5)
-            imu = IMUNode(reset_pin, True)
+            imu = IMUTestNode(reset_pin)
             imu.calibrate()
         else:
-            imu = IMUNode()
+            imu = IMUTestNode()
             imu.enableFeature(bno.BNO_REPORT_ACCELEROMETER)
             imu.enableFeature(bno.BNO_REPORT_GYROSCOPE)
             imu.enableFeature(bno.BNO_REPORT_MAGNETOMETER)

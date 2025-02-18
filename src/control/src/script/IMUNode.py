@@ -2,6 +2,7 @@
 import rospy
 import board
 import time
+import math
 import adafruit_bno08x as bno
 from services.IMU import BNO085
 from control.msg import IMU
@@ -43,9 +44,9 @@ class IMUNode:
     def run(self):
         try:
             roll, pitch, yaw = self.imu.getEulerAngles()
-            self.msg.roll = roll
-            self.msg.pitch = pitch 
-            self.msg.yaw = yaw
+            self.msg.roll = math.degrees(roll)
+            self.msg.pitch = math.degrees(pitch) 
+            self.msg.yaw = math.degrees(yaw)
             self.pub.publish(self.msg)
         except SensorReadError as e:
             rospy.logerr(f"{e} Skipping this cycle...")

@@ -1,13 +1,11 @@
 [
     {
-        "severity": "INFO",
-        "message": "Shared memory created successfully.",
-        "component_name": "CJoystick",
-        "timestamp": "2025-02-17T15:03:18.623714"
+        "severity": "ERROR",
+        "message": "BNO085 sensor initialization failed: No I2C device at address: 0x4b",
+        "component_name": "BNO085",
+        "timestamp": "2025-02-18T17:39:44.202187"
     }
-]]
-]"severity": "INFO",
-        "message": "back_right set to 1700",
+] "message": "back_right set to 1700",
         "component_name": "MockThruster",
         "timestamp": "2025-02-05T21:19:06.617664"
     },
