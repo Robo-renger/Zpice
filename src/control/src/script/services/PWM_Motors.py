@@ -16,7 +16,7 @@ class PWM_Motors:
         self.__smoother = None
         self.__setSmoother()
         self.stop() # Initialize the motor by 1500 value
-        
+        time.sleep(3)
         
     def __setSmoother(self):
         smootherType = Configurator().fetchData(Configurator.CHANGEABLE_MODULES)['SMOOTHING_STRAT']
@@ -57,9 +57,12 @@ class PWM_Motors:
         
         if en_smoothing:
             value = self._smoothing(value)
+            print(f"writing: {value}")
+            self.pca.PWMWrite(self.channel,value)
         else:
             self.pca.PWMWrite(self.channel, value)
-        
+            print(value)
+        self.current_value = value
     def _smoothing(self, value: int) -> None:
         """
         Smooth the PWM signal to the motor controller.

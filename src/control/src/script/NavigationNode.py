@@ -36,7 +36,7 @@ class NavigationNode:
                 self.z = max(self.z - 0.07, -1)
         # rospy.loginfo(f"X TRAVERSAL = {self.x}")
         # rospy.loginfo(f"Y TRAVERSAL = {self.y}")
-        rospy.loginfo(f"Z HEAVE = {self.z}")
+        # rospy.loginfo(f"Z HEAVE = {self.z}")
         # rospy.loginfo(f"PITCH = {self.pitch}")
         # rospy.loginfo(f"YAW = {self.yaw}")
         # Navigation().moveForward(80)

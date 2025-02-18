@@ -4,9 +4,9 @@
     </include>
     <!-- <node pkg="control" type="JoystickTest.py" name="joystick_test_node" output="screen"></node> -->
     <node pkg="control" type="JoystickNode.py" name="joystick_node" output="screen"></node>
-    <node pkg="control" type="DCMotorNode.py" name="dc_motor_node" output="screen"></node>
+    <!-- <node pkg="control" type="DCMotorNode.py" name="dc_motor_node" output="screen"></node> -->
     <!-- <node pkg="control" type="Servo360Node.py" name="servo360_node" output="screen"></node> -->
-    <node pkg="control" type="SwitchingNode.py" name="switching_node" output="screen"></node>
+    <!-- <node pkg="control" type="SwitchingNode.py" name="switching_node" output="screen"></node> -->
     <!-- <node pkg="control" type="NavigationTestNode.py" name="navigation_test_node" output="screen"></node> -->
     <node pkg="control" type="NavigationNode.py" name="navigation_node" output="screen"></node>
     <node pkg="gui" type="GUIStreamingNode.py" name="gui_streamer" output="screen"></node>
