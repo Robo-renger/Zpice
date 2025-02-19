@@ -13,7 +13,7 @@ class Navigation:
     Attributes:
         _thrusters (dict): Dictionary mapping thruster names to Thruster objects.
     """
-    print("ana lgdeed")
+    # print("ana lgdeed")
     __pins = Configurator().fetchData(Configurator().PINS)
 
     _thrusters = {

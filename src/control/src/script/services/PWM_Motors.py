@@ -57,11 +57,11 @@ class PWM_Motors:
         
         if en_smoothing:
             value = self._smoothing(value)
-            print(f"writing: {value}")
+            # print(f"writing: {value}")
             self.pca.PWMWrite(self.channel,value)
         else:
             self.pca.PWMWrite(self.channel, value)
-            print(value)
+            # print(value)
         self.current_value = value
     def _smoothing(self, value: int) -> None:
         """
