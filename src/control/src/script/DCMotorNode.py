@@ -11,7 +11,7 @@ class DCNode:
         self.pca = PCA.getInst()
         self.__pins = Configurator().fetchData(Configurator().PINS)
         self.left_dc = SinglePWMDCMotor(self.pca, self.__pins['DC_LEFT_PCA_CHANNEL'], self.__pins['DC_LEFT_GPIO'])
-        self.right_dc = SinglePWMDCMotor(self.pca, self.__pins['DC_RIGH_PCA_CHANNEL'], self.__pins['DC_RIGHT_PCA_GPIO'])
+        self.right_dc = SinglePWMDCMotor(self.pca, self.__pins['DC_RIGHT_PCA_CHANNEL'], self.__pins['DC_RIGHT_GPIO'])
         self.joystick = CJoystick()
         
     def run(self):

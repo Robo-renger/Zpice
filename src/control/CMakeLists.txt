@@ -57,6 +57,7 @@ catkin_python_setup()
   IMU.msg
   Depth.msg
   Status.msg
+  GPIOStatus.msg
 )
 
 ## Generate services in the 'srv' folder

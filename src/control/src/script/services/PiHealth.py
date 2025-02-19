@@ -2,6 +2,8 @@
 import subprocess
 import psutil 
 import rospy
+import time
+import pigpio
 from zope.interface import implementer
 from interface.IPiHealth import IPiHealth
 from services.Logger import Logger
@@ -125,11 +127,30 @@ class PiHealth:
             return None
 
     @staticmethod
-    def getGPIOStatus() -> str:
-        """Gets the realtime status of all the 27GPIOs eihter input or output, pulled high or low and incase of output does it have a high or low.
-        @return string containing all the status of the GPIOs."""
+    def getGPIOStatus(pi: pigpio.pi) -> dict:
+        """Gets the realtime status of all the 27GPIOs eihter input or output and incase of output does it have a high or low.
+        @return dictionary where each key is a GPIO number (int) and the value is another dict: { "mode": str, "level": str }"""
         try:
-            gpio_status = subprocess.check_output(['raspi-gpio', 'get']).decode('utf-8').strip()
+            gpio_status = {}
+            if not pi.connected:
+                Logger.logToFile(LogSeverity.ERROR, f"Could not connect to pigpio daemon. Please start it with 'sudo pigpiod'", "Pi")
+                Logger.logToGUI(LogSeverity.ERROR, f"Could not connect to pigpio daemon. Please start it with 'sudo pigpiod'", "Pi")
+                return None
+            for pin in range(0, 28):
+                mode_val = pi.get_mode(pin)
+                level_val = pi.read(pin)
+ 
+                if mode_val == 0:
+                    mode_str = "INPUT"
+                elif mode_val == 1:
+                    mode_str = "OUTPUT"
+                else:
+                    mode_str = f"ALT{mode_val - 2}"
+                    
+                level_str = "HIGH" if level_val == 1 else "LOW"
+                
+                gpio_status[pin] = {"mode": mode_str, "level": level_str}
+
             Logger.logToFile(LogSeverity.INFO, f"GPIO Status: {gpio_status}", "Pi")
             Logger.logToGUI(LogSeverity.INFO, f"GPIO Status: {gpio_status}", "Pi")
             return gpio_status

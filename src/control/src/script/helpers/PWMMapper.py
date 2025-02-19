@@ -8,7 +8,7 @@ class PWMMapper:
     Static class for mapping normalized values to PWM ranges.
     """
     @staticmethod
-    def axesToPWM(value, min_pwm=1100, max_pwm=1900):
+    def axesToPWM(value, min_pwm=1100, max_pwm=1850):
         """
         Map a normalized value (-1 to 1) to a PWM range (min_pwm to max_pwm).
 
@@ -30,7 +30,7 @@ class PWMMapper:
             return int(neutral + (value * (max_pwm - neutral)))
 
     @staticmethod
-    def percentageToPWM(percentage, reverse=False, min_pwm=1100, max_pwm=1900):
+    def percentageToPWM(percentage, reverse=False, min_pwm=1100, max_pwm=1850):
         """
         Convert a percentage (0-100) to a PWM value within a dynamic range.
 

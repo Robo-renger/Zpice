@@ -37,23 +37,22 @@ class NavigationNode:
         axis_values = self.joystick.getAxis()
         self.x = axis_values.get('left_x_axis', 0)
         self.y = axis_values.get('left_y_axis', 0)
-        self.pitch = axis_values.get('right_x_axis', 0)
-        self.yaw = axis_values.get('right_y_axis', 0)
-
+        self.pitch = axis_values.get('right_y_axis', 0)
+        self.yaw = axis_values.get('right_x_axis', 0)
         if self.joystick.isPressed("HEAVE_DOWN") and self.joystick.isPressed("HEAVE_UP"):
             self.z = 0.0
             self.last_reset_time = current_time 
         elif current_time - self.last_reset_time > 0.2:  
             if self.joystick.isPressed("HEAVE_UP"):
-                self.z = min(self.z + 0.01, 1)
+                self.z = min(self.z + 0.07, 1)
             elif self.joystick.isPressed("HEAVE_DOWN"):
-                self.z = max(self.z - 0.01, -1)
-
+                self.z = max(self.z - 0.07, -1)
         # rospy.loginfo(f"X TRAVERSAL = {self.x}")
         # rospy.loginfo(f"Y TRAVERSAL = {self.y}")
         # rospy.loginfo(f"Z HEAVE = {self.z}")
         # rospy.loginfo(f"PITCH = {self.pitch}")
         # rospy.loginfo(f"YAW = {self.yaw}")
+        # Navigation().moveForward(80)
 
         if self.x == 0 and self.y == 0 and self.z == 0 and self.pitch == 0 and self.yaw == 0:
             yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
