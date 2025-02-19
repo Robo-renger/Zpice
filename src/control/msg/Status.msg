@@ -5,5 +5,5 @@ float64 percentCPUUsage
 bool underVoltage
 bool GPUCoreState
 bool SDRAMState
-string GPIOStatus
+GPIOStatus[] GPIOState
 

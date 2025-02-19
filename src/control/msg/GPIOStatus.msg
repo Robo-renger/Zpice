@@ -1,0 +1,2 @@
+string gpio
+string state
