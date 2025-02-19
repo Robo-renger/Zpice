@@ -6,6 +6,7 @@ from DTOs.LogSeverity import LogSeverity
 from services.Logger import Logger
 from services.PWMFactory import PWMFactory
 from utils.Configurator import Configurator
+
 class Navigation:
     """
     Static class for ROV navigation.

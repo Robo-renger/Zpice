@@ -96,12 +96,12 @@ class Vectorizer:
             }
 
             thrusters = {
-                "back_right": pwm_signals["t1"],
-                "back_left": pwm_signals["t2"],
-                "back": pwm_signals["t5"],
-                "front_left": pwm_signals["t3"],
-                "front_right": pwm_signals["t4"],
-                "front": pwm_signals["t6"]
+                "front_right": pwm_signals["t1"],
+                "front_left": pwm_signals["t2"],
+                "back_left": pwm_signals["t3"],
+                "back_right": pwm_signals["t4"],
+                "front": pwm_signals["t5"],
+                "back": pwm_signals["t6"]
             }
 
             return thrusters

@@ -3,8 +3,6 @@ from simple_pid import PID
 class PIDController:
     """
     A wrapper class for the simple_pid library.
-
-    Handles yaw and pitch stabilization for the ROV.
     """
 
     def __init__(self, kp: float, ki: float, kd: float, setpoint: float = 0.0):
