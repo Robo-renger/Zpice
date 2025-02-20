@@ -2,6 +2,7 @@
 import rospy
 import board
 import time
+import math
 import adafruit_bno08x as bno
 from services.IMU import BNO085
 from control.msg import IMU
@@ -37,40 +38,28 @@ class IMUNode:
                 else:
                     raise SensorInitializationError("IMU sensor initialization failed after all retries.")
 
-    def calibrate(self) -> None:
-        try:
-            self.imu.Calibrate()
-        except SensorCalibrationError as e:
-            rospy.logerr(f"{e} Skipping this cycle...")
-
     def enableFeature(self, feature: int) -> None:
         self.imu.enableFeature(feature)
 
     def run(self):
         try:
             roll, pitch, yaw = self.imu.getEulerAngles()
-            self.msg.roll = roll
-            self.msg.pitch = pitch 
-            self.msg.yaw = yaw
-            self.pub.publish()
+            self.msg.roll = math.degrees(roll)
+            self.msg.pitch = math.degrees(pitch) 
+            self.msg.yaw = math.degrees(yaw)
+            self.pub.publish(self.msg)
         except SensorReadError as e:
             rospy.logerr(f"{e} Skipping this cycle...")
 
 if __name__ == "__main__":
     try:
-        mode = input("Enter mode: c -> Calibration, r -> Read data: ")
-        if mode == "c":
-            reset_pin = DigitalInOut(board.D5)
-            imu = IMUNode(reset_pin, True)
-            imu.calibrate()
-        else:
-            imu = IMUNode()
-            imu.enableFeature(bno.BNO_REPORT_ACCELEROMETER)
-            imu.enableFeature(bno.BNO_REPORT_GYROSCOPE)
-            imu.enableFeature(bno.BNO_REPORT_MAGNETOMETER)
-            imu.enableFeature(bno.BNO_REPORT_ROTATION_VECTOR)
-            while not rospy.is_shutdown():
-                imu.run()
+        imu = IMUNode()
+        imu.enableFeature(bno.BNO_REPORT_ACCELEROMETER)
+        imu.enableFeature(bno.BNO_REPORT_GYROSCOPE)
+        imu.enableFeature(bno.BNO_REPORT_MAGNETOMETER)
+        imu.enableFeature(bno.BNO_REPORT_ROTATION_VECTOR)
+        while not rospy.is_shutdown():
+            imu.run()
     except SensorInitializationError as e:
         rospy.logerr(f"Sensor initialization failed. {e}")
     except KeyboardInterrupt:

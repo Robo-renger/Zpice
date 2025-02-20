@@ -56,6 +56,8 @@ catkin_python_setup()
   Joystick.msg
   IMU.msg
   Depth.msg
+  Status.msg
+  GPIOStatus.msg
 )
 
 ## Generate services in the 'srv' folder

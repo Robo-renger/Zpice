@@ -2,13 +2,11 @@
 from zope.interface import implementer
 from interface.Servo360Interface import IServo360
 from interface.PWMDriver import PWMDriver
-from interface.iLoggable import iLoggable
-from DTOs.Log import Log
+from services.Logger import Logger
 from DTOs.LogSeverity import LogSeverity
-from helpers.JsonFileHandler import JsonFileHandler
-from nodes.LogPublisherNode import LogPublisherNode
 import time
-@implementer(IServo360, iLoggable)
+
+@implementer(IServo360)
 class Servo360:
     """
     360Servo class to control the rotation angle of 360servo moves in range of (1000 - 2000 us)
@@ -17,8 +15,6 @@ class Servo360:
     ms = 1500 stop 
     """
     def __init__(self, channel: int, pwm_driver: PWMDriver):
-        self.json_file_handler = JsonFileHandler()
-        self.log_publisher = LogPublisherNode()
         self.__pwm_driver = pwm_driver
         self.__channel = channel
         self.__forward_value = 1000
@@ -54,8 +50,8 @@ class Servo360:
         try:
             self.__pwm_driver.PWMWrite(self.__channel, self.__stop_value)
         except ValueError as e:
-            self.logToFile(LogSeverity.ERROR, f"Failed to stop the servo. {e}", "Servo360")
-            self.logToGUI(LogSeverity.ERROR, f"Failed to stop the servo. {e}", "Servo360")
+            Logger.logToFile(LogSeverity.ERROR, f"Failed to stop the servo. {e}", "Servo360")
+            Logger.logToGUI(LogSeverity.ERROR, f"Failed to stop the servo. {e}", "Servo360")
 
     def setForward(self, value: int) -> None:
         """
@@ -112,13 +108,3 @@ class Servo360:
         return: delay value.
         """
         return self.__delay
-    
-    def logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
-        log = Log(logSeverity, msg, component_name)
-        self.json_file_handler.writeToFile(log)
-        return log
-    
-    def logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
-        log = Log(logSeverity, msg, component_name)
-        self.log_publisher.publish(logSeverity.value, msg, component_name)
-        return log

@@ -6,7 +6,7 @@ from utils.EnvParams import EnvParams
 import pyshine as ps
 
 class CameraStreamer:
-    def __init__(self, cameraIndex, port,format = "H264") -> None:
+    def __init__(self, cameraIndex, port,format = "MJPG") -> None:
         self.address = EnvParams().WEB_DOMAIN
         self.cameraIndex = cameraIndex
         self.width = 1280
@@ -49,17 +49,19 @@ class CameraStreamer:
         return self.capture
 
     def _setup_h264(self):
+        print("eshta")
         """Sets up H.264 streaming using GStreamer."""
         print("Initializing camera with H.264 format...")
         gst_pipeline = (
-            "nvarguscamerasrc ! "
-            "video/x-raw(memory:NVMM), width=640, height=480, format=(string)NV12, framerate=30/1 ! "
-            "nvvidconv ! "
-            "video/x-raw, format=(string)I420 ! "
-            "x264enc speed-preset=ultrafast tune=zerolatency bitrate=500 ! "
+            "v4l2src device=/dev/right_camera ! "
+            "image/jpeg, width=1280, height=720, framerate=30/1 ! "
+            "jpegparse ! jpegdec ! videoconvert ! "
+            "x264enc speed-preset=ultrafast tune=zerolatency bitrate=2000 ! "
             "rtph264pay config-interval=1 pt=96 ! "
-            "udpsink host={} port={}".format(self.address, self.port)
+            f"udpsink host={self.address} port={self.port}"
         )
+
+
         self.capture = cv2.VideoCapture(gst_pipeline, cv2.CAP_GSTREAMER)
         return self.capture
         
@@ -98,8 +100,8 @@ class CameraStreamer:
             if self.server is not None:
                 self.server.socket.close()
 
-    def stream(self, port: int):
-        self.process = Process(target=self.__run, args=(port,))
+    def stream(self):
+        self.process = Process(target=self.__run)
         self.process.daemon = True
         self.process.start()
 

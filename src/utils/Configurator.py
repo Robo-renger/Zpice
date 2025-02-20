@@ -7,6 +7,7 @@ class Configurator():
     KEYBOARD_AXES = "keyboard_axes"
     KEYBOARD_BUTTONS = "keyboard_buttons"
     CHANGEABLE_MODULES = "changeable_modules"
+    PINS = "hardware_pins"
     def __init__(self):
         self.__configFile = ''
     def __raiseTypeError(self,data_type):
@@ -29,6 +30,8 @@ class Configurator():
             self.__configFile = workspace_path + f'/../../config/{Configurator.KEYBOARD_BUTTONS}.yaml'
         elif data_type == Configurator.CHANGEABLE_MODULES:
             self.__configFile = workspace_path + f'/../../config/{Configurator.CHANGEABLE_MODULES}.yaml'
+        elif data_type == Configurator.PINS:
+            self.__configFile = workspace_path + f'/../../config/{Configurator.PINS}.yaml'
         else: 
             self.__raiseTypeError(data_type)
     def fetchData(self,data_type):

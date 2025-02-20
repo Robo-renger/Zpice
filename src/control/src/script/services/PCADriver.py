@@ -2,22 +2,19 @@
 from zope.interface import implementer
 from interface.PWMDriver import PWMDriver
 from utils.EnvParams import EnvParams
-from DTOs.Log import Log
+import board
+import busio
+from adafruit_pca9685 import PCA9685
+from services.Logger import Logger
 from DTOs.LogSeverity import LogSeverity
-from script.LogPublisherNode import LogPublisherNode
-from helpers.JsonFileHandler import JsonFileHandler
 
-@implementer(PWMDriver, iLoggable)
+@implementer(PWMDriver)
 class PCA:
     __inst = None
 
     def __init__(self, i2c_address=0x40, frequency=50):
         self.__simulation_mode = EnvParams().ENV == "SIMULATION"
         self.frequency = frequency
-        self.log_publisher = LogPublisherNode()
-        self.json_file_handler = JsonFileHandler()
-        self.pca = None
-        self.__initializePCA(i2c_address, frequency)
 
     def __initializePCA(self, i2c_address, frequency):
         """
@@ -38,46 +35,10 @@ class PCA:
                 i2c = busio.I2C(board.SCL, board.SDA)
                 self.pca = PCA9685(i2c, address=i2c_address)
                 self.pca.frequency = frequency
-            except (RuntimeError, ImportError) as e:
-                self.__logToFile(LogSeverity.ERROR, f"Could not find PCA on I2C bus: {e}", "PCA")
-                self.__logToGUI(LogSeverity.ERROR, f"Could not find PCA on I2C bus: {e}", "PCA")
-                self.pca = None
-##################################### START DUMMY PCA #######################################
-    def __createDummyPCA(self, frequency):
-        """
-        Creates a dummy PCA object for simulation.
-        """
-        class DummyPCA:
-            def __init__(self, frequency):
-                self.frequency = frequency
-                self.channels = [DummyChannel() for _ in range(16)]
-            def _microsecondsToDutycycle(self, microseconds):
-                """
-                Converts microseconds to a duty cycle value.
-                """
-                period_us = 1_000_000 / self.frequency
-                duty_cycle = int((microseconds / period_us) * 65535)
-                return duty_cycle
-            def PWMWrite(self, channel, microseconds):
-                """
-                Set the PWM duty cycle for a specific channel based on the pulse width in microseconds.
-                """
-                if not 0 <= channel <= 15:
-                    raise ValueError("Channel must be between 0 and 15.")
-                if channel == 5:
-                    print(f"[Simulation Mode] Setting channel {channel} to {microseconds} microseconds pulse width.")
+            except (RuntimeError, ImportError):
+                Logger.logToFile(LogSeverity.ERROR,"Couldnt find PCA on i2c bus, while Environemnt is not set to 'SIMULATION'")
+                Logger.logToGUI(LogSeverity.ERROR,"Couldnt find PCA on i2c bus, while Environemnt is not set to 'SIMULATION'")
 
-            def stopAll(self):
-                """
-                Stop PWM output on all channels.
-                """
-                print("[Simulation Mode] Stopping all channels (PCA not initialized).")
-        class DummyChannel:
-            def __init__(self):
-                    self.duty_cycle = 0
-        return DummyPCA(frequency)
-
-##################################### END DUMMY PCA #######################################\
     def _microsecondsToDutycycle(self, microseconds):
         """
         Converts microseconds to a duty cycle value.
@@ -93,8 +54,8 @@ class PCA:
             ValueError: If the channel is not between 0 and 15.
         """
         if not 0 <= channel <= 15:
-            self.logToFile(LogSeverity.ERROR, "Channel must be between 0 and 15.", "PCA9685")
-            self.logToGUI(LogSeverity.ERROR, "Channel must be between 0 and 15.", "PCA9685")
+            Logger.logToFile(LogSeverity.ERROR, "Channel must be between 0 and 15.", "PCA9685")
+            Logger.logToGUI(LogSeverity.ERROR, "Channel must be between 0 and 15.", "PCA9685")
             raise ValueError("Channel must be between 0 and 15.")
 
         elif self.pca is not None:
@@ -129,13 +90,3 @@ class PCA:
         if PCA.__inst is None:
             PCA.__inst = PCA()
         return PCA.__inst
-
-    def __logToFile(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
-        log = Log(logSeverity, msg, component_name)
-        self.json_file_handler.writeToFile(log)
-        return log
-
-    def __logToGUI(self, logSeverity: LogSeverity, msg: str, component_name: str) -> Log:
-        log = Log(logSeverity, msg, component_name)
-        self.log_publisher.publish(logSeverity.value, msg, component_name)
-        return log
