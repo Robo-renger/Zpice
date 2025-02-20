@@ -21,35 +21,30 @@ class Servo360:
         self.log_publisher = LogPublisherNode()
         self.__pwm_driver = pwm_driver
         self.__channel = channel
-        self.__forward_value = 1495
-        self.__stop_value = 1500
-        self.__backward_value = 1505
+        self.__forward_value = 1000
+        self.__stop_value = 1475
+        self.__backward_value = 2000
+        self.__delay = 0.0001
     
     def goForward(self) -> None:
         """
         Makes the servo move clockwise with a very small angle
         :param channel: the channel the servo is connected to.
         """
-        try:
-            self.__pwm_driver.PWMWrite(self.__channel, self.__forward_value)
-            time.sleep(self.__delay)
-            self.Stop()
-        except ValueError as e:
-            self.logToFile(LogSeverity.ERROR, f"Failed to move the servo forward. {e}", "Servo360")
-            self.logToGUI(LogSeverity.ERROR, f"Failed to move the servo forward. {e}", "Servo360")
+        self.__pwm_driver.PWMWrite(self.__channel, self.__forward_value)
+        # time.sleep(self.__delay)
+        # self.Stop()
+        # time.sleep(0.01)
         
     def goBackwards(self) -> None:
         """
         Makes the servo move counter clockwise with a very small angle
         :param channel: the channel the servo is connected to.
         """
-        try:
-            self.__pwm_driver.PWMWrite(self.__channel, self.__backward_value)
-            time.sleep(self.__delay)
-            self.Stop()
-        except ValueError as e:
-            self.logToFile(LogSeverity.ERROR, f"Failed to move the servo backwards. {e}", "Servo360")
-            self.logToGUI(LogSeverity.ERROR, f"Failed to move the servo backwards. {e}", "Servo360")
+        self.__pwm_driver.PWMWrite(self.__channel, self.__backward_value)
+        # time.sleep(self.__delay)
+        # self.Stop()
+        # time.sleep(0.01)
 
     def Stop(self) -> None:
         """

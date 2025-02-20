@@ -1,20 +1,12 @@
 camera1:
-  index: '/home/ziad/zpice_ws/src/gui/src/test.mp4'
-  width: 640
+  fps: 30
   height: 480
-  fps: 20
-  port: 8081
-# camera2:
-#   index: '/dev/right_camera'
-#   width: 640
-#   height: 480
-#   fps: 30
-#   port: 8082
-# camera3:
-#   index: '/dev/rapoo_camera'
-#   width: 1280
-#   height: 960
-#   fps: 20
-#   port: 8083
-
-#Rapoo and left cameras probably doesnt not suppoer mjpg format
+  index: /dev/right_camera
+  port: 8082
+  width: 642
+camera2:
+  fps: 30
+  height: 480
+  index: /dev/right_camera
+  port: 8082
+  width: 640
