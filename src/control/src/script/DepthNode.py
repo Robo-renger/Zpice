@@ -39,6 +39,7 @@ class DepthNode:
             self.msg.pressure = self.sensor.getPressure()
             self.msg.depth = self.sensor.getDepth()
             self.pub.publish(self.msg)
+            # rospy.logerr(self.msg.pressure)
         except SensorReadError as e:
             rospy.logerr(f"{e} Skipping this cycle...")
         except Exception as e:

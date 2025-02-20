@@ -81,9 +81,9 @@ class Navigation:
                 "front": 1500,
                 "back": 1500,
                 "front_right": pwm_value_reverse,
-                "front_left": pwm_value_reverse,
-                "back_right": pwm_value_reverse,
-                "back_left": pwm_value_reverse,
+                "front_left": pwm_value_forward,
+                "back_left": pwm_value_forward,
+                "back_right": pwm_value_reverse
             })
         except ValueError as e:
             Logger.logToFile(LogSeverity.ERROR, f"{e}", "Navigation")
@@ -102,10 +102,10 @@ class Navigation:
             Navigation._applyThrusts({
                 "front": 1500,
                 "back": 1500,
-                "front_right": pwm_value_forward,
+                "front_right": pwm_value_reverse,
                 "front_left": pwm_value_forward,
-                "back_right": pwm_value_forward,
                 "back_left": pwm_value_forward,
+                "back_right": pwm_value_reverse
             })
         except ValueError as e:
             Logger.logToFile(LogSeverity.ERROR, f"{e}", "Navigation")
