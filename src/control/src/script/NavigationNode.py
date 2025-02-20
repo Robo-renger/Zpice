@@ -47,7 +47,7 @@ class NavigationNode:
         current_time = time.time()
         axis_values = self.joystick.getAxis()
         self.x = axis_values.get('left_x_axis', 0)
-        self.y = axis_values.get('left_y_axis', 0)
+        self.y = -1 * axis_values.get('left_y_axis', 0)
         self.pitch = axis_values.get('right_y_axis', 0)
         self.yaw = axis_values.get('right_x_axis', 0)
 
@@ -93,6 +93,14 @@ class NavigationNode:
                 depth_output = self.z
 
             Navigation.navigate(self.x, self.y, depth_output, pitch_output, yaw_output)
+        # rospy.loginfo(f"X TRAVERSAL = {self.x}")
+        # rospy.loginfo(f"Y TRAVERSAL = {self.y}")
+        # rospy.loginfo(f"Z HEAVE = {self.z}")
+        # rospy.loginfo(f"PITCH = {self.pitch}")
+        # rospy.loginfo(f"YAW = {self.yaw}")
+        # Navigation().moveForward(80)
+
+        Navigation().navigate(self.x, self.y, self.pitch, self.z, self.yaw)
 
 if __name__ == "__main__":
     try:

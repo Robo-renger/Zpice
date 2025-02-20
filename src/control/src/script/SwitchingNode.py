@@ -38,16 +38,16 @@ class SwitchingNode:
         flashSwitch = self.switches[componentName]
 
         if self.joystick.isClicked(componentName):
-            print(f"is open before: {flashSwitch.opened}")
+            # print(f"is open before: {flashSwitch.opened}")
             flashSwitch.toggle()
-            print(f"is open after: {flashSwitch.opened}")
+            # print(f"is open after: {flashSwitch.opened}")
 
     def __rightGripper(self):
         componentName = 'RIGHTGRIPPER'
         rightGripper = self.switches[componentName]
 
         if self.joystick.isClicked(componentName):
-            print(f"{componentName} TOGGLE")
+            # print(f"{componentName} TOGGLE")
             rightGripper.toggle()
 
     def __leftGripper(self):
@@ -55,7 +55,7 @@ class SwitchingNode:
         leftGripper = self.switches[componentName]
 
         if self.joystick.isClicked(componentName):
-            print(f"{componentName} TOGGLE")
+            # print(f"{componentName} TOGGLE")
             leftGripper.toggle()
 
 

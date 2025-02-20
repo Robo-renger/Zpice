@@ -63,8 +63,8 @@ class CJoystick:
                 if button_key.startswith("button"):  # Ensure valid button key format
                     try:
                         button_number = button_key.replace("button", "")
-                        print("ana ahooo: ")
-                        print(button_number)
+                        # print("ana ahooo: ")
+                        # print(button_number)
                         setattr(cls, button_name, button_number)
                         setattr(cls, f"_{button_number}", button_number)  # Add support for _X button notation
                     except ValueError:
