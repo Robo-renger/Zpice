@@ -3,10 +3,14 @@
 import rospy
 from control.msg import IMU, Depth
 from services.Joystick import CJoystick
+from control.msg import IMU, Depth
+from services.Joystick import CJoystick
 from services.Navigation import Navigation
 from services.Vectorizer import Vectorizer
 from services.PIDController import PIDController
+from services.PIDController import PIDController
 import time
+
 
 class NavigationNode:
     def __init__(self):
@@ -49,6 +53,7 @@ class NavigationNode:
         self.y = -1 * axis_values.get('left_y_axis', 0)
         self.pitch = axis_values.get('right_y_axis', 0)
         self.yaw = axis_values.get('right_x_axis', 0)
+
 
         if self.joystick.isPressed("HEAVE_DOWN") and self.joystick.isPressed("HEAVE_UP"):
             self.z = 0.0
@@ -126,3 +131,4 @@ if __name__ == "__main__":
             node.navigate()
     except KeyboardInterrupt:
         rospy.loginfo("Exiting Navigation Node...")
+
