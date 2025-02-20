@@ -43,14 +43,14 @@ class Vectorizer:
 
             if Vectorizer.yaw_only and x == 0 and y == 0:  # Yaw active only when x and y are zero
                 if angle == math.radians(135) or angle == math.radians(315):  # t1 and t3
-                    yaw_contrib = -yaw  # Negative yaw contribution for clockwise rotation
+                    yaw_contrib = yaw  # Positive yaw contribution for clockwise rotation
                 else:  # t2 and t4
-                    yaw_contrib = yaw   # Positive yaw contribution for counterclockwise rotation
+                    yaw_contrib = -yaw   # Negative yaw contribution for counterclockwise rotation
             elif not Vectorizer.yaw_only:  # Yaw always active
                 if angle == math.radians(135) or angle == math.radians(315):  # t1 and t3
-                    yaw_contrib = -yaw  # Negative yaw contribution for clockwise rotation
+                    yaw_contrib = yaw  # Positive yaw contribution for clockwise rotation
                 else:  # t2 and t4
-                    yaw_contrib = yaw   # Positive yaw contribution for counterclockwise rotation
+                    yaw_contrib = -yaw   # Negative yaw contribution for counterclockwise rotation
             else:
                 yaw = 0
                 yaw_contrib = yaw  # No yaw contribution if yaw_mode is True and x or y is non-zero

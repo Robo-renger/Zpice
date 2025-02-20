@@ -23,10 +23,6 @@ class NavigationNode:
         self.pid_pitch = PIDController(0.1, 0.1, 0.1)
         self.pid_heave = PIDController(0.1, 0.1, 0.1)
         
-        self.current_heading = 0.0
-        self.current_pitch = 0.0
-        self.current_depth = 0.0
-        
         self.imu_data = {
             'pitch': 0.0,
             'yaw' : 0.0
@@ -43,7 +39,7 @@ class NavigationNode:
     def _depthCallback(self, msg: Depth):
         self.depth = msg.depth
 
-    def navigate(self):
+    def handleJoystickInput(self):
         current_time = time.time()
         axis_values = self.joystick.getAxis()
         self.x = axis_values.get('left_x_axis', 0)
@@ -62,45 +58,51 @@ class NavigationNode:
 
         # Update current heading, pitch, and depth when moving
         if self.x != 0 or self.y != 0 or self.z != 0 or self.pitch != 0 or self.yaw != 0:
-            self.current_heading = self.imu_data['yaw']
-            self.current_pitch = self.imu_data['pitch']
-            self.current_depth = self.depth
+            self.pid_yaw.updateSetpoint(self.imu_data['yaw'])
+            self.pid_pitch.updateSetpoint(self.imu_data['pitch'])
+            self.pid_heave.updateSetpoint(self.depth)
 
-        # No joystick inputs (ROV at Rest)
+    def stabilizeAtRest(self):
+        """
+        Stabilize yaw and pitch when the ROV is at rest.
+        """
+        yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
+        pitch_output = self.pid_pitch.stabilize(self.imu_data['pitch'])
+        Navigation.navigate(0, 0, pitch_output, 0, yaw_output)
+
+    def fixHeave(self):
+        """
+        Stabilize depth (heave) when the ROV is moving horizontally.
+        """
+        depth_output = self.pid_heave.stabilize(self.depth)
+        Navigation.navigate(self.x, self.y, 0, depth_output, self.yaw)
+
+    def fixHeading(self):
+        """
+        Stabilize yaw (heading) when the ROV is moving vertically.
+        """
+        yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
+        Navigation.navigate(self.x, self.y, self.pitch, self.z, yaw_output)
+
+    def navigate(self):
+        # Vectorizer.yaw_only = False
+        self.handleJoystickInput()
+
+        # ROV is at rest
         if self.x == 0 and self.y == 0 and self.z == 0 and self.pitch == 0 and self.yaw == 0:
-            yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
-            pitch_output = self.pid_pitch.stabilize(self.imu_data['pitch'])
-            depth_output = self.pid_heave.stabilize(self.depth)
-            Navigation.navigate(0, 0, depth_output, pitch_output, yaw_output)
+            self.stabilizeAtRest()
+        
+        # ROV is moving horizontally (forward, backward, rightward, leftward)
+        elif self.z == 0 and self.pitch == 0:
+            self.fixHeave()
+
+        # ROV is moving vertically (upward, downward)
+        elif self.x == 0 and self.y == 0 and self.yaw == 0:
+            self.fixHeading()
+        
+        # Default: Use joystick input directly
         else:
-            # Joystick input is present, stabilize heading, pitch, and depth if no input is provided
-            if self.yaw == 0:
-                self.pid_yaw.updateSetpoint(self.current_heading)
-                yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
-            else:
-                yaw_output = self.yaw
-
-            if self.pitch == 0:
-                self.pid_pitch.updateSetpoint(self.current_pitch)
-                pitch_output = self.pid_pitch.stabilize(self.imu_data['pitch'])
-            else:
-                pitch_output = self.pitch
-
-            if self.z == 0:
-                self.pid_heave.updateSetpoint(self.current_depth)
-                depth_output = self.pid_heave.stabilize(self.depth)
-            else:
-                depth_output = self.z
-
-            Navigation.navigate(self.x, self.y, depth_output, pitch_output, yaw_output)
-        # rospy.loginfo(f"X TRAVERSAL = {self.x}")
-        # rospy.loginfo(f"Y TRAVERSAL = {self.y}")
-        # rospy.loginfo(f"Z HEAVE = {self.z}")
-        # rospy.loginfo(f"PITCH = {self.pitch}")
-        # rospy.loginfo(f"YAW = {self.yaw}")
-        # Navigation().moveForward(80)
-
-        Navigation().navigate(self.x, self.y, self.pitch, self.z, self.yaw)
+            Navigation.navigate(self.x, self.y, self.pitch, self.z, self.yaw)
 
 if __name__ == "__main__":
     try:
