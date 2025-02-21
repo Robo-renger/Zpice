@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
-from rpi_ws281x import PixelStrip, Color
+import neopixel 
+import board
 
 class LEDDriver:
-    def __init__(self, pin=27, num_leds=16, brightness=255):
+    def __init__(self, pin=board.D18, num_leds=16, brightness=1):
+        print("Rowan BTNAWARRRRR")
         """
         Initialize the WS2812 LED driver.
 
@@ -14,8 +16,10 @@ class LEDDriver:
         self.num_leds = num_leds
         self.brightness = brightness
 
-        self.strip = PixelStrip(num_leds, pin, brightness=brightness)
-        self.strip.begin()
+        self.strip = neopixel.NeoPixel(pin, num_leds, brightness=brightness)
+        print("alo")
+        self.strip.fill((255, 255, 255))
+        self.strip.show()
 
     def setColor(self, led_index, color):
         """
@@ -25,7 +29,7 @@ class LEDDriver:
         :param color: Tuple of (R, G, B) values (0-255).
         """
         if 0 <= led_index < self.num_leds:
-            self.strip.setPixelColor(led_index, Color(*color))
+            self.strip[led_index]
             self.strip.show()
         else:
             raise ValueError("LED index out of range")
@@ -36,16 +40,14 @@ class LEDDriver:
 
         :param color: Tuple of (R, G, B) values (0-255).
         """
-        for i in range(self.num_leds):
-            self.strip.setPixelColor(i, Color(*color))
+        self.strip.fill(color)
         self.strip.show()
 
     def clear(self):
         """
         Turn off all LEDs.
         """
-        for i in range(self.num_leds):
-            self.strip.setPixelColor(i, Color(0, 0, 0))
+        self.strip.fill((0, 0, 0))
         self.strip.show()
 
     def setBrightness(self, brightness):
@@ -54,5 +56,4 @@ class LEDDriver:
 
         :param brightness: Brightness level (0 to 255).
         """
-        self.strip.setBrightness(brightness)
-        self.strip.show()
+        self.strip.brightness = brightness

@@ -1,13 +1,11 @@
 [
     {
-        "severity": "ERROR",
-        "message": "Failed to deserialize data.",
+        "severity": "INFO",
+        "message": "Shared memory created successfully.",
         "component_name": "CJoystick",
-        "timestamp": "2025-02-20T23:23:10.009704"
+        "timestamp": "2025-02-21T18:31:45.817022"
     }
-]
-    }
-]stamp": "2025-02-20T21:27:01.463738"
+]]stamp": "2025-02-20T21:27:01.463738"
     }
 ] 'INPUT', 'level': 'HIGH'}, 5: {'mode': 'OUTPUT', 'level': 'HIGH'}, 6: {'mode': 'INPUT', 'level': 'HIGH'}, 7: {'mode': 'OUTPUT', 'level': 'HIGH'}, 8: {'mode': 'OUTPUT', 'level': 'HIGH'}, 9: {'mode': 'INPUT', 'level': 'LOW'}, 10: {'mode': 'INPUT', 'level': 'LOW'}, 11: {'mode': 'ALT2', 'level': 'LOW'}, 12: {'mode': 'INPUT', 'level': 'LOW'}, 13: {'mode': 'INPUT', 'level': 'LOW'}, 14: {'mode': 'ALT0', 'level': 'HIGH'}, 15: {'mode': 'ALT0', 'level': 'HIGH'}, 16: {'mode': 'INPUT', 'level': 'LOW'}, 17: {'mode': 'INPUT', 'level': 'LOW'}, 18: {'mode': 'INPUT', 'level': 'LOW'}, 19: {'mode': 'INPUT', 'level': 'LOW'}, 20: {'mode': 'INPUT', 'level': 'LOW'}, 21: {'mode': 'INPUT', 'level': 'LOW'}, 22: {'mode': 'INPUT', 'level': 'LOW'}, 23: {'mode': 'INPUT', 'level': 'LOW'}, 24: {'mode': 'INPUT', 'level': 'LOW'}, 25: {'mode': 'INPUT', 'level': 'LOW'}, 26: {'mode': 'OUTPUT', 'level': 'HIGH'}, 27: {'mode': 'OUTPUT', 'level': 'HIGH'}}",
         "component_name": "Pi",
