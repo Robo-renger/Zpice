@@ -75,10 +75,3 @@ class SinglePWMDCMotor:
         self.pca.PWMWrite(self.channel, 350)
         GPIO.output(self.dir_pin, GPIO.LOW)
 
-    def pcaHabal(self) -> None: 
-        channels = [i for i in range(6, 16)]
-        for channel in channels:
-            self.pca.PWMWrite(channel, 19500)
-            time.sleep(3)
-            self.pca.PWMWrite(channel, 350)
-            time.sleep(3)
