@@ -5,7 +5,7 @@ import board
 
 class LEDDriver:
     def __init__(self, pin=board.D18, num_leds=16, brightness=1):
-        print("Rowan BTNAWARRRRR")
+        # print("Rowan BTNAWARRRRR")
         """
         Initialize the WS2812 LED driver.
 
@@ -17,7 +17,7 @@ class LEDDriver:
         self.brightness = brightness
 
         self.strip = neopixel.NeoPixel(pin, num_leds, brightness=brightness)
-        print("alo")
+        # print("alo")
         self.strip.fill((255, 255, 255))
         self.strip.show()
 

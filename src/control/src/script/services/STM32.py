@@ -32,7 +32,7 @@ class STM32:
 
         # Send the message as a block of data
         self.bus.write_i2c_block_data(self.i2c_address, 0x00, byte_data)  # 0x00 is the register
-        print(f"Sent: {message}")
+        # print(f"Sent: {message}")
 
     def PWMWrite(self, channel, microseconds):
         """
@@ -52,7 +52,7 @@ class STM32:
         for channel in self.channels.keys():
             self.__sendMessage(f"{channel}-0")
             self.channels[channel] = 0  # Update dictionary to reflect stopped channels
-        print("All channels stopped.")
+        # print("All channels stopped.")
 
     def close(self):
         """Closes the I2C bus connection."""

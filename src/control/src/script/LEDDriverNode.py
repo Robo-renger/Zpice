@@ -9,7 +9,7 @@ class LEDDriverNode:
     def __init__(self):
         rospy.init_node('led_driver_node', anonymous=False)
         self.led_driver = LEDDriver()
-        print("ana alos")
+        # print("ana alos")
 if __name__ == '__main__':
     try:
         node = LEDDriverNode()

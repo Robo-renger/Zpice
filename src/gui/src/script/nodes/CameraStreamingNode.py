@@ -19,7 +19,7 @@ class CameraStreamerNode:
 
     def runStreams(self):
         for camera, details in self.camerasDetails.items():
-            cameraStreamer = CameraStreamer(details['index'],details['port'])
+            cameraStreamer = CameraStreamer(details['index'],details['port'], format="MJPG")
             self.cameraStreamers.append(cameraStreamer)
             cameraStreamer.setFPS(details['fps'])
             cameraStreamer.setFrameSize(details['width'], details['height'])

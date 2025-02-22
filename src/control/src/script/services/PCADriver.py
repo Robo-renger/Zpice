@@ -15,6 +15,7 @@ class PCA:
     def __init__(self, i2c_address=0x40, frequency=50):
         self.__simulation_mode = EnvParams().ENV == "SIMULATION"
         self.frequency = frequency
+        self.__initializePCA(i2c_address, self.frequency)
 
     def __initializePCA(self, i2c_address, frequency):
         """

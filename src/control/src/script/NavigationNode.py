@@ -106,22 +106,22 @@ class NavigationNode:
 
         # ROV is at rest Manual
         if self.x == 0 and self.y == 0 and self.z == 0 and self.pitch == 0 and self.yaw == 0:
-            rospy.logwarn("PID")
+            # rospy.logwarn("PID")
             self.stabilizeAtRest()
         
         # ROV is moving horizontally (forward, backward, rightward, leftward) Autonomous
         if self.z == 0 and self.pitch == 0:
-            rospy.logwarn("PID")
+            # rospy.logwarn("PID")
             self.fixHeave()
 
         # ROV is moving vertically (upward, downward) Autonomous 
         if self.x == 0 and self.y == 0 and self.yaw == 0 and (self.z != 0 or self.pitch != 0):
-            rospy.logwarn("PID")
+            # rospy.logwarn("PID")
             self.fixHeading()
         
         # Default: Use joystick input directly
         else:
-            rospy.logwarn("Joystick")
+            # rospy.logwarn("Joystick")
             Navigation.navigate(self.x, self.y, self.pitch, self.z, self.yaw)
 
 if __name__ == "__main__":
