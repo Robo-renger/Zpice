@@ -9,4 +9,4 @@ camera2:
   height: 480
   index: /dev/right_camera
   port: 8082
-  width: 640
+  width: 145
