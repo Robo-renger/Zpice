@@ -24,6 +24,7 @@ class PWMFactory:
         if self.__PWMDriverType == "PCA":
             from services.PCADriver import PCA
             self.__PWMDriver = PCA().getInst()
+            self.__PWMDriver = PCA().getInst()
         elif self.__PWMDriverType == "STM32":
             from services.STM32 import STM32
             #DO SMT32 REUIRED IMPORTS

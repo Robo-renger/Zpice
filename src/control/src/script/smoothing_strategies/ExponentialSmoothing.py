@@ -7,6 +7,7 @@ from zope.interface import implementer
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from interface.ISmoothingStrategy import ISmoothingStrategy
 import time
+import time
 
 @implementer(ISmoothingStrategy)
 class ExponentialSmoothing:
@@ -14,6 +15,7 @@ class ExponentialSmoothing:
         if not (0 < alpha < 1):
             raise ValueError("Alpha must be between 0 and 1.")
         self.alpha = alpha
+
 
     def smooth(self, current_value: int, target_value: int, tolerance: int = 20) -> int:
         smoothed_value = (1 - self.alpha) * current_value + self.alpha * target_value

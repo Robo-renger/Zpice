@@ -48,6 +48,7 @@ class IMUNode:
             self.msg.pitch = math.degrees(pitch) 
             self.msg.yaw = math.degrees(yaw)
             self.pub.publish(self.msg)
+            # rospy.logerr(self.msg.pitch)
         except SensorReadError as e:
             rospy.logerr(f"{e} Skipping this cycle...")
 

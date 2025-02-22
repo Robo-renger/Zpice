@@ -5,13 +5,6 @@ camera1:
   fps: 20
   port: 8081
 camera2:
-  index: '/dev/right_camera'
-  width: 640
-  height: 480
-  index: /dev/right_camera
-  port: 8082
-  width: 642
-camera2:
   fps: 30
   height: 480
   index: /dev/right_camera

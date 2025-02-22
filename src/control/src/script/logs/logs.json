@@ -1,9 +1,21 @@
 [
     {
-        "severity": "ERROR",
-        "message": "Failed to deserialize data.",
+        "severity": "INFO",
+        "message": "Shared memory created successfully.",
         "component_name": "CJoystick",
+<<<<<<<<< Temporary merge branch 1
         "timestamp": "2025-02-19T20:59:26.118558"
+=========
+        "timestamp": "2025-02-17T01:25:43.047400"
+    }
+]
+    }
+]  }
+]    }
+]]stamp": "2025-02-08T15:57:54.048011"
+=======
+        "timestamp": "2025-02-12T19:42:41.685659"
+>>>>>>>>> Temporary merge branch 2
     }
 ]
     }
