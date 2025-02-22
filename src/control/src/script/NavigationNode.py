@@ -7,11 +7,11 @@ from services.Joystick import CJoystick
 from services.Navigation import Navigation
 from services.Vectorizer import Vectorizer
 from services.PIDController import PIDController
+from utils.Configurator import Configurator
 import time
 
 class NavigationNode:
     def __init__(self):
-        rospy.init_node('navigation_node', anonymous=False)
         self.joystick = CJoystick()
         self.x = 0
         self.y = 0
@@ -19,14 +19,11 @@ class NavigationNode:
         self.pitch = 0
         self.yaw = 0
         self.last_reset_time = 0  
+        self.PID_configs = Configurator().fetchData(Configurator.PID_PARAMS)
         
-        self.pid_yaw = PIDController(0.01, 0, 0)
-        self.pid_pitch = PIDController(0.01, 0, 0)
-        self.pid_heave = PIDController(0.01, 0, 0)
-        
-        rospy.Subscriber("IMU", IMU, self._imuCallback)
-        rospy.Subscriber("depth", Depth, self._depthCallback)
-        
+        self.pid_yaw   = PIDController(self.PID_configs['yaw_KP'], self.PID_configs['yaw_KI'], self.PID_configs['yaw_KD'])
+        self.pid_pitch = PIDController(self.PID_configs['pitch_KP'], self.PID_configs['pitch_KI'], self.PID_configs['pitch_KD'])
+        self.pid_heave = PIDController(self.PID_configs['heave_KP'], self.PID_configs['heave_KI'], self.PID_configs['heave_KD'])
         self.imu_data = {
             'pitch': None,
             'yaw' : None
@@ -35,9 +32,18 @@ class NavigationNode:
 
         self.fix_heading = False
         self.fix_heave = False
-
+        
+        rospy.Subscriber("IMU", IMU, self._imuCallback)
+        rospy.Subscriber("depth", Depth, self._depthCallback)
         rospy.Subscriber("/set", String, self._setFixationCallback)
-
+        
+        
+    def reload(self):
+        self.PID_configs = Configurator().fetchData(Configurator.PID_PARAMS)
+        self.pid_yaw   = PIDController(self.PID_configs['yaw_KP'], self.PID_configs['yaw_KI'], self.PID_configs['yaw_KD'])
+        self.pid_pitch = PIDController(self.PID_configs['pitch_KP'], self.PID_configs['pitch_KI'], self.PID_configs['pitch_KD'])
+        self.pid_heave = PIDController(self.PID_configs['heave_KP'], self.PID_configs['heave_KI'], self.PID_configs['heave_KD'])
+        
     def _imuCallback(self, msg: IMU):
         self.imu_data['pitch'] = msg.pitch
         self.imu_data['yaw'] = msg.yaw
@@ -111,7 +117,8 @@ class NavigationNode:
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
         Navigation.navigate(0, 0, self.pitch, self.z, -yaw_output)
 
-    def navigate(self):
+    def navigate(self):        
+        
         # Vectorizer.yaw_only = False
         self.handleJoystickInput()
 
@@ -134,6 +141,7 @@ class NavigationNode:
             Navigation.navigate(self.x, self.y, self.pitch, self.z, self.yaw)
 
 if __name__ == "__main__":
+    rospy.init_node("navigation_node")  # Initialize the node once
     try:
         node = NavigationNode()
         while not rospy.is_shutdown():
