@@ -1,0 +1,4 @@
+string configName
+string configObject
+---
+bool success
