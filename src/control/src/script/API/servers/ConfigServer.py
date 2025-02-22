@@ -15,6 +15,6 @@ class ConfigServer:
         s2 = rospy.Service('setConfigService', SetConfig, self.service.handleSetConfig)
         rospy.loginfo("Config Service Server Ready")
         rospy.spin()
-
+    
 if __name__ == "__main__":
     ConfigServer().config_service_server()
