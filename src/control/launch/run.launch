@@ -2,6 +2,7 @@
     <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" >
         <arg name="port" value="9090"/>
     </include>
+    <!-- NODES-->
     <!-- <node pkg="control" type="JoystickTest.py" name="joystick_test_node" output="screen"></node> -->
     <!-- <node pkg="control" type="JoystickNode.py" name="joystick_node" output="screen"></node> -->
     <!-- <node pkg="control" type="DCMotorNode.py" name="dc_motor_node" output="screen"></node> -->

@@ -13,8 +13,7 @@ class PCA:
     __inst = None
 
     def __init__(self, i2c_address=0x40, frequency=50):
-        self.__simulation_mode =  EnvParams().ENV == "SIMULATION"
-        self.__initializePCA(i2c_address, frequency)
+        self.__simulation_mode = EnvParams().ENV == "SIMULATION"
         self.frequency = frequency
 
     def __initializePCA(self, i2c_address, frequency):
@@ -27,11 +26,12 @@ class PCA:
         """
         if self.__simulation_mode:
             print("Running in simulation mode. PCA9685 not initialized.")
-            self.pca = type('DummyPCA', (), {
-                'frequency': frequency})
+            self.pca = self.__createDummyPCA(frequency)
         else:
             try:
-                self.board_avaliable = True
+                import board
+                import busio
+                from adafruit_pca9685 import PCA9685
                 i2c = busio.I2C(board.SCL, board.SDA)
                 self.pca = PCA9685(i2c, address=i2c_address)
                 self.pca.frequency = frequency
@@ -43,10 +43,9 @@ class PCA:
         """
         Converts microseconds to a duty cycle value.
         """
-        period_us = 1_000_000 / self.pca.frequency
+        period_us = 1_000_000 / self.frequency
         duty_cycle = int((microseconds / period_us) * 65535)
         return duty_cycle
-
     def PWMWrite(self, channel, microseconds):
         """
         Set the PWM duty cycle for a specific channel based on the pulse width in microseconds.
@@ -54,28 +53,34 @@ class PCA:
         raises:
             ValueError: If the channel is not between 0 and 15.
         """
-
         if not 0 <= channel <= 15:
             Logger.logToFile(LogSeverity.ERROR, "Channel must be between 0 and 15.", "PCA9685")
             Logger.logToGUI(LogSeverity.ERROR, "Channel must be between 0 and 15.", "PCA9685")
             raise ValueError("Channel must be between 0 and 15.")
 
-        if self.__simulation_mode:
-            print(
-                f"[Simulation Mode] Setting channel {channel} to {microseconds} microseconds.")
-        else:
+        elif self.pca is not None:
             duty_cycle_value = self._microsecondsToDutycycle(microseconds)
             self.pca.channels[channel].duty_cycle = duty_cycle_value
+        else:
+            self.__logToFile(LogSeverity.ERROR, f"Attempted to write to channel {channel} but PCA is not initialized", "PCA")
+            self.__logToGUI(LogSeverity.ERROR, f"Attempted to write to channel {channel} but PCA is not initialized", "PCA")
 
     def stopAll(self):
         """
         Stop PWM output on all channels.
         """
-        for channel in self.pca.channels:
-            channel.duty_cycle = 0
+        if self.pca is not None:
+            for channel in self.pca.channels:
+                channel.duty_cycle = 0
+        else:
+            print("[Simulation Mode] Stopping all channels (PCA not initialized).")
 
     def close(self):
-        self.pca.deinit()
+        """
+        Deinitialize PCA if available.
+        """
+        if self.pca is not None and not self.__simulation_mode:
+            self.pca.deinit()
 
     @staticmethod
     def getInst():
@@ -83,6 +88,5 @@ class PCA:
         Get or create the singleton instance.
         """
         if PCA.__inst is None:
-            # added simulation_mode parameter
             PCA.__inst = PCA()
         return PCA.__inst

@@ -44,7 +44,7 @@ class PWM_Motors:
     def drive(self, value: int, en_smoothing: bool = True) -> None:
         """
         Drive the motor with a PWM signal.
-        
+
         Raises:
             ValueError: If the value is out of bounds.
         """
@@ -52,9 +52,9 @@ class PWM_Motors:
             Logger.logToFile(LogSeverity.ERROR, f"Value must be between {self.min_value} and {self.max_val}.", "PWM_Motors")
             Logger.logToGUI(LogSeverity.ERROR, f"Value must be between {self.min_value} and {self.max_val}.", "PWM_Motors")
             raise ValueError(f"Value must be between {self.min_value} and {self.max_val}.")
-        
-        value = self._ensure_bounds(value) 
-        
+
+        value = self._ensure_bounds(value)
+
         if en_smoothing:
             value = self._smoothing(value)
             # print(f"writing: {value}")
