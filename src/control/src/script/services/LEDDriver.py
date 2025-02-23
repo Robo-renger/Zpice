@@ -40,7 +40,7 @@ class LEDDriver:
         :param color: Tuple of (R, G, B) values (0-255).
         """
         for i in range(self.num_leds):
-            self.strip.setPixelColor(i, color)
+            self.strip[i].fill(color)
         self.strip.show()
 
     def clear(self):
@@ -48,7 +48,7 @@ class LEDDriver:
         Turn off all LEDs.
         """
         for i in range(self.num_leds):
-            self.strip.setPixelColor(i, (0, 0, 0))
+            self.strip[i].fill((0, 0, 0))
         self.strip.show()
 
     def setBrightness(self, brightness):
@@ -120,7 +120,7 @@ class LEDDriver:
                     # Calculate color index by combining the LED position and the current offset
                     color_index = (int(i * 256 / self.num_leds) + j) & 255
                     color = self.wheel(color_index)
-                    self.strip.setPixelColor(i, color)
+                    self.strip[i].fill(color)
                 self.strip.show()
             time.sleep(wait)
 
