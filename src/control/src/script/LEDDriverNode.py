@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import rospy
+import threading
 # from std_msgs.msg import ColorRGBA
 from services.LEDDriver import LEDDriver
 import time
@@ -10,12 +11,25 @@ class LEDDriverNode:
         rospy.init_node('led_driver_node', anonymous=False)
         self.led_driver = LEDDriver()
         # print("ana alos")
+
 if __name__ == '__main__':
     try:
         node = LEDDriverNode()
-        # node.led_driver.setAllColors((255,0,0))
+
+        node.led_driver.setAllColors((255,100,50))
+        time.sleep(3)
+        node.led_driver.clear()
+
+        # node.led_driver.setBrightness(0.5)       
         # time.sleep(3)
-        # node.led_driver.clear()
+        # node.led_driver.setBrightness(0.2)
+        # time.sleep(3)
+        # node.led_driver.setBrightness(1)       
+
+        node.led_driver.blink(7, 0.5, 0.5)
+
+        # node.led_driver.rainbowCycle(0.1, 5)
+
         rospy.spin()
     except rospy.ROSInterruptException:
         pass
