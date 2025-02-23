@@ -28,7 +28,7 @@ class LEDDriver:
         """
         
         if 0 <= led_index < self.num_leds:
-            self.strip.setPixelColor(led_index, color)
+            self.strip[led_index].fill(color)
             self.strip.show()
         else:
             raise ValueError("LED index out of range")
