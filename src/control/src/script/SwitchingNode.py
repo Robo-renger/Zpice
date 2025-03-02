@@ -14,7 +14,8 @@ class SwitchingNode:
         self.switchablePins = {
             'RIGHTGRIPPER': self.__pins['RIGHT_GRIPPER_SWITCH'],
             'LEFTGRIPPER': self.__pins['LEFT_GRIPPER_SWITCH'],
-            'FLASH': self.__pins['FLASH_SWITCH']
+            'FLASH': self.__pins['FLASH_SWITCH'],
+            'SYRINGE': self.__pins['SYRINGE_SWITCH'],
         }
         # Create Switching instances and store them
         self.switches = {
@@ -28,6 +29,8 @@ class SwitchingNode:
                 self.__flash()
                 self.__rightGripper()
                 self.__leftGripper()
+                self.__syringe()
+
         except Exception as e:
             rospy.logerr(f"Error in Switching Node: {e}")
         finally:
@@ -37,9 +40,11 @@ class SwitchingNode:
         componentName = 'FLASH'
         flashSwitch = self.switches[componentName]
 
-        if self.joystick.isClicked(componentName):
+        if self.joystick.isPressed(componentName):
             # print(f"is open before: {flashSwitch.opened}")
-            flashSwitch.toggle()
+            flashSwitch.open()
+        else:
+            flashSwitch.close()
             # print(f"is open after: {flashSwitch.opened}")
 
     def __rightGripper(self):
@@ -57,6 +62,14 @@ class SwitchingNode:
         if self.joystick.isClicked(componentName):
             # print(f"{componentName} TOGGLE")
             leftGripper.toggle()
+
+    def __syringe(self):
+        componentName = 'SYRINGE'
+        syringe = self.switches[componentName]
+
+        if self.joystick.isClicked(componentName):
+            # print(f"{componentName} TOGGLE")
+            syringe.toggle()
 
 
 if __name__ == "__main__":

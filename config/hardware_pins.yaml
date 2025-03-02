@@ -17,5 +17,7 @@ DC_RIGHT_PCA_CHANNEL: 9
 RIGHT_GRIPPER_SWITCH: 16
 #------ FLASH ------------------#
 FLASH_SWITCH: 12
-#------ SERVO------------------#
+#------ SERVO-------------------#
 SERVO_CHANNEL: 6
+#------ SYRINGE-----------------#
+SYRINGE_SWITCH: 26
