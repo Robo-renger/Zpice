@@ -29,7 +29,6 @@ class LEDDriverNode:
 
         if dir in color_map:
             self.led_driver.setAllColors(color_map[dir])
-            # rospy.loginfo(f"LED color set for direction: {dir}")
 
     def run(self):
         rospy.Subscriber("Direction", String, self.directionCallback)
