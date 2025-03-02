@@ -19,6 +19,10 @@ class NavigationNode:
         self.pitch = 0
         self.yaw = 0
         self.last_reset_time = 0  
+        
+        self.pub = rospy.Publisher("Direction", String, queue_size=10)
+
+        
         self.PID_configs = Configurator().fetchData(Configurator.PID_PARAMS)
         
         self.pid_yaw   = PIDController(self.PID_configs['yaw_KP'], self.PID_configs['yaw_KI'], self.PID_configs['yaw_KD'])
@@ -98,6 +102,34 @@ class NavigationNode:
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
         Navigation.navigate(0, 0, self.pitch, self.z, -yaw_output)
 
+    def extractDir(self):
+        dir = None
+        if self.z > 0.3:
+            dir = "Down"
+        elif self.z < -0.3:
+            dir = "Up"
+        elif self.pitch > 0.3:
+            dir = "PitchDown"
+        elif self.pitch < -0.3:
+            dir = "PitchUp"
+        elif self.yaw > 0.3:
+            dir = "YawRight"
+        elif self.yaw < -0.3:
+            dir = "YawLeft"
+        elif self.x > 0.3:
+            dir = "Left"
+        elif self.x < -0.3:
+            dir = "Right"
+        elif self.y > 0.3:
+            dir = "Backward"
+        elif self.y < -0.3:
+            dir = "Forward"
+        else:
+            dir = "Rest"
+        
+        if dir:
+            self.pub.publish(dir)  # Publish to the ROS topic
+
     def navigate(self):        
         # Vectorizer.yaw_only = False
         self.handleJoystickInput()
@@ -119,6 +151,8 @@ class NavigationNode:
         else:
             # rospy.loginfo("ROV in manual control: Using joystick input")
             Navigation.navigate(self.x, self.y, self.pitch, self.z, self.yaw)
+        self.extractDir()
+
 
 if __name__ == "__main__":
     rospy.init_node("navigation_node")
