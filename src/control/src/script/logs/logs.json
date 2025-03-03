@@ -1,12 +1,11 @@
-<<<<<<< HEAD
 [
     {
         "severity": "INFO",
-        "message": "Switching open.",
-        "component_name": "Switching",
-        "timestamp": "2025-02-23T06:48:40.404793"
+        "message": "Shared memory created successfully.",
+        "component_name": "CJoystick",
+        "timestamp": "2025-03-02T21:33:05.873545"
     }
-]]0:41.567025"
+]67025"
     }
 ]stamp": "2025-02-22T20:43:09.854956"
     }

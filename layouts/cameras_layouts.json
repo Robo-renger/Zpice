@@ -1,0 +1,170 @@
+{
+    "view1": {
+        "camera1": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera2": {
+            "url": "",
+            "geometry": {
+                "top": 220,
+                "left": 0,
+                "width": 300,
+                "height": 200
+            }
+        },
+        "camera3": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 220,
+                "width": 200,
+                "height": 300
+            }
+        },
+        "camera4": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera5": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera6": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        }
+    },
+    "view2": {
+        "camera1": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera2": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera3": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera4": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera5": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera6": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        }
+    },
+    "view3": {
+        "camera1": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera2": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera3": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera4": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera5": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera6": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        }
+    }
+}

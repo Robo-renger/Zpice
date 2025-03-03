@@ -1,0 +1,126 @@
+{
+    "ps4": {
+        "switch_key_binding": [
+            "button_l1",
+            "button_r1"
+        ],
+        "modes": [
+            {
+                "button_11": "LEFTGRIPPER_OPEN",
+                "button_12": "LEFTGRIPPER_CLOSE",
+                "button_13": "HEAVE_DOWN",
+                "button_rl": "RIGHTGRIPPER",
+                "button_r2": "LEFTGRIPPER",
+                "button_r3": "HEAVE_UP",
+                "button_left": "DCLEFTGRIPPER_RIGHT",
+                "button_right": "DCLEFTGRIPPER_LEFT",
+                "button_rect": "DCRIGHTGRIPPER_LEFT",
+                "button_o": "DCRIGHTGRIPPER_RIGHT",
+                "button_top": "SERVO_UP",
+                "button_bot": "SERVO_DOWN",
+                "button_x": "FLASH"
+            },
+            {
+                "button_11": "LEFTGRIPPER_OPEN",
+                "button_12": "LEFTGRIPPER_CLOSE",
+                "button_13": "HEAVE_DOWN",
+                "button_rl": "RIGHTGRIPPER",
+                "button_r2": "LEFTGRIPPER",
+                "button_r3": "HEAVE_UP",
+                "button_left": "DCLEFTGRIPPER_RIGHT",
+                "button_right": "DCLEFTGRIPPER_LEFT",
+                "button_rect": "DCRIGHTGRIPPER_LEFT",
+                "button_o": "DCRIGHTGRIPPER_RIGHT",
+                "button_top": "SERVO_UP",
+                "button_bot": "SERVO_DOWN",
+                "button_x": "FLASH"
+            }
+        ],
+        "index_map": {
+            "digital": {
+                "0": "button_x",
+                "1": "button_o",
+                "2": "button_rect",
+                "3": "button_tri",
+                "4": "button_l1",
+                "5": "button_r1",
+                "6": "button_l2",
+                "7": "button_r2",
+                "8": "button_l3",
+                "9": "button_r3",
+                "10": "button_top",
+                "11": "button_bot",
+                "12": "button_left",
+                "13": "button_right"
+            },
+            "analog": {
+                "0": "left_x_axis",
+                "1": "left_y_axis",
+                "2": "right_x_axis",
+                "3": "right_y_axis"
+            }
+        }
+    },
+    "ps5": {
+        "switch_key_binding": [
+            "button_l1",
+            "button_r1"
+        ],
+        "modes": [
+            {
+                "button_11": "LEFTGRIPPER_OPEN",
+                "button_12": "LEFTGRIPPER_CLOSE",
+                "button_13": "HEAVE_DOWN",
+                "button_rl": "RIGHTGRIPPER",
+                "button_r2": "LEFTGRIPPER",
+                "button_r3": "HEAVE_UP",
+                "button_left": "DCLEFTGRIPPER_RIGHT",
+                "button_right": "DCLEFTGRIPPER_LEFT",
+                "button_rect": "DCRIGHTGRIPPER_LEFT",
+                "button_o": "DCRIGHTGRIPPER_RIGHT",
+                "button_top": "SERVO_UP",
+                "button_bot": "SERVO_DOWN",
+                "button_x": "FLASH"
+            },
+            {
+                "button_11": "LEFTGRIPPER_OPEN",
+                "button_12": "LEFTGRIPPER_CLOSE",
+                "button_13": "HEAVE_DOWN",
+                "button_rl": "RIGHTGRIPPER",
+                "button_r2": "LEFTGRIPPER",
+                "button_r3": "HEAVE_UP",
+                "button_left": "DCLEFTGRIPPER_RIGHT",
+                "button_right": "DCLEFTGRIPPER_LEFT",
+                "button_rect": "DCRIGHTGRIPPER_LEFT",
+                "button_o": "DCRIGHTGRIPPER_RIGHT",
+                "button_top": "SERVO_UP",
+                "button_bot": "SERVO_DOWN",
+                "button_x": "FLASH"
+            }
+        ],
+        "index_map": {
+            "digital": {
+                "0": "button_x",
+                "1": "button_o",
+                "2": "button_rect",
+                "3": "button_tri",
+                "4": "button_l1",
+                "5": "button_r1",
+                "6": "button_l2",
+                "7": "button_r2",
+                "8": "button_l3",
+                "9": "button_r3",
+                "10": "button_top",
+                "11": "button_bot",
+                "12": "button_left",
+                "13": "button_right"
+            },
+            "analog": {
+                "0": "left_x_axis",
+                "1": "left_y_axis",
+                "2": "right_x_axis",
+                "3": "right_y_axis"
+            }
+        }
+    }
+}

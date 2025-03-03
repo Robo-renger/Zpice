@@ -61,7 +61,7 @@ catkin_python_setup()
 )
 
 ## Generate services in the 'srv' folder
-add_service_files(
+ add_service_files(
   FILES
   SetConfig.srv
   GetConfig.srv

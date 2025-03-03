@@ -13,6 +13,7 @@ class Configurator():
     def __raiseTypeError(self,data_type):
         consts = [attr for attr in dir(self) if not callable(getattr(self, attr)) and not attr.startswith("_")]
         raise TypeError(f"Config file of type {data_type} doesn't exist, only {', '.join(consts)} are allowed.")
+    
     def getConfigsNames(self):
         consts = [attr for attr in dir(self) if not callable(getattr(self, attr)) and not attr.startswith("_")]
         return [getattr(self, attr) for attr in consts]
