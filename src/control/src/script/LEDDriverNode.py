@@ -16,8 +16,9 @@ class LEDDriverNode:
         self.smoother_g = ExponentialSmoothing(alpha=0.1)
         self.smoother_b = ExponentialSmoothing(alpha=0.1)
 
+        self.en_smoothing = True
+
         self.current_color = (255, 30, 0)
-        # print("ana alos")
 
     def directionCallback(self, msg):
         dir = msg.data
@@ -38,15 +39,19 @@ class LEDDriverNode:
         if dir in color_map:
             target_r, target_g, target_b = color_map[dir]
             current_r, current_g, current_b = self.current_color
+            if self.en_smoothing:
+                smoothed_r = self.smoother_r.smooth(current_r, target_r)
+                smoothed_g = self.smoother_g.smooth(current_g, target_g)
+                smoothed_b = self.smoother_b.smooth(current_b, target_b)
+
+                finalColor = (smoothed_r, smoothed_g, smoothed_b)
+                
+            else:
+                finalColor = color_map[dir]
+            self.led_driver.setAllColors(finalColor)
+
+            self.current_color = finalColor
             
-            smoothed_r = self.smoother_r.smooth(current_r, target_r)
-            smoothed_g = self.smoother_g.smooth(current_g, target_g)
-            smoothed_b = self.smoother_b.smooth(current_b, target_b)
-
-            smoothed_color = (smoothed_r, smoothed_g, smoothed_b)
-            self.led_driver.setAllColors(smoothed_color)
-
-            self.current_color = smoothed_color
 
     def run(self):
         rospy.Subscriber("Direction", String, self.directionCallback)
