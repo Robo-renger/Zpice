@@ -57,6 +57,7 @@ class LEDDriver:
         :param brightness: Brightness level (0 to 255).
         """
         self.strip.brightness = brightness
+    
     def blink(self, blink_times=5, on_time=0.5, off_time=0.5):
         """
         Blink all LEDs with a specified color.
@@ -76,23 +77,12 @@ class LEDDriver:
         """
         Generate an RGB color for a given position on a color wheel.
         
-        The function accepts a value 'pos' in the range 0-255 and divides it into
-        three segments (each ~85 steps long). In each segment, it scales the value by 3
-        to cover the full 0-255 intensity range for one color channel.
-        
-        - For pos between 0 and 84:
-            Red increases from 0 to 252, Green decreases from 255 to 3, Blue is 0.
-        - For pos between 85 and 169:
-            Red decreases from 255 to 3, Blue increases from 0 to 252, Green is 0.
-        - For pos between 170 and 255:
-            Blue decreases from 255 to 3, Green increases from 0 to 252, Red is 0.
-        
         :param pos: Position on the color wheel (0-255).
         :return: A tuple (R, G, B) representing the color.
         """
         if pos < 0 or pos > 255:
             return (0, 0, 0)
-        if pos < 85:
+        elif pos < 85:
             return (int(pos * 3), int(255 - pos * 3), 0)
         elif pos < 170:
             pos -= 85
@@ -100,23 +90,17 @@ class LEDDriver:
         else:
             pos -= 170
             return (0, int(pos * 3), int(255 - pos * 3))
-        
-    def rainbowCycle(self, wait=0.1, iterations=1):
+            
+            
+    def rainbowCycle(self, wait=0.1):
         """
         Animate a rainbow cycle across the LED strip.
-        
-        This method generates colors for each LED based on
-        its index and a shifting offset (j). This creates a flowing rainbow effect.
-        
+
         :param wait: Delay between updates (in seconds).
-        :param iterations: Number of full cycles through the color wheel.
         """
-        for j in range(256 * iterations):
+        for j in range(255):
             for i in range(self.num_leds):
-                # Calculate color index by combining the LED position and the current offset
-                color_index = (int(i * 256 / self.num_leds) + j) & 255
-                color = self.wheel(color_index)
-                self.strip[i] = color
+                pixel_index = (i * 256 // self.num_leds) + j
+                self.strip[i] = self.wheel(pixel_index & 255)
             self.strip.show()
-            print("ALWANNNNNN")
             time.sleep(wait)
