@@ -2,7 +2,6 @@
 
 import rospy
 from std_msgs.msg import String
-# from std_msgs.msg import ColorRGBA
 from services.LEDDriver import LEDDriver
 from smoothing_strategies.ExponentialSmoothing import ExponentialSmoothing
 import time
@@ -11,14 +10,6 @@ class LEDDriverNode:
     def __init__(self):
         rospy.init_node('led_driver_node', anonymous=False)
         self.led_driver = LEDDriver()
-
-        self.smoother_r = ExponentialSmoothing(alpha=0.1)
-        self.smoother_g = ExponentialSmoothing(alpha=0.1)
-        self.smoother_b = ExponentialSmoothing(alpha=0.1)
-
-        self.en_smoothing = True
-
-        self.current_color = (255, 30, 0)
 
     def directionCallback(self, msg):
         dir = msg.data
@@ -37,22 +28,9 @@ class LEDDriverNode:
         }
 
         if dir in color_map:
-            target_r, target_g, target_b = color_map[dir]
-            current_r, current_g, current_b = self.current_color
-            if self.en_smoothing:
-                smoothed_r = self.smoother_r.smooth(current_r, target_r)
-                smoothed_g = self.smoother_g.smooth(current_g, target_g)
-                smoothed_b = self.smoother_b.smooth(current_b, target_b)
-
-                finalColor = (smoothed_r, smoothed_g, smoothed_b)
-                
-            else:
-                finalColor = color_map[dir]
-            self.led_driver.setAllColors(finalColor)
-
-            self.current_color = finalColor
+            self.led_driver.enableSmoothing(True)
+            self.led_driver.setAllColors(color_map[dir])
             
-
     def run(self):
         rospy.Subscriber("Direction", String, self.directionCallback)
 
@@ -62,9 +40,6 @@ if __name__ == '__main__':
         node = LEDDriverNode()
         node.run()
         node.led_driver.setAllColors((255,0,0))
-        # print("8AMZA")
-        # node.led_driver.setBrightness(0.2)
-        # node.led_driver.clear()
         rospy.spin()
     except rospy.ROSInterruptException:
         pass
