@@ -1,0 +1,11 @@
+# Goal
+float64 depth
+
+---
+# Result
+bool success
+string message
+
+---
+# Feedback
+string feedback_message

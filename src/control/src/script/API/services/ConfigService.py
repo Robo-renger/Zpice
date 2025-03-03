@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import rospy
-from control.msg import Depth
 from control.srv import  GetConfigResponse, SetConfigResponse
 from utils.Configurator import Configurator
 import json
