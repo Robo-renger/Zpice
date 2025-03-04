@@ -4,8 +4,8 @@ float64 angle
 ---
 # Result
 bool success
-string message
+
 
 ---
 # Feedback
-string feedback_message
+float64 current_angle
