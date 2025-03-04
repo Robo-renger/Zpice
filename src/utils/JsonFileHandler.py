@@ -3,8 +3,8 @@ import rospkg
 import json
 
 class JSONFileHandler:
-    CAMERAS = "cameras_layouts"
-    CONTROLLER = "controller_layouts"  
+    CAMERAS = "cameras"
+    CONTROLLER = "controller"  
     DEPTHFIXATION = "depth_fixation"
     ANGLEFIXATION = "angle_fixation" 
     def __init__(self):

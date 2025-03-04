@@ -3,8 +3,8 @@ import rospkg
 import json
 
 class LayoutManager:
-    CAMERAS = "cameras_layouts"
-    CONTROLLER = "controller_layouts"   
+    CAMERAS = "cameras"
+    CONTROLLER = "controller"   
     def __init__(self):
         self.__layoutFile = ''
 
