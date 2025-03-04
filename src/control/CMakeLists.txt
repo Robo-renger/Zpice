@@ -70,8 +70,8 @@ catkin_python_setup()
 ## Generate actions in the 'action' folder
  add_action_files(
   FILES
-  setDepth.action
-  setAngle.action
+  SetDepth.action
+  SetAngle.action
 )
 
 ## Generate added messages and services with any dependencies listed here

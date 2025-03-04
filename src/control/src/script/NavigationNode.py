@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 import rospy
+import actionlib
 from control.msg import IMU, Depth
+from control.msg import SetDepthAction, SetDepthGoal, SetDepthResult, SetDepthFeedback, SetAngleAction, SetAngleGoal, SetAngleResult, SetAngleFeedback
 from std_msgs.msg import String
 from services.Joystick import CJoystick
 from services.Navigation import Navigation
@@ -33,9 +35,13 @@ class NavigationNode:
         self.fix_heading = False
         self.fix_heave = False
         
+        self.depth_action_server = actionlib.SimpleActionServer('set_depth', SetDepthAction, self._fixDepth, False)
+        # self.angle_action_server = actionlib.SimpleActionServer('set_angle', SetAngleAction, self._fixAngle)
+        self.depth_action_server.start()
+        # self.angle_action_server.start()
         rospy.Subscriber("IMU", IMU, self._imuCallback)
         rospy.Subscriber("depth", Depth, self._depthCallback)
-        rospy.Subscriber("/set", String, self._setFixationCallback)
+        # rospy.Subscriber("/set", String, self._setFixationCallback)
         
         
     def reload(self):
@@ -50,6 +56,18 @@ class NavigationNode:
 
     def _depthCallback(self, msg: Depth):
         self.depth = msg.depth
+
+    def _fixDepth(self, goal: SetDepthGoal):
+        self.depth = goal.depth
+        rospy.loginfo(f"Setting depth to {self.depth}")
+        self.fix_heave = True
+        self.pid_heave.updateSetpoint(self.depth)
+
+    def _fixAngle(self, angle: SetAngleGoal):
+        self.fix_heading = True
+        self.fix_heave = False
+        self.pid_yaw.updateSetpoint(angle)
+        self.angle_action_server.set_succeeded(SetAngleResult())
 
     def _setFixationCallback(self, msg: String):
         if msg.data == "Heading":
@@ -92,6 +110,8 @@ class NavigationNode:
 
     def fixHeave(self):
         depth_output = self.pid_heave.stabilize(self.depth)
+        rospy.loginfo(f"Anaaaaa henaaaaaaaa")
+        self.depth_action_server.set_succeeded(SetDepthResult())
         Navigation.navigate(self.x, self.y, 0, depth_output, self.yaw)
 
     def fixHeading(self):

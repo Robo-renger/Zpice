@@ -1,0 +1,9 @@
+yaw_KP : 0.1
+yaw_KI : 0.01
+yaw_KD : 0.01
+pitch_KP : 0.1
+pitch_KI : 0.01
+pitch_KD : 0.01
+heave_KP : 0.1
+heave_KI : 0.01
+heave_KD : 0.01
