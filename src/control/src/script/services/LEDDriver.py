@@ -7,7 +7,7 @@ from smoothing_strategies.ExponentialSmoothing import ExponentialSmoothing
 
 
 class LEDDriver:
-    def __init__(self, pin=board.D18, num_leds=16, brightness=1, en_smoothing=True, alpha = 0.1 ):
+    def __init__(self, pin=board.D18, num_leds=16, brightness=1, en_smoothing=True, alpha = 0.05 ):
         """
         Initialize the WS2812 LED driver.
 
@@ -84,7 +84,7 @@ class LEDDriver:
            
     def enableSmoothing(self, enable:bool):
         self.en_smoothing = enable
-        print(f"Smoothing {'enabled' if enable else 'disabled'}")
+        # print(f"Smoothing {'enabled' if enable else 'disabled'}")
 
     def blink(self, blink_times=5, on_time=0.5, off_time=0.5):
         """

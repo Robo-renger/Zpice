@@ -72,7 +72,7 @@ class NavigationNode:
         current_time = time.time()
         axis_values = self.joystick.getAxis()
         self.x = axis_values.get('left_x_axis', 0)
-        self.y = -1 * axis_values.get('left_y_axis', 0)
+        self.y = -1 *  axis_values.get('left_y_axis', 0)
         self.pitch = axis_values.get('right_y_axis', 0)
         self.yaw = axis_values.get('right_x_axis', 0)
 
@@ -138,7 +138,9 @@ class NavigationNode:
         if self.x == 0 and self.y == 0 and self.z == 0 and self.pitch == 0 and self.yaw == 0 and not (self.fix_heading or self.fix_heave):
             if self.imu_data['pitch'] is not None and self.imu_data['yaw'] is not None:
                 # rospy.loginfo("ROV at rest: Stabilizing yaw and pitch")
-                self.stabilizeAtRest()
+                # self.stabilizeAtRest()
+                pass
+            pass
         
         elif self.fix_heading and (self.z != 0 or self.pitch != 0):
             # rospy.loginfo("ROV moving: Stabilizing heading")
