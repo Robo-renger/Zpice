@@ -75,11 +75,6 @@ class LayoutManager:
         except TypeError as e:
             print(e)
 
-    def __updateYamlConfig(self, layout_name, new_layout):
-        """Update the yaml file with the required data
-        UNDER CONSTRUCTION!!!!"""
-        pass
-
     def __convertToYaml(self, data):
         """Convert the JSON data to YAML format
         UNDER CONSTRUCTION!!!!"""

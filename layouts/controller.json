@@ -23,7 +23,7 @@
             {
                 "button_11": "LEFTGRIPPER_OPEN",
                 "button_12": "LEFTGRIPPER_CLOSE",
-                "button_13": "HEAVE_DOWN",
+                "button_13": "bty5",
                 "button_rl": "RIGHTGRIPPER",
                 "button_r2": "LEFTGRIPPER",
                 "button_r3": "HEAVE_UP",

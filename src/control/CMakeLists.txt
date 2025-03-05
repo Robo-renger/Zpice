@@ -68,6 +68,7 @@ catkin_python_setup()
   SetLayout.srv
   GetLayout.srv
   GetStream.srv
+  SwitchJoystickMode.srv
 )
 
 ## Generate actions in the 'action' folder

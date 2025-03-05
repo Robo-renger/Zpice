@@ -24,7 +24,7 @@ class SetDepthClient:
 
 if __name__ == "__main__":
     try:
-        rospy.init_node('set_depth_client') 
+        rospy.init_node('set_depth_test_client') 
         client = SetDepthClient()
         client.run()
     except KeyboardInterrupt:   

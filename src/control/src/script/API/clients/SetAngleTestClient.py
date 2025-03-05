@@ -5,7 +5,7 @@ import actionlib
 from control.msg import SetAngleAction, SetAngleGoal
 from utils.JsonFileHandler import JSONFileHandler
 
-class SetAngleClient:
+class SetAngleTestClient:
     def __init__(self):
         self.client = actionlib.SimpleActionClient('set_angle', SetAngleAction)
         self.goal = SetAngleGoal()
@@ -24,8 +24,8 @@ class SetAngleClient:
 
 if __name__ == "__main__":
     try:
-        rospy.init_node('set_Angle_client') 
-        client = SetAngleClient()
+        rospy.init_node('set_angle_test_client') 
+        client = SetAngleTestClient()
         client.run()
     except KeyboardInterrupt:   
         print("Shutting down")
