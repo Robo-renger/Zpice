@@ -8,6 +8,7 @@ class JSONFileHandler:
     CONTROLLER = "controller"  
     DEPTHFIXATION = "depth_fixation"
     ANGLEFIXATION = "angle_fixation" 
+    STREAM = "stream"
     def __init__(self):
         self.__jsonFile = ''
         self.configurator  = Configurator()
@@ -31,6 +32,8 @@ class JSONFileHandler:
             self.__jsonFile = workspace_path + f'/../../fixations/{JSONFileHandler.DEPTHFIXATION}.json'
         elif file_name == JSONFileHandler.ANGLEFIXATION:
             self.__jsonFile = workspace_path + f'/../../fixations/{JSONFileHandler.ANGLEFIXATION}.json'
+        elif file_name == JSONFileHandler.STREAM:
+            self.__jsonFile = workspace_path + f'/../../stream/{JSONFileHandler.STREAM}.json' 
         else: 
             self.__raiseTypeError(file_name)
     
@@ -76,7 +79,7 @@ class JSONFileHandler:
                 pass
                 json.dump(updated_data, file, indent=4)
 
-            print(f"Layout for '{file_name}' updated successfully.")
+            print(f"Data for '{file_name}' updated successfully.")
 
         except json.JSONDecodeError as e:
             print(f"Error: Failed to write JSON data. Details: {e}")

@@ -4,17 +4,17 @@ camera1:
   height: 480
   fps: 20
   port: 8081
-# camera2:
-#   index: /dev/right_camera
-#   width: 640
-#   height: 480
-#   fps: 30
-#   port: 8082
-# camera3:
-#   index: '/dev/rapoo_camera'
-#   width: 1280
-#   height: 960
-#   fps: 20
-#   port: 8083
+camera2:
+  index: /dev/right_camera
+  width: 640
+  height: 480
+  fps: 30
+  port: 8082
+camera3:
+  index: '/dev/rapoo_camera'
+  width: 1280
+  height: 960
+  fps: 20
+  port: 8083
 
 #Rapoo and left cameras probably doesnt not suppoer mjpg format

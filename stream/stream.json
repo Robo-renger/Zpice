@@ -7,7 +7,12 @@
                 "left": 0,
                 "width": 40,
                 "height": 200
-            }
+            },
+            "index": "/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "width": 640,
+            "height": 480,
+            "fps": 20,
+            "port": 8081
         },
         "camera2": {
             "url": "",
@@ -16,7 +21,12 @@
                 "left": 0,
                 "width": 300,
                 "height": 200
-            }
+            },
+            "index": "/dev/right_camera",
+            "width": 640,
+            "height": 480,
+            "fps": 30,
+            "port": 8082
         },
         "camera3": {
             "url": "",
@@ -25,7 +35,12 @@
                 "left": 220,
                 "width": 200,
                 "height": 300
-            }
+            },
+            "index": "/dev/rapoo_camera",
+            "width": 1280,
+            "height": 960,
+            "fps": 20,
+            "port": 8083
         },
         "camera4": {
             "url": "",
@@ -63,7 +78,12 @@
                 "left": 0,
                 "width": 200,
                 "height": 200
-            }
+            },
+            "index": "/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "width": 640,
+            "height": 480,
+            "fps": 20,
+            "port": 8081
         },
         "camera2": {
             "url": "",
@@ -72,7 +92,12 @@
                 "left": 0,
                 "width": 200,
                 "height": 200
-            }
+            },
+            "index": "/dev/right_camera",
+            "width": 640,
+            "height": 480,
+            "fps": 30,
+            "port": 8082
         },
         "camera3": {
             "url": "",
@@ -81,7 +106,12 @@
                 "left": 0,
                 "width": 200,
                 "height": 200
-            }
+            },
+            "index": "/dev/rapoo_camera",
+            "width": 1280,
+            "height": 960,
+            "fps": 20,
+            "port": 8083
         },
         "camera4": {
             "url": "",
@@ -119,7 +149,12 @@
                 "left": 0,
                 "width": 200,
                 "height": 200
-            }
+            },
+            "index": "/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "width": 640,
+            "height": 480,
+            "fps": 20,
+            "port": 8081
         },
         "camera2": {
             "url": "",
@@ -128,7 +163,12 @@
                 "left": 0,
                 "width": 200,
                 "height": 200
-            }
+            },
+            "index": "/dev/right_camera",
+            "width": 640,
+            "height": 480,
+            "fps": 30,
+            "port": 8082
         },
         "camera3": {
             "url": "",
@@ -137,7 +177,12 @@
                 "left": 0,
                 "width": 200,
                 "height": 200
-            }
+            },
+            "index": "/dev/rapoo_camera",
+            "width": 1280,
+            "height": 960,
+            "fps": 20,
+            "port": 8083
         },
         "camera4": {
             "url": "",
