@@ -3,7 +3,6 @@ import rospy
 from control.srv import GetConfig, SetConfig
 from API.services.ConfigService import ConfigService
 
-
 class ConfigServer:
     
     def __init__(self):

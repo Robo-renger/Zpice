@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 import rospy
+import actionlib
 from control.msg import IMU, Depth
+from control.msg import SetDepthAction, SetDepthGoal, SetDepthResult, SetDepthFeedback, SetAngleAction, SetAngleGoal, SetAngleResult, SetAngleFeedback
 from std_msgs.msg import String
 from services.Joystick import CJoystick
 from services.Navigation import Navigation
@@ -38,8 +40,18 @@ class NavigationNode:
         self.pub = rospy.Publisher("Direction", String, queue_size=10)
         rospy.Subscriber("IMU", IMU, self._imuCallback)
         rospy.Subscriber("depth", Depth, self._depthCallback)
-        rospy.Subscriber("/set", String, self._setFixationCallback)
-        
+        # rospy.Subscriber("/set", String, self._setFixationCallback)
+
+        self.depth_action_server = actionlib.SimpleActionServer('set_depth', SetDepthAction, self._fixDepth, False)
+        self.depth_action_server.start()
+        self.depth_result = SetDepthResult()
+        self.depth_feedback = SetDepthFeedback()
+
+        self.angle_action_server = actionlib.SimpleActionServer('set_angle', SetAngleAction, self._fixAngle, False)
+        self.angle_action_server.start()
+        self.angle_result = SetAngleResult()
+        self.angle_feedback = SetAngleFeedback()
+     
     def reload(self):
         self.PID_configs = Configurator().fetchData(Configurator.PID_PARAMS)
         self.pid_yaw   = PIDController(self.PID_configs['yaw_KP'], self.PID_configs['yaw_KI'], self.PID_configs['yaw_KD'])
@@ -52,6 +64,55 @@ class NavigationNode:
 
     def _depthCallback(self, msg: Depth):
         self.depth = msg.depth
+
+    def _fixDepth(self, goal: SetDepthGoal):
+        self.fix_heave = True
+        if self.depth is None:
+            rospy.logwarn("Depth data unavailable")
+            self.depth_action_server.set_aborted()
+            return
+
+        while not rospy.is_shutdown():
+            if self.depth_action_server.is_preempt_requested():
+                rospy.loginfo("Preempted depth fixing action.")
+                self.depth_action_server.set_preempted()
+                return
+
+            if abs(self.depth - goal.depth) > 0.5:
+                self.depth_feedback.current_depth = self.depth
+                self.depth_action_server.publish_feedback(self.depth_feedback)
+                rospy.loginfo(f"Current depth: {self.depth} (Goal: {goal.depth}, Error: {abs(self.depth - goal.depth)})")
+            else:
+                self.pid_yaw.updateSetpoint(goal.depth)
+                self.depth_result.success = True
+                rospy.loginfo("Depth goal achieved; sending success result.")
+                self.depth_action_server.set_succeeded(self.depth_result)
+                return
+
+
+    def _fixAngle(self, goal: SetAngleGoal):
+        self.fix_heading = True
+        if self.imu_data['yaw'] is None:
+            rospy.logwarn("IMU data unavailable")
+            self.angle_action_server.set_aborted()
+            return
+        
+        while not rospy.is_shutdown():
+            if self.angle_action_server.is_preempt_requested():
+                    rospy.loginfo("Preempted angle fixing action.")
+                    self.angle_action_server.set_preempted()
+                    return
+
+            if abs(self.imu_data['yaw'] - goal.angle) > 0.5:
+                self.angle_feedback.current_angle = self.imu_data['yaw']
+                self.angle_action_server.publish_feedback(self.angle_feedback)
+                rospy.loginfo(f"Current angle: {self.imu_data['yaw']} (Goal: {goal.angle}, Error: {abs(self.imu_data['yaw'] - goal.angle)})")
+            else:
+                self.pid_heave.updateSetpoint(goal.angle)
+                self.angle_result.success = True
+                rospy.loginfo("angle goal achieved; sending success result.")
+                self.angle_action_server.set_succeeded(self.angle_result)
+                return
 
     def _setFixationCallback(self, msg: String):
         if msg.data == "heading":
@@ -106,6 +167,8 @@ class NavigationNode:
         
     def fixHeave(self):
         depth_output = self.pid_heave.stabilize(self.depth)
+        self.depth_result.success = True
+        self.depth_action_server.set_succeeded(self.depth_result)
         Navigation.navigate(self.x, self.y, 0, depth_output, self.yaw)
 
     def fixHeading(self):

@@ -1,0 +1,434 @@
+{
+    "get-camera-layouts": {
+        "name": "get-camera-layouts",
+        "type": "service",
+        "serviceType": "lol",
+        "sample": {
+            "view1": {
+                "camera1": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                },
+                "camera2": {
+                    "url": "",
+                    "geometry": {
+                        "top": 220,
+                        "left": 0,
+                        "width": 300,
+                        "height": 200
+                    }
+                },
+                "camera3": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 220,
+                        "width": 200,
+                        "height": 300
+                    }
+                },
+                "camera4": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                },
+                "camera5": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                },
+                "camera6": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                }
+            },
+            "view2": {
+                "camera1": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                },
+                "camera2": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                },
+                "camera3": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                },
+                "camera4": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                },
+                "camera5": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                },
+                "camera6": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                }
+            },
+            "view3": {
+                "camera1": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                },
+                "camera2": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                },
+                "camera3": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                },
+                "camera4": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                },
+                "camera5": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                },
+                "camera6": {
+                    "url": "",
+                    "geometry": {
+                        "top": 10,
+                        "left": 0,
+                        "width": 200,
+                        "height": 200
+                    }
+                }
+            }
+        }
+    },
+    "get-streams": {
+        "name": "get-streams",
+        "type": "service",
+        "serviceType": "lol",
+        "sample": [
+            {
+                "id": "camera1",
+                "url": ""
+            },
+            {
+                "id": "camera2",
+                "url": ""
+            },
+            {
+                "id": "camera3",
+                "url": ""
+            },
+            {
+                "id": "camera4",
+                "url": ""
+            },
+            {
+                "id": "camera5",
+                "url": ""
+            },
+            {
+                "id": "camera6",
+                "url": ""
+            },
+            {
+                "id": "camera7",
+                "url": ""
+            },
+            {
+                "id": "camera8",
+                "url": ""
+            }
+        ]
+    },
+    "save-camera-layouts": {
+        "name": "save-camera-layouts",
+        "type": "service",
+        "serviceType": "lol",
+        "sample": "NaN"
+    },
+    "log-data-topic": {
+        "name": "log-data-topic",
+        "type": "topic",
+        "messageType": "custom_msgs/log_msg",
+        "interval": 20,
+        "sample": {
+            "id": 1,
+            "severity": "Fatal",
+            "message": "plgTLegjeVORC1a7TmDQy",
+            "component": "92PC",
+            "category": "NMo6S5"
+        }
+    },
+    "set_heading": {
+        "name": "set_heading",
+        "type": "topic",
+        "messageType": "std_msgs/Float32",
+        "sample": "NaN"
+    },
+    "set_depth": {
+        "name": "set_depth",
+        "type": "topic",
+        "messageType": "std_msgs/Float32",
+        "sample": "NaN"
+    },
+    "current_heading": {
+        "name": "current_heading",
+        "type": "topic",
+        "messageType": "std_msgs/Float32",
+        "sample": {
+            "data": 58
+        }
+    },
+    "current_depth": {
+        "name": "current_depth",
+        "type": "topic",
+        "messageType": "std_msgs/Float32",
+        "sample": {
+            "data": 7
+        }
+    },
+    "init_heading": {
+        "name": "init_heading",
+        "type": "service",
+        "serviceType": "idk",
+        "sample": {
+            "success": true,
+            "message": "Heading calibrated successfully",
+            "StartHeading": 45
+        }
+    },
+    "init_depth": {
+        "name": "init_depth",
+        "type": "service",
+        "serviceType": "idk",
+        "sample": {
+            "success": true,
+            "message": "Depth calibrated successfully",
+            "maxdepth": 13
+        }
+    },
+    "get-joystick-layouts": {
+        "name": "get-joystick-layouts",
+        "type": "service",
+        "serviceType": "lol",
+        "sample": {
+            "ps4": {
+                "switch_key_binding": [
+                    "button_l1",
+                    "button_r1"
+                ],
+                "modes": [
+                    {
+                        "button_11": "LEFTGRIPPER_OPEN",
+                        "button_12": "LEFTGRIPPER_CLOSE",
+                        "button_13": "HEAVE_DOWN",
+                        "button_rl": "RIGHTGRIPPER",
+                        "button_r2": "LEFTGRIPPER",
+                        "button_r3": "HEAVE_UP",
+                        "button_left": "DCLEFTGRIPPER_RIGHT",
+                        "button_right": "DCLEFTGRIPPER_LEFT",
+                        "button_rect": "DCRIGHTGRIPPER_LEFT",
+                        "button_o": "DCRIGHTGRIPPER_RIGHT",
+                        "button_top": "SERVO_UP",
+                        "button_bot": "SERVO_DOWN",
+                        "button_x": "FLASH"
+                    },
+                    {
+                        "button_11": "LEFTGRIPPER_OPEN",
+                        "button_12": "LEFTGRIPPER_CLOSE",
+                        "button_13": "HEAVE_DOWN",
+                        "button_rl": "RIGHTGRIPPER",
+                        "button_r2": "LEFTGRIPPER",
+                        "button_r3": "HEAVE_UP",
+                        "button_left": "DCLEFTGRIPPER_RIGHT",
+                        "button_right": "DCLEFTGRIPPER_LEFT",
+                        "button_rect": "DCRIGHTGRIPPER_LEFT",
+                        "button_o": "DCRIGHTGRIPPER_RIGHT",
+                        "button_top": "SERVO_UP",
+                        "button_bot": "SERVO_DOWN",
+                        "button_x": "FLASH"
+                    }
+                ],
+                "index_map": {
+                    "digital": {
+                        "0": "button_x",
+                        "1": "button_o",
+                        "2": "button_rect",
+                        "3": "button_tri",
+                        "4": "button_l1",
+                        "5": "button_r1",
+                        "6": "button_l2",
+                        "7": "button_r2",
+                        "8": "button_l3",
+                        "9": "button_r3",
+                        "10": "button_top",
+                        "11": "button_bot",
+                        "12": "button_left",
+                        "13": "button_right"
+                    },
+                    "analog": {
+                        "0": "left_x_axis",
+                        "1": "left_y_axis",
+                        "2": "right_x_axis",
+                        "3": "right_y_axis"
+                    }
+                }
+            },
+            "ps5": {
+                "switch_key_binding": [
+                    "button_l1",
+                    "button_r1"
+                ],
+                "modes": [
+                    {
+                        "button_11": "LEFTGRIPPER_OPEN",
+                        "button_12": "LEFTGRIPPER_CLOSE",
+                        "button_13": "HEAVE_DOWN",
+                        "button_rl": "RIGHTGRIPPER",
+                        "button_r2": "LEFTGRIPPER",
+                        "button_r3": "HEAVE_UP",
+                        "button_left": "DCLEFTGRIPPER_RIGHT",
+                        "button_right": "DCLEFTGRIPPER_LEFT",
+                        "button_rect": "DCRIGHTGRIPPER_LEFT",
+                        "button_o": "DCRIGHTGRIPPER_RIGHT",
+                        "button_top": "SERVO_UP",
+                        "button_bot": "SERVO_DOWN",
+                        "button_x": "FLASH"
+                    },
+                    {
+                        "button_11": "LEFTGRIPPER_OPEN",
+                        "button_12": "LEFTGRIPPER_CLOSE",
+                        "button_13": "HEAVE_DOWN",
+                        "button_rl": "RIGHTGRIPPER",
+                        "button_r2": "LEFTGRIPPER",
+                        "button_r3": "HEAVE_UP",
+                        "button_left": "DCLEFTGRIPPER_RIGHT",
+                        "button_right": "DCLEFTGRIPPER_LEFT",
+                        "button_rect": "DCRIGHTGRIPPER_LEFT",
+                        "button_o": "DCRIGHTGRIPPER_RIGHT",
+                        "button_top": "SERVO_UP",
+                        "button_bot": "SERVO_DOWN",
+                        "button_x": "FLASH"
+                    }
+                ],
+                "index_map": {
+                    "digital": {
+                        "0": "button_x",
+                        "1": "button_o",
+                        "2": "button_rect",
+                        "3": "button_tri",
+                        "4": "button_l1",
+                        "5": "button_r1",
+                        "6": "button_l2",
+                        "7": "button_r2",
+                        "8": "button_l3",
+                        "9": "button_r3",
+                        "10": "button_top",
+                        "11": "button_bot",
+                        "12": "button_left",
+                        "13": "button_right"
+                    },
+                    "analog": {
+                        "0": "left_x_axis",
+                        "1": "left_y_axis",
+                        "2": "right_x_axis",
+                        "3": "right_y_axis"
+                    }
+                }
+            }
+        }
+    },
+    "Joystick": {
+        "name": "Joystick",
+        "type": "topic",
+        "messageType": "control/Joystick",
+        "sample": "NaN"
+    },
+    "health": {
+        "name": "health",
+        "type": "topic",
+        "messageType": "control/Health",
+        "interval": 500,
+        "sample": {
+            "cpu": 94,
+            "ram": 33,
+            "voltage": true,
+            "temperature": 0,
+            "connection": 3,
+            "alert": true
+        }
+    }
+}

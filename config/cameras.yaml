@@ -1,5 +1,5 @@
 camera1:
-  index: '/dev/left_camera'
+  index: '/home/amansour/Zpice/src/gui/src/guiContent/test.mp4'
   width: 640
   height: 480
   fps: 20

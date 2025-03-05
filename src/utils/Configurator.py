@@ -8,11 +8,13 @@ class Configurator():
     KEYBOARD_BUTTONS = "keyboard_buttons"
     CHANGEABLE_MODULES = "changeable_modules"
     PINS = "hardware_pins"
+    PID_PARAMS = "pid_params"
     def __init__(self):
         self.__configFile = ''
     def __raiseTypeError(self,data_type):
         consts = [attr for attr in dir(self) if not callable(getattr(self, attr)) and not attr.startswith("_")]
         raise TypeError(f"Config file of type {data_type} doesn't exist, only {', '.join(consts)} are allowed.")
+    
     def getConfigsNames(self):
         consts = [attr for attr in dir(self) if not callable(getattr(self, attr)) and not attr.startswith("_")]
         return [getattr(self, attr) for attr in consts]
@@ -32,6 +34,8 @@ class Configurator():
             self.__configFile = workspace_path + f'/../../config/{Configurator.CHANGEABLE_MODULES}.yaml'
         elif data_type == Configurator.PINS:
             self.__configFile = workspace_path + f'/../../config/{Configurator.PINS}.yaml'
+        elif data_type == Configurator.PID_PARAMS:
+            self.__configFile = workspace_path + f'/../../config/{Configurator.PID_PARAMS}.yaml'
         else: 
             self.__raiseTypeError(data_type)
     def fetchData(self,data_type):
