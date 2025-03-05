@@ -1,5 +1,5 @@
-yaw_KP: 0.0
-yaw_KI: 0.0
+yaw_KP: 0.01
+yaw_KI: 0.01
 yaw_KD: 0.0
 pitch_KP: 0.0
 pitch_KI: 0.0
