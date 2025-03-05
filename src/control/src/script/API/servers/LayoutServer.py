@@ -7,14 +7,13 @@ class LayoutServer:
     
     def __init__(self):
         rospy.init_node('layouts_server')
-        self.service = LayoutService()
-        
+        self.service = LayoutService()     
         
     def Layout_service_server(self):
-        rospy.loginfo(f"Available Layouts: {', '.join(self.service.LayoutNames)}")
         s1 = rospy.Service('getLayoutService', GetLayout, self.service.handleGetLayout)
         s2 = rospy.Service('setLayoutService', SetLayout, self.service.handleSetLayout)
         rospy.loginfo("Layout Service Server Ready")
         rospy.spin()
+        
 if __name__ == "__main__":
     LayoutServer().Layout_service_server()

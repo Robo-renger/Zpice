@@ -67,6 +67,7 @@ catkin_python_setup()
   GetConfig.srv
   SetLayout.srv
   GetLayout.srv
+  GetStream.srv
 )
 
 ## Generate actions in the 'action' folder

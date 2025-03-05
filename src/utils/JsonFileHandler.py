@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import rospkg
 import json
+from utils.Configurator import Configurator
 
 class JSONFileHandler:
     CAMERAS = "cameras"
@@ -9,6 +10,7 @@ class JSONFileHandler:
     ANGLEFIXATION = "angle_fixation" 
     def __init__(self):
         self.__jsonFile = ''
+        self.configurator  = Configurator()
 
     def __raiseTypeError(self,data_type):
         consts = [attr for attr in dir(self) if not callable(getattr(self, attr)) and not attr.startswith("_")]
@@ -84,7 +86,10 @@ class JSONFileHandler:
     def __updateYamlConfig(self, file_name, new_layout):
         """Update the yaml file with the required data
         UNDER CONSTRUCTION!!!!"""
-        pass
+        new_data = json.loads(new_layout)
+
+        if file_name == JSONFileHandler.CAMERAS:
+            self.configurator.setConfig(Configurator.CAMERAS, new_data)
 
     def __convertToYaml(self, data):
         """Convert the JSON data to YAML format

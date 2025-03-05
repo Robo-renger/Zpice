@@ -14,6 +14,7 @@
     <!-- <node pkg="control" type="NavigationNode.py" name="navigation_node" output="screen"></node> -->
     <node pkg="control" type="ConfigServer.py" name="configs_server" output="screen"></node>
     <node pkg="control" type="LayoutServer.py" name="layouts_server" output="screen"></node>
+    <node pkg="control" type="GetStreamService.py" name="get_stream_service" output="screen"></node>
     <!-- <node pkg="control" type="SetDepthClient.py" name="set_depth_client" output="screen"></node> -->
     <node pkg="gui" type="GUIStreamingNode.py" name="gui_streamer" output="screen"></node>
     <node pkg="gui" type="CameraStreamingNode.py" name="cameras_streamer" output="screen"></node>
