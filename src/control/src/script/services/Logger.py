@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from zope.interface import implementer
 from interface.iLoggable import iLoggable
-from helpers.JsonFileHandler import JsonFileHandler
+from helpers.LogFileHandler import LogFileHandler
 from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
 from LogPublisherNode import LogPublisherNode
@@ -12,7 +12,7 @@ class Logger:
     Static class for logging messages to a file and the GUI.
     """
 
-    __json_file_handler = JsonFileHandler()
+    __log_file_handler = LogFileHandler()
     __log_publisher = LogPublisherNode()
 
     @staticmethod
@@ -27,7 +27,7 @@ class Logger:
         :return: A Log object.
         """
         log = Log(logSeverity, message, component_name)
-        Logger.__json_file_handler.writeToFile(log)
+        Logger.__log_file_handler.writeToFile(log)
         return log
 
     @staticmethod    

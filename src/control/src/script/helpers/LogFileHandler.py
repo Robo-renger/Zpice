@@ -5,7 +5,7 @@ from datetime import date
 # import paramiko
 from DTOs.Log import Log
 
-class JsonFileHandler:
+class LogFileHandler:
     def __init__(self, file_path: str = None):
         # Get the absolute path to the logs directory relative to the script's location
         base_dir = Path(__file__).resolve().parent.parent  # Moves up to `src/control/src`
@@ -30,7 +30,14 @@ class JsonFileHandler:
             except json.JSONDecodeError:
                 logs = []  
 
-            logs.append(log.toDictionary())
+            log_dict = log.toDictionary()
+            if logs and "id" in logs[0]:
+                new_id = max(item["id"] for item in logs) + 1
+            else:
+                new_id = len(logs)
+            log_dict["id"] = new_id
+            logs.append(log_dict)
+            
             file.seek(0)  # Move to the beginning of the file
             json.dump(logs, file, indent=4)  # Write updated logs back to the file
 
