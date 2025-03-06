@@ -1,4 +1,4 @@
-yaw_KP: 0.01
+yaw_KP: 0.03
 yaw_KI: 0.00
 yaw_KD: 0.00
 pitch_KP: 0.00

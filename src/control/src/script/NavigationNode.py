@@ -83,6 +83,7 @@ class NavigationNode:
 
     def setpointCallback(self, msg):
         if -180 <= msg.data <= 180:
+            rospy.logwarn(msg.data)
             self.pid_yaw.updateSetpoint(msg.data)
             # self.pid_pitch.updateSetpoint(self.imu_data['pitch'])
             # self.pid_heave.updateSetpoint(self.depth)
@@ -114,7 +115,6 @@ class NavigationNode:
 
     def stabilizeAtRest(self):
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
-        rospy.logerr(self.imu_data['yaw'])
         pitch_output = self.pid_pitch.stabilize(self.imu_data['pitch'])
         Navigation.navigate(0, 0, pitch_output, 0, yaw_output)
 
@@ -165,6 +165,7 @@ class NavigationNode:
 
     def navigate(self):        
         Vectorizer.yaw_only = False
+        
         self.handleJoystickInput()
 
         if abs(self.yaw) > 0.043:
@@ -201,6 +202,7 @@ class NavigationNode:
             Navigation.navigate(self.x, self.y, self.pitch, self.z, self.yaw * 0.5)
 
         self.extractDir()
+        # print(f"IMU data in yaw {self.imu_data['yaw']}")
 
 
 if __name__ == "__main__":
