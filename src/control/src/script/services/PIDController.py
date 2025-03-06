@@ -6,7 +6,7 @@ class PIDController:
     """
     A wrapper class for the simple_pid library.
     """
-    def __init__(self, kp: float, ki: float, kd: float, setpoint: float = 0.0):
+    def __init__(self, kp: float, ki: float, kd: float, setpoint: float = None):
         """
         Initialize the PID controller with gains and an initial setpoint.
 
@@ -16,6 +16,7 @@ class PIDController:
             kd (float): Derivative gain.
             setpoint (float): Initial setpoint (default is 0.0).
         """
+        self.setpoint = setpoint
         self._pid = PID(kp, ki, kd, setpoint=setpoint)
         self._pid.output_limits = (-1, 1)
         self.isHeave = False
@@ -27,6 +28,7 @@ class PIDController:
         Parameters:
             setpoint (float): The new setpoint.
         """
+        self.setpoint = setpoint
         self._pid.setpoint = setpoint
     
     def updateConstants(self, kp: float, ki: float, kd: float) -> None:

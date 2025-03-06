@@ -25,6 +25,7 @@ const joystickTopic = new ROSLIB.Topic({
 // Function to detect gamepads
 function scanGamepads() {
     const gamepads = navigator.getGamepads();
+    console.log(gamepads)
     return gamepads[0]; // Use the first connected gamepad
 }
 
@@ -72,3 +73,26 @@ function sendJoystickData() {
 
 // Poll joystick data every 100ms
 setInterval(sendJoystickData, 100);
+
+var pidTopic = new ROSLIB.Topic({
+    ros: ros,
+    name: '/constants',
+    messageType: 'std_msgs/Float32MultiArray'
+});
+
+// Function to send PID constants via ROS topic
+function sendPIDConstants() {
+    var kp1 = parseFloat(document.getElementById("kp1").value) || 0;
+    var ki1 = parseFloat(document.getElementById("ki1").value) || 0;
+    var kd1 = parseFloat(document.getElementById("kd1").value) || 0;
+    var kp2 = parseFloat(document.getElementById("kp2").value) || 0;
+    var ki2 = parseFloat(document.getElementById("ki2").value) || 0;
+    var kd2 = parseFloat(document.getElementById("kd2").value) || 0;
+
+    var pidMessage = new ROSLIB.Message({
+        data: [kp1, ki1, kd1, kp2, ki2, kd2]
+    });
+
+    pidTopic.publish(pidMessage);
+    console.log("Sent PID constants:", pidMessage.data);
+}
