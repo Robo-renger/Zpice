@@ -70,6 +70,7 @@ catkin_python_setup()
   GetStream.srv
   SwitchJoystickMode.srv
   GetActiveController.srv
+  GetLogs.srv
 )
 
 ## Generate actions in the 'action' folder

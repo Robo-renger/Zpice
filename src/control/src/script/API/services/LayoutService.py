@@ -7,7 +7,6 @@ class LayoutService:
     def __init__(self):
         self.LayoutManager = LayoutManager()
         self.LayoutNames = self.LayoutManager.getLayoutsNames()
-        pass
 
     def handleGetLayout(self, req):
         rospy.loginfo(f"Received GetLayout request: {req.layoutName}")

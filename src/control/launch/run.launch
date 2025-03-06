@@ -9,12 +9,13 @@
     <!-- <node pkg="control" type="Servo180Node.py" name="servo180_node" output="screen"></node> -->
     <!-- <node pkg="control" type="SwitchingNode.py" name="switching_node" output="screen"></node> -->
     <!-- <node pkg="control" type="LEDbash.sh" name="led_driver_node" output="screen"/> -->
-    <node pkg="control" type="IMUNode.py" name="IMU" output="screen"></node>
-    <node pkg="control" type="DepthNode.py" name="depth" output="screen"></node>
-    <node pkg="control" type="NavigationNode.py" name="navigation_node" output="screen"></node>
+    <!-- <node pkg="control" type="IMUNode.py" name="IMU" output="screen"></node> -->
+    <!-- <node pkg="control" type="DepthNode.py" name="depth" output="screen"></node> -->
+    <!-- <node pkg="control" type="NavigationNode.py" name="navigation_node" output="screen"></node> -->
     <!-- <node pkg="control" type="JoystickModeSwitcher.py" name="joystick_mode_switcher_topic" output="screen"></node> -->
     <node pkg="control" type="SwitchJoystickMode.py" name="joystick_mode_switcher" output="screen"></node>
     <node pkg="control" type="ConfigServer.py" name="configs_server" output="screen"></node>
+    <node pkg="control" type="LogsServer.py" name="logs_server" output="screen"></node>
     <node pkg="control" type="LayoutServer.py" name="layouts_server" output="screen"></node>
     <node pkg="control" type="GetStreamService.py" name="get_stream_service" output="screen"></node>
     
