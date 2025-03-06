@@ -207,5 +207,5 @@ if __name__ == "__main__":
         while not rospy.is_shutdown():
             node.navigate()
     except KeyboardInterrupt:
-        # Navigation.stopAll()
+        Navigation.stopAll()
         rospy.loginfo("Exiting Navigation Node...")

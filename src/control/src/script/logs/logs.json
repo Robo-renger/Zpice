@@ -1,9 +1,13 @@
 [
     {
         "severity": "ERROR",
-        "message": "Shared memory update failed: 'NoneType' object does not support item assignment",
+        "message": "Failed to deserialize data.",
         "component_name": "CJoystick",
-        "timestamp": "2025-03-06T17:25:38.492658"
+        "timestamp": "2025-03-06T17:40:52.683720"
+    }
+]
+    }
+]stamp": "2025-03-06T17:25:38.492658"
     }
 ]4956"
     }
