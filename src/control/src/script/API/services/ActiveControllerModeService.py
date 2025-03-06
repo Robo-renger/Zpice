@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
-import rospy
 from services.Joystick import CJoystick
 from utils.Configurator import Configurator
 from utils.LayoutManager import LayoutManager
-from API.clients.GetActiveController import ActiveController
-from control.srv import SwitchJoystickMode, SwitchJoystickModeResponse
+from control.srv import  SwitchJoystickModeResponse, GetActiveControllerResponse
 
-class JoystickModeSwitcher:
+class ActiveControllerModeService:
     def __init__(self):
-        rospy.init_node('joystick_mode_switcher')
         self.joystick = CJoystick()
         self.configurator = Configurator()
         self.joystick_layout = LayoutManager().fetchLayout("controller")
         self.current_mode_index = 0
-        self.type = ActiveController().getType()
+        self.type = "ps" # Default controller type
         self.num_modes = len(self.joystick_layout[self.type]["modes"])
+        
+    def getType(self, req):
+        self.type = req.activeController
+        self.num_modes = len(self.joystick_layout[self.type]["modes"])
+        return GetActiveControllerResponse("BONOOOO")
 
     def switchMode(self, req):
         self.current_mode_index = (self.current_mode_index + 1) % self.num_modes
@@ -22,15 +24,4 @@ class JoystickModeSwitcher:
         self.configurator.setConfig("joystick_buttons", new_mode)
         return SwitchJoystickModeResponse(str(self.current_mode_index))
 
-    def run(self):
-        rospy.Service('switchJoystickMode', SwitchJoystickMode, self.switchMode)
-        rospy.spin()
-
-if __name__ == "__main__":
-    try:
-        switcher = JoystickModeSwitcher()
-        switcher.run()
-    except KeyboardInterrupt:
-        rospy.loginfo("Exiting...")
-    except rospy.ROSInterruptException as e:
-        rospy.loginfo(f"Error in swiching joystick mode: {e}")
+   

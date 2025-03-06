@@ -10,4 +10,5 @@ button_r3: HEAVE_UP
 button_rect: DCRIGHTGRIPPER_LEFT
 button_right: DCLEFTGRIPPER_LEFT
 button_top: SERVO_UP
+button_tri: bty5
 button_x: FLASH

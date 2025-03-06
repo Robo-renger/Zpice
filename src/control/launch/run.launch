@@ -13,7 +13,7 @@
     <!-- <node pkg="control" type="DepthNode.py" name="depth" output="screen"></node> -->
     <!-- <node pkg="control" type="NavigationNode.py" name="navigation_node" output="screen"></node> -->
     <!-- <node pkg="control" type="JoystickModeSwitcher.py" name="joystick_mode_switcher_topic" output="screen"></node> -->
-    <node pkg="control" type="SwitchJoystickMode.py" name="joystick_mode_switcher" output="screen"></node>
+    <node pkg="control" type="ActiveControllerModeServer.py" name="active_controller_mode_server" output="screen"></node>
     <node pkg="control" type="ConfigServer.py" name="configs_server" output="screen"></node>
     <node pkg="control" type="LogsServer.py" name="logs_server" output="screen"></node>
     <node pkg="control" type="LayoutServer.py" name="layouts_server" output="screen"></node>
