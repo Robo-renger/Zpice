@@ -6,7 +6,6 @@ class PIDController:
     """
     A wrapper class for the simple_pid library.
     """
-
     def __init__(self, kp: float, ki: float, kd: float, setpoint: float = 0.0):
         """
         Initialize the PID controller with gains and an initial setpoint.
@@ -19,6 +18,7 @@ class PIDController:
         """
         self._pid = PID(kp, ki, kd, setpoint=setpoint)
         self._pid.output_limits = (-1, 1)
+        self.isHeave = False
 
     def updateSetpoint(self, setpoint: float) -> None:
         """
@@ -28,6 +28,19 @@ class PIDController:
             setpoint (float): The new setpoint.
         """
         self._pid.setpoint = setpoint
+    
+    def updateConstants(self, kp: float, ki: float, kd: float) -> None:
+        """
+        Update the gains for the PID controller.
+
+        Parameters:
+            kp (float): The new Proportional gain.
+            ki (float): The new Integral gain.
+            kd (float): The new Differential gain.
+        """
+        self._pid.Kp = kp
+        self._pid.Ki = ki
+        self._pid.Kd = kd
 
     def stabilize(self, measured_value: float) -> float:
         """
@@ -39,8 +52,10 @@ class PIDController:
         Returns:
             float: The computed control output.
         """
-        error = self._angleDifference(measured_value, self._pid.setpoint)
-        return self._pid(measured_value + error)
+        if self._pid.setpoint is not None and measured_value is not None:
+            if not self.isHeave:
+                error = self._angleDifference(measured_value, self._pid.setpoint)
+            return self._pid(measured_value + error)
     
     def _angleDifference(self, a: float, b: float) -> float:
         """
