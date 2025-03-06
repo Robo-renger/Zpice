@@ -93,6 +93,7 @@ class CameraStreamer:
             self.server.serve_forever()
 
         except Exception as e:
+            pass
             print(f"Error occurred: {e}")
         finally:
             if self.capture is not None:

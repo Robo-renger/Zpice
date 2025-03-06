@@ -2,7 +2,7 @@
 
 import rospy
 from control.msg import IMU, Depth
-from std_msgs.msg import String, Float32MultiArray
+from std_msgs.msg import String, Float32MultiArray, Float32
 from services.Joystick import CJoystick
 from services.Navigation import Navigation
 from services.Vectorizer import Vectorizer
@@ -41,8 +41,8 @@ class NavigationNode:
         
         rospy.Subscriber("IMU", IMU, self._imuCallback)
         rospy.Subscriber("depth", Depth, self._depthCallback)
-        rospy.Subscriber("reset", String, self.resetCallback)
         rospy.Subscriber("constants", Float32MultiArray, self.constantsCallback)
+        rospy.Subscriber("setpoint", Float32, self.setpointCallback)
         # rospy.Subscriber("set", String, self._setFixationCallback)
         
     def reload(self):
@@ -77,18 +77,15 @@ class NavigationNode:
             self._resetFlags()
 
     def constantsCallback(self, msg):
+        rospy.logwarn(msg.data)
         self.pid_yaw.updateConstants(msg.data[0], msg.data[1], msg.data[2])
         self.pid_pitch.updateConstants(msg.data[3], msg.data[4], msg.data[5])
-        rospy.logwarn(msg.data)
 
-    def resetCallback(self, msg):
-        if msg.data is not None:
-            # rospy.logerr(msg.data)
-            # rospy.logwarn(self.imu_data['yaw'])
-            self.pid_yaw.updateSetpoint(self.imu_data['yaw'])
-            # rospy.logerr(self.pid_yaw.setpoint)
-            self.pid_pitch.updateSetpoint(self.imu_data['pitch'])
-            self.pid_heave.updateSetpoint(self.depth)
+    def setpointCallback(self, msg):
+        if -180 <= msg.data <= 180:
+            self.pid_yaw.updateSetpoint(msg.data)
+            # self.pid_pitch.updateSetpoint(self.imu_data['pitch'])
+            # self.pid_heave.updateSetpoint(self.depth)
     
     def _resetFlags(self):
         self.fix_heading = False
@@ -117,6 +114,7 @@ class NavigationNode:
 
     def stabilizeAtRest(self):
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
+        rospy.logerr(self.imu_data['yaw'])
         pitch_output = self.pid_pitch.stabilize(self.imu_data['pitch'])
         Navigation.navigate(0, 0, pitch_output, 0, yaw_output)
 
@@ -160,25 +158,30 @@ class NavigationNode:
         if dir:
             self.pub.publish(dir)  # Publish to the ROS topic
 
+    def _isRest(self):
+        if abs(self.x) <= 0.05 and abs(self.y) <= 0.05 and abs(self.z) <= 0.05 and abs(self.pitch) <= 0.05 and abs(self.yaw) <= 0.05:
+            return True
+        return False
+
     def navigate(self):        
-        # Vectorizer.yaw_only = False
+        Vectorizer.yaw_only = False
         self.handleJoystickInput()
-            
-        if self.yaw != 0:
-            rospy.logerr("UPDATING YAW SETPOINT")
+
+        if abs(self.yaw) > 0.043:
+            # rospy.logerr("UPDATING YAW SETPOINT")
             self.fix_heading = False
-            self.pid_yaw.updateSetpoint(self.imu_data['yaw'])
-        if self.pitch != 0:
+            # self.pid_yaw.updateSetpoint(self.imu_data['yaw'])
+        if abs(self.pitch) > 0.01:
             # rospy.logerr("UPDATING PITCH SETPOINT")
             self.pid_pitch.updateSetpoint(self.imu_data['pitch'])
-        if self.z != 0:
+        if abs(self.z) > 0.05:
             # rospy.logerr("UPDATING HEAVE SETPOINT")
             self.fix_heave = False
             self.pid_heave.updateSetpoint(self.depth)
         
-        if self.x == 0 and self.y == 0 and self.z == 0 and self.pitch == 0 and self.yaw == 0: #and not (self.fix_heading or self.fix_heave):
+        if self._isRest(): #and not (self.fix_heading or self.fix_heave):
             if self.imu_data['pitch'] is not None and self.imu_data['yaw'] is not None and self.pid_yaw.setpoint is not None and self.pid_pitch.setpoint is not None:
-                rospy.logwarn("ROV at rest: Stabilizing yaw and pitch")
+                # rospy.logwarn("ROV at rest: Stabilizing yaw and pitch")
                 self.stabilizeAtRest()
         
         elif self.fix_heading and (self.z != 0 or self.pitch != 0):
@@ -194,8 +197,8 @@ class NavigationNode:
             self.stabilizeHeadingLively()
 
         else:
-            rospy.logerr("ROV in manual control: Using joystick input")
-            Navigation.navigate(self.x, self.y, self.pitch, self.z, self.yaw)
+            # rospy.logerr("ROV in manual control: Using joystick input")
+            Navigation.navigate(self.x, self.y, self.pitch, self.z, self.yaw * 0.5)
 
         self.extractDir()
 
@@ -207,5 +210,5 @@ if __name__ == "__main__":
         while not rospy.is_shutdown():
             node.navigate()
     except KeyboardInterrupt:
-        Navigation.stopAll()
+        # Navigation.stopAll()
         rospy.loginfo("Exiting Navigation Node...")

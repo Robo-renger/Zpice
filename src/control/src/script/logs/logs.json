@@ -1,13 +1,15 @@
 [
     {
-        "severity": "ERROR",
-        "message": "Failed to deserialize data.",
-        "component_name": "CJoystick",
-        "timestamp": "2025-03-06T17:40:52.683720"
+        "severity": "INFO",
+        "message": "Switching close.",
+        "component_name": "Switching",
+        "timestamp": "2025-03-06T16:28:23.595908"
+    }
+]291"
     }
 ]
     }
-]stamp": "2025-03-06T17:25:38.492658"
+]stamp": "2025-03-06T15:44:39.621559"
     }
 ]4956"
     }
