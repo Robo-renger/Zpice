@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 from pathlib import Path
+from datetime import date
 # import paramiko
 from DTOs.Log import Log
 
@@ -8,10 +9,10 @@ class JsonFileHandler:
     def __init__(self, file_path: str = None):
         # Get the absolute path to the logs directory relative to the script's location
         base_dir = Path(__file__).resolve().parent.parent  # Moves up to `src/control/src`
-        log_dir = base_dir / "logs"
-        log_dir.mkdir(parents=True, exist_ok=True)  # Ensure logs directory exists
+        self.log_dir = base_dir / "logs"
+        self.log_dir.mkdir(parents=True, exist_ok=True)  # Ensure logs directory exists
         
-        self.file_path = file_path if file_path else log_dir / "logs.json"
+        self.file_path = file_path if file_path else self.log_dir / f"{date.today().isoformat()}.json"
 
     def create(self):
         """Creates the JSON file if it doesn't already exist."""
@@ -22,6 +23,7 @@ class JsonFileHandler:
     def writeToFile(self, log: Log):
         """Appends an object to the JSON file."""
         self.create() 
+        self.pruneLogs()
         with open(self.file_path, "r+") as file:
             try:
                 logs = json.load(file)  
@@ -41,40 +43,53 @@ class JsonFileHandler:
             except json.JSONDecodeError:
                 logs = []
         return logs
+    
+    def pruneLogs(self):
+        """Keep the last 7 logs and delete the rest"""
+        log_files = sorted(self.log_dir.glob("*.json"))
+        if len(log_files) > 7:
+            files_to_delete = log_files[:len(log_files) - 7]
+            for file in files_to_delete:
+                try:
+                    file.unlink()  
+                except Exception as e:
+                    print(f"Error deleting {file.name}: {e}")
+
+    
 
     # def downloadFile(self, remote_host: str, remote_username: str, remote_password: str, remote_path: str, local_path: str = "downloaded_logs.json"):
-        try:
-            remote_path = str(remote_path)
-            local_path = str(local_path)
+        # try:
+        #     remote_path = str(remote_path)
+        #     local_path = str(local_path)
 
-            print(f"Connecting to {remote_username}@{remote_host}...")
-            # Create an SSH client
-            ssh = paramiko.SSHClient()
-            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        #     print(f"Connecting to {remote_username}@{remote_host}...")
+        #     # Create an SSH client
+        #     ssh = paramiko.SSHClient()
+        #     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-            # Connect to the remote system
-            ssh.connect(remote_host, username=remote_username, password=remote_password)
-            print("SSH connection established.")
+        #     # Connect to the remote system
+        #     ssh.connect(remote_host, username=remote_username, password=remote_password)
+        #     print("SSH connection established.")
 
-            # Create an SFTP client
-            sftp = ssh.open_sftp()
-            print("SFTP session opened.")
+        #     # Create an SFTP client
+        #     sftp = ssh.open_sftp()
+        #     print("SFTP session opened.")
 
-            # Verify the remote file exists and is not empty
-            remote_file_size = sftp.stat(remote_path).st_size
-            print(f"Remote file size: {remote_file_size} bytes")
+        #     # Verify the remote file exists and is not empty
+        #     remote_file_size = sftp.stat(remote_path).st_size
+        #     print(f"Remote file size: {remote_file_size} bytes")
 
-            if remote_file_size == 0:
-                print("Warning: Remote file is empty.")
-            else:
-                # Download the file
-                print(f"Downloading {remote_path} to {local_path}...")
-                sftp.get(remote_path, local_path)
-                print(f"File downloaded to: {local_path}")
+        #     if remote_file_size == 0:
+        #         print("Warning: Remote file is empty.")
+        #     else:
+        #         # Download the file
+        #         print(f"Downloading {remote_path} to {local_path}...")
+        #         sftp.get(remote_path, local_path)
+        #         print(f"File downloaded to: {local_path}")
 
-            # Close the SFTP and SSH connections
-            sftp.close()
-            ssh.close()
-            print("SFTP and SSH connections closed.")
-        except Exception as e:
-            print(f"Error downloading file: {e}")
+        #     # Close the SFTP and SSH connections
+        #     sftp.close()
+        #     ssh.close()
+        #     print("SFTP and SSH connections closed.")
+        # except Exception as e:
+        #     print(f"Error downloading file: {e}")
