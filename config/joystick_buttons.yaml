@@ -1,6 +1,3 @@
-button_11: LEFTGRIPPER_OPEN
-button_12: LEFTGRIPPER_CLOSE
-button_13: HEAVE_DOWN
 button_bot: SERVO_DOWN
 button_l1: LEFTGRIPPER_OPEN
 button_l2: LEFTGRIPPER_CLOSE
@@ -12,6 +9,5 @@ button_r2: LEFTGRIPPER
 button_r3: HEAVE_UP
 button_rect: DCRIGHTGRIPPER_LEFT
 button_right: DCLEFTGRIPPER_LEFT
-button_rl: RIGHTGRIPPER
 button_top: SERVO_UP
 button_x: FLASH

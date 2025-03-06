@@ -6,10 +6,10 @@
         ],
         "modes": [
             {
-                "button_11": "LEFTGRIPPER_OPEN",
-                "button_12": "LEFTGRIPPER_CLOSE",
-                "button_13": "HEAVE_DOWN",
-                "button_rl": "RIGHTGRIPPER",
+                "button_l1": "LEFTGRIPPER_OPEN",
+                "button_l2": "LEFTGRIPPER_CLOSE",
+                "button_l3": "HEAVE_DOWN",
+                "button_r1": "RIGHTGRIPPER",
                 "button_r2": "LEFTGRIPPER",
                 "button_r3": "HEAVE_UP",
                 "button_left": "DCLEFTGRIPPER_RIGHT",
@@ -21,10 +21,10 @@
                 "button_x": "FLASH"
             },
             {
-                "button_11": "LEFTGRIPPER_OPEN",
-                "button_12": "LEFTGRIPPER_CLOSE",
-                "button_13": "bty5",
-                "button_rl": "RIGHTGRIPPER",
+                "button_l1": "LEFTGRIPPER_OPEN",
+                "button_l2": "LEFTGRIPPER_CLOSE",
+                "button_l3": "bty5",
+                "button_r1": "RIGHTGRIPPER",
                 "button_r2": "LEFTGRIPPER",
                 "button_r3": "HEAVE_UP",
                 "button_left": "DCLEFTGRIPPER_RIGHT",

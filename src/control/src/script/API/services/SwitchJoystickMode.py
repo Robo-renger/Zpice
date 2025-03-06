@@ -3,6 +3,7 @@ import rospy
 from services.Joystick import CJoystick
 from utils.Configurator import Configurator
 from utils.LayoutManager import LayoutManager
+from API.clients.GetActiveController import ActiveController
 from control.srv import SwitchJoystickMode, SwitchJoystickModeResponse
 
 class JoystickModeSwitcher:
@@ -12,13 +13,13 @@ class JoystickModeSwitcher:
         self.configurator = Configurator()
         self.joystick_layout = LayoutManager().fetchLayout("controller")
         self.current_mode_index = 0
-        self.num_modes = len(self.joystick_layout["ps4"]["modes"])
+        self.type = ActiveController().getType()
+        self.num_modes = len(self.joystick_layout[self.type]["modes"])
 
     def switchMode(self, req):
         self.current_mode_index = (self.current_mode_index + 1) % self.num_modes
-        new_mode = self.joystick_layout["ps4"]["modes"][self.current_mode_index]
+        new_mode = self.joystick_layout[self.type]["modes"][self.current_mode_index]
         self.configurator.setConfig("joystick_buttons", new_mode)
-
         return SwitchJoystickModeResponse(str(self.current_mode_index))
 
     def run(self):
