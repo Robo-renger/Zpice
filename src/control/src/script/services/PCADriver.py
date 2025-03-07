@@ -38,8 +38,8 @@ class PCA:
                 self.pca = PCA9685(i2c, address=i2c_address)
                 self.pca.frequency = frequency
             except (RuntimeError, ImportError):
-                Logger.logToFile(LogSeverity.ERROR,"Couldnt find PCA on i2c bus, while Environemnt is not set to 'SIMULATION'")
-                Logger.logToGUI(LogSeverity.ERROR,"Couldnt find PCA on i2c bus, while Environemnt is not set to 'SIMULATION'")
+                Logger.logToFile(LogSeverity.FATAL,"Couldnt find PCA on i2c bus, while Environemnt is not set to 'SIMULATION'")
+                Logger.logToGUI(LogSeverity.FATAL,"Couldnt find PCA on i2c bus, while Environemnt is not set to 'SIMULATION'")
 
     def _microsecondsToDutycycle(self, microseconds):
         """
@@ -64,8 +64,8 @@ class PCA:
             duty_cycle_value = self._microsecondsToDutycycle(microseconds)
             self.pca.channels[channel].duty_cycle = duty_cycle_value
         else:
-            self.__logToFile(LogSeverity.ERROR, f"Attempted to write to channel {channel} but PCA is not initialized", "PCA")
-            self.__logToGUI(LogSeverity.ERROR, f"Attempted to write to channel {channel} but PCA is not initialized", "PCA")
+            Logger.logToFile(LogSeverity.FATAL, f"Attempted to write to channel {channel} but PCA is not initialized", "PCA")
+            Logger.logToGUI(LogSeverity.FATAL, f"Attempted to write to channel {channel} but PCA is not initialized", "PCA")
 
     def stopAll(self):
         """

@@ -217,8 +217,8 @@ class Navigation:
             vectorized = Vectorizer.vectorize(x_axis, y_axis, z_axis, pitch_axis, yaw_axis)
             Navigation._applyThrusts(vectorized)
         except ValueError as e:
-            Logger.logToFile(LogSeverity.ERROR, f"{e}", "Navigation")
-            Logger.logToGUI(LogSeverity.ERROR, f"{e}", "Navigation")
+            Logger.logToFile(LogSeverity.FATAL, f"{e}", "Navigation")
+            Logger.logToGUI(LogSeverity.FATAL, f"{e}", "Navigation")
             
     @staticmethod
     def _applyThrusts(thrust_values: dict) -> None:
