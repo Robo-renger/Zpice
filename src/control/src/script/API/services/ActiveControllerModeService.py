@@ -10,7 +10,7 @@ class ActiveControllerModeService:
         self.configurator = Configurator()
         self.joystick_layout = LayoutManager().fetchLayout("controller")
         self.current_mode_index = 0
-        self.type = "ps" # Default controller type
+        self.type = "ps4" # Default controller type
         self.num_modes = len(self.joystick_layout[self.type]["modes"])
         
     def getType(self, req):

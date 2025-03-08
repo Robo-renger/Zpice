@@ -71,6 +71,7 @@ catkin_python_setup()
   SwitchJoystickMode.srv
   GetActiveController.srv
   GetLogs.srv
+  SetMissionColor.srv
 )
 
 ## Generate actions in the 'action' folder

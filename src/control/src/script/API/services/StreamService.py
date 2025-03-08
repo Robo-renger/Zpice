@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
 
-import rospy
-from control.srv import GetStream, GetStreamResponse
+from control.srv import GetStreamResponse
 from utils.Configurator import Configurator
 from utils.LayoutManager import LayoutManager
 from utils.JsonFileHandler import JSONFileHandler
 
-class GetStreamService:
+class StreamService:
     def __init__(self):
-        rospy.init_node('get_stream_service')
         self.camera_config = Configurator().fetchData("cameras")
         self.camera_layout = LayoutManager().fetchLayout("cameras")
         self.stream = JSONFileHandler().fetchData("stream")
@@ -28,14 +26,4 @@ class GetStreamService:
         }
         return updated_data
 
-    def run(self):
-        rospy.Service('getStreamService', GetStream, self.handleGetStream)
-        rospy.spin()
-
-if __name__ == "__main__":
-    try:
-        GetStreamService().run()
-    except KeyboardInterrupt:
-        rospy.loginfo("Exiting...")
-    except rospy.ROSInterruptException as e:
-        rospy.logwarn(f"Get stream failed: {e}")
+    

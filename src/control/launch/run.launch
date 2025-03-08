@@ -12,13 +12,16 @@
     <!-- <node pkg="control" type="IMUNode.py" name="IMU" output="screen"></node> -->
     <!-- <node pkg="control" type="DepthNode.py" name="depth" output="screen"></node> -->
     <!-- <node pkg="control" type="NavigationNode.py" name="navigation_node" output="screen"></node> -->
-    <node pkg="control" type="ActiveControllerModeServer.py" name="active_controller_mode_server" output="screen"></node>
-    <node pkg="control" type="ConfigServer.py" name="configs_server" output="screen"></node>
-    <node pkg="control" type="LogsServer.py" name="logs_server" output="screen"></node>
-    <node pkg="control" type="LayoutServer.py" name="layouts_server" output="screen"></node>
-    <node pkg="control" type="GetStreamService.py" name="get_stream_service" output="screen"></node>
-    
     <node pkg="gui" type="GUIStreamingNode.py" name="gui_streamer" output="screen"></node>
     <node pkg="gui" type="CameraStreamingNode.py" name="cameras_streamer" output="screen"></node>
+
+    <!-- SERVERS -->
+    <node pkg="control" type="ActiveControllerModeServer.py" name="active_controller_mode_server" output="screen"></node>
+    <node pkg="control" type="ConfigServer.py" name="configs_server" output="screen"></node>
+    <node pkg="control" type="MissionColorServer.py" name="mission_color_server" output="screen"></node>
+    <node pkg="control" type="LogsServer.py" name="logs_server" output="screen"></node>
+    <node pkg="control" type="LayoutServer.py" name="layouts_server" output="screen"></node>
+    <node pkg="control" type="StreamServer.py" name="get_stream_service" output="screen"></node>
+    
     
 </launch>

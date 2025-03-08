@@ -2,7 +2,7 @@
 import rospy
 from control.srv import GetActiveController
 
-class ActiveController():
+class ActiveControllerClient():
     
     def getType(self):
         rospy.wait_for_service('get_active_controller')
