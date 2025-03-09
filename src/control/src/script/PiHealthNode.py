@@ -8,7 +8,7 @@ from DTOs.LogSeverity import LogSeverity
 
 class PiHealthNode:
     def __init__(self):
-        rospy.init_node('pi_health', anonymous=False)
+        rospy.init_node('pi_health_node', anonymous=False)
         self._pub = rospy.Publisher('pihealth', Status, queue_size=10)
         self._msg = Status()
         self._pi = pigpio.pi()

@@ -7,6 +7,24 @@
             "data": ""
         }
     },
+    "/pihealth": {
+        "name": "/pihealth",
+        "type": "topic",
+        "messageType": "control/Status",
+        "sample": {
+            "temperature": 0.0,
+            "freeMemory": 0.0,
+            "percentFreeMemory": 0.0,
+            "percentCPUUsage": 0.0,
+            "underVoltage": false,
+            "GPUCoreState": false,
+            "SDRAMState": false,
+            "GPIOState": [{
+                "gpio": 5,
+                "status": "high"
+            }]
+        }
+    },
     "/client_count": {
         "name": "/client_count",
         "type": "topic",
@@ -21,6 +39,50 @@
         "messageType": "rosbridge_msgs/ConnectedClients",
         "sample": {
             "clients": []
+        }
+    },
+    "/joystick": {
+        "name": "/joystick",
+        "type": "topic",
+        "messageType": "control/Joystick",
+        "sample": {
+            "left_x_axis": 0.0,
+            "left_y_axis": 0.0,
+            "right_x_axis": 0.0,
+            "right_y_axis": 0.0,
+            "button_x": false,
+            "button_o": false,
+            "button_tri": false,
+            "button_rect": false,
+            "button_r1": false,
+            "button_r2": false,
+            "button_r3": false,
+            "button_l1": false,
+            "button_l2": false,
+            "button_l3": false,
+            "button_left": false,
+            "button_right": false,
+            "button_top": false,
+            "button_bot": false
+        }
+    },
+    "/depth": {
+        "name": "/depth",
+        "type": "topic",
+        "messageType": "control/Depth",
+        "sample": {
+            "pressure": 0.0,
+            "depth": 0.0
+        }
+    },
+    "/IMU": {
+        "name": "/IMU",
+        "type": "topic",
+        "messageType": "control/IMU",
+        "sample": {
+            "roll": 0.0,
+            "pitch": 0.0,
+            "yaw": 0.0
         }
     },
     "/set_depth/status": {
@@ -171,92 +233,6 @@
             }
         }
     },
-    "/depth": {
-        "name": "/depth",
-        "type": "topic",
-        "messageType": "control/Depth",
-        "sample": {
-            "pressure": 0.0,
-            "depth": 0.0
-        }
-    },
-    "/IMU": {
-        "name": "/IMU",
-        "type": "topic",
-        "messageType": "control/IMU",
-        "sample": {
-            "roll": 0.0,
-            "pitch": 0.0,
-            "yaw": 0.0
-        }
-    },
-    "/joystick": {
-        "name": "/joystick",
-        "type": "topic",
-        "messageType": "control/Joystick",
-        "sample": {
-            "left_x_axis": 0.0,
-            "left_y_axis": 0.0,
-            "right_x_axis": 0.0,
-            "right_y_axis": 0.0,
-            "button_x": false,
-            "button_o": false,
-            "button_tri": false,
-            "button_rect": false,
-            "button_r1": false,
-            "button_r2": false,
-            "button_r3": false,
-            "button_l1": false,
-            "button_l2": false,
-            "button_l3": false,
-            "button_left": false,
-            "button_right": false,
-            "button_top": false,
-            "button_bot": false
-        }
-    },
-    "/getLogsService": {
-        "name": "/getLogsService",
-        "type": "service",
-        "serviceType": "control/GetLogs",
-        "args": {
-            "request": {
-                "logName": ""
-            },
-            "response": {
-                "logObject": ""
-            }
-        },
-        "sample": {
-            "request": {
-                "logName": "2025-03-06"
-            },
-            "response": {
-                "logObject": "[{'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T15:14:01.072788'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T15:17:28.164379'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T15:24:55.784969'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T15:27:09.754358'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:43:02.907193'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:44:39.481310'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:45:21.038738'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:46:09.894592'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:49:16.775570'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:50:21.973042'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:53:29.464738'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:54:24.265011'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:55:30.478230'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:57:01.133760'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:58:08.704969'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:59:28.901865'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T19:06:26.495429'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T19:08:39.854886'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T19:21:18.934413'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T19:28:51.269505'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T20:40:14.145138'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T21:21:36.500502', 'id': 21}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T21:31:24.882390', 'id': 22}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T21:32:34.553851', 'id': 23}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T21:33:22.754301', 'id': 24}]"
-            }
-        }
-    },
-    "/setMissionColor": {
-        "name": "/setMissionColor",
-        "type": "service",
-        "serviceType": "control/SetMissionColor",
-        "args": {
-            "request": {
-                "color": ""
-            },
-            "response": {
-                "success": false
-            }
-        },
-        "sample": {
-            "request": {
-                "color": "(255,0,0)"
-            },
-            "response": {
-                "success": true
-            }
-        }
-    },
     "/getConfigService": {
         "name": "/getConfigService",
         "type": "service",
@@ -298,6 +274,48 @@
             },
             "response": {
                 "success": false
+            }
+        }
+    },
+    "/setMissionColor": {
+        "name": "/setMissionColor",
+        "type": "service",
+        "serviceType": "control/SetMissionColor",
+        "args": {
+            "request": {
+                "color": ""
+            },
+            "response": {
+                "success": false
+            }
+        },
+        "sample": {
+            "request": {
+                "color": "(255,0,0)"
+            },
+            "response": {
+                "success": true
+            }
+        }
+    },
+    "/getLogsService": {
+        "name": "/getLogsService",
+        "type": "service",
+        "serviceType": "control/GetLogs",
+        "args": {
+            "request": {
+                "logName": ""
+            },
+            "response": {
+                "logObject": ""
+            }
+        },
+        "sample": {
+            "request": {
+                "logName": "2025-03-06"
+            },
+            "response": {
+                "logObject": "[{'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T15:14:01.072788'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T15:17:28.164379'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T15:24:55.784969'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T15:27:09.754358'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:43:02.907193'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:44:39.481310'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:45:21.038738'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:46:09.894592'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:49:16.775570'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:50:21.973042'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:53:29.464738'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:54:24.265011'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:55:30.478230'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:57:01.133760'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:58:08.704969'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:59:28.901865'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T19:06:26.495429'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T19:08:39.854886'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T19:21:18.934413'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T19:28:51.269505'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T20:40:14.145138'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T21:21:36.500502', 'id': 21}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T21:31:24.882390', 'id': 22}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T21:32:34.553851', 'id': 23}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T21:33:22.754301', 'id': 24}]"
             }
         }
     },
@@ -392,7 +410,7 @@
         "sample": {
             "request": {},
             "response": {
-                "currentMode": "1"
+                "currentMode": "0"
             }
         }
     },
@@ -401,9 +419,28 @@
         "type": "action",
         "actionType": "Derived from components",
         "sample": {
-            "goal": 0.45,
-            "result": true,
-            "feedback": 0.3
+            "header": {
+                "seq": 0,
+                "stamp": {
+                    "secs": 0,
+                    "nsecs": 0
+                },
+                "frame_id": ""
+            },
+            "status": {
+                "goal_id": {
+                    "stamp": {
+                        "secs": 0,
+                        "nsecs": 0
+                    },
+                    "id": ""
+                },
+                "status": 0,
+                "text": ""
+            },
+            "feedback": {
+                "current_angle": 0.0
+            }
         },
         "components": [
             "status",
@@ -416,9 +453,28 @@
         "type": "action",
         "actionType": "Derived from components",
         "sample": {
-            "goal": 0.45,
-            "result": true,
-            "feedback": 0.3
+            "header": {
+                "seq": 0,
+                "stamp": {
+                    "secs": 0,
+                    "nsecs": 0
+                },
+                "frame_id": ""
+            },
+            "status": {
+                "goal_id": {
+                    "stamp": {
+                        "secs": 0,
+                        "nsecs": 0
+                    },
+                    "id": ""
+                },
+                "status": 0,
+                "text": ""
+            },
+            "feedback": {
+                "current_angle": 0.0
+            }
         },
         "components": [
             "status",

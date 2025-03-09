@@ -7,6 +7,7 @@
     <node pkg="control" type="DCMotorNode.py" name="dc_motor_node" output="screen"></node>
     <!-- <node pkg="control" type="Servo360Node.py" name="servo360_node" output="screen"></node> -->
     <node pkg="control" type="Servo180Node.py" name="servo180_node" output="screen"></node>
+    <node pkg="control" type="PiHealthNode.py" name="pi_health_node" output="screen"></node>
     <node pkg="control" type="SwitchingNode.py" name="switching_node" output="screen"></node>
     <node pkg="control" type="LEDbash.sh" name="led_driver_node" output="screen"/>
     <node pkg="control" type="IMUNode.py" name="IMU" output="screen"></node>
