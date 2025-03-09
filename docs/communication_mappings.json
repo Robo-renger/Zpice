@@ -1,0 +1,429 @@
+{
+    "/logs": {
+        "name": "/logs",
+        "type": "topic",
+        "messageType": "std_msgs/String",
+        "sample": {
+            "data": ""
+        }
+    },
+    "/client_count": {
+        "name": "/client_count",
+        "type": "topic",
+        "messageType": "std_msgs/Int32",
+        "sample": {
+            "data": 0
+        }
+    },
+    "/connected_clients": {
+        "name": "/connected_clients",
+        "type": "topic",
+        "messageType": "rosbridge_msgs/ConnectedClients",
+        "sample": {
+            "clients": []
+        }
+    },
+    "/set_depth/status": {
+        "name": "/set_depth/status",
+        "type": "topic",
+        "messageType": "actionlib_msgs/GoalStatusArray",
+        "sample": {
+            "header": {
+                "seq": 0,
+                "stamp": {
+                    "secs": 0,
+                    "nsecs": 0
+                },
+                "frame_id": ""
+            },
+            "status_list": []
+        }
+    },
+    "/set_depth/result": {
+        "name": "/set_depth/result",
+        "type": "topic",
+        "messageType": "control/SetDepthActionResult",
+        "sample": {
+            "header": {
+                "seq": 0,
+                "stamp": {
+                    "secs": 0,
+                    "nsecs": 0
+                },
+                "frame_id": ""
+            },
+            "status": {
+                "goal_id": {
+                    "stamp": {
+                        "secs": 0,
+                        "nsecs": 0
+                    },
+                    "id": ""
+                },
+                "status": 0,
+                "text": ""
+            },
+            "result": {
+                "success": false
+            }
+        }
+    },
+    "/set_depth/feedback": {
+        "name": "/set_depth/feedback",
+        "type": "topic",
+        "messageType": "control/SetDepthActionFeedback",
+        "sample": {
+            "header": {
+                "seq": 0,
+                "stamp": {
+                    "secs": 0,
+                    "nsecs": 0
+                },
+                "frame_id": ""
+            },
+            "status": {
+                "goal_id": {
+                    "stamp": {
+                        "secs": 0,
+                        "nsecs": 0
+                    },
+                    "id": ""
+                },
+                "status": 0,
+                "text": ""
+            },
+            "feedback": {
+                "current_depth": 0.0
+            }
+        }
+    },
+    "/set_angle/status": {
+        "name": "/set_angle/status",
+        "type": "topic",
+        "messageType": "actionlib_msgs/GoalStatusArray",
+        "sample": {
+            "header": {
+                "seq": 0,
+                "stamp": {
+                    "secs": 0,
+                    "nsecs": 0
+                },
+                "frame_id": ""
+            },
+            "status_list": []
+        }
+    },
+    "/set_angle/result": {
+        "name": "/set_angle/result",
+        "type": "topic",
+        "messageType": "control/SetAngleActionResult",
+        "sample": {
+            "header": {
+                "seq": 0,
+                "stamp": {
+                    "secs": 0,
+                    "nsecs": 0
+                },
+                "frame_id": ""
+            },
+            "status": {
+                "goal_id": {
+                    "stamp": {
+                        "secs": 0,
+                        "nsecs": 0
+                    },
+                    "id": ""
+                },
+                "status": 0,
+                "text": ""
+            },
+            "result": {
+                "success": false
+            }
+        }
+    },
+    "/set_angle/feedback": {
+        "name": "/set_angle/feedback",
+        "type": "topic",
+        "messageType": "control/SetAngleActionFeedback",
+        "sample": {
+            "header": {
+                "seq": 0,
+                "stamp": {
+                    "secs": 0,
+                    "nsecs": 0
+                },
+                "frame_id": ""
+            },
+            "status": {
+                "goal_id": {
+                    "stamp": {
+                        "secs": 0,
+                        "nsecs": 0
+                    },
+                    "id": ""
+                },
+                "status": 0,
+                "text": ""
+            },
+            "feedback": {
+                "current_angle": 0.0
+            }
+        }
+    },
+    "/depth": {
+        "name": "/depth",
+        "type": "topic",
+        "messageType": "control/Depth",
+        "sample": {
+            "pressure": 0.0,
+            "depth": 0.0
+        }
+    },
+    "/IMU": {
+        "name": "/IMU",
+        "type": "topic",
+        "messageType": "control/IMU",
+        "sample": {
+            "roll": 0.0,
+            "pitch": 0.0,
+            "yaw": 0.0
+        }
+    },
+    "/joystick": {
+        "name": "/joystick",
+        "type": "topic",
+        "messageType": "control/Joystick",
+        "sample": {
+            "left_x_axis": 0.0,
+            "left_y_axis": 0.0,
+            "right_x_axis": 0.0,
+            "right_y_axis": 0.0,
+            "button_x": false,
+            "button_o": false,
+            "button_tri": false,
+            "button_rect": false,
+            "button_r1": false,
+            "button_r2": false,
+            "button_r3": false,
+            "button_l1": false,
+            "button_l2": false,
+            "button_l3": false,
+            "button_left": false,
+            "button_right": false,
+            "button_top": false,
+            "button_bot": false
+        }
+    },
+    "/getLogsService": {
+        "name": "/getLogsService",
+        "type": "service",
+        "serviceType": "control/GetLogs",
+        "args": {
+            "request": {
+                "logName": ""
+            },
+            "response": {
+                "logObject": ""
+            }
+        },
+        "sample": {
+            "request": {
+                "logName": "2025-03-06"
+            },
+            "response": {
+                "logObject": "[{'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T15:14:01.072788'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T15:17:28.164379'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T15:24:55.784969'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T15:27:09.754358'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:43:02.907193'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:44:39.481310'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:45:21.038738'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:46:09.894592'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:49:16.775570'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:50:21.973042'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:53:29.464738'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:54:24.265011'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:55:30.478230'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:57:01.133760'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:58:08.704969'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T18:59:28.901865'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T19:06:26.495429'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T19:08:39.854886'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T19:21:18.934413'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T19:28:51.269505'}, {'severity': 'INFO', 'message': 'Shared memory attached successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T20:40:14.145138'}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T21:21:36.500502', 'id': 21}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T21:31:24.882390', 'id': 22}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T21:32:34.553851', 'id': 23}, {'severity': 'INFO', 'message': 'Shared memory created successfully.', 'component_name': 'CJoystick', 'timestamp': '2025-03-06T21:33:22.754301', 'id': 24}]"
+            }
+        }
+    },
+    "/setMissionColor": {
+        "name": "/setMissionColor",
+        "type": "service",
+        "serviceType": "control/SetMissionColor",
+        "args": {
+            "request": {
+                "color": ""
+            },
+            "response": {
+                "success": false
+            }
+        },
+        "sample": {
+            "request": {
+                "color": "(255,0,0)"
+            },
+            "response": {
+                "success": true
+            }
+        }
+    },
+    "/getConfigService": {
+        "name": "/getConfigService",
+        "type": "service",
+        "serviceType": "control/GetConfig",
+        "args": {
+            "request": {
+                "configName": ""
+            },
+            "response": {
+                "configObject": ""
+            }
+        },
+        "sample": {
+            "request": {
+                "configName": "cameras"
+            },
+            "response": {
+                "configObject": "{'camera1': {'index': '/home/amansour/Zpice/src/gui/src/guiContent/test.mp4', 'width': 640, 'height': 480, 'fps': 20, 'port': 8081}, 'camera2': {'index': '/dev/right_camera', 'width': 640, 'height': 480, 'fps': 30, 'port': 8082}, 'camera3': {'index': '/dev/rapoo_camera', 'width': 1280, 'height': 960, 'fps': 20, 'port': 8083}}"
+            }
+        }
+    },
+    "/setConfigService": {
+        "name": "/setConfigService",
+        "type": "service",
+        "serviceType": "control/SetConfig",
+        "args": {
+            "request": {
+                "configName": "",
+                "configObject": ""
+            },
+            "response": {
+                "success": false
+            }
+        },
+        "sample": {
+            "request": {
+                "configName": "cameras",
+                "configObject": "camera1:\n  fps: 20\n  height: 480\n  index: /home/amansour/Zpice/src/gui/src/guiContent/test.mp4\n  port: 8081\n  width: 640\ncamera2:\n  fps: 30\n  height: 480\n  index: /dev/right_camera\n  port: 8082\n  width: 640\ncamera3:\n  fps: 20\n  height: 960\n  index: /dev/rapoo_camera\n  port: 8083\n  width: 1280\n"
+            },
+            "response": {
+                "success": false
+            }
+        }
+    },
+    "/getLayoutService": {
+        "name": "/getLayoutService",
+        "type": "service",
+        "serviceType": "control/GetLayout",
+        "args": {
+            "request": {
+                "layoutName": ""
+            },
+            "response": {
+                "layoutObject": ""
+            }
+        },
+        "sample": {
+            "request": {
+                "layoutName": "controller"
+            },
+            "response": {
+                "layoutObject": "{'ps4': {'switch_key_binding': ['button_l1', 'button_r1'], 'modes': [{'button_l1': 'LEFTGRIPPER_OPEN', 'button_l2': 'LEFTGRIPPER_CLOSE', 'button_l3': 'HEAVE_DOWN', 'button_r1': 'RIGHTGRIPPER', 'button_r2': 'LEFTGRIPPER', 'button_r3': 'HEAVE_UP', 'button_left': 'DCLEFTGRIPPER_RIGHT', 'button_right': 'DCLEFTGRIPPER_LEFT', 'button_rect': 'DCRIGHTGRIPPER_LEFT', 'button_o': 'DCRIGHTGRIPPER_RIGHT', 'button_top': 'SERVO_UP', 'button_bot': 'SERVO_DOWN', 'button_x': 'FLASH', 'button_tri': 'bty5'}, {'button_l1': 'LEFTGRIPPER_OPEN', 'button_l2': 'LEFTGRIPPER_CLOSE', 'button_l3': 'bty5', 'button_r1': 'RIGHTGRIPPER', 'button_r2': 'LEFTGRIPPER', 'button_r3': 'HEAVE_UP', 'button_left': 'DCLEFTGRIPPER_RIGHT', 'button_right': 'DCLEFTGRIPPER_LEFT', 'button_rect': 'DCRIGHTGRIPPER_LEFT', 'button_o': 'DCRIGHTGRIPPER_RIGHT', 'button_top': 'SERVO_UP', 'button_bot': 'SERVO_DOWN', 'button_x': 'FLASH', 'button_tri': 'bty5'}], 'index_map': {'digital': {'0': 'button_x', '1': 'button_o', '2': 'button_rect', '3': 'button_tri', '4': 'button_l1', '5': 'button_r1', '6': 'button_l2', '7': 'button_r2', '8': 'button_l3', '9': 'button_r3', '10': 'button_top', '11': 'button_bot', '12': 'button_left', '13': 'button_right'}, 'analog': {'0': 'left_x_axis', '1': 'left_y_axis', '2': 'right_x_axis', '3': 'right_y_axis'}}}, 'xbox': {'switch_key_binding': ['button_l1', 'button_r1'], 'modes': [{'button_l1': 'LEFTGRIPPER_OPEN', 'button_l2': 'LEFTGRIPPER_CLOSE', 'button_l3': 'HEAVE_DOWN', 'button_r1': 'RIGHTGRIPPER', 'button_r2': 'LEFTGRIPPER', 'button_r3': 'HEAVE_UP', 'button_left': 'DCLEFTGRIPPER_RIGHT', 'button_right': 'DCLEFTGRIPPER_LEFT', 'button_a': 'DCRIGHTGRIPPER_LEFT', 'button_b': 'DCRIGHTGRIPPER_RIGHT', 'button_top': 'SERVO_UP', 'button_bot': 'SERVO_DOWN', 'button_x': 'FLASH', 'button_y': 'bty5'}, {'button_l1': 'LEFTGRIPPER_OPEN', 'button_l2': 'LEFTGRIPPER_CLOSE', 'button_l3': 'HEAVE_DOWN', 'button_r1': 'RIGHTGRIPPER', 'button_r2': 'LEFTGRIPPER', 'button_r3': 'HEAVE_UP', 'button_left': 'DCLEFTGRIPPER_RIGHT', 'button_right': 'DCLEFTGRIPPER_LEFT', 'button_a': 'DCRIGHTGRIPPER_LEFT', 'button_b': 'DCRIGHTGRIPPER_RIGHT', 'button_top': 'SERVO_UP', 'button_bot': 'SERVO_DOWN', 'button_x': 'FLASH', 'button_y': 'bty5'}], 'index_map': {'digital': {'0': 'button_x', '1': 'button_b', '2': 'button_a', '3': 'button_y', '4': 'button_l1', '5': 'button_r1', '6': 'button_l2', '7': 'button_r2', '8': 'button_l3', '9': 'button_r3', '10': 'button_top', '11': 'button_bot', '12': 'button_left', '13': 'button_right'}, 'analog': {'0': 'left_x_axis', '1': 'left_y_axis', '2': 'right_x_axis', '3': 'right_y_axis'}}}}"
+            }
+        }
+    },
+    "/setLayoutService": {
+        "name": "/setLayoutService",
+        "type": "service",
+        "serviceType": "control/SetLayout",
+        "args": {
+            "request": {
+                "layoutName": "",
+                "layoutObject": ""
+            },
+            "response": {
+                "success": false
+            }
+        },
+        "sample": {
+            "request": {
+                "layoutName": "cameras",
+                "layoutObject": "camera1:\n  fps: 20\n  height: 480\n  index: /home/amansour/Zpice/src/gui/src/guiContent/test.mp4\n  port: 8081\n  width: 640\ncamera2:\n  fps: 30\n  height: 480\n  index: /dev/right_camera\n  port: 8082\n  width: 640\ncamera3:\n  fps: 20\n  height: 960\n  index: /dev/rapoo_camera\n  port: 8083\n  width: 1280\n"
+            },
+            "response": {
+                "success": false
+            }
+        }
+    },
+    "/getStreamService": {
+        "name": "/getStreamService",
+        "type": "service",
+        "serviceType": "control/GetStream",
+        "args": {
+            "request": {},
+            "response": {
+                "camerasData": ""
+            }
+        },
+        "sample": {
+            "request": {},
+            "response": {
+                "camerasData": "{'view1': {'camera1': {'url': '7mada', 'geometry': {'top': 20, 'left': 0, 'width': 40, 'height': 200}, 'index': '/home/amansour/Zpice/src/gui/src/guiContent/test.mp4', 'width': 640, 'height': 480, 'fps': 20, 'port': 8081}, 'camera2': {'url': '', 'geometry': {'top': 220, 'left': 0, 'width': 300, 'height': 200}, 'index': '/dev/right_camera', 'width': 640, 'height': 480, 'fps': 30, 'port': 8082}, 'camera3': {'url': '', 'geometry': {'top': 10, 'left': 220, 'width': 200, 'height': 300}, 'index': '/dev/rapoo_camera', 'width': 1280, 'height': 960, 'fps': 20, 'port': 8083}, 'camera4': {'url': '', 'geometry': {'top': 10, 'left': 0, 'width': 200, 'height': 200}}, 'camera5': {'url': '', 'geometry': {'top': 10, 'left': 0, 'width': 200, 'height': 200}}, 'camera6': {'url': '', 'geometry': {'top': 10, 'left': 0, 'width': 200, 'height': 200}}}, 'view2': {'camera1': {'url': '', 'geometry': {'top': 10, 'left': 0, 'width': 200, 'height': 200}, 'index': '/home/amansour/Zpice/src/gui/src/guiContent/test.mp4', 'width': 640, 'height': 480, 'fps': 20, 'port': 8081}, 'camera2': {'url': '', 'geometry': {'top': 10, 'left': 0, 'width': 200, 'height': 200}, 'index': '/dev/right_camera', 'width': 640, 'height': 480, 'fps': 30, 'port': 8082}, 'camera3': {'url': '', 'geometry': {'top': 10, 'left': 0, 'width': 200, 'height': 200}, 'index': '/dev/rapoo_camera', 'width': 1280, 'height': 960, 'fps': 20, 'port': 8083}, 'camera4': {'url': '', 'geometry': {'top': 10, 'left': 0, 'width': 200, 'height': 200}}, 'camera5': {'url': '', 'geometry': {'top': 10, 'left': 0, 'width': 200, 'height': 200}}, 'camera6': {'url': '', 'geometry': {'top': 10, 'left': 0, 'width': 200, 'height': 200}}}, 'view3': {'camera1': {'url': '', 'geometry': {'top': 10, 'left': 0, 'width': 200, 'height': 200}, 'index': '/home/amansour/Zpice/src/gui/src/guiContent/test.mp4', 'width': 640, 'height': 480, 'fps': 20, 'port': 8081}, 'camera2': {'url': '', 'geometry': {'top': 10, 'left': 0, 'width': 200, 'height': 200}, 'index': '/dev/right_camera', 'width': 640, 'height': 480, 'fps': 30, 'port': 8082}, 'camera3': {'url': '', 'geometry': {'top': 10, 'left': 0, 'width': 200, 'height': 200}, 'index': '/dev/rapoo_camera', 'width': 1280, 'height': 960, 'fps': 20, 'port': 8083}, 'camera4': {'url': '', 'geometry': {'top': 10, 'left': 0, 'width': 200, 'height': 200}}, 'camera5': {'url': '', 'geometry': {'top': 10, 'left': 0, 'width': 200, 'height': 200}}, 'camera6': {'url': '', 'geometry': {'top': 10, 'left': 10, 'width': 2, 'height': 200}}}}"
+            }
+        }
+    },
+    "/get_active_controller": {
+        "name": "/get_active_controller",
+        "type": "service",
+        "serviceType": "control/GetActiveController",
+        "args": {
+            "request": {},
+            "response": {
+                "activeController": ""
+            }
+        },
+        "sample": {
+            "request": {},
+            "response": {
+                "activeController": "ps4"
+            }
+        }
+    },
+    "/switchJoystickMode": {
+        "name": "/switchJoystickMode",
+        "type": "service",
+        "serviceType": "control/SwitchJoystickMode",
+        "args": {
+            "request": {},
+            "response": {
+                "currentMode": ""
+            }
+        },
+        "sample": {
+            "request": {},
+            "response": {
+                "currentMode": "1"
+            }
+        }
+    },
+    "/set_depth": {
+        "name": "/set_depth",
+        "type": "action",
+        "actionType": "Derived from components",
+        "sample": {
+            "goal": 0.45,
+            "result": true,
+            "feedback": 0.3
+        },
+        "components": [
+            "status",
+            "result",
+            "feedback"
+        ]
+    },
+    "/set_angle": {
+        "name": "/set_angle",
+        "type": "action",
+        "actionType": "Derived from components",
+        "sample": {
+            "goal": 0.45,
+            "result": true,
+            "feedback": 0.3
+        },
+        "components": [
+            "status",
+            "result",
+            "feedback"
+        ]
+    }
+}

@@ -1,7 +1,7 @@
 button_bot: SERVO_DOWN
 button_l1: LEFTGRIPPER_OPEN
 button_l2: LEFTGRIPPER_CLOSE
-button_l3: HEAVE_DOWN
+button_l3: bty5
 button_left: DCLEFTGRIPPER_RIGHT
 button_o: DCRIGHTGRIPPER_RIGHT
 button_r1: RIGHTGRIPPER
