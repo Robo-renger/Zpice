@@ -10,12 +10,26 @@ class JoystickTest:
     def run(self):
         try:
             while not rospy.is_shutdown():
-                print(self.joystick.getAxis())
-                if self.joystick.isClicked("DCRIGHTGRIPPER_RIGHT"):
-                    rospy.loginfo("DCRIGHTGRIPPER_RIGHT button is clicked! TEST NODE TWO")
+                # print(self.joystick.getAxis())
+                
+                # if self.joystick.isNthClicked("DCRIGHTGRIPPER_RIGHT",2,0.35):
+                #     rospy.logwarn("DCRIGHTGRIPPER_RIGHT button is double clicked! TEST NODE TWO")
+                
+                # if self.joystick.isNthPressed("DCRIGHTGRIPPER_RIGHT",2,0.4):
+                #     rospy.logwarn("DCRIGHTGRIPPER_RIGHT button is double Pressed! TEST NODE TWO")
+                
+                # if self.joystick.isNthClicked("DCRIGHTGRIPPER_RIGHT", 2, 0.3):
+                clicks = self.joystick.isPressed("DCRIGHTGRIPPER_RIGHT")
+                if clicks == 1:
+                    rospy.loginfo("Moving ClockWise")
+                elif clicks == 2:
+                    rospy.loginfo("Moving CounterClockWise")
                 else:
-                    rospy.loginfo("DCRIGHTGRIPPER_RIGHT button is not clicked. TEST NODE TWO")
-                # rospy.sleep(0.3)
+                    rospy.loginfo("Stopped")
+                    
+
+                # if self.joystick.isClicked("DCRIGHTGRIPPER_RIGHT"):
+                #     rospy.loginfo("DCRIGHTGRIPPER_RIGHT button is clicked! TEST NODE TWO")
         finally:
             self.joystick.cleanup()
 
