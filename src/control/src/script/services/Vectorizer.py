@@ -41,20 +41,13 @@ class Vectorizer:
             forward_contrib = y * math.sin(angle)  # Forward/backward contribution
             strafe_contrib = x * math.cos(angle)   # Right/left contribution
 
-            if Vectorizer.yaw_only and x == 0 and y == 0:  # Yaw active only when x and y are zero
-                if angle == math.radians(135) or angle == math.radians(315):  # t1 and t3
-                    yaw_contrib = yaw  
-                else:  # t2 and t4
-                    yaw_contrib = -yaw   
-            elif not Vectorizer.yaw_only:  # Yaw always active
-                if angle == math.radians(135) or angle == math.radians(315):  # t1 and t3
-                    yaw_contrib = yaw  
-                else:  # t2 and t4
-                    yaw_contrib = -yaw  
-            else:
+            # Determine yaw contribution
+            if (Vectorizer.yaw_only and x == 0 and y == 0) or not Vectorizer.yaw_only:
+                pass
+            else:   # No yaw contribution if yaw_only is True and x or y is non-zero
                 yaw = 0
-                yaw_contrib = yaw  # No yaw contribution if yaw_mode is True and x or y is non-zero
 
+            yaw_contrib = yaw
             speed = forward_contrib + strafe_contrib + yaw_contrib
             thruster_speeds.append(speed)
 
