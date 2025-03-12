@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import cv2 as cv
+from pathlib import Path
 
 class ImageHandler:
     def __init__(self, image_path,region_loader,data_reader):
@@ -40,7 +41,10 @@ class ImageHandler:
                     else:
                         pass
 
-                cv.imwrite("TASK_REgions/src/images/" + year + ".png", copy_img)
+                base_dir = Path(__file__).resolve().parent.parent
+                image_path = str(base_dir / "images")
+                print(f"base dir: {base_dir}\nimage_path: {image_path}")
+                cv.imwrite(image_path + year + ".png", copy_img)
 
                 self.year_img_list.append(copy_img)
 

@@ -9,6 +9,7 @@ class JSONFileHandler:
     DEPTHFIXATION = "depth_fixation"
     ANGLEFIXATION = "angle_fixation" 
     STREAM = "stream"
+    MAPDATA = "map_data"
     def __init__(self):
         self.__jsonFile = ''
         self.configurator  = Configurator()
@@ -34,6 +35,8 @@ class JSONFileHandler:
             self.__jsonFile = workspace_path + f'/../../fixations/{JSONFileHandler.ANGLEFIXATION}.json'
         elif file_name == JSONFileHandler.STREAM:
             self.__jsonFile = workspace_path + f'/../../stream/{JSONFileHandler.STREAM}.json' 
+        elif file_name == JSONFileHandler.MAPDATA:
+            self.__jsonFile = workspace_path + f'/../../mapData/{JSONFileHandler.MAPDATA}.json' 
         else: 
             self.__raiseTypeError(file_name)
     
