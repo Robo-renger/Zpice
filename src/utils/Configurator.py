@@ -9,6 +9,7 @@ class Configurator():
     CHANGEABLE_MODULES = "changeable_modules"
     PINS = "hardware_pins"
     PID_PARAMS = "pid_params"
+    STEREO_CAMERA_PARAMS = "stereo_camera_params"
     def __init__(self):
         self.__configFile = ''
     def __raiseTypeError(self,data_type):
@@ -36,6 +37,8 @@ class Configurator():
             self.__configFile = workspace_path + f'/../../config/{Configurator.PINS}.yaml'
         elif data_type == Configurator.PID_PARAMS:
             self.__configFile = workspace_path + f'/../../config/{Configurator.PID_PARAMS}.yaml'
+        elif data_type == Configurator.STEREO_CAMERA_PARAMS:
+            self.__configFile = workspace_path + f'/../../config/{Configurator.STEREO_CAMERA_PARAMS}.yaml'
         else: 
             self.__raiseTypeError(data_type)
     def fetchData(self,data_type):
