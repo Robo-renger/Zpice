@@ -17,9 +17,12 @@ class PIDController:
             setpoint (float): Initial setpoint (default is 0.0).
         """
         self.setpoint = setpoint
-        self._pid = PID(kp, ki, kd, setpoint=setpoint)
+        self.kp = kp
+        self.ki = ki
+        self.kd = kd
+        self._pid = PID(self.kp, self.ki, self.kd, setpoint=setpoint)
         self._pid.output_limits = (-1, 1)
-        self.isHeave = False
+        self.isHeading = False
 
     def updateSetpoint(self, setpoint: float) -> None:
         """
@@ -40,9 +43,25 @@ class PIDController:
             ki (float): The new Integral gain.
             kd (float): The new Differential gain.
         """
-        self._pid.Kp = kp
-        self._pid.Ki = ki
-        self._pid.Kd = kd
+        self.kp = kp
+        self.ki = ki
+        self.kd = kd
+        self._pid.Kp = self.kp
+        self._pid.Ki = self.ki
+        self._pid.Kd = self.kd
+
+    def updateActiveConstants(self, kp_factor: float, ki_factor: float, kd_factor: float):
+        """
+        Update the gains for the ACTIVE PID controller.
+
+        Parameters:
+            kp_factor (float): The Proportional gain factor.
+            ki_factor (float): The Integral gain factor.
+            kd_factor (float): The Differential gain factor.
+        """
+        self._pid.Kp = self.kp * kp_factor
+        self._pid.Kp = self.ki * ki_factor
+        self._pid.Kp = self.kd * kd_factor
 
     def stabilize(self, measured_value: float) -> float:
         """
@@ -55,7 +74,8 @@ class PIDController:
             float: The computed control output.
         """
         if self._pid.setpoint is not None and measured_value is not None:
-            if not self.isHeave:
+            error = 0
+            if self.isHeading:
                 error = self._angleDifference(measured_value, self._pid.setpoint)
             return self._pid(measured_value + error)
     

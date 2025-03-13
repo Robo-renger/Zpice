@@ -15,7 +15,7 @@ class IMUNode:
     def __init__(self) -> None:
         rospy.init_node("IMUNode")
         self.imu = self.initialize_sensor_with_retry()
-        self.pub = rospy.Publisher("IMU", IMU, queue_size=5)
+        self.pub = rospy.Publisher("IMU", IMU, queue_size=10)
         self.msg = IMU()
 
     def initialize_sensor_with_retry(self) -> BNO085:
