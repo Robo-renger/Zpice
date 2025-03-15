@@ -4,7 +4,7 @@ from interface.iLoggable import iLoggable
 from helpers.LogFileHandler import LogFileHandler
 from DTOs.Log import Log
 from DTOs.LogSeverity import LogSeverity
-from LogPublisherNode import LogPublisherNode
+from node.LogPublisherNode import LogPublisherNode
 
 @implementer(iLoggable)
 class Logger:

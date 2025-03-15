@@ -1,6 +1,6 @@
 // ROS Connection
 const ros = new ROSLIB.Ros({
-    url: 'ws://localhost:9090'  // Change this to your ROSBridge WebSocket URL
+    url: 'http://192.168.137.27:9090'  // Change this to your ROSBridge WebSocket URL
 });
 
 ros.on('connection', function () {

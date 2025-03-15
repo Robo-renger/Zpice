@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Disable creation of __pycache__ by preventing bytecode generation
+export PYTHONDONTWRITEBYTECODE=1
+
+# Remove any existing __pycache__ directories to disable running cached scripts
+find . -type d -name "__pycache__" -exec rm -rf {} +
+
 # Define the paths
 SETUP_FILE="setup.py"
 PACKAGE_XML="package.xml"
@@ -40,7 +46,7 @@ fi
 
 pip install --no-cache-dir --force-reinstall .
 
-cd /home/amansour/Zpice/src/control/src
+cd /home/mypi/Zpice/src/control/src
 pip install --no-cache-dir --force-reinstall .
 
 echo "Installation complete with version ${NEW_VERSION}."
