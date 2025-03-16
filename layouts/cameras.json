@@ -1,170 +1,81 @@
 {
     "view1": {
-        "camera1": {
-            "url": "7mada",
-            "geometry": {
-                "top": 20,
-                "left": 0,
-                "width": 40,
-                "height": 200
-            }
-        },
-        "camera2": {
-            "url": "",
-            "geometry": {
-                "top": 220,
-                "left": 0,
-                "width": 300,
-                "height": 200
-            }
-        },
-        "camera3": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 220,
-                "width": 200,
-                "height": 300
-            }
-        },
-        "camera4": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
-            }
-        },
-        "camera5": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
-            }
-        },
-        "camera6": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
-            }
-        }
+      "left_camera": {
+        "url": "",
+        "geometry": { "top": "1%", "left": "0%", "width": "25%", "height": "25%" }
+      },
+      "right_camera": {
+        "url": "",
+        "geometry": { "top": "1%", "left": "75%", "width": "25%", "height": "25%" }
+      },
+      "rapoo_camera": {
+        "url": "",
+        "geometry": { "top": "38%", "left": "0%", "width": "25%", "height": "25%" }
+      },
+      "camera4": {
+        "url": "",
+        "geometry": { "top": "38%", "left": "75%", "width": "25%", "height": "25%" }
+      },
+      "camera5": {
+        "url": "",
+        "geometry": { "top": "74%", "left": "0%", "width": "25%", "height": "25%" }
+      },
+      "camera6": {
+        "url": "",
+        "geometry": { "top": "74%", "left": "75%", "width": "25%", "height": "25%" }
+      }
     },
     "view2": {
-        "camera1": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
-            }
-        },
-        "camera2": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
-            }
-        },
-        "camera3": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
-            }
-        },
-        "camera4": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
-            }
-        },
-        "camera5": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
-            }
-        },
-        "camera6": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
-            }
-        }
+      "left_camera": {
+        "url": "",
+        "geometry": { "top": "1%", "left": "0%", "width": "25%", "height": "25%" }
+      },
+      "right_camera": {
+        "url": "",
+        "geometry": { "top": "1%", "left": "75%", "width": "25%", "height": "25%" }
+      },
+      "rapoo_camera": {
+        "url": "",
+        "geometry": { "top": "38%", "left": "0%", "width": "25%", "height": "25%" }
+      },
+      "camera4": {
+        "url": "",
+        "geometry": { "top": "38%", "left": "75%", "width": "25%", "height": "25%" }
+      },
+      "camera5": {
+        "url": "",
+        "geometry": { "top": "74%", "left": "0%", "width": "25%", "height": "25%" }
+      },
+      "camera6": {
+        "url": "",
+        "geometry": { "top": "74%", "left": "75%", "width": "25%", "height": "25%" }
+      }
     },
     "view3": {
-        "camera1": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
-            }
-        },
-        "camera2": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
-            }
-        },
-        "camera3": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
-            }
-        },
-        "camera4": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
-            }
-        },
-        "camera5": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
-            }
-        },
-        "camera6": {
-            "url": "",
-            "geometry": {
-                "top": 10,
-                "left": 10,
-                "width": 2,
-                "height": 200
-            }
-        }
+      "left_camera": {
+        "url": "",
+        "geometry": { "top": "1%", "left": "0%", "width": "25%", "height": "25%" }
+      },
+      "right_camera": {
+        "url": "",
+        "geometry": { "top": "1%", "left": "75%", "width": "25%", "height": "25%" }
+      },
+      "rapoo_camera": {
+        "url": "",
+        "geometry": { "top": "38%", "left": "0%", "width": "25%", "height": "25%" }
+      },
+      "camera4": {
+        "url": "",
+        "geometry": { "top": "38%", "left": "75%", "width": "25%", "height": "25%" }
+      },
+      "camera5": {
+        "url": "",
+        "geometry": { "top": "74%", "left": "0%", "width": "25%", "height": "25%" }
+      },
+      "camera6": {
+        "url": "",
+        "geometry": { "top": "74%", "left": "75%", "width": "25%", "height": "25%" }
+      }
     }
-}
+  }
+  

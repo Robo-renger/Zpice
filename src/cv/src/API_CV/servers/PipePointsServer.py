@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from cv.srv import setPipePoints
-from API.services.PipePointsService import PipePointsService
+from API_CV.services.PipePointsService import PipePointsService
 
 class PipePointsServer:
     def __init__(self):

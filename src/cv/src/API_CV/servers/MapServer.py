@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from cv.srv import setMap
-from API.services.MapService import MapService
+from API_CV.services.MapService import MapService
 
 class MapServer:
     def __init__(self):

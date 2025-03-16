@@ -3,10 +3,10 @@ from setuptools import setup, find_packages
 # This setup is used to make (test, script, mock and ms5837) visible for each other
 setup(
     name='cv',  # Replace with your package name
-    version='0.0.14',
+    version='0.0.4',
     packages=find_packages(where='src'),  # Automatically find packages under 'src'
     package_dir={'': 'src'},  # Specify that packages are located in 'src'
     install_requires=[],  # Add any Python dependencies here
-    # zip_safe=True,  # Make the package compatible with ROS
+    zip_safe=True,  # Make the package compatible with ROS
     # pip3 install -e .
 )
