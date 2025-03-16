@@ -8,7 +8,7 @@ class Configurator():
     KEYBOARD_BUTTONS = "keyboard_buttons"
     CHANGEABLE_MODULES = "changeable_modules"
     PINS = "hardware_pins"
-    PID_PARAMS = "pid_params"
+    PID_PARAMS = "pid_ks"
     STEREO_CAMERA_PARAMS = "stereo_camera_params"
     def __init__(self):
         self.__configFile = ''

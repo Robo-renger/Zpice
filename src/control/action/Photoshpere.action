@@ -1,0 +1,12 @@
+# Goal (The angle you want to rotate with)
+float64 goal
+
+---
+
+# Result
+bool success
+
+---
+
+# Feedback
+float64 incrementer
