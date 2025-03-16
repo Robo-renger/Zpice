@@ -6,7 +6,7 @@ setup(
     version="0.0.4",
     packages=find_packages(where="script"),  
     package_dir={"": "script"},   
-    zip_safe=True,
+    # zip_safe=True,
     install_requires=[
     ],
 )

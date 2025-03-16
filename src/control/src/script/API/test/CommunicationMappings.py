@@ -105,7 +105,13 @@ class ROSJsonGenerator:
                     response = proxy(req)
                 elif service == "/getLayoutService":
                     setattr(req, fields[0], "controller")
-                    response = proxy(req) 
+                    response = proxy(req)
+                elif service == "/setMapService":
+                    setattr(req, fields[0], '{"2017":["y","n","n","n","n"],"2018":["y","n","n","n","n"],"2019":["y","n","n","n","n"],"2020":["y","n","y","n","n"],"2021":["y","y","y","n","n"],"2022":["y","y","y","n","n"],"2023":["y","y","y","y","n"],"2024":["y","y","y","y","n"],"2025":["y","y","n","y","n"]}')
+                    response = proxy(req)
+                elif service == "/initDepth" or service == "/initHeading" or service == "/setSpeedPercentage":
+                    setattr(req, fields[0], 5)
+                    response = proxy(req)      
                 else:
                     for candidate in candidates:
                         setattr(req, fields[0], candidate)
@@ -148,6 +154,13 @@ class ROSJsonGenerator:
                 }
                 config_str = yaml.dump(config)
                 setattr(req, fields[1], config_str)
+                response = proxy(req)
+
+            elif len(fields) == 4:
+                setattr(req, fields[0], "(25, 50)")
+                setattr(req, fields[1], "(50, 50)")
+                setattr(req, fields[2], "(25, 50)")
+                setattr(req, fields[3], "(50, 50)")
                 response = proxy(req)
 
             else:
