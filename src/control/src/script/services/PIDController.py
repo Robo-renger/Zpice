@@ -6,8 +6,7 @@ class PIDController:
     """
     A wrapper class for the simple_pid library.
     """
-
-    def __init__(self, kp: float, ki: float, kd: float, setpoint: float = 0.0):
+    def __init__(self, kp: float, ki: float, kd: float, setpoint: float = None):
         """
         Initialize the PID controller with gains and an initial setpoint.
 
@@ -17,8 +16,13 @@ class PIDController:
             kd (float): Derivative gain.
             setpoint (float): Initial setpoint (default is 0.0).
         """
-        self._pid = PID(kp, ki, kd, setpoint=setpoint)
+        self.setpoint = setpoint
+        self.kp = kp
+        self.ki = ki
+        self.kd = kd
+        self._pid = PID(self.kp, self.ki, self.kd, setpoint=setpoint)
         self._pid.output_limits = (-1, 1)
+        self.isHeading = False
 
     def updateSetpoint(self, setpoint: float) -> None:
         """
@@ -27,7 +31,37 @@ class PIDController:
         Parameters:
             setpoint (float): The new setpoint.
         """
+        self.setpoint = setpoint
         self._pid.setpoint = setpoint
+    
+    def updateConstants(self, kp: float, ki: float, kd: float) -> None:
+        """
+        Update the gains for the PID controller.
+
+        Parameters:
+            kp (float): The new Proportional gain.
+            ki (float): The new Integral gain.
+            kd (float): The new Differential gain.
+        """
+        self.kp = kp
+        self.ki = ki
+        self.kd = kd
+        self._pid.Kp = self.kp
+        self._pid.Ki = self.ki
+        self._pid.Kd = self.kd
+
+    def updateActiveConstants(self, kp_factor: float, ki_factor: float, kd_factor: float):
+        """
+        Update the gains for the ACTIVE PID controller.
+
+        Parameters:
+            kp_factor (float): The Proportional gain factor.
+            ki_factor (float): The Integral gain factor.
+            kd_factor (float): The Differential gain factor.
+        """
+        self._pid.Kp = self.kp * kp_factor
+        self._pid.Kp = self.ki * ki_factor
+        self._pid.Kp = self.kd * kd_factor
 
     def stabilize(self, measured_value: float) -> float:
         """
@@ -39,8 +73,11 @@ class PIDController:
         Returns:
             float: The computed control output.
         """
-        error = self._angleDifference(measured_value, self._pid.setpoint)
-        return self._pid(measured_value + error)
+        if self._pid.setpoint is not None and measured_value is not None:
+            error = 0
+            if self.isHeading:
+                error = self._angleDifference(measured_value, self._pid.setpoint)
+            return self._pid(measured_value + error)
     
     def _angleDifference(self, a: float, b: float) -> float:
         """

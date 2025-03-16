@@ -80,6 +80,7 @@ catkin_python_setup()
   FILES
   SetDepth.action
   SetAngle.action
+  Photoshpere.action
 )
 
 ## Generate added messages and services with any dependencies listed here
