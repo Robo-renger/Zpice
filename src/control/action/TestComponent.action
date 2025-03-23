@@ -1,0 +1,10 @@
+string componentName  # The time in seconds the task should run
+string function
+string detailsJSON
+---
+# Result
+bool isCompleted  # Whether the task was successful
+
+---
+# Feedback
+float32 progress  # Percentage progress of the task (0-100)

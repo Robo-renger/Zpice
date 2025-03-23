@@ -1,0 +1,8 @@
+FrontServo:
+  function: 'up-down'
+  angle: '0-180'
+LeftGripperDC:
+  function: 'rotateLeft-rotateRight'
+  rotationDuration: '0-10'
+
+

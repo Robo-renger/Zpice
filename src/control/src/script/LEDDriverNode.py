@@ -10,6 +10,7 @@ class LEDDriverNode:
     def __init__(self):
         rospy.init_node('led_driver_node', anonymous=False)
         self.led_driver = LEDDriver()
+        self.led_driver.registerComponent()
         # print("ana alos")
     def directionCallback(self, msg):
         dir = msg.data
