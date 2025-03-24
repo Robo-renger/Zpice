@@ -2,13 +2,13 @@
 
 from services.Logger import Logger
 from DTOs.LogSeverity import LogSeverity
-
+from services.Thruster import Thruster
 class PWMMapper:
     """
     Static class for mapping normalized values to PWM ranges.
     """
     @staticmethod
-    def axesToPWM(value, min_pwm=1220, max_pwm=1780):
+    def axesToPWM(value, thruster: Thruster = None, min_pwm=1220, max_pwm=1780):
         """
         Map a normalized value (-1 to 1) to a PWM range (min_pwm to max_pwm).
 
@@ -18,6 +18,10 @@ class PWMMapper:
 
         :return: The corresponding PWM value.
         """
+        if thruster is not None:
+            min_pwm = thruster.min_value
+            max_pwm = thruster.max_val
+        
         if not -1 <= value <= 1:
             Logger.logToFile(LogSeverity.ERROR, "Value must be between -1 and 1.", "PWMMapper_axesToPWM")
             Logger.logToGUI(LogSeverity.ERROR, "Value must be between -1 and 1.", "PWMMapper_axesToPWM")

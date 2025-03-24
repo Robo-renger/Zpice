@@ -26,6 +26,21 @@ class Navigation:
         "back": Thruster(pca=PWMFactory().getPWMDriver(), channel = __pins['BACK_PCA_CHANNEL']),
     }
 
+
+    @staticmethod
+    def setThrusterSpeed(thrusterName: str, min:int , max:int):
+        try:
+            thruster = Navigation._thrusters[thrusterName]
+            thruster.setSpeed(min,max)
+        except KeyError:
+            print(f"Thruster '{thrusterName}' not found.")
+            print("Available thruster names:")
+            for name in Navigation._thrusters.keys():
+                print(f"- {name}")
+    @staticmethod
+    def setDefaultSpeed():
+        for name, thruster in Navigation._thrusters.items():
+            thruster.setSpeed(thruster.getDefaultMin(),thruster.getDefaultMax())
     @staticmethod
     def moveUp(value) -> None:
         """
@@ -214,7 +229,7 @@ class Navigation:
             yaw_axis (float): Rotation input (-1 to 1). (Clockwise is +, Counterclockwise is -).
         """
         try:
-            vectorized = Vectorizer.vectorize(x_axis, y_axis, z_axis, pitch_axis, yaw_axis)
+            vectorized = Vectorizer.vectorize(Navigation._thrusters,x_axis, y_axis, z_axis, pitch_axis, yaw_axis)
             Navigation._applyThrusts(vectorized)
         except ValueError as e:
             Logger.logToFile(LogSeverity.ERROR, f"{e}", "Navigation")
@@ -246,3 +261,5 @@ class Navigation:
         """
         for thruster in Navigation._thrusters.values():
             thruster.stop()
+        
+        

@@ -20,6 +20,15 @@ class NavigationNode:
         self.yaw = 0
         self.last_reset_time = 0  
         
+        
+        #Speeds for vertical motors, when full up thrust is required (scaling up)
+        self.upThrustVerticalValueMax = 1900 
+        self.upThrustVerticalValueMin = 1100
+        
+        #Speeds for horizontal motors, when full up thrust is required (scaling doww)
+        self.upThrustHorizontalValueMax = 1650 
+        self.upThrustHorizontalValueMin = 1100
+        
         self.pub = rospy.Publisher("Direction", String, queue_size=10)
 
         self.PID_configs = Configurator().fetchData(Configurator.PID_PARAMS)        
@@ -202,11 +211,22 @@ class NavigationNode:
             return True
         return False
 
-    def navigate(self):        
+    def navigate(self):     
+           
         Vectorizer.yaw_only = False
         
         self.handleJoystickInput()
 
+        if abs(self.z) == 1.0 :
+            Navigation.setThrusterSpeed("front",self.upThrustVerticalValueMin,self.upThrustVerticalValueMax)
+            Navigation.setThrusterSpeed("back",self.upThrustVerticalValueMin,self.upThrustVerticalValueMax)
+            Navigation.setThrusterSpeed("front_right",self.upThrustHorizontalValueMin,self.upThrustHorizontalValueMax)
+            Navigation.setThrusterSpeed("front_left",self.upThrustHorizontalValueMin,self.upThrustHorizontalValueMax)
+            Navigation.setThrusterSpeed("back_right",self.upThrustHorizontalValueMin,self.upThrustHorizontalValueMax)
+            Navigation.setThrusterSpeed("back_left",self.upThrustHorizontalValueMin,self.upThrustHorizontalValueMax) 
+        else:
+            Navigation.setDefaultSpeed()
+            
         if abs(self.yaw) > 0.05:
             # rospy.logerr("UPDATING YAW SETPOINT")
             self.fix_heading = False

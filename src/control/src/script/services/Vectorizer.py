@@ -4,7 +4,8 @@ import math
 from helpers.PWMMapper import PWMMapper
 from services.Logger import Logger
 from DTOs.LogSeverity import LogSeverity
-
+from services.Thruster import Thruster
+from typing import  Dict
 class Vectorizer:
     """
     Static class for ROV Vectorization.
@@ -12,9 +13,16 @@ class Vectorizer:
     :param: yaw_only (bool): If True, yaw is active only when x and y are zero. If False, yaw is always active.
     """
     yaw_only = True
-
+    thrusters_mapping = {
+    "front_right": "t1",
+    "front_left": "t2",
+    "back_left": "t3",
+    "back_right": "t4",
+    "front": "t5",
+    "back": "t6"
+}
     @staticmethod 
-    def vectorize(x: float, y: float, z: float, pitch: float, yaw: float) -> dict:
+    def vectorize(thrusters: Dict[str, Thruster], x: float, y: float, z: float, pitch: float, yaw: float) -> dict:
         """
         Calculate the PWM signal for each thruster based on joystick x, y, z, pitch, and yaw input.
         Parameters:
@@ -26,6 +34,7 @@ class Vectorizer:
         Returns:
             dict: PWM signals for each thruster (t1, t2, t3, t4, t5, t6).
         """
+        thrusters = Vectorizer.__reconstructThrustersDict(thrusters)
         # Thruster angles based on actual placement
         angles = [
             math.radians(135),  # t1 -> front_right
@@ -85,20 +94,42 @@ class Vectorizer:
         # Convert normalized speeds to PWM
         try:
             pwm_signals = {
-                f"t{i+1}": PWMMapper.axesToPWM(speed)
+                f"t{i+1}": PWMMapper.axesToPWM(speed,thrusters[f"t{i+1}"])
                 for i, speed in enumerate(thruster_speeds)
             }
-
+            
             thrusters = {
-            "front_right": pwm_signals["t1"],
-            "front_left": pwm_signals["t2"],
-            "back_left": pwm_signals["t3"],
-            "back_right": pwm_signals["t4"],
-            "front": pwm_signals["t5"],
-            "back": pwm_signals["t6"]
+            "front_right": pwm_signals[Vectorizer.__getThruster_TIndex("front_right")],
+            "front_left": pwm_signals[Vectorizer.__getThruster_TIndex("front_left")],
+            "back_left": pwm_signals[Vectorizer.__getThruster_TIndex("back_left")],
+            "back_right": pwm_signals[Vectorizer.__getThruster_TIndex("back_right")],
+            "front": pwm_signals[Vectorizer.__getThruster_TIndex("front")],
+            "back": pwm_signals[Vectorizer.__getThruster_TIndex("back")]
         }
+
             return thrusters
         
         except ValueError as e:
             Logger.logToFile(LogSeverity.ERROR, f"{e}", "Vectorizer")
             Logger.logToGUI(LogSeverity.ERROR, f"{e}", "Vectorizer")
+    @staticmethod
+    def __reconstructThrustersDict(thrusters: Dict[str, Thruster]):
+        
+        reconstructed = {}
+
+        for old_key, thruster in thrusters.items():
+            if old_key in Vectorizer.thrusters_mapping:
+                new_key = Vectorizer.thrusters_mapping[old_key]
+                reconstructed[new_key] = thruster
+            else:
+                print(f"Warning: '{old_key}' not found in thrusters_mapping")
+
+        return reconstructed        
+
+    @staticmethod
+    def __getThruster_TIndex(thrusterName: str):
+        try:
+            tIndex = Vectorizer.thrusters_mapping[thrusterName]
+        except KeyError:
+            print("mafeesh meno")
+        return tIndex 

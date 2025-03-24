@@ -18,6 +18,10 @@ class PWM_Motors:
         self.stop() # Initialize the motor by 1500 value
         time.sleep(3)
         
+        
+    def setSpeed(self, min:int, max:int):
+        self.min_value = min    
+        self.max_value = max    
     def __setSmoother(self):
         smootherType = Configurator().fetchData(Configurator.CHANGEABLE_MODULES)['SMOOTHING_STRAT']
         if smootherType == "EXPONENTIAL":
