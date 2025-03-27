@@ -6,7 +6,7 @@ from DTOs.LogSeverity import LogSeverity
 from services.Logger import Logger
 from services.PWMFactory import PWMFactory
 from utils.Configurator import Configurator
-
+import time
 class Navigation:
     """
     Static class for ROV navigation.
@@ -25,7 +25,7 @@ class Navigation:
         "front": Thruster(pca=PWMFactory().getPWMDriver(), channel = __pins['FRONT_PCA_CHANNEL']),
         "back": Thruster(pca=PWMFactory().getPWMDriver(), channel = __pins['BACK_PCA_CHANNEL']),
     }
-
+    time.sleep(3)
 
     @staticmethod
     def setThrusterSpeed(thrusterName: str, min:int , max:int):

@@ -5,6 +5,8 @@ import time
 from services.Logger import Logger
 from DTOs.LogSeverity import LogSeverity
 from utils.Configurator import Configurator
+import threading
+
 @implementer(iPWM_Motors)
 class PWM_Motors:
     def __init__(self, pca, channel, min_value, max_val, init_value = 1500):
@@ -15,9 +17,16 @@ class PWM_Motors:
         self.current_value = init_value
         self.__smoother = None
         self.__setSmoother()
-        self.stop() # Initialize the motor by 1500 value
-        time.sleep(3)
         
+        # Start motor initialization in a new thread
+        init_thread = threading.Thread(target=self.__initialize_motor)
+        init_thread.daemon = True
+        init_thread.start()
+    
+    
+    def __initialize_motor(self):
+        self.stop()
+        time.sleep(3)
         
     def setSpeed(self, min:int, max:int):
         self.min_value = min    
