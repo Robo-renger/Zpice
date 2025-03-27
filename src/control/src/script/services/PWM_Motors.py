@@ -5,6 +5,7 @@ import time
 from services.Logger import Logger
 from DTOs.LogSeverity import LogSeverity
 from utils.Configurator import Configurator
+import threading
 @implementer(iPWM_Motors)
 class PWM_Motors:
     def __init__(self, pca, channel, min_value, max_val, init_value = 1500):
@@ -15,8 +16,15 @@ class PWM_Motors:
         self.current_value = init_value
         self.__smoother = None
         self.__setSmoother()
-        self.stop() # Initialize the motor by 1500 value
-        time.sleep(3)
+        init_thread = threading.Thread(target=self.__initialize_motor)
+        init_thread.daemon = True
+        init_thread.start()
+    
+    
+    def __initialize_motor(self):
+        self.stop()
+        print("Stopping for 5 secs")
+        time.sleep(5)
         
     def __setSmoother(self):
         smootherType = Configurator().fetchData(Configurator.CHANGEABLE_MODULES)['SMOOTHING_STRAT']
