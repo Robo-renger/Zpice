@@ -6,6 +6,7 @@ import sys
 from utils.Configurator import Configurator
 from services.CameraStreamer import CameraStreamer
 from services.GUIPresistence import GUIPresistence
+from services.Camera import Camera
 import time
 class CameraStreamerNode:
     def __init__(self):
@@ -18,13 +19,13 @@ class CameraStreamerNode:
         return self.configurator.fetchData(Configurator.CAMERAS)
 
     def runStreams(self):
-        for camera, details in self.camerasDetails.items():
-            cameraStreamer = CameraStreamer(details['index'],details['port'], format="MJPG")
+        for camera_name, details in self.camerasDetails.items():
+            camera = Camera(details['index'], details['format'])
+            camera.setFPS(details['fps'])
+            camera.setFrameSize(details['width'], details['height'])
+            cameraStreamer = CameraStreamer(camera, details['port'])
             self.cameraStreamers.append(cameraStreamer)
-            cameraStreamer.setFPS(details['fps'])
-            cameraStreamer.setFrameSize(details['width'], details['height'])
             cameraStreamer.stream()
-
 
     def stopAllStreams(self):
         for cameraStreamer in self.cameraStreamers:

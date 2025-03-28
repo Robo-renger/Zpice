@@ -15,6 +15,7 @@ class LayoutService:
             return GetLayoutResponse(f"{req.layoutName} is not available. Available files are: {', '.join(self.LayoutNames)}")
 
         Layout_data = str(self.LayoutManager.fetchLayout(req.layoutName))
+        rospy.loginfo("anaaaaaa broooood 3leeeeeh ya Akaaaaadyyyyyyyy")
         return GetLayoutResponse(Layout_data)
 
 

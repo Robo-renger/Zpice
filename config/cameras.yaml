@@ -1,20 +1,23 @@
 camera1:
-  index: '/home/mypi/Zpice/src/gui/src/guiContent/test.mp4'
+  index: /home/amansour/Zpice/src/gui/src/guiContent/test.mp4
   width: 640
   height: 480
+  format: MJPG
   fps: 20
   port: 8083
 camera2:
-  index: /dev/video3
+  index: /home/amansour/Zpice/src/gui/src/guiContent/left_view.mp4
   width: 640
   height: 480
+  format: MJPG
   fps: 30
   port: 8081
 camera3:
-  index: '/dev/video2'
-  width: 1280
-  height: 960
-  fps: 20
+  index: /home/amansour/Zpice/src/gui/src/guiContent/right_view.mp4
+  width: 640
+  height: 480
+  format: MJPG
+  fps: 30
   port: 8082
 
 #Rapoo and left cameras probably doesnt not suppoer mjpg format
