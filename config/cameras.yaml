@@ -3,6 +3,7 @@ camera1:
   width: 640
   height: 480
   format: MJPG
+  type: Monocular
   fps: 20
   port: 8083
 camera2:
@@ -10,6 +11,7 @@ camera2:
   width: 640
   height: 480
   format: MJPG
+  type: Monocular
   fps: 30
   port: 8081
 camera3:
@@ -17,6 +19,7 @@ camera3:
   width: 640
   height: 480
   format: MJPG
+  type: Monocular
   fps: 30
   port: 8082
 

@@ -3,13 +3,14 @@ from zope.interface import implementer
 from services.Logger import Logger
 from DTOs.LogSeverity import LogSeverity
 from interface.ICamera import ICamera
+from services.StereoStitcher import StereoStitcher
 import cv2 as cv
 import numpy as np 
 
 @implementer(ICamera)
 class Camera:
     """Responsible for handling camera attributes and initializing cameras"""
-    def __init__(self, cameraIndex, format: str) -> None:
+    def __init__(self, cameraIndex, format: str  = 'MJPG', type: str = 'Monocular') -> None:
         """Initialize the camera
         @param cameraIndex: index at which camera is accessed
         @param format: type of format camera is compatible with (MJPG or GStreamer)"""
@@ -18,6 +19,7 @@ class Camera:
         self.height = 720
         self.FPS = 60
         self.format_type = format
+        self.camera_type = type
         self.capture = None
 
     def setFrameSize(self, width: int, height: int) -> None:
@@ -31,6 +33,13 @@ class Camera:
 
     def setup_camera(self, address: str, port: int):
         """Sets up the camera capture based on the selected format."""
+        if self.camera_type == "Monocular":
+            pass
+        elif self.camera_type == "Stereo":
+            self._setup_stereo()
+        else:
+            raise TypeError("Unsupported camera type. Choose either 'Monocular' or 'Stereo'.")
+        
         if self.format_type == "H264":
             return self._setup_h264(address, port)
         elif self.format_type == "MJPG":
@@ -63,6 +72,10 @@ class Camera:
         self.capture = cv.VideoCapture(gst_pipeline, cv.CAP_GSTREAMER)
         self.__setCVAttrs()
         return self.capture
+    
+    def _setup_stereo(self):
+        """Take the video device of the stereo, split it into two video devices, pass them to the sticher finally return the output device """
+        self.cameraIndex = StereoStitcher(self.cameraIndex).setup()
     
     def __setCVAttrs(self) -> None:
         self.capture.set(cv.CAP_PROP_BUFFERSIZE, 4)
