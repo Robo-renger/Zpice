@@ -14,12 +14,12 @@ class Servo360:
     ms < 1500 --> clockwise 
     ms = 1500 stop 
     """
-    def __init__(self, channel: int, pwm_driver: PWMDriver):
+    def __init__(self, channel: int, pwm_driver: PWMDriver, forward_value:int = 1000,stop_value:int = 1475,backward_value:int = 2000):
         self.__pwm_driver = pwm_driver
         self.__channel = channel
-        self.__forward_value = 1000
-        self.__stop_value = 1475
-        self.__backward_value = 2000
+        self.__forward_value = forward_value
+        self.__stop_value = stop_value
+        self.__backward_value = backward_value
         self.__delay = 0.0001
     
     def goForward(self) -> None:

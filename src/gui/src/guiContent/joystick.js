@@ -65,7 +65,9 @@ function sendJoystickData() {
         button_top: !!buttons[12],
         button_bot: !!buttons[13],
         button_left: !!buttons[14],
-        button_right: !!buttons[15]
+        button_right: !!buttons[15],
+        button_options: !!buttons[9],
+        button_share: !!buttons[8]
     });
 
     joystickTopic.publish(joystickMessage);

@@ -12,3 +12,5 @@ button_tri: SYRINGE
 button_top: SERVO_UP
 button_bot: SERVO_DOWN
 button_x: FLASH
+button_options: STEREO_SERVO_UP
+button_share: STEREO_SERVO_DOWN

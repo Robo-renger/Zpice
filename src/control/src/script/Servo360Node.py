@@ -5,12 +5,13 @@ from services.Servo360 import Servo360
 from services.Joystick import CJoystick
 from services.PCADriver import PCA
 from mock.PCAMock import PCAMock
-
+from utils.Configurator import Configurator
 class Servo360Node:
-    def __init__(self, channel: int, pca, up_button: str, down_button: str):
+    def __init__(self,pca, up_button: str, down_button: str):
         rospy.init_node('servo360_node', anonymous=False)
         self.joystick = CJoystick()
-        self.servo = Servo360(channel, pca)
+        self.photosphereServoPin = Configurator().fetchData(Configurator.PINS)['PHOTOSPHERE_SERVO']
+        self.servo = Servo360(self.photosphereServoPin, pca,2100,0,1000)
         self.up_button = up_button
         self.down_button = down_button
         self.servo.setDelay(0.0001)
@@ -18,9 +19,9 @@ class Servo360Node:
     def run(self):
         try:
             while not rospy.is_shutdown():
-                if self.joystick.isClicked(self.up_button):
+                if self.joystick.isPressed(self.up_button):
                     self.servo.goForward()
-                elif self.joystick.isClicked(self.down_button):
+                elif self.joystick.isPressed(self.down_button):
                     self.servo.goBackwards()
                 else:
                     self.servo.Stop()    
@@ -31,7 +32,7 @@ class Servo360Node:
 
 if __name__ == "__main__":
     try:
-        servo = Servo360Node(6, PCA.getInst(), "SERVO_UP", "SERVO_DOWN")
+        servo = Servo360Node(PCA.getInst(), "SERVO_UP", "SERVO_DOWN")
         servo.run()
     except KeyboardInterrupt:
         rospy.loginfo("Exiting...")
