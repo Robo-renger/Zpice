@@ -7,6 +7,8 @@ from utils.Configurator import Configurator
 from services.CameraStreamer import CameraStreamer
 from services.GUIPresistence import GUIPresistence
 from services.Camera import Camera
+from services.FishEyeCamera import FishEyeCamera
+from services.StereoCamera import StereoCamera
 import time
 class CameraStreamerNode:
     def __init__(self):
@@ -14,16 +16,27 @@ class CameraStreamerNode:
         self.configurator = Configurator()
         self.camerasDetails = self.__getCameraSteamDetails()
         self.cameraStreamers = []
+        self.cameras = []
 
     def __getCameraSteamDetails(self):
         return self.configurator.fetchData(Configurator.CAMERAS)
-
+    
+    def __getCameraCaptures(self) -> None:
+        for camera_data, details in self.camerasDetails.items():
+            if details['type'] == 'NORMAL':
+                self.cameras.append(Camera(details))
+            elif details['type'] == 'FISHEYE':
+                self.cameras.append(FishEyeCamera(details))
+            elif details['type'] == 'STEREO':
+                camera = StereoCamera(details)              
+                self.cameras.append(StereoCamera(details))
+            else:
+                raise Exception(f"Unsupported camera type. Couldn't find {details['type']}")
+            
     def runStreams(self):
-        for camera_name, details in self.camerasDetails.items():
-            camera = Camera(details['index'], details['format'], details['type'])
-            camera.setFPS(details['fps'])
-            camera.setFrameSize(details['width'], details['height'])
-            cameraStreamer = CameraStreamer(camera, details['port'])
+        self.__getCameraCaptures()
+        for camera in self.cameras:
+            cameraStreamer = CameraStreamer(camera)
             self.cameraStreamers.append(cameraStreamer)
             cameraStreamer.stream()
 

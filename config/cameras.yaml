@@ -1,26 +1,63 @@
-camera1:
+net_camera:
   index: /home/amansour/Zpice/src/gui/src/guiContent/test.mp4
   width: 640
   height: 480
   format: MJPG
-  type: Monocular
+  type: NORMAL
   fps: 20
-  port: 8083
-camera2:
+  port: 8081
+horizontal_gripper_camera:
   index: /home/amansour/Zpice/src/gui/src/guiContent/left_view.mp4
   width: 640
   height: 480
   format: MJPG
-  type: Monocular
+  type: NORMAL
   fps: 30
-  port: 8081
-camera3:
-  index: /home/amansour/Zpice/src/gui/src/guiContent/right_view.mp4
+  port: 8082
+vertical_gripper_camera:
+  index: /home/amansour/Zpice/src/gui/src/guiContent/left_view.mp4
   width: 640
   height: 480
   format: MJPG
-  type: Monocular
+  type: NORMAL
   fps: 30
-  port: 8082
+  port: 8083
+# photosphere:
+#   index: /home/amansour/Zpice/src/gui/src/guiContent/left_view.mp4
+#   width: 640
+#   height: 480
+#   format: MJPG
+#   type: FISHEYE
+#   fps: 30
+#   port: 8084
+# stereo:
+#   index: /home/amansour/Zpice/src/gui/src/guiContent/right_view.mp4
+#   focal_length: 3 #mm
+#   baseline: 12 #cm
+#   width: 720
+#   height: 2560
+#   type: STEREO
+#   left_cam:
+#     index: /home/amansour/Zpice/src/gui/src/guiContent/right_view.mp4
+#     width: 640
+#     height: 480
+#     format: MJPG
+#     fps: 30
+#     port: 8085
+#   right_cam:
+#     index: /home/amansour/Zpice/src/gui/src/guiContent/right_view.mp4
+#     width: 640
+#     height: 480
+#     format: MJPG
+#     fps: 30
+#     port: 8086
+#   stitched:
+#     index: /home/amansour/Zpice/src/gui/src/guiContent/right_view.mp4
+#     width: 640
+#     height: 480
+#     format: MJPG
+#     fps: 30
+#     port: 8087
+
 
 #Rapoo and left cameras probably doesnt not suppoer mjpg format

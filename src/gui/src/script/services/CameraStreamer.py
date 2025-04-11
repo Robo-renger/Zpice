@@ -7,22 +7,20 @@ from interface.ICamera import ICamera
 import pyshine as ps
 
 class CameraStreamer:
-    def __init__(self, camera: ICamera, port) -> None:
+    def __init__(self, camera: ICamera) -> None:
         self.address = EnvParams().WEB_DOMAIN
         self.camera = camera
-        self.port = port
-        self.process = None
+        self.port = self.camera.getPort()
         self.capture = None
+        self.process = None
         self.server = None
         
     def __run(self):
         try:
             StreamProps = ps.StreamProps
             StreamProps.set_Page(StreamProps, "")
+            self.capture = self.camera.setupCamera()
             address = (self.address, self.port)
-
-            self.capture = self.camera.setup_camera(self.address, self.port)
-    
             if not self.capture.isOpened():
                 raise Exception("Failed to open camera with GStreamer pipeline.")
     

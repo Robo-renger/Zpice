@@ -11,5 +11,7 @@ script/nodes/__init__.py
 script/services/Camera.py
 script/services/CameraStreamer.py
 script/services/DirectoryChanger.py
+script/services/FishEyeCamera.py
 script/services/GUIPresistence.py
+script/services/StereoCamera.py
 script/services/__init__.py

@@ -8,7 +8,7 @@ import cv2 as cv
 import numpy as np 
 
 @implementer(ICamera)
-class Camera:
+class FishEyeCamera:
     """Responsible for handling camera attributes and initializing cameras"""
     def __init__(self, cameraDetails: dict) -> None:
         """Initialize the camera
@@ -38,7 +38,6 @@ class Camera:
         fourcc = cv.VideoWriter_fourcc(*'MJPG')
         self.capture.set(cv.CAP_PROP_FOURCC, fourcc)
         self.__setCVAttrs()
-        return self.capture
 
     def _setupH264(self):
         print("eshta")
@@ -54,7 +53,6 @@ class Camera:
         )
         self.capture = cv.VideoCapture(gst_pipeline, cv.CAP_GSTREAMER)
         self.__setCVAttrs()
-        return self.capture
         
     def __setCVAttrs(self) -> None:
         self.capture.set(cv.CAP_PROP_BUFFERSIZE, 4)
@@ -62,6 +60,6 @@ class Camera:
         self.capture.set(cv.CAP_PROP_FRAME_HEIGHT, self.height)
         self.capture.set(cv.CAP_PROP_FPS, self.FPS)
 
-    def getPort(self):
-        return self.port
+    def _setCalibration(self) -> None:
+        pass
  
