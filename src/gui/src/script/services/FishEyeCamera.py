@@ -38,6 +38,7 @@ class FishEyeCamera:
         fourcc = cv.VideoWriter_fourcc(*'MJPG')
         self.capture.set(cv.CAP_PROP_FOURCC, fourcc)
         self.__setCVAttrs()
+        return self.capture
 
     def _setupH264(self):
         print("eshta")
@@ -53,6 +54,7 @@ class FishEyeCamera:
         )
         self.capture = cv.VideoCapture(gst_pipeline, cv.CAP_GSTREAMER)
         self.__setCVAttrs()
+        return self.capture
         
     def __setCVAttrs(self) -> None:
         self.capture.set(cv.CAP_PROP_BUFFERSIZE, 4)
@@ -62,4 +64,8 @@ class FishEyeCamera:
 
     def _setCalibration(self) -> None:
         pass
+
+    def getPort(self):
+        return self.port
+ 
  

@@ -14,4 +14,5 @@ script/services/DirectoryChanger.py
 script/services/FishEyeCamera.py
 script/services/GUIPresistence.py
 script/services/StereoCamera.py
+script/services/StereoCameraStreamer.py
 script/services/__init__.py

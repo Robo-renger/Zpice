@@ -5,6 +5,7 @@ import signal
 import sys
 from utils.Configurator import Configurator
 from services.CameraStreamer import CameraStreamer
+from services.StereoCameraStreamer import StereoCameraStreamer
 from services.GUIPresistence import GUIPresistence
 from services.Camera import Camera
 from services.FishEyeCamera import FishEyeCamera
@@ -17,6 +18,7 @@ class CameraStreamerNode:
         self.camerasDetails = self.__getCameraSteamDetails()
         self.cameraStreamers = []
         self.cameras = []
+        self.stereo_cameras = []
 
     def __getCameraSteamDetails(self):
         return self.configurator.fetchData(Configurator.CAMERAS)
@@ -27,9 +29,13 @@ class CameraStreamerNode:
                 self.cameras.append(Camera(details))
             elif details['type'] == 'FISHEYE':
                 self.cameras.append(FishEyeCamera(details))
-            elif details['type'] == 'STEREO':
-                camera = StereoCamera(details)              
-                self.cameras.append(StereoCamera(details))
+            elif details['type'] == 'STEREO':             
+                # self.stereo_cameras.append(StereoCamera(details))
+                left_stereo, right_stereo, stitched = StereoCamera(details).getCameras()
+                self.cameras.extend([Camera(left_stereo), Camera(right_stereo), Camera(stitched)])
+                # self.stereo_cameras.extend(StereoCamera(details).getCameras())
+                # for stereo_camera in self.stereo_cameras:             
+                #     self.cameras.append(Camera(stereo_camera))
             else:
                 raise Exception(f"Unsupported camera type. Couldn't find {details['type']}")
             
@@ -39,6 +45,11 @@ class CameraStreamerNode:
             cameraStreamer = CameraStreamer(camera)
             self.cameraStreamers.append(cameraStreamer)
             cameraStreamer.stream()
+        # for stereo_camera in self.stereo_cameras:
+        #     cameraStreamer = StereoCameraStreamer(stereo_camera)
+        #     self.cameraStreamers.append(cameraStreamer)
+        #     cameraStreamer.stream()
+
 
     def stopAllStreams(self):
         for cameraStreamer in self.cameraStreamers:
