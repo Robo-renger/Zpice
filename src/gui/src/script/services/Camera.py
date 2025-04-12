@@ -65,3 +65,24 @@ class Camera:
     def getPort(self):
         return self.port
  
+    def getPort(self):
+        return self.port
+    
+    def getFrame(self):
+        if self.capture is not None:
+            self.frame = self.capture.read()
+
+    def read(self):
+        ret, frame = self.capture.read()
+        return ret, frame
+
+    def isOpened(self):
+        return self.capture.isOpened()
+
+    def release(self):
+        self.capture.release()
+
+    def get(self, prop_id):
+        return self.capture.get(prop_id)
+ 
+ 

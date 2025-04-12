@@ -6,6 +6,7 @@ from interface.ICamera import ICamera
 from utils.EnvParams import EnvParams
 import cv2 as cv
 import numpy as np 
+import rospkg
 
 @implementer(ICamera)
 class FishEyeCamera:
@@ -13,6 +14,14 @@ class FishEyeCamera:
     def __init__(self, cameraDetails: dict) -> None:
         """Initialize the camera
         @param cameraDetails: all details of the camera found in the config"""
+        rospack = rospkg.RosPack()
+        workspace_path = rospack.get_path('gui')
+        self.mtx_path = workspace_path + f'/../../calibrationMatricies/mtx_fisheye.npy'
+        self.dist_path = workspace_path + f'/../../calibrationMatricies/dist_fisheye.npy'
+        self.newCam_path = workspace_path + f'/../../calibrationMatricies/newCameraMtx_fisheye.npy'
+        self.mtx = np.load(self.mtx_path)
+        self.dist = np.load(self.dist_path)
+        self.newCameraMtx = np.load(self.newCam_path)
         self.address = EnvParams().WEB_DOMAIN
         self.cameraIndex = cameraDetails['index']
         self.width = cameraDetails['width']
@@ -21,6 +30,8 @@ class FishEyeCamera:
         self.compression = cameraDetails['format']
         self.port = cameraDetails['port']
         self.capture = None
+        self.frame = None
+        
 
     def setupCamera(self) -> cv.VideoCapture:
         """Sets up the camera capture based on the selected format."""    
@@ -67,5 +78,24 @@ class FishEyeCamera:
 
     def getPort(self):
         return self.port
+    
+    def getFrame(self):
+        if self.capture is not None:
+            self.frame = self.capture.read()
+
+    def read(self):
+        ret, frame = self.capture.read()
+        if ret:
+            frame = cv.undistort(frame, self.mtx, self.dist, None, self.newCameraMtx)
+        return ret, frame
+
+    def isOpened(self):
+        return self.capture.isOpened()
+
+    def release(self):
+        self.capture.release()
+
+    def get(self, prop_id):
+        return self.capture.get(prop_id)
  
  

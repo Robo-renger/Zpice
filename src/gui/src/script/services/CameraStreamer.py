@@ -25,7 +25,7 @@ class CameraStreamer:
                 raise Exception("Failed to open camera with GStreamer pipeline.")
     
             StreamProps.set_Mode(StreamProps, 'cv2')
-            StreamProps.set_Capture(StreamProps, self.capture)
+            StreamProps.set_Capture(StreamProps, self.camera)
             StreamProps.set_Quality(StreamProps, 90)
     
             width = self.capture.get(cv2.CAP_PROP_FRAME_WIDTH)
