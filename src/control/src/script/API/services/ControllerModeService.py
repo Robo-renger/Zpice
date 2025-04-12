@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
 import rospy
-from services.Joystick import CJoystick
 from utils.Configurator import Configurator
 from utils.LayoutManager import LayoutManager
-from control.srv import  SwitchJoystickModeResponse
+from control.srv import SwitchJoystickModeResponse
 from API.clients.ActiveControllerClient import ActiveController
 
 class ControllerModeService:
     def __init__(self):
-        self.joystick = CJoystick()
         self.configurator = Configurator()
         self.joystick_layout = LayoutManager().fetchLayout("controller")
         self.current_mode_index = 0

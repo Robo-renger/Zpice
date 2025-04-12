@@ -25,7 +25,7 @@ class JoystickNode:
     def callback(self, data):
         # Extract button data (keys containing "button")
         button_data = {key: getattr(data, key) for key in dir(data) if "button" in key}
-
+        # rospy.logwarn(button_data)
         # Extract axis data (keys containing "axis")
         axis_data = {key: getattr(data, key) for key in dir(data) if "axis" in key}
         # Update shared memory with extracted data

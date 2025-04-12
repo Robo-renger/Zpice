@@ -25,6 +25,12 @@ class CJoystick:
             self.is_writer = is_writer  # Distinguish between writer and reader
             self.lock = threading.Lock()
             self.previous_button_states = {}
+            self.button_press_timestamps = {}  # Store button press timestamps
+            self.last_click_time = {}  # Store the last registered click time
+            self.hold_counts = {}  # Track how long a button is held
+            self.start_time = {}  # Store when the first click happened
+            self.waiting_period = {}  # Flag to track waiting period
+            self.click_counts = {}  # Track clicks before returning a count
 
             try:
                 # Try to attach to an existing shared memory block
@@ -150,58 +156,26 @@ class CJoystick:
         print("Failed to connect to shared memory after retries.")
         return None
 
-    def isPressed(self, button_name):
+    def isPressed(self, button_name, time_window=0.4):
         """
-        Check whether a specific button is clicked.
+        Count the number of times a button was pressed within the last `time_window` seconds.
+        The count remains as long as the button is being held and also detects consecutive presses.
+        If the last press is still held, it does not reset to zero. The function keeps returning 0 until
+        the time window expires, then returns the count. If the button is released, the count resets to zero.
 
         Parameters:
             button_name (str): The name of the button constant (e.g., LEFTGRIPPER_OPEN, _1).
+            time_window (float): The time window in seconds to count presses.
 
         Returns:
-            bool: True if the button is clicked, False otherwise.
+            int: The number of presses detected within the specified time window.
 
         Raises:
             ValueError: If the button name is not defined.
         """
         data = self.__getData()
         if data is None or "buttons" not in data:
-            return False  # No data available
-
-        # Handle numbered buttons prefixed with "_"
-        if button_name.startswith("_"):
-            try:
-                button_number = int(button_name[1:])  # Extract the number
-            except ValueError:
-                Logger.logToFile(LogSeverity.FATAL, f"Invalid button number format: '{button_name}'", "CJoystick")
-                Logger.logToGUI(LogSeverity.FATAL, f"Invalid button number format: '{button_name}'", "CJoystick")
-                raise ValueError(f"Invalid button number format: '{button_name}'")
-        else:
-            # Get button number from class attributes (e.g., LEFTGRIPPER_OPEN → 1)
-            button_number = getattr(self, button_name, None)
-        if button_number is None:
-            Logger.logToFile(LogSeverity.FATAL, f"Button name '{button_name}' is not defined.", "CJoystick")
-            Logger.logToGUI(LogSeverity.FATAL, f"Button name '{button_name}' is not defined.", "CJoystick")
-            raise ValueError(f"Button name '{button_name}' is not defined.")
-        return data["buttons"].get(f"button{button_number}", False)
-    def isClicked(self, button_name):
-        """
-        Check whether a specific button is clicked (rising edge detection).
-
-        This version only returns True **once per click** when the button changes from False -> True.
-        Holding the button will not trigger multiple "clicks".
-
-        Parameters:
-            button_name (str): The name of the button constant (e.g., LEFTGRIPPER_OPEN, _1).
-
-        Returns:
-            bool: True if the button was just clicked, False otherwise.
-
-        Raises:
-            ValueError: If the button name is not defined.
-        """
-        data = self.__getData()
-        if data is None or "buttons" not in data:
-            return False  # No data available
+            return 0  # No data available
 
         # Resolve button number (either "_X" or BUTTON_NAME)
         if button_name.startswith("_"):
@@ -221,18 +195,141 @@ class CJoystick:
 
         button_key = f"button{button_number}"
 
-        # Current button state
+        # Ensure the button exists in received data
+        if button_key not in data["buttons"]:
+            Logger.logToFile(LogSeverity.WARNING, f"Button key '{button_key}' not found in data.", "CJoystick")
+            return 0
+
         current_state = data["buttons"].get(button_key, False)
+        current_time = time.time()
 
-        # Previous state (default to False if this button is checked for the first time)
-        previous_state = self.previous_button_states.get(button_key, False)
+        # Initialize tracking structures if not present
+        if button_key not in self.previous_button_states:
+            self.previous_button_states[button_key] = False
+            self.button_press_timestamps[button_key] = []
+            self.last_click_time[button_key] = 0
+            self.hold_counts[button_key] = 0
+            self.start_time[button_key] = 0
+            self.waiting_period[button_key] = True
 
-        # Update state for future checks
+        previous_state = self.previous_button_states[button_key]
+
+        # Detect state change: False → True (rising edge)
+        if current_state and not previous_state:
+            self.button_press_timestamps[button_key].append(current_time)
+            self.last_click_time[button_key] = current_time  # Store the last click time
+            self.hold_counts[button_key] += 1  # Increase count when pressed
+            if self.start_time[button_key] == 0:
+                self.start_time[button_key] = current_time  # Start the waiting period
+                self.waiting_period[button_key] = True
+
+        # Update previous state
         self.previous_button_states[button_key] = current_state
 
-        # Detect rising edge (button went from False -> True)
-        return current_state and not previous_state
+        # If the waiting period is still active, return 0
+        if self.waiting_period[button_key] and (current_time - self.start_time[button_key] < time_window):
+            return 0
 
+        # End the waiting period once the time window expires
+        self.waiting_period[button_key] = False
+
+        # If the button is released, reset to 0
+        if not current_state:
+            self.hold_counts[button_key] = 0
+            self.start_time[button_key] = 0
+            self.waiting_period[button_key] = True
+            return 0
+
+        return self.hold_counts[button_key]
+
+    
+    def isClicked(self, button_name, time_window=0.4):
+        """
+        Count the number of times a button was clicked (state changed from False to True)
+        within the last `time_window` seconds. The function keeps returning 0 until
+        the time window expires, then returns the count, regardless of whether the button is held.
+
+        Parameters:
+            button_name (str): The name of the button constant (e.g., LEFTGRIPPER_OPEN, _1).
+            time_window (float): The time window in seconds to count clicks.
+
+        Returns:
+            int: The number of state changes (False → True) detected within the specified time window.
+
+        Raises:
+            ValueError: If the button name is not defined.
+        """
+        data = self.__getData()
+        if data is None or "buttons" not in data:
+            return 0  # No data available
+
+        # Resolve button number (either "_X" or BUTTON_NAME)
+        if button_name.startswith("_"):
+            try:
+                button_number = int(button_name[1:])  # Extract the number
+            except ValueError:
+                Logger.logToFile(LogSeverity.FATAL, f"Invalid button number format: '{button_name}'", "CJoystick")
+                Logger.logToGUI(LogSeverity.FATAL, f"Invalid button number format: '{button_name}'", "CJoystick")
+                raise ValueError(f"Invalid button number format: '{button_name}'")
+        else:
+            button_number = getattr(self, button_name, None)
+
+        if button_number is None:
+            Logger.logToFile(LogSeverity.FATAL, f"Button name '{button_name}' is not defined.", "CJoystick")
+            Logger.logToGUI(LogSeverity.FATAL, f"Button name '{button_name}' is not defined.", "CJoystick")
+            raise ValueError(f"Button name '{button_name}' is not defined.")
+
+        button_key = f"button{button_number}"
+
+        # Ensure the button exists in received data
+        if button_key not in data["buttons"]:
+            Logger.logToFile(LogSeverity.WARNING, f"Button key '{button_key}' not found in data.", "CJoystick")
+            return 0
+
+        current_state = data["buttons"].get(button_key, False)
+        current_time = time.time()
+
+        # Initialize tracking structures if not present
+        if button_key not in self.previous_button_states:
+            self.previous_button_states[button_key] = False
+            self.button_press_timestamps[button_key] = []
+            self.last_click_time[button_key] = 0
+            self.click_counts[button_key] = 0
+            self.start_time[button_key] = 0
+            self.waiting_period[button_key] = True
+
+        previous_state = self.previous_button_states[button_key]
+
+        # Detect state change: False → True (rising edge)
+        if current_state and not previous_state:
+            self.button_press_timestamps[button_key].append(current_time)
+            self.last_click_time[button_key] = current_time  # Store the last click time
+            self.click_counts[button_key] += 1  # Increase count when clicked
+            if self.start_time[button_key] == 0:
+                self.start_time[button_key] = current_time  # Start the waiting period
+                self.waiting_period[button_key] = True
+
+        # Update previous state
+        self.previous_button_states[button_key] = current_state
+
+        # If the waiting period is still active, keep storing the count but return 0
+        if self.waiting_period[button_key] and (current_time - self.start_time[button_key] < time_window):
+            return 0
+
+        # End the waiting period once the time window expires
+        self.waiting_period[button_key] = False
+
+        # Store the final count to return exactly once
+        final_count = self.click_counts[button_key]
+        
+        # Reset all tracking variables for the next detection cycle
+        self.click_counts[button_key] = 0
+        self.start_time[button_key] = 0
+        self.waiting_period[button_key] = True
+
+        return final_count
+    
+    
     def getAxis(self):
         """
         Returns an array of joystick axis values.

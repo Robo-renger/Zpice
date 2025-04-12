@@ -1,8 +1,9 @@
+API
 DTOs
 exceptions
 helpers
 interface
-nodes
+node
 services
 smoothing_strategies
 test_nodes

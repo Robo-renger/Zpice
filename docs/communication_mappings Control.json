@@ -16,9 +16,11 @@
             "freeMemory": 0.0,
             "percentFreeMemory": 0.0,
             "percentCPUUsage": 0.0,
+            "ping": 0.0,
             "underVoltage": false,
             "GPUCoreState": false,
             "SDRAMState": false,
+            "fatalComponent": "",
             "GPIOState": [{
                 "gpio": 5,
                 "status": "high"
@@ -414,32 +416,130 @@
             }
         }
     },
+    "/setSpeedPercentage": {
+        "name": "/setSpeedPercentage",
+        "type": "service",
+        "serviceType": "control/SetSpeedPercentage",
+        "args": {
+            "request": {
+                "speedPercentage": 0.0
+            },
+            "response": {
+                "success": false
+            }
+        },
+        "sample": {
+            "request": {
+                "speedPercentage": 5
+            },
+            "response": {
+                "success": true
+            }
+        }
+    },
+    "/initDepth": {
+        "name": "/initDepth",
+        "type": "service",
+        "serviceType": "control/InitDepth",
+        "args": {
+            "request": {
+                "depth": 0.0
+            },
+            "response": {
+                "success": false
+            }
+        },
+        "sample": {
+            "request": {
+                "depth": 5
+            },
+            "response": {
+                "success": true
+            }
+        }
+    },
+    "/initHeading": {
+        "name": "/initHeading",
+        "type": "service",
+        "serviceType": "control/InitHeading",
+        "args": {
+            "request": {
+                "heading": 0.0
+            },
+            "response": {
+                "success": false
+            }
+        },
+        "sample": {
+            "request": {
+                "heading": 5
+            },
+            "response": {
+                "success": true
+            }
+        }
+    },
+    "/setPipePoints": {
+        "name": "/setPipePoints",
+        "type": "service",
+        "serviceType": "cv/setPipePoints",
+        "args": {
+            "request": {
+                "right_cam_right_point": "",
+                "right_cam_left_point": "",
+                "left_cam_right_point": "",
+                "left_cam_left_point": ""
+            },
+            "response": {
+                "pipe_length": 0.0
+            }
+        },
+        "sample": {
+            "request": {
+                "right_cam_right_point": "(25, 50)",
+                "right_cam_left_point": "(50, 50)",
+                "left_cam_right_point": "(25, 50)",
+                "left_cam_left_point": "(50, 50)"
+            },
+            "response": {
+                "pipe_length": 0.0
+            }
+        }
+    },
+    "/setMapService": {
+        "name": "/setMapService",
+        "type": "service",
+        "serviceType": "cv/setMap",
+        "args": {
+            "request": {
+                "mapData": ""
+            },
+            "response": {
+                "videoLink": ""
+            }
+        },
+        "sample": {
+            "request": {
+                "mapData": "{\"2017\":[\"y\",\"n\",\"n\",\"n\",\"n\"],\"2018\":[\"y\",\"n\",\"n\",\"n\",\"n\"],\"2019\":[\"y\",\"n\",\"n\",\"n\",\"n\"],\"2020\":[\"y\",\"n\",\"y\",\"n\",\"n\"],\"2021\":[\"y\",\"y\",\"y\",\"n\",\"n\"],\"2022\":[\"y\",\"y\",\"y\",\"n\",\"n\"],\"2023\":[\"y\",\"y\",\"y\",\"y\",\"n\"],\"2024\":[\"y\",\"y\",\"y\",\"y\",\"n\"],\"2025\":[\"y\",\"y\",\"n\",\"y\",\"n\"]}"
+            },
+            "response": {
+                "videoLink": "192.168.137.27/mapMission/output.mp4"
+            }
+        }
+    },
     "/set_depth": {
         "name": "/set_depth",
         "type": "action",
         "actionType": "Derived from components",
         "sample": {
-            "header": {
-                "seq": 0,
-                "stamp": {
-                    "secs": 0,
-                    "nsecs": 0
-                },
-                "frame_id": ""
-            },
-            "status": {
-                "goal_id": {
-                    "stamp": {
-                        "secs": 0,
-                        "nsecs": 0
-                    },
-                    "id": ""
-                },
-                "status": 0,
-                "text": ""
+            "goal": {
+                "depth": 45
             },
             "feedback": {
-                "current_angle": 0.0
+                "current_depth": 0.0
+            },
+            "response":{
+                "success": false
             }
         },
         "components": [
@@ -453,27 +553,37 @@
         "type": "action",
         "actionType": "Derived from components",
         "sample": {
-            "header": {
-                "seq": 0,
-                "stamp": {
-                    "secs": 0,
-                    "nsecs": 0
-                },
-                "frame_id": ""
-            },
-            "status": {
-                "goal_id": {
-                    "stamp": {
-                        "secs": 0,
-                        "nsecs": 0
-                    },
-                    "id": ""
-                },
-                "status": 0,
-                "text": ""
+            "goal": {
+                "angle": 45
             },
             "feedback": {
                 "current_angle": 0.0
+            },
+            "response":{
+                "success": false
+            }
+        },
+        "components": [
+            "status",
+            "result",
+            "feedback"
+        ]
+    },
+    "/photosphere": {
+        "name": "/photosphere",
+        "type": "action",
+        "actionType": "Derived from components",
+        "sample": {
+            "goal": {
+                "goal": 10,
+                "discription": "Angle you want to rotate with"
+            },
+            "feedback": {
+                "incrementer": 20,
+                "discription": "Status representing the current angle we've rotated"
+            },
+            "response":{
+                "success": false
             }
         },
         "components": [

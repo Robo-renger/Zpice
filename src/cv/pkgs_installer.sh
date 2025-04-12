@@ -53,7 +53,7 @@ rm -rf ~/.cache/pip
 pip install --no-cache-dir --force-reinstall .
 
 # Change to the secondary directory and repeat the process
-cd /home/amansour/Zpice/src/cv/src
+cd /home/mypi/Zpice/src/cv/src
 echo "Removing pip cache manually..."
 rm -rf ~/.cache/pip
 pip install --no-cache-dir --force-reinstall .

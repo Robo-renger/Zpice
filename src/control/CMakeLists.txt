@@ -74,6 +74,9 @@ catkin_python_setup()
   GetActiveController.srv
   GetLogs.srv
   SetMissionColor.srv
+  InitDepth.srv 
+  InitHeading.srv
+  SetSpeedPercentage.srv
 )
 
 ## Generate actions in the 'action' folder

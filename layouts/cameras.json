@@ -1,169 +1,169 @@
 {
     "view1": {
-        "camera1": {
-            "url": "7mada",
+        "left_camera": {
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 20,
-                "left": 0,
-                "width": 40,
-                "height": 200
+                "top": "1%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
             }
         },
-        "camera2": {
-            "url": "",
+        "right_camera": {
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 220,
-                "left": 0,
-                "width": 300,
-                "height": 200
+                "top": "1%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
             }
         },
-        "camera3": {
-            "url": "",
+        "rapoo_camera": {
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 220,
-                "width": 200,
-                "height": 300
+                "top": "38%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
             }
         },
         "camera4": {
-            "url": "",
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
+                "top": "38%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
             }
         },
         "camera5": {
-            "url": "",
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
+                "top": "74%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
             }
         },
         "camera6": {
-            "url": "",
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
+                "top": "74%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
             }
         }
     },
     "view2": {
-        "camera1": {
-            "url": "",
+        "left_camera": {
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
+                "top": "1%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
             }
         },
-        "camera2": {
-            "url": "",
+        "right_camera": {
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
+                "top": "1%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
             }
         },
-        "camera3": {
-            "url": "",
+        "rapoo_camera": {
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
+                "top": "38%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
             }
         },
         "camera4": {
-            "url": "",
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
+                "top": "38%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
             }
         },
         "camera5": {
-            "url": "",
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
+                "top": "74%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
             }
         },
         "camera6": {
-            "url": "",
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
+                "top": "74%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
             }
         }
     },
     "view3": {
-        "camera1": {
-            "url": "",
+        "left_camera": {
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
+                "top": "1%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
             }
         },
-        "camera2": {
-            "url": "",
+        "right_camera": {
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
+                "top": "1%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
             }
         },
-        "camera3": {
-            "url": "",
+        "rapoo_camera": {
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
+                "top": "38%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
             }
         },
         "camera4": {
-            "url": "",
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
+                "top": "38%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
             }
         },
         "camera5": {
-            "url": "",
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 0,
-                "width": 200,
-                "height": 200
+                "top": "74%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
             }
         },
         "camera6": {
-            "url": "",
+            "url": "https://www.youtube.com/",
             "geometry": {
-                "top": 10,
-                "left": 10,
-                "width": 2,
-                "height": 200
+                "top": "74%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
             }
         }
     }
