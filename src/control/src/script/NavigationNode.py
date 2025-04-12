@@ -19,7 +19,7 @@ class NavigationNode:
         self.pitch = 0
         self.yaw = 0
         self.last_reset_time = 0  
-        
+        self.manualSpeedFactor = 1
         self.pub = rospy.Publisher("Direction", String, queue_size=10)
 
         self.PID_configs = Configurator().fetchData(Configurator.PID_PARAMS)        
@@ -115,10 +115,10 @@ class NavigationNode:
     def handleJoystickInput(self):
         current_time = time.time()
         axis_values = self.joystick.getAxis()
-        self.x = -1 * axis_values.get('left_x_axis', 0)
-        self.y = axis_values.get('left_y_axis', 0)
-        self.pitch = -1 * axis_values.get('right_y_axis', 0)
-        self.yaw = -1 * axis_values.get('right_x_axis', 0)
+        self.x = -1 * axis_values.get('left_x_axis', 0)*self.manualSpeedFactor
+        self.y = axis_values.get('left_y_axis', 0)*self.manualSpeedFactor
+        self.pitch = -1 * axis_values.get('right_y_axis', 0)*self.manualSpeedFactor
+        self.yaw = -1 * axis_values.get('right_x_axis', 0)*self.manualSpeedFactor
 
         if self.joystick.isPressed("HEAVE_DOWN") and self.joystick.isPressed("HEAVE_UP"):
             self.z = 0.0
