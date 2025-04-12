@@ -1,13 +1,11 @@
 [
     {
-        "severity": "ERROR",
-        "message": "Failed to deserialize data.",
+        "severity": "INFO",
+        "message": "Shared memory attached successfully.",
         "component_name": "CJoystick",
-        "timestamp": "2025-03-30T23:41:37.438521"
+        "timestamp": "2025-04-11T18:53:33.358913"
     }
-]
-    }
-]3:29:49.499749"
+]0:49:42.526394"
     }
 ]    }
 ]02810"

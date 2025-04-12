@@ -26,7 +26,7 @@ const joystickTopic = new ROSLIB.Topic({
 function scanGamepads() {
     const gamepads = navigator.getGamepads();
     console.log(gamepads)
-    return gamepads[1]; // Use the first connected gamepad
+    return gamepads[0]; // Use the first connected gamepad
 }
 
 // Send joystick data to ROS
