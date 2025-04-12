@@ -39,11 +39,15 @@ class Vectorizer:
 
         # Handle horizontal thrusters (t1 to t4) with x, y, and yaw inputs
         for angle in angles:
-            forward_contrib = y * math.sin(angle)  # Forward/backward contribution
-            strafe_contrib = x * math.cos(angle)   # Right/left contribution
+            if angle ==  math.radians(135) or angle ==  math.radians(315):
+                forward_contrib =- y * math.sin(angle)  # Forward/backward contribution
+                strafe_contrib = -x * math.cos(angle)   # Right/left contribution
+            else:
+                forward_contrib = y * math.sin(angle)  # Forward/backward contribution
+                strafe_contrib = x * math.cos(angle)   # Right/left contribution
 
             # Determine yaw contribution
-            if (Vectorizer.yaw_only and x == 0 and y == 0) or not Vectorizer.yaw_only:
+            if (Vectorizer.yaw_only and abs(x) <= 0.3 and abs(y) <= 0.3) or not Vectorizer.yaw_only:
                 pass
             else:   # No yaw contribution if yaw_only is True and x or y is non-zero
                 yaw = 0

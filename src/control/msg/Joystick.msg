@@ -16,3 +16,5 @@ bool button_left
 bool button_right
 bool button_top
 bool button_bot
+bool button_options
+bool button_share

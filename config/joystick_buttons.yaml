@@ -9,6 +9,11 @@ button_r2: LEFTGRIPPER
 button_r3: HEAVE_UP
 button_rect: DCRIGHTGRIPPER_LEFT
 button_right: DCLEFTGRIPPER_LEFT
+button_rect: DCRIGHTGRIPPER_LEFT
+button_o: DCRIGHTGRIPPER_RIGHT
+button_tri: SYRINGE
 button_top: SERVO_UP
 button_tri: bty5
 button_x: FLASH
+button_options: STEREO_SERVO_UP
+button_share: STEREO_SERVO_DOWN
