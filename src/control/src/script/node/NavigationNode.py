@@ -70,6 +70,13 @@ class NavigationNode:
             if not msg.reached:
                 self.pid_yaw.updateSetpoint(msg.target)
 
+        elif msg.type == "tilting":
+            self.fix_tilting = True
+            if msg.reached:
+                self.fix_tilting = False        
+            if not msg.reached:
+                self.pid_pitch.updateSetpoint(msg.target)
+
         elif msg.type == "heave":
             self.fix_heave = True
             if msg.reached:
@@ -128,35 +135,36 @@ class NavigationNode:
 
     def stabilizeAtRest(self):
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
-        Navigation.navigate(self.x, self.y, self.pitch, self.z, yaw_output)
+        pitch_output = self.pid_pitch.stabilize(self.imu_data['pitch'])
+        heave_output = self.pid_heave.stabilize(self.depth)
+        Navigation.navigate(0, 0, pitch_output, heave_output, yaw_output)
 
     def stabilizeHorizontal(self):
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
-        self.pid_pitch.updateConstants(self.pid_pitch.kp, self.pid_pitch.ki, self.pid_pitch.kd)
         pitch_output = self.pid_pitch.stabilize(self.imu_data['pitch'])
-        Navigation.navigate(self.x, self.y, -pitch_output, self.z, yaw_output)
+        heave_output = self.pid_heave.stabilize(self.depth)
+        Navigation.navigate(self.x, self.y, pitch_output, heave_output, yaw_output)
 
     def stabilizeVertical(self):
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
-        self.pid_pitch.updateActiveConstants(self.kp_factor, self.ki_factor, self.kd_factor)
         pitch_output = self.pid_pitch.stabilize(self.imu_data['pitch'])
-        Navigation.navigate(self.x, self.y, -pitch_output, self.z, yaw_output)
+        Navigation.navigate(self.x, self.y, pitch_output, self.z, yaw_output)
 
     def setHeading(self):
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
-        Navigation.navigate(self.x, self.y, self.pitch, self.z, yaw_output)
+        Navigation.navigate(self.x, self.y, -self.pitch, self.z, yaw_output)
     
     def setTilting(self):
         pitch_output = self.pid_pitch.stabilize(self.imu_data['pitch'])
-        Navigation.navigate(self.x, self.y, -pitch_output, self.z, self.yaw)
+        Navigation.navigate(self.x, self.y, pitch_output, self.z, self.yaw)
 
-    def setHeave(self):
-        depth_output = self.pid_heave.stabilize(self.depth)
-        Navigation.navigate(self.x, self.y, self.pitch, depth_output, self.yaw)
+    def setDepth(self):
+        heave_output = self.pid_heave.stabilize(self.depth)
+        Navigation.navigate(self.x, self.y, -self.pitch, heave_output, self.yaw)
 
     def rotate(self):
-        depth_output = self.pid_heave.stabilize(self.depth)
-        Navigation.navigate(self.x, self.y, self.pitch, depth_output, 0.5)
+        heave_output = self.pid_heave.stabilize(self.depth)
+        Navigation.navigate(self.x, self.y, 0.5, heave_output, 0.5)
     
     def extractDir(self):
         dir = None
@@ -188,9 +196,9 @@ class NavigationNode:
 
     def _isRest(self):
         """Check if the ROV is at rest (all inputs are near zero)."""
-        return (abs(self.x) <= 0.06 and abs(self.y) <= 0.06 and 
-                abs(self.z) <= 0.06 and abs(self.pitch) <= 0.06 and 
-                abs(self.yaw) <= 0.06)
+        return (abs(self.x) <= 0.05 and abs(self.y) <= 0.05 and 
+                abs(self.z) <= 0.05 and abs(self.pitch) <= 0.05 and 
+                abs(self.yaw) <= 0.05)
 
     def _isMovingHorizontally(self):
         """Check if the ROV is moving horizontally (x or y input is significant)."""
@@ -213,31 +221,25 @@ class NavigationNode:
     
     def _isFixing(self):
         """Check if the ROV is fixing its heading, tilting, or heave."""
-        return self.fix_heading or self.fix_tilting or self.fix_heave
+        return self.fix_heading or self.fix_tilting or self.fix_heave or self.is_rotating
 
     def navigate(self):        
-        Vectorizer.yaw_only = False
-        
         self.handleJoystickInput()
 
-        if abs(self.yaw) > 0.05:
+        if abs(self.yaw) > 0.05 and not self._isFixing():
             # rospy.logerr("UPDATING YAW SETPOINT")
             # self.fix_heading = False
             self.pid_yaw.updateSetpoint(self.imu_data['yaw'])
 
-        if abs(self.pitch) > 0.05:
+        if abs(self.pitch) > 0.05 and not self._isFixing():
             # rospy.logerr("UPDATING PITCH SETPOINT")
             self.pid_pitch.updateSetpoint(self.imu_data['pitch'])
         
-        if abs(self.z) > 0.05:
+        if abs(self.z) > 0.05 and not self._isFixing():
             # rospy.logerr("UPDATING HEAVE SETPOINT")
             # self.fix_heave = False
             self.pid_heave.updateSetpoint(self.depth)
         
-        if self.is_rotating:
-            if self.depth is not None and self.pid_heave.setpoint is not None:
-                # rospy.logwarn("ROV rotating: Stabilizing Depth")
-                self.rotate()
 
         elif self._isRest() and not self._isFixing():
             if self.imu_data['yaw'] is not None and self.pid_yaw.setpoint is not None:
@@ -254,20 +256,24 @@ class NavigationNode:
                 # rospy.loginfo("ROV moving Vertically: Stabilizing Heading and Tilting using active PID")
                 self.stabilizeVertical()
 
+        elif self.is_rotating:
+            if self.depth is not None and self.pid_heave.setpoint is not None:
+                # rospy.logwarn("ROV rotating: Stabilizing Depth")
+                self.rotate()
+        
         elif self.fix_heading:
             if self.imu_data['yaw'] is not None and self.pid_yaw.setpoint is not None:
                 # rospy.loginfo("Fixing heading")
                 self.setHeading()
 
         elif self.fix_tilting:
-            if self.imu_data['pitch'] is not None and self.pid_pitch.setpoint is not None:
                 # rospy.loginfo("Fixing tilting")
                 self.setTilting()
-        
+
         elif self.fix_heave:
             if self.depth is not None and self.pid_heave.setpoint is not None:
                 # rospy.loginfo("Fixing depth")
-                self.setHeave()
+                self.setDepth()
 
         else:
             # rospy.logerr("ROV in manual control: Using joystick input")
@@ -276,6 +282,7 @@ class NavigationNode:
         self.extractDir()
 
 if __name__ == "__main__":
+    Vectorizer.yaw_only = False
     rospy.init_node("navigation_node")
     try:
         node = NavigationNode()
@@ -285,3 +292,4 @@ if __name__ == "__main__":
         rospy.loginfo("Exiting Navigation Node...")
     finally:
         Navigation.stopAll()
+        rospy.logwarn("Stopped all motors")

@@ -2,7 +2,8 @@
 
 import rospy
 import actionlib
-from std_msgs.msg import String
+import cv2
+from gui.src.script.services.FishEyeCamera import FishEyeCamera
 from control.msg import IMU, Depth, SetTarget
 from control.msg import SetDepthAction, SetDepthGoal, SetDepthResult, SetDepthFeedback, SetAngleAction, SetAngleGoal, SetAngleResult, SetAngleFeedback
 from control.msg import PhotosphereAction, PhotosphereGoal, PhotosphereFeedback, PhotosphereResult
@@ -11,6 +12,8 @@ class NavigationActionNode:
     def __init__(self):
         self.yaw = None
         self.depth = None
+        self.camera = FishEyeCamera()
+        self.camera.setupCamera()
 
         self.set_target_pub = rospy.Publisher("set_target", SetTarget, queue_size=10)
         rospy.Subscriber("IMU", IMU, self._imuCallback)
@@ -107,24 +110,26 @@ class NavigationActionNode:
             self.photosphere_action_server.set_aborted()
             return
 
-        msg = SetTarget()
-        msg.type = "rotate"
-        msg.reached = False
-        msg.target = goal.goal
-        self.set_target_pub.publish(msg)
+        rotating_msg = SetTarget()
+        rotating_msg.type = "rotate"
+        rotating_msg.reached = False
+        rotating_msg.target = 360
+        self.set_target_pub.publish(rotating_msg)
 
+        paths = []
+        index = 0
         start_yaw = self.yaw
         previous_yaw = start_yaw
-        feedback_increment = 10
+        feedback_increment = 20
         current_increment = 0
-        rotation_goal = goal.goal
+        rotation_goal = 360
         rospy.loginfo(f"Starting photosphere action at yaw: {start_yaw} degrees, goal: {rotation_goal} degrees")
 
         while not rospy.is_shutdown():
             if self.photosphere_action_server.is_preempt_requested():
                 rospy.loginfo("Photosphere action preempted.")
-                msg.reached = True
-                self.set_target_pub.publish(msg)
+                rotating_msg.reached = True
+                self.set_target_pub.publish(rotating_msg)
                 self.photosphere_action_server.set_preempted()
                 return
 
@@ -141,13 +146,23 @@ class NavigationActionNode:
                 previous_yaw = current_yaw
                 self.photosphere_feedback.incrementer = current_increment
                 self.photosphere_action_server.publish_feedback(self.photosphere_feedback)
+                ret, frame = self.camera.capture.read()
+                if ret:
+                    screenshot_num = current_increment // feedback_increment
+                    screenshot_path = f"/var/www/html/photosphere{screenshot_num:02d}.jpg"
+                    cv2.imwrite(screenshot_path)
+                    paths.append(screenshot_path)
+                    rospy.loginfo(f"Saved: {screenshot_path}")
+                else:
+                    rospy.logwarn("Failed to capture frame")
+                index += 1
                 rospy.loginfo(f"Feedback: Increment = {current_increment} degrees")
 
             if current_increment >= (rotation_goal + 10):
                 rospy.loginfo("Photosphere action completed.")
-                msg.reached = True
-                self.set_target_pub.publish(msg)
-                self.photosphere_result.success = True
+                rotating_msg.reached = True
+                self.set_target_pub.publish(rotating_msg)
+                self.photosphere_result.screenshots = paths
                 self.photosphere_action_server.set_succeeded(self.photosphere_result)
                 return
 
