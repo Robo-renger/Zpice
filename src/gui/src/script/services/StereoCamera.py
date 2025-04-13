@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 from zope.interface import implementer
+from multiprocessing import Process
 from services.Logger import Logger
 from DTOs.LogSeverity import LogSeverity
 from interface.ICamera import ICamera
 from utils.EnvParams import EnvParams
+from services.StereoStitcher import StereoStitcher
 import cv2 as cv
-import numpy as np 
+import numpy as np
+import subprocess 
 
 @implementer(ICamera)
 class StereoCamera:
@@ -20,8 +23,39 @@ class StereoCamera:
         self.height = cameraDetails['height']
         self.FPS = cameraDetails['fps']
         self.compression = cameraDetails['format']
+        self.focal_length = cameraDetails['focal_length']
+        self.baseline = cameraDetails['baseline']
         self.capture = None
+        self.process = None
         self.standalone_camera_details = {}
+        self.stereo_stitcher = StereoStitcher(cameraDetails)
+        self.__splitStereo()
+        self.__stitch()
+
+    def __splitStereo(self):
+        command = [
+            "gst-launch-1.0", "-v", "v4l2src", f"device={self.cameraIndex}",
+            "!", f"video/x-raw,width={self.width},height={self.height}",
+            "!", "videoconvert", "!", "tee", "name=t",
+            "t.", "!", "queue", "!", "videocrop", f"right={self.width / 2}", "!", "videoconvert", "!", "v4l2sink", "device=/dev/video17",
+            "t.", "!", "queue", "!", "videocrop", f"left={self.width / 2}", "!", "videoconvert", "!", "v4l2sink", "device=/dev/video18"
+        ]
+        self.process = subprocess.Popen(command)
+
+    def __stitch(self):
+        self.process = Process(target=self.__runStitcher)
+        self.process.daemon = True
+        self.process.start()
+
+    def __runStitcher(self):
+        try:
+            self.stereo_stitcher.stitch()
+        except Exception as e:
+            print(f"Error occurred: {e}")
+        finally:
+            self.process.terminate()
+            self.process.join()
+    
 
     def setupCamera(self) -> cv.VideoCapture:
         pass
@@ -67,15 +101,30 @@ class StereoCamera:
         self.capture.set(cv.CAP_PROP_FRAME_HEIGHT, self.standalone_camera_details['height'])
         self.capture.set(cv.CAP_PROP_FPS, self.standalone_camera_details['fps'])
 
-    def _setCalibration(self) -> None:
-        pass
+    def getPort(self):
+        return self.port
+    
+    def getFrame(self):
+        if self.capture is not None:
+            self.frame = self.capture.read()
 
-    def _stitch(self):
-        pass 
+    def read(self):
+        ret, frame = self.capture.read()
+        if ret:
+            frame = cv.undistort(frame, self.mtx, self.dist, None, self.newCameraMtx)
+        return ret, frame
 
-    def _splitStreams(self):
-        pass
+    def isOpened(self):
+        return self.capture.isOpened()
 
+    def release(self):
+        self.capture.release()
+        self.process.terminate()
+        self.process.join()
+
+    def get(self, prop_id):
+        return self.capture.get(prop_id)
+    
     def getCameras(self) -> list:
         return [self.camera_details['left_cam'], self.camera_details['right_cam'], self.camera_details['stitched']]
  

@@ -10,7 +10,7 @@ class GUIStreamingNode:
 
     
     def stream(self):
-        command = f'mjpg_streamer -o "output_http.so -p 8080 -w {EnvParams().WEB_INDEX_LOCATION}"'
+        command = f'mjpg-streamer -o "output_http.so -p 8080 -w {EnvParams().WEB_INDEX_LOCATION}"'
         subprocess.run(command, shell=True)
         rospy.spin()
     

@@ -73,9 +73,6 @@ class FishEyeCamera:
         self.capture.set(cv.CAP_PROP_FRAME_HEIGHT, self.height)
         self.capture.set(cv.CAP_PROP_FPS, self.FPS)
 
-    def _setCalibration(self) -> None:
-        pass
-
     def getPort(self):
         return self.port
     
