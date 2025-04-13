@@ -149,7 +149,7 @@ class NavigationActionNode:
                 ret, frame = self.camera.capture.read()
                 if ret:
                     screenshot_num = current_increment // feedback_increment
-                    screenshot_path = f"/var/www/html/photosphere{screenshot_num:02d}.jpg"
+                    screenshot_path = f"/var/www/html/photosphere_mission/photosphere{screenshot_num:02d}.jpg"
                     cv2.imwrite(screenshot_path)
                     paths.append(screenshot_path)
                     rospy.loginfo(f"Saved: {screenshot_path}")
