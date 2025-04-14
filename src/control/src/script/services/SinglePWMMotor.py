@@ -13,8 +13,9 @@ class SinglePWMDCMotor:
         self.channel = channel
         self.dir_pin = dir_pin
         self.min_value = min_value
-        self.max_value = max_value
-        
+        self.max_value = max_value 
+        self.backwardPWM = max_value
+        self.forwardPWM = min_value
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.dir_pin, GPIO.OUT)  
 
@@ -25,7 +26,7 @@ class SinglePWMDCMotor:
         Set the speed of the motor using a PWM signal.
         Speed is given as an 8-bit value (0-255).
         """
-        self.drive(350)
+        self.drive(self.forwardPWM)
         self.direction('f')
 
         
@@ -34,7 +35,7 @@ class SinglePWMDCMotor:
         Set the speed of the motor using a PWM signal.
         Speed is given as an 8-bit value (0-255).
         """
-        self.drive(19500)
+        self.drive(self.backwardPWM)
         self.direction('r')
 
 
@@ -75,3 +76,10 @@ class SinglePWMDCMotor:
         self.pca.PWMWrite(self.channel, 350)
         GPIO.output(self.dir_pin, GPIO.LOW)
 
+    def setPWM(self, backPWM : int, forwardPWM: int):
+        if forwardPWM < self.min_value or backPWM > self.max_value:
+            Logger.logToFile(LogSeverity.ERROR, f"Value must be between {self.min_value} and {self.max_value}.", "SinglePWMMotor")
+            Logger.logToGUI(LogSeverity.ERROR, f"Value must be between {self.min_value} and {self.max_value}.", "SinglePWMMotor")
+            raise ValueError(f"Value must be between {self.min_value} and {self.max_value}.")
+        self.backwardPWM = backPWM
+        self.forwardPWM = forwardPWM

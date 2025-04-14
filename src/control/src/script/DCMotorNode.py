@@ -10,37 +10,34 @@ class DCNode:
         rospy.init_node("dc_motor_node", anonymous=False)
         self.pca = PCA.getInst()
         self.__pins = Configurator().fetchData(Configurator().PINS)
-        self.left_dc = SinglePWMDCMotor(self.pca, self.__pins['DC_LEFT_PCA_CHANNEL'], self.__pins['DC_LEFT_GPIO'])
-        self.right_dc = SinglePWMDCMotor(self.pca, self.__pins['DC_RIGHT_PCA_CHANNEL'], self.__pins['DC_RIGHT_GPIO'])
+        self.verticalDC = SinglePWMDCMotor(self.pca, self.__pins['DC_VERTICALGRIPPER_PCA_CHANNEL'], self.__pins['DC_VERTICALGRIPPER_GPIO'])
+        self.frontDC = SinglePWMDCMotor(self.pca, self.__pins['DC_FRONTGRIPPER_PCA_CHANNEL'], self.__pins['DC_FRONTGRIPPER_GPIO'])
+        self.verticalDC.setPWM(9000,350)
+        self.frontDC.setPWM(19500,350)
         self.joystick = CJoystick()
         
     def run(self):
         try:
             while not rospy.is_shutdown():
-                if self.joystick.isPressed("DCLEFTGRIPPER_RIGHT"):
-                    self.left_dc.driveForward()
-                    # print(f"channel {self.__pins['DC_LEFT_PCA_CHANNEL']} --> FORWARD")
+                if self.joystick.isPressed("DCFRONTGRIPPER_RIGHT"):
+                    self.frontDC.driveForward()
+                    print("FRONT BACKWARD")
                     
-                elif self.joystick.isPressed("DCLEFTGRIPPER_LEFT"):
-                    self.left_dc.driveBackward()
-                    # print(f"channel {self.__pins['DC_LEFT_PCA_CHANNEL']} --> BACKWARD")
-                    
+                elif self.joystick.isPressed("DCFRONTGRIPPER_LEFT"):
+                    self.frontDC.driveBackward()
+                    print("FRONT BACKWARD")
                 else:
-                    self.left_dc.stop()
-                    # print(f"channel {self.__pins['DC_LEFT_PCA_CHANNEL']} --> STOPPING")
+                    self.frontDC.stop()
 
+                if self.joystick.isPressed("VERTICALGRIPPER_LEFT_RIGHT") == 1:
+                    self.verticalDC.driveForward()
+                    print("VERTICALGRIPPER FORWARD")
 
-                if self.joystick.isPressed("DCRIGHTGRIPPER_RIGHT"):
-                    self.right_dc.driveForward()
-                    # print(f"channel {self.__pins['DC_RIGHT_PCA_CHANNEL']} --> FORWARD")
-
-                elif self.joystick.isPressed("DCRIGHTGRIPPER_LEFT"):
-                    self.right_dc.driveBackward()
-                    # print(f"channel {self.__pins['DC_RIGHT_PCA_CHANNEL']} --> BACKWARD")
-
+                if self.joystick.isPressed("VERTICALGRIPPER_LEFT_RIGHT") == 2:
+                    self.verticalDC.driveBackward()
+                    print("VERTICALGRIPPER BACKWARD")
                 else:
-                    self.right_dc.stop()
-                    # print(f"channel {self.__pins['DC_RIGHT_PCA_CHANNEL']} --> STOPPING")
+                    self.verticalDC.stop()
         except Exception as e:
             rospy.logerr(f"Error in DCNode: {e}")
         finally:

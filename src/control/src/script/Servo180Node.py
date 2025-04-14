@@ -12,25 +12,22 @@ class Servo180Node:
         rospy.init_node('servo180_node', anonymous=False)
         self.joystick = CJoystick()
         self.__pins =  Configurator().fetchData(Configurator().PINS)
-        self.channel = int(self.__pins['STEREO_SERVO'])
-        self.servo = Servo180(self.channel, PCA.getInst(),2500,1000)
-        self.__up = 'STEREO_SERVO_UP'
-        self.__down = 'STEREO_SERVO_DOWN'
+        
+        self.stereoServo = Servo180(self.__pins['STEREO_SERVO'], PCA.getInst(),2500,500)
 
     def run(self):
         try:
             while not rospy.is_shutdown():
                 # rospy.loginfo(self.joystick.isPressed(self.__up))
-                if self.joystick.isPressed(self.__up):
-                    self.servo.setStep(5)
-                    self.servo.move()
-                    rospy.loginfo("Going Up")
-                elif self.joystick.isPressed(self.__down):
-                    self.servo.setStep(-5)
-                    self.servo.move()
-                    rospy.loginfo("Going Down")
-                else:
-                    rospy.loginfo("Stopping")    
+                if self.joystick.isPressed("STEREO_SERVO_UP"):
+                    self.stereoServo.setStep(20)
+                    self.stereoServo.move()
+                    rospy.loginfo("STEREO UP")
+                elif self.joystick.isPressed("STEREO_SERVO_DOWN"):
+                    self.stereoServo.setStep(-20)
+                    self.stereoServo.move()
+                    rospy.loginfo("STEREO DOWN")
+                    
         except Exception as e:
             rospy.logerr(f"Error in Servo180Node: {e}")
 

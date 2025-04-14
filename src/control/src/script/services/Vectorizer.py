@@ -15,6 +15,8 @@ class Vectorizer:
 
     @staticmethod 
     def vectorize(x: float, y: float, z: float, pitch: float, yaw: float) -> dict:
+        # print(f"{x}, {y}, {pitch}, {z}, {yaw}")
+
         """
         Calculate the PWM signal for each thruster based on joystick x, y, z, pitch, and yaw input.
         Parameters:
@@ -101,6 +103,7 @@ class Vectorizer:
             "front": pwm_signals["t5"],
             "back": pwm_signals["t6"]
         }
+            # print(thrusters)
             return thrusters
         
         except ValueError as e:

@@ -12,10 +12,11 @@ class SwitchingNode:
 
         self.__pins = Configurator().fetchData(Configurator().PINS)
         self.switchablePins = {
-            'RIGHTGRIPPER': self.__pins['RIGHT_GRIPPER_SWITCH'],
+            'LEFTGRIPPER_UP_DOWN': self.__pins['LEFTGRIPPER_UP_DOWN_SWITCH'],
             'LEFTGRIPPER': self.__pins['LEFT_GRIPPER_SWITCH'],
-            'FLASH': self.__pins['FLASH_SWITCH'],
+            'VERTICALGRIPPER': self.__pins['VERTICALGRIPPER_SWITCH'],
             'SYRINGE': self.__pins['SYRINGE_SWITCH'],
+            'FRONTGRIPPER': self.__pins['FRONTGRIPPER_SWITCH']
         }
         # Create Switching instances and store them
         self.switches = {
@@ -26,33 +27,31 @@ class SwitchingNode:
     def run(self):
         try:
             while not rospy.is_shutdown():
-                self.__flash()
-                self.__rightGripper()
+                self.__leftGripperVeticalMechanism()
+                self.__verticalGripper()
                 self.__leftGripper()
                 self.__syringe()
+                self.__frontGripper()
 
         except Exception as e:
             rospy.logerr(f"Error in Switching Node: {e}")
         finally:
             self.joystick.cleanup()
 
-    def __flash(self):
-        componentName = 'FLASH'
-        flashSwitch = self.switches[componentName]
+    def __leftGripperVeticalMechanism(self):
+        componentName = 'LEFTGRIPPER_UP_DOWN'
+        mechanismSwitch = self.switches[componentName]
 
-        if self.joystick.isPressed(componentName):
-            # print(f"is open before: {flashSwitch.opened}")
-            flashSwitch.open()
-        else:
-            flashSwitch.close()
-            # print(f"is open after: {flashSwitch.opened}")
+        if self.joystick.isClicked(componentName):
+            print(f"{componentName} TOGGLE")
+            mechanismSwitch.toggle()
 
-    def __rightGripper(self):
-        componentName = 'RIGHTGRIPPER'
+    def __verticalGripper(self):
+        componentName = 'VERTICALGRIPPER'
         rightGripper = self.switches[componentName]
 
         if self.joystick.isClicked(componentName):
-            # print(f"{componentName} TOGGLE")
+            print(f"{componentName} TOGGLE")
             rightGripper.toggle()
 
     def __leftGripper(self):
@@ -60,15 +59,22 @@ class SwitchingNode:
         leftGripper = self.switches[componentName]
 
         if self.joystick.isClicked(componentName):
-            # print(f"{componentName} TOGGLE")
+            print(f"{componentName} TOGGLE")
+            leftGripper.toggle()
+    def __frontGripper(self):
+        componentName = 'FRONTGRIPPER'
+        leftGripper = self.switches[componentName]
+
+        if self.joystick.isClicked(componentName):
+            print(f"{componentName} TOGGLE")
             leftGripper.toggle()
 
     def __syringe(self):
         componentName = 'SYRINGE'
         syringe = self.switches[componentName]
 
-        if self.joystick.isClicked(componentName):
-            # print(f"{componentName} TOGGLE")
+        if self.joystick.isClicked(componentName) == 2:
+            print(f"{componentName} TOGGLE")
             syringe.toggle()
 
 
