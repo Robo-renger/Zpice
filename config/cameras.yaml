@@ -1,5 +1,5 @@
 # net_camera:
-#   index: /dev/rapoo_camera
+#   index: /home/amansour/Zpice/src/gui/src/guiContent/test.mp4
 #   width: 640
 #   height: 480
 #   format: MJPG
@@ -7,7 +7,7 @@
 #   fps: 20
 #   port: 8081
 # horizontal_gripper_camera:
-#   index: /dev/logitech_camera_1
+#   index: /home/amansour/Zpice/src/gui/src/guiContent/left_view.mp4
 #   width: 640
 #   height: 480
 #   format: MJPG
@@ -15,7 +15,7 @@
 #   fps: 30
 #   port: 8082
 # vertical_gripper_camera:
-#   index: /dev/logitech_camera_2
+#   index: /home/amansour/Zpice/src/gui/src/guiContent/right_view.mp4
 #   width: 640
 #   height: 480
 #   format: MJPG
@@ -23,7 +23,7 @@
 #   fps: 30
 #   port: 8083
 # photosphere:
-#   index: /dev/fisheye_camera
+#   index: /home/amansour/Zpice/src/gui/src/guiContent/test2.mp4
 #   width: 640
 #   height: 480
 #   format: MJPG

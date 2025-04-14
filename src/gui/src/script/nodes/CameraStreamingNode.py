@@ -45,10 +45,10 @@ class CameraStreamerNode:
             cameraStreamer = CameraStreamer(camera)
             self.cameraStreamers.append(cameraStreamer)
             cameraStreamer.stream()
-        for stereo_camera in self.stereo_cameras:
-            cameraStreamer = StereoCameraStreamer(stereo_camera)
-            self.cameraStreamers.append(cameraStreamer)
-            cameraStreamer.stream()
+        # for stereo_camera in self.stereo_cameras:
+        #     cameraStreamer = StereoCameraStreamer(stereo_camera)
+        #     self.cameraStreamers.append(cameraStreamer)
+        #     cameraStreamer.stream()
 
 
     def stopAllStreams(self):

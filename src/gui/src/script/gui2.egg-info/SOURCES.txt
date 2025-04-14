@@ -7,12 +7,15 @@ script/interface/ICamera.py
 script/interface/__init__.py
 script/nodes/CameraStreamingNode.py
 script/nodes/GUIStreamingNode.py
+script/nodes/StereoCameraCalibrationNode.py
 script/nodes/__init__.py
 script/services/Camera.py
 script/services/CameraStreamer.py
 script/services/DirectoryChanger.py
 script/services/FishEyeCamera.py
 script/services/GUIPresistence.py
+script/services/StereoCalibrator.py
 script/services/StereoCamera.py
 script/services/StereoCameraStreamer.py
+script/services/StereoStitcher.py
 script/services/__init__.py
