@@ -1,12 +1,19 @@
 [
     {
-        "severity": "WARNING",
-        "message": "Servo value is above 2000us",
-        "component_name": "Servo180",
-        "timestamp": "2025-04-14T12:41:16.107211"
+        "severity": "INFO",
+        "message": "Switching open.",
+        "component_name": "Switching",
+        "timestamp": "2025-04-14T19:48:12.440225"
     }
-]    }
-]stamp": "2025-04-14T12:48:56.606937"
+]]081"
+    }
+]
+    }
+]9:44:48.390545"
+    }
+]   }
+]
+]3118"
     }
 ]4956"
     }

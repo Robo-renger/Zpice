@@ -17,22 +17,22 @@
 #   fps: 20
 #   port: 8083
 camera3:
-  index: '/dev/video1'
-  width: 1280
-  height: 720
-  fps: 20
-  port: 8081
-camera4:
-  index: '/dev/video8'
+  index: '/dev/video4'
   width: 640
   height: 480
-  fps: 20
-  port: 8082
-camera5:
-  index: '/dev/video16'
-  width: 1280
-  height: 720
-  fps: 20
-  port: 8084
+  fps: 15
+  port: 8081
+# camera4:
+#   index: '/dev/video2'
+#   width: 640
+#   height: 480
+#   fps: 20
+#   port: 8082
+# camera5:
+#   index: '/dev/video4'
+#   width: 1280
+#   height: 720
+#   fps: 20
+#   port: 8084
 
 #Rapoo and left cameras probably doesnt not suppoer mjpg format

@@ -1,12 +1,33 @@
 yaw_KP: 0.01
 yaw_KI: 0.00
-yaw_KD: 0.00
+yaw_KD: 0.01
 pitch_KP: 0.1
 pitch_KI: 0.0
 pitch_KD: 0.08
+horizontal_pitch_KP: 3000.0
+horizontal_pitch_KI: 0.0
+horizontal_pitch_KD: 0.0
+vertical_pitch_KP: 10.0
+vertical_pitch_KI: 0.0
+vertical_pitch_KD: 0.8
 heave_KP: 400.0
 heave_KI: 0.00
 heave_KD: 50.0
+live_heave_KP: 3000.0
+live_heave_KI: 0.0
+live_heave_KD: 0.0
+# pitch_KP: 0.1
+# pitch_KI: 0.0
+# pitch_KD: 0.08
+# live_pitch_KP: 10.0
+# live_pitch_KI: 0.0
+# live_pitch_KD: 0.0
+# heave_KP: 400.0
+# heave_KI: 0.00
+# heave_KD: 50.0
+# live_heave_KP: 600.0
+# live_heave_KI: 0.00
+# live_heave_KD: 150.0
 # pitch_KP: 8.0
 # pitch_KI: 0.00
 # pitch_KD: 3.0
