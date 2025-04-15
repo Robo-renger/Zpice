@@ -13,7 +13,6 @@ script/services/ImageHandler.py
 script/services/LengthEstimator.py
 script/services/Map.py
 script/services/RegionLoader.py
-script/services/StereoStitcher.py
 script/services/VideoCreator.py
 script/services/__init__.py
 script/test_nodes/PipeEstimatorTestNode.py

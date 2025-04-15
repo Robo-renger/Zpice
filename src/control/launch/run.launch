@@ -13,10 +13,10 @@
     <!-- <node pkg="control" type="LEDbash.sh" name="led_driver_node" output="screen"/> -->
     <!-- <node pkg="control" type="IMUNode.py" name="IMU" output="screen"></node> -->
     <!-- <node pkg="control" type="DepthNode.py" name="depth" output="screen"></node> -->
-    <node pkg="control" type="NavigationNode.py" name="navigation_node" output="screen"></node>
+    <!-- <node pkg="control" type="NavigationNode.py" name="navigation_node" output="screen"></node> -->
     <!-- <node pkg="control" type="NavigationActionNode.py" name="navigation_action_node" output="screen"></node> -->
-    <node pkg="gui" type="GUIStreamingNode.py" name="gui_streamer" output="screen"></node>
-    <node pkg="gui" type="CameraStreamingNode.py" name="cameras_streamer" output="screen"></node>
+    <!-- <node pkg="gui" type="GUIStreamingNode.py" name="gui_streamer" output="screen"></node> -->
+    <!-- <node pkg="gui" type="CameraStreamingNode.py" name="cameras_streamer" output="screen"></node> -->
 
     <!-- SERVERS -->
     <node pkg="control" type="ControllerModeServer.py" name="controller_mode_server" output="screen"></node>
