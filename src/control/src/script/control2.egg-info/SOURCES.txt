@@ -70,6 +70,7 @@ script/node/NavigationActionNode.py
 script/node/NavigationNode.py
 script/node/NavigationTestNode.py
 script/node/PiHealthNode.py
+script/node/PressureNode.py
 script/node/Servo180Node.py
 script/node/Servo360Node.py
 script/node/SwitchingNode.py
@@ -86,6 +87,7 @@ script/services/PIDController.py
 script/services/PWMFactory.py
 script/services/PWM_Motors.py
 script/services/PiHealth.py
+script/services/Pressure.py
 script/services/STM32.py
 script/services/Servo180.py
 script/services/Servo360.py

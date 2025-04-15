@@ -6,7 +6,6 @@ src/control.egg-info/top_level.txt
 src/mock/LEDDriverMock.py
 src/mock/PCAMock.py
 src/mock/__init__.py
-src/script/NavigationNode.py
 src/script/__init__.py
 src/script/API/__init__.py
 src/script/API/clients/ActiveControllerClient.py
@@ -75,6 +74,7 @@ src/script/node/NavigationActionNode.py
 src/script/node/NavigationNode.py
 src/script/node/NavigationTestNode.py
 src/script/node/PiHealthNode.py
+src/script/node/PressureNode.py
 src/script/node/Servo180Node.py
 src/script/node/Servo360Node.py
 src/script/node/SwitchingNode.py
@@ -91,6 +91,7 @@ src/script/services/PIDController.py
 src/script/services/PWMFactory.py
 src/script/services/PWM_Motors.py
 src/script/services/PiHealth.py
+src/script/services/Pressure.py
 src/script/services/STM32.py
 src/script/services/Servo180.py
 src/script/services/Servo360.py

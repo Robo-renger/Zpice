@@ -1,11 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>gui</name>
-<<<<<<< HEAD
-  <version>0.0.12</version>
-=======
-  <version>0.0.95</version>
->>>>>>> a268cbb8f4c2e484608018ecb32bd85226e4ab77
+  <version>0.0.96</version>
   <description>The gui package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
