@@ -56,7 +56,7 @@ class StereoCamera:
             self.process.terminate()
             self.process.join()
     
-
+    
     def setupCamera(self) -> cv.VideoCapture:
         pass
 

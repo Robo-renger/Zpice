@@ -16,7 +16,7 @@ class StereoCalibrationNode:
         return self.configurator.fetchData(Configurator.CAMERAS)
     
     def run(self):
-        self.calibrator.captureCalibrationImages()
+        # self.calibrator.captureCalibrationImages()
         self.calibrator.calibrate() ## Could be done outside of the raspberry
 
 if __name__ == "__main__":

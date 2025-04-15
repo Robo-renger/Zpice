@@ -14,8 +14,9 @@ class LayoutService:
         if req.layoutName not in self.LayoutNames:
             return GetLayoutResponse(f"{req.layoutName} is not available. Available files are: {', '.join(self.LayoutNames)}")
 
-        Layout_data = str(self.LayoutManager.fetchLayout(req.layoutName))
+        Layout_data = json.dumps(self.LayoutManager.fetchLayout(req.layoutName))
         rospy.loginfo("anaaaaaa broooood 3leeeeeh ya Akaaaaadyyyyyyyy")
+        rospy.loginfo(f"el data l ostaznaaa el lawatyyyy: {Layout_data}")
         return GetLayoutResponse(Layout_data)
 
 

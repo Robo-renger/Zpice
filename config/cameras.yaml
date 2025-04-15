@@ -1,65 +1,65 @@
-# net_camera:
-#   index: /home/amansour/Zpice/src/gui/src/guiContent/test.mp4
-#   width: 640
-#   height: 480
-#   format: MJPG
-#   type: NORMAL
-#   fps: 20
-#   port: 8081
-# horizontal_gripper_camera:
-#   index: /home/amansour/Zpice/src/gui/src/guiContent/left_view.mp4
-#   width: 640
-#   height: 480
-#   format: MJPG
-#   type: NORMAL
-#   fps: 30
-#   port: 8082
-# vertical_gripper_camera:
-#   index: /home/amansour/Zpice/src/gui/src/guiContent/right_view.mp4
-#   width: 640
-#   height: 480
-#   format: MJPG
-#   type: NORMAL
-#   fps: 30
-#   port: 8083
-# photosphere:
-#   index: /home/amansour/Zpice/src/gui/src/guiContent/test2.mp4
-#   width: 640
-#   height: 480
-#   format: MJPG
-#   type: FISHEYE
-#   fps: 30
-#   port: 8084
-stereo:
-  index: /home/amansour/Zpice/src/gui/src/guiContent/test3.mp4 #/dev/stereo_camera
-  focal_length: 3 #mm
-  baseline: 12 #cm
-  width: 2560
-  height: 960
+net_camera:
+  index: /home/amansour/Zpice/src/gui/src/guiContent/test.mp4
+  width: 640
+  height: 480
   format: MJPG
-  type: STEREO
+  type: NORMAL
+  fps: 20
+  port: 8081
+horizontal_gripper_camera:
+  index: /home/amansour/Zpice/src/gui/src/guiContent/left_view.mp4
+  width: 640
+  height: 480
+  format: MJPG
+  type: NORMAL
   fps: 30
-  left_cam:
-    index: /home/amansour/Zpice/src/gui/src/guiContent/test4.mp4 #/dev/stereo_left --> video17
-    width: 640
-    height: 480
-    format: MJPG
-    fps: 30
-    port: 8085
-  right_cam:
-    index: /home/amansour/Zpice/src/gui/src/guiContent/test5.mp4 #/dev/stereo_right --> video18
-    width: 640
-    height: 480
-    format: MJPG
-    fps: 30
-    port: 8086
-  stitched:
-    index: /home/amansour/Zpice/src/gui/src/guiContent/test6.mp4 #/dev/stereo_stitched --> video19
-    width: 1280
-    height: 480
-    format: MJPG
-    fps: 30
-    port: 8087
+  port: 8082
+vertical_gripper_camera:
+  index: /home/amansour/Zpice/src/gui/src/guiContent/right_view.mp4
+  width: 640
+  height: 480
+  format: MJPG
+  type: NORMAL
+  fps: 30
+  port: 8083
+photosphere:
+  index: /home/amansour/Zpice/src/gui/src/guiContent/test2.mp4
+  width: 640
+  height: 480
+  format: MJPG
+  type: FISHEYE
+  fps: 30
+  port: 8084
+# stereo:
+#   index: /home/amansour/Zpice/src/gui/src/guiContent/test3.mp4 #/dev/stereo_camera
+#   focal_length: 3 #mm
+#   baseline: 12 #cm
+#   width: 2560
+#   height: 960
+#   format: MJPG
+#   type: STEREO
+#   fps: 30
+#   left_cam:
+#     index: /home/amansour/Zpice/src/gui/src/guiContent/test4.mp4 #/dev/stereo_left --> video17
+#     width: 640
+#     height: 480
+#     format: MJPG
+#     fps: 30
+#     port: 8085
+#   right_cam:
+#     index: /home/amansour/Zpice/src/gui/src/guiContent/test5.mp4 #/dev/stereo_right --> video18
+#     width: 640
+#     height: 480
+#     format: MJPG
+#     fps: 30
+#     port: 8086
+#   stitched:
+#     index: /home/amansour/Zpice/src/gui/src/guiContent/test6.mp4 #/dev/stereo_stitched --> video19
+#     width: 1280
+#     height: 480
+#     format: MJPG
+#     fps: 30
+#     port: 8087
 
 
 #Rapoo and left cameras probably doesnt not suppoer mjpg format

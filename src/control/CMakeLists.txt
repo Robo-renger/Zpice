@@ -76,6 +76,7 @@ catkin_python_setup()
   InitDepth.srv 
   InitHeading.srv
   SetSpeedPercentage.srv
+  StartStopNode.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -83,7 +84,7 @@ catkin_python_setup()
   FILES
   SetDepth.action
   SetAngle.action
-  Photoshpere.action
+  Photosphere.action
 )
 
 ## Generate added messages and services with any dependencies listed here

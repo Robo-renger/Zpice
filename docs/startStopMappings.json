@@ -1,0 +1,22 @@
+{
+"/start": {                                             
+    "name": "/start",
+    "type": "service",
+    "serviceType": "control/StartStopNode",
+    "request": "mapping_name",
+    "response": {
+      "status": "success"
+    }
+  },
+  "/stop": {
+    "name": "/stop",
+    "type": "service",
+    "serviceType": "control/StartStopNode",
+    "request": {
+      "mapping_name": "mapping_name"
+    },
+    "response": {
+      "status": "success"
+    }
+}
+}

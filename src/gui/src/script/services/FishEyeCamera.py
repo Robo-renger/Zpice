@@ -16,9 +16,9 @@ class FishEyeCamera:
         @param cameraDetails: all details of the camera found in the config"""
         rospack = rospkg.RosPack()
         workspace_path = rospack.get_path('gui')
-        self.mtx_path = workspace_path + f'/../../calibrationMatricies/mtx_fisheye.npy'
-        self.dist_path = workspace_path + f'/../../calibrationMatricies/dist_fisheye.npy'
-        self.newCam_path = workspace_path + f'/../../calibrationMatricies/newCameraMtx_fisheye.npy'
+        self.mtx_path = workspace_path + f'/../../calibrationMatricies/Fisheye/mtx_fisheye.npy'
+        self.dist_path = workspace_path + f'/../../calibrationMatricies/Fisheye/dist_fisheye.npy'
+        self.newCam_path = workspace_path + f'/../../calibrationMatricies/Fisheye/newCameraMtx_fisheye.npy'
         self.mtx = np.load(self.mtx_path)
         self.dist = np.load(self.dist_path)
         self.newCameraMtx = np.load(self.newCam_path)

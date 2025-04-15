@@ -15,7 +15,7 @@ class ConfigService:
         if req.configName not in self.configNames:
             return GetConfigResponse(f"{req.configName} is not available. Available files are: {', '.join(self.configNames)}")
 
-        config_data = str(self.configurator.fetchData(req.configName))
+        config_data = json.dumps(self.configurator.fetchData(req.configName))
         return GetConfigResponse(config_data)
 
 

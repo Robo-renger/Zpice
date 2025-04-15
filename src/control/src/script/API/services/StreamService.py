@@ -4,6 +4,7 @@ from control.srv import GetStreamResponse
 from utils.Configurator import Configurator
 from utils.LayoutManager import LayoutManager
 from utils.JsonFileHandler import JSONFileHandler
+import json
 
 class StreamService:
     def __init__(self):
@@ -14,7 +15,7 @@ class StreamService:
     def handleGetStream(self, request):
         JSONFileHandler().setData("stream", self.camera_layout)
         JSONFileHandler().setData("stream", self.__handleConfig())
-        return GetStreamResponse(str(self.stream))
+        return GetStreamResponse(json.dumps(self.stream))
     
     def __handleConfig(self) -> dict:
         updated_data = {
