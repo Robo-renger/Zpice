@@ -3,7 +3,11 @@ from setuptools import setup, find_packages
 # This setup is used to make (test, script, mock and ms5837) visible for each other
 setup(
     name='gui',  # Replace with your package name
+<<<<<<< HEAD
     version='0.0.12',
+=======
+    version='0.0.95',
+>>>>>>> a268cbb8f4c2e484608018ecb32bd85226e4ab77
     packages=find_packages(where='src'),  # Automatically find packages under 'src'
     package_dir={'': 'src'},  # Specify that packages are located in 'src'
     install_requires=[],  # Add any Python dependencies here

@@ -1,0 +1,458 @@
+{
+  "/logs": {
+    "name": "/logs",
+    "type": "topic",
+    "messageType": "std_msgs/String",
+    "response": {
+      "data": ""
+    }
+  },
+  "/pihealth": {
+    "name": "/pihealth",
+    "type": "topic",
+    "messageType": "control/Status",
+    "response": {
+      "temperature": 0,
+      "freeMemory": 0,
+      "percentFreeMemory": 0,
+      "percentCPUUsage": 0,
+      "ping": 0,
+      "underVoltage": false,
+      "GPUCoreState": false,
+      "SDRAMState": false,
+      "fatalComponent": "",
+      "GPIOState": [
+        {
+          "gpio": 5,
+          "status": "high"
+        }
+      ]
+    }
+  },
+  "/client_count": {
+    "name": "/client_count",
+    "type": "topic",
+    "messageType": "std_msgs/Int32",
+    "response": {
+      "data": 0
+    }
+  },
+  "/connected_clients": {
+    "name": "/connected_clients",
+    "type": "topic",
+    "messageType": "rosbridge_msgs/ConnectedClients",
+    "response": {
+      "clients": []
+    }
+  },
+  "/joystick": {
+    "name": "/joystick",
+    "type": "topic",
+    "messageType": "control/Joystick",
+    "response": {
+      "left_x_axis": 0,
+      "left_y_axis": 0,
+      "right_x_axis": 0,
+      "right_y_axis": 0,
+      "button_x": false,
+      "button_o": false,
+      "button_tri": false,
+      "button_rect": false,
+      "button_r1": false,
+      "button_r2": false,
+      "button_r3": false,
+      "button_l1": false,
+      "button_l2": false,
+      "button_l3": false,
+      "button_left": false,
+      "button_right": false,
+      "button_top": false,
+      "button_bot": false
+    }
+  },
+  "/depth": {
+    "name": "/depth",
+    "type": "topic",
+    "messageType": "control/Depth",
+    "response": {
+      "pressure": 0,
+      "depth": 0
+    }
+  },
+  "/IMU": {
+    "name": "/IMU",
+    "type": "topic",
+    "messageType": "control/IMU",
+    "response": {
+      "roll": 0,
+      "pitch": 0,
+      "yaw": 0
+    }
+  },
+  "/set_depth/status": {
+    "name": "/set_depth/status",
+    "type": "topic",
+    "messageType": "actionlib_msgs/GoalStatusArray",
+    "response": {
+      "header": {
+        "seq": 0,
+        "stamp": {
+          "secs": 0,
+          "nsecs": 0
+        },
+        "frame_id": ""
+      },
+      "status_list": []
+    }
+  },
+  "/set_depth/result": {
+    "name": "/set_depth/result",
+    "type": "topic",
+    "messageType": "control/SetDepthActionResult",
+    "response": {
+      "header": {
+        "seq": 0,
+        "stamp": {
+          "secs": 0,
+          "nsecs": 0
+        },
+        "frame_id": ""
+      },
+      "status": {
+        "goal_id": {
+          "stamp": {
+            "secs": 0,
+            "nsecs": 0
+          },
+          "id": ""
+        },
+        "status": 0,
+        "text": ""
+      },
+      "result": {
+        "success": false
+      }
+    }
+  },
+  "/set_depth/feedback": {
+    "name": "/set_depth/feedback",
+    "type": "topic",
+    "messageType": "control/SetDepthActionFeedback",
+    "response": {
+      "header": {
+        "seq": 0,
+        "stamp": {
+          "secs": 0,
+          "nsecs": 0
+        },
+        "frame_id": ""
+      },
+      "status": {
+        "goal_id": {
+          "stamp": {
+            "secs": 0,
+            "nsecs": 0
+          },
+          "id": ""
+        },
+        "status": 0,
+        "text": ""
+      },
+      "feedback": {
+        "current_depth": 0
+      }
+    }
+  },
+  "/set_angle/status": {
+    "name": "/set_angle/status",
+    "type": "topic",
+    "messageType": "actionlib_msgs/GoalStatusArray",
+    "response": {
+      "header": {
+        "seq": 0,
+        "stamp": {
+          "secs": 0,
+          "nsecs": 0
+        },
+        "frame_id": ""
+      },
+      "status_list": []
+    }
+  },
+  "/set_angle/result": {
+    "name": "/set_angle/result",
+    "type": "topic",
+    "messageType": "control/SetAngleActionResult",
+    "response": {
+      "header": {
+        "seq": 0,
+        "stamp": {
+          "secs": 0,
+          "nsecs": 0
+        },
+        "frame_id": ""
+      },
+      "status": {
+        "goal_id": {
+          "stamp": {
+            "secs": 0,
+            "nsecs": 0
+          },
+          "id": ""
+        },
+        "status": 0,
+        "text": ""
+      },
+      "result": {
+        "success": false
+      }
+    }
+  },
+  "/set_angle/feedback": {
+    "name": "/set_angle/feedback",
+    "type": "topic",
+    "messageType": "control/SetAngleActionFeedback",
+    "response": {
+      "header": {
+        "seq": 0,
+        "stamp": {
+          "secs": 0,
+          "nsecs": 0
+        },
+        "frame_id": ""
+      },
+      "status": {
+        "goal_id": {
+          "stamp": {
+            "secs": 0,
+            "nsecs": 0
+          },
+          "id": ""
+        },
+        "status": 0,
+        "text": ""
+      },
+      "feedback": {
+        "current_angle": 0
+      }
+    }
+  },
+  "/getConfigService": {
+    "name": "/getConfigService",
+    "type": "service",
+    "serviceType": "control/GetConfig",
+    "response": {
+      "configObject": ""
+    },
+    "request": {
+      "configName": ""
+    }
+  },
+  "/setConfigService": {
+    "name": "/setConfigService",
+    "type": "service",
+    "serviceType": "control/SetConfig",
+    "response": {
+      "success": false
+    },
+    "request": {
+      "configName": "",
+      "configObject": ""
+    }
+  },
+  "/setMissionColor": {
+    "name": "/setMissionColor",
+    "type": "service",
+    "serviceType": "control/SetMissionColor",
+    "response": {
+      "success": false
+    },
+    "request": {
+      "color": ""
+    }
+  },
+  "/getLogsService": {
+    "name": "/getLogsService",
+    "type": "service",
+    "serviceType": "control/GetLogs",
+    "response": {
+      "logObject": ""
+    },
+    "request": {
+      "logName": ""
+    }
+  },
+  "/getLayoutService": {
+    "name": "/getLayoutService",
+    "type": "service",
+    "serviceType": "control/GetLayout",
+    "response": {
+      "layoutObject": ""
+    },
+    "request": {
+      "layoutName": ""
+    }
+  },
+  "/setLayoutService": {
+    "name": "/setLayoutService",
+    "type": "service",
+    "serviceType": "control/SetLayout",
+    "response": {
+      "success": false
+    },
+    "request": {
+      "layoutName": "",
+      "layoutObject": ""
+    }
+  },
+  "/getStreamService": {
+    "name": "/getStreamService",
+    "type": "service",
+    "serviceType": "control/GetStream",
+    "response": {
+      "camerasData": ""
+    },
+    "request": {}
+  },
+  "/get_active_controller": {
+    "name": "/get_active_controller",
+    "type": "service",
+    "serviceType": "control/GetActiveController",
+    "response": {
+      "activeController": ""
+    },
+    "request": {}
+  },
+  "/switchJoystickMode": {
+    "name": "/switchJoystickMode",
+    "type": "service",
+    "serviceType": "control/SwitchJoystickMode",
+    "response": {
+      "currentMode": ""
+    },
+    "request": {}
+  },
+  "/setSpeedPercentage": {
+    "name": "/setSpeedPercentage",
+    "type": "service",
+    "serviceType": "control/SetSpeedPercentage",
+    "response": {
+      "success": false
+    },
+    "request": {
+      "speedPercentage": 0
+    }
+  },
+  "/initDepth": {
+    "name": "/initDepth",
+    "type": "service",
+    "serviceType": "control/InitDepth",
+    "response": {
+      "success": false
+    },
+    "request": {
+      "depth": 0
+    }
+  },
+  "/initHeading": {
+    "name": "/initHeading",
+    "type": "service",
+    "serviceType": "control/InitHeading",
+    "response": {
+      "success": false
+    },
+    "request": {
+      "heading": 0
+    }
+  },
+  "/setPipePoints": {
+    "name": "/setPipePoints",
+    "type": "service",
+    "serviceType": "cv/setPipePoints",
+    "response": {
+      "pipe_length": 0
+    },
+    "request": {
+      "right_cam_right_point": "",
+      "right_cam_left_point": "",
+      "left_cam_right_point": "",
+      "left_cam_left_point": ""
+    }
+  },
+  "/setMapService": {
+    "name": "/setMapService",
+    "type": "service",
+    "serviceType": "cv/setMap",
+    "response": {
+      "videoLink": ""
+    },
+    "request": {
+      "mapData": ""
+    }
+  },
+  "/set_depth": {
+    "name": "/set_depth",
+    "type": "action",
+    "actionType": "Derived from components",
+    "components": [
+      "status",
+      "result",
+      "feedback"
+    ],
+    "response": {
+      "goal": {
+        "depth": 45
+      },
+      "feedback": {
+        "current_depth": 0
+      },
+      "response": {
+        "success": false
+      }
+    }
+  },
+  "/set_angle": {
+    "name": "/set_angle",
+    "type": "action",
+    "actionType": "Derived from components",
+    "components": [
+      "status",
+      "result",
+      "feedback"
+    ],
+    "response": {
+      "goal": {
+        "angle": 45
+      },
+      "feedback": {
+        "current_angle": 0
+      },
+      "response": {
+        "success": false
+      }
+    }
+  },
+  "/photosphere": {
+    "name": "/photosphere",
+    "type": "action",
+    "actionType": "Derived from components",
+    "components": [
+      "status",
+      "result",
+      "feedback"
+    ],
+    "response": {
+      "goal": {
+        "goal": 10,
+        "discription": "Angle you want to rotate with"
+      },
+      "feedback": {
+        "incrementer": 20,
+        "discription": "Status representing the current angle we've rotated"
+      },
+      "response": {
+        "success": false
+      }
+    }
+  }
+}

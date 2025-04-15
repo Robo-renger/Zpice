@@ -1,0 +1,11 @@
+# Goal
+float64 depth
+
+---
+# Result
+bool success
+# float64 current_depth
+
+---
+# Feedback
+float64 current_depth

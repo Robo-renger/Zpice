@@ -182,15 +182,15 @@ class CJoystick:
             try:
                 button_number = int(button_name[1:])  # Extract the number
             except ValueError:
-                Logger.logToFile(LogSeverity.ERROR, f"Invalid button number format: '{button_name}'", "CJoystick")
-                Logger.logToGUI(LogSeverity.ERROR, f"Invalid button number format: '{button_name}'", "CJoystick")
+                Logger.logToFile(LogSeverity.FATAL, f"Invalid button number format: '{button_name}'", "CJoystick")
+                Logger.logToGUI(LogSeverity.FATAL, f"Invalid button number format: '{button_name}'", "CJoystick")
                 raise ValueError(f"Invalid button number format: '{button_name}'")
         else:
             button_number = getattr(self, button_name, None)
 
         if button_number is None:
-            Logger.logToFile(LogSeverity.ERROR, f"Button name '{button_name}' is not defined.", "CJoystick")
-            Logger.logToGUI(LogSeverity.ERROR, f"Button name '{button_name}' is not defined.", "CJoystick")
+            Logger.logToFile(LogSeverity.FATAL, f"Button name '{button_name}' is not defined.", "CJoystick")
+            Logger.logToGUI(LogSeverity.FATAL, f"Button name '{button_name}' is not defined.", "CJoystick")
             raise ValueError(f"Button name '{button_name}' is not defined.")
 
         button_key = f"button{button_number}"
@@ -268,15 +268,15 @@ class CJoystick:
             try:
                 button_number = int(button_name[1:])  # Extract the number
             except ValueError:
-                Logger.logToFile(LogSeverity.ERROR, f"Invalid button number format: '{button_name}'", "CJoystick")
-                Logger.logToGUI(LogSeverity.ERROR, f"Invalid button number format: '{button_name}'", "CJoystick")
+                Logger.logToFile(LogSeverity.FATAL, f"Invalid button number format: '{button_name}'", "CJoystick")
+                Logger.logToGUI(LogSeverity.FATAL, f"Invalid button number format: '{button_name}'", "CJoystick")
                 raise ValueError(f"Invalid button number format: '{button_name}'")
         else:
             button_number = getattr(self, button_name, None)
 
         if button_number is None:
-            Logger.logToFile(LogSeverity.ERROR, f"Button name '{button_name}' is not defined.", "CJoystick")
-            Logger.logToGUI(LogSeverity.ERROR, f"Button name '{button_name}' is not defined.", "CJoystick")
+            Logger.logToFile(LogSeverity.FATAL, f"Button name '{button_name}' is not defined.", "CJoystick")
+            Logger.logToGUI(LogSeverity.FATAL, f"Button name '{button_name}' is not defined.", "CJoystick")
             raise ValueError(f"Button name '{button_name}' is not defined.")
 
         button_key = f"button{button_number}"

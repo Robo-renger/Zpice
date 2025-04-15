@@ -3,7 +3,11 @@ from setuptools import setup, find_packages
 # this setup is used to make all pakcages inside script directory visible for each other
 setup(
     name="gui2",         
+<<<<<<< HEAD
     version="0.0.12",
+=======
+    version="0.0.95",
+>>>>>>> a268cbb8f4c2e484608018ecb32bd85226e4ab77
     packages=find_packages(where="script"),  
     package_dir={"": "script"},   
     install_requires=[

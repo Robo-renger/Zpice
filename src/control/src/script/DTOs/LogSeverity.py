@@ -5,3 +5,4 @@ class LogSeverity(Enum):
     INFO = "INFO"
     WARNING = "WARNING"
     ERROR = "ERROR"
+    FATAL = "FATAL"

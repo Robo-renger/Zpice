@@ -1,0 +1,6 @@
+string right_cam_right_point
+string right_cam_left_point
+string left_cam_right_point
+string left_cam_left_point
+--- 
+float64 pipe_length

@@ -1,0 +1,215 @@
+{
+    "view1": {
+        "camera1": {
+            "url": "7mada",
+            "geometry": {
+                "top": 20,
+                "left": 0,
+                "width": 40,
+                "height": 200
+            },
+            "index": "/home/mypi/Zpice/src/gui/src/guiContent/test.mp4",
+            "width": 640,
+            "height": 480,
+            "fps": 20,
+            "port": 8083
+        },
+        "camera2": {
+            "url": "",
+            "geometry": {
+                "top": 220,
+                "left": 0,
+                "width": 300,
+                "height": 200
+            },
+            "index": "/dev/video3",
+            "width": 640,
+            "height": 480,
+            "fps": 30,
+            "port": 8081
+        },
+        "camera3": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 220,
+                "width": 200,
+                "height": 300
+            },
+            "index": "/dev/video2",
+            "width": 1280,
+            "height": 960,
+            "fps": 20,
+            "port": 8082
+        },
+        "camera4": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera5": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera6": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        }
+    },
+    "view2": {
+        "camera1": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            },
+            "index": "/home/mypi/Zpice/src/gui/src/guiContent/test.mp4",
+            "width": 640,
+            "height": 480,
+            "fps": 20,
+            "port": 8083
+        },
+        "camera2": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            },
+            "index": "/dev/video3",
+            "width": 640,
+            "height": 480,
+            "fps": 30,
+            "port": 8081
+        },
+        "camera3": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            },
+            "index": "/dev/video2",
+            "width": 1280,
+            "height": 960,
+            "fps": 20,
+            "port": 8082
+        },
+        "camera4": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera5": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera6": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        }
+    },
+    "view3": {
+        "camera1": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            },
+            "index": "/home/mypi/Zpice/src/gui/src/guiContent/test.mp4",
+            "width": 640,
+            "height": 480,
+            "fps": 20,
+            "port": 8083
+        },
+        "camera2": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            },
+            "index": "/dev/video3",
+            "width": 640,
+            "height": 480,
+            "fps": 30,
+            "port": 8081
+        },
+        "camera3": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            },
+            "index": "/dev/video2",
+            "width": 1280,
+            "height": 960,
+            "fps": 20,
+            "port": 8082
+        },
+        "camera4": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera5": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
+        },
+        "camera6": {
+            "url": "",
+            "geometry": {
+                "top": 10,
+                "left": 10,
+                "width": 2,
+                "height": 200
+            }
+        }
+    }
+}

@@ -3,7 +3,6 @@ import rospy
 from control.srv import  GetConfigResponse, SetConfigResponse
 from utils.Configurator import Configurator
 import json
-from script.NavigationTestNode import TestNavigationNode
 class ConfigService:
     def __init__(self):
         self.configurator = Configurator()
@@ -16,7 +15,7 @@ class ConfigService:
         if req.configName not in self.configNames:
             return GetConfigResponse(f"{req.configName} is not available. Available files are: {', '.join(self.configNames)}")
 
-        config_data = str(self.configurator.fetchData(req.configName))
+        config_data = json.dumps(self.configurator.fetchData(req.configName))
         return GetConfigResponse(config_data)
 
 
@@ -29,7 +28,6 @@ class ConfigService:
 
             # Update the YAML file using the setConfig() method from Configurator
             self.configurator.setConfig(req.configName, new_data)
-            TestNavigationNode().reload()
             return SetConfigResponse(True)
 
         except json.JSONDecodeError as e:

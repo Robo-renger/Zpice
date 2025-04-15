@@ -1,0 +1,13 @@
+# Goal (The angle you want to rotate with)
+
+---
+
+# Result
+bool success
+string[] screenshots
+
+---
+
+# Feedback
+float64 incrementer
+string discription

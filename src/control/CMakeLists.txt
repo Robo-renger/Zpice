@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   utils
+  cv
   message_generation
   message_runtime
   actionlib
@@ -61,18 +62,30 @@ catkin_python_setup()
 )
 
 ## Generate services in the 'srv' folder
-add_service_files(
+ add_service_files(
   FILES
   SetConfig.srv
   GetConfig.srv
+  SetLayout.srv
+  GetLayout.srv
+  GetStream.srv
+  SwitchJoystickMode.srv
+  GetActiveController.srv
+  GetLogs.srv
+  SetMissionColor.srv
+  InitDepth.srv 
+  InitHeading.srv
+  SetSpeedPercentage.srv
+  StartStopNode.srv
 )
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
+ add_action_files(
+  FILES
+  SetDepth.action
+  SetAngle.action
+  Photosphere.action
+)
 
 ## Generate added messages and services with any dependencies listed here
  generate_messages(

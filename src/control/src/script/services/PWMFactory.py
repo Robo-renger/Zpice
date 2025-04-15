@@ -28,6 +28,9 @@ class PWMFactory:
             from services.STM32 import STM32
             #DO SMT32 REUIRED IMPORTS
             self.__PWMDriver = STM32(i2c_address=0x08)
+        elif self.__PWMDriverType == "MOCK":
+            from mock.PCAMock import PCAMock
+            self.__PWMDriver = PCAMock().getInst()
             pass
         else:
             Logger.logToFile(LogSeverity.ERROR, f"Unsupported PWMDriver module. couldn't find {self.__PWMDriverType}.", "PWMFactory")

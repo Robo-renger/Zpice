@@ -1,0 +1,18 @@
+{
+  "errors": {
+    "found_in_client_not_in_control": {
+      "/photosphere": {
+        "response": [
+          "output"
+        ]
+      },
+      "/start": [
+        "/start"
+      ],
+      "/stop": [
+        "/stop"
+      ]
+    },
+    "found_in_control_not_in_client": {}
+  }
+}

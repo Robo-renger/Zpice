@@ -1,0 +1,170 @@
+{
+    "view1": {
+        "left_camera": {
+            "url": "http://localhost/testing_stream/right_3.png",
+            "geometry": {
+                "top": "1%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
+            }
+        },
+        "right_camera": {
+            "url": "http://localhost/testing_stream/right_6.png",
+            "geometry": {
+                "top": "1%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
+            }
+        },
+        "rapoo_camera": {
+            "url": "http://localhost/testing_stream/right_4.png",
+            "geometry": {
+                "top": "38%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
+            }
+        },
+        "camera4": {
+            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test4.mp4",
+            "geometry": {
+                "top": "38%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
+            }
+        },
+        "camera5": {
+            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "geometry": {
+                "top": "74%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
+            }
+        },
+        "camera6": {
+            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "geometry": {
+                "top": "74%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
+            }
+        }
+    },
+    "view2": {
+        "left_camera": {
+            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "geometry": {
+                "top": "1%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
+            }
+        },
+        "right_camera": {
+            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "geometry": {
+                "top": "1%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
+            }
+        },
+        "rapoo_camera": {
+            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "geometry": {
+                "top": "38%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
+            }
+        },
+        "camera4": {
+            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "geometry": {
+                "top": "38%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
+            }
+        },
+        "camera5": {
+            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "geometry": {
+                "top": "74%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
+            }
+        },
+        "camera6": {
+            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "geometry": {
+                "top": "74%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
+            }
+        }
+    },
+    "view3": {
+        "left_camera": {
+            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "geometry": {
+                "top": "1%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
+            }
+        },
+        "right_camera": {
+            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "geometry": {
+                "top": "1%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
+            }
+        },
+        "rapoo_camera": {
+            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "geometry": {
+                "top": "38%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
+            }
+        },
+        "camera4": {
+            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "geometry": {
+                "top": "38%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
+            }
+        },
+        "camera5": {
+            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "geometry": {
+                "top": "74%",
+                "left": "0%",
+                "width": "25%",
+                "height": "25%"
+            }
+        },
+        "camera6": {
+            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "geometry": {
+                "top": "74%",
+                "left": "75%",
+                "width": "25%",
+                "height": "25%"
+            }
+        }
+    }
+}
