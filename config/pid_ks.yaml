@@ -1,21 +1,25 @@
+####### Rest Gains #######
 yaw_KP: 0.01
 yaw_KI: 0.00
 yaw_KD: 0.01
 pitch_KP: 0.1
 pitch_KI: 0.0
-pitch_KD: 0.08
-horizontal_pitch_KP: 3000.0
-horizontal_pitch_KI: 0.0
-horizontal_pitch_KD: 0.0
-vertical_pitch_KP: 10.0
-vertical_pitch_KI: 0.0
-vertical_pitch_KD: 0.8
+pitch_KD: 0.15
 heave_KP: 400.0
 heave_KI: 0.00
-heave_KD: 50.0
-live_heave_KP: 3000.0
+heave_KD: 60.0
+
+######## Live Gains #######
+horizontal_pitch_KP: 400.0
+horizontal_pitch_KI: 0.0
+horizontal_pitch_KD: 200.0
+vertical_pitch_KP: 400.0
+vertical_pitch_KI: 0.0
+vertical_pitch_KD: 220.0
+live_heave_KP: 20.0
 live_heave_KI: 0.0
-live_heave_KD: 0.0
+live_heave_KD: 3.0
+
 # pitch_KP: 0.1
 # pitch_KI: 0.0
 # pitch_KD: 0.08

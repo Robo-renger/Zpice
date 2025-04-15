@@ -18,8 +18,8 @@
 #   port: 8083
 camera3:
   index: '/dev/video4'
-  width: 640
-  height: 480
+  width: 1280
+  height: 720
   fps: 15
   port: 8081
 # camera4:
@@ -29,7 +29,7 @@ camera3:
 #   fps: 20
 #   port: 8082
 # camera5:
-#   index: '/dev/video4'
+#   index: '/dev/video8'
 #   width: 1280
 #   height: 720
 #   fps: 20

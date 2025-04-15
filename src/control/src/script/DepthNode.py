@@ -22,13 +22,15 @@ class DepthNode:
         Raises:
             SensorInitializationError: If the sensor fails to initialize after all retries.
         """
-        max_attempts = 5
+        max_attempts = 100
         for attempt in range(max_attempts):
             try:
                 sensor = DepthSensor(3)
+                rospy.logwarn(f"INIT SUCC DEPTH IN RETRY {attempt}/{max_attempts}")
                 return sensor
-            except SensorInitializationError as e:
+            except Exception as e:
                 if attempt < max_attempts - 1:
+                    rospy.logwarn(f"DEPTH In retry {attempt}/{max_attempts}")
                     time.sleep(1)
                 else:
                     raise SensorInitializationError("Depth sensor initialization failed after all retries.")

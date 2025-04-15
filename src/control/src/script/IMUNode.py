@@ -27,13 +27,15 @@ class IMUNode:
         Raises:
             SensorInitializationError: If the IMU sensor fails to initialize after all retries.
         """
-        max_attempts = 5 
+        max_attempts = 100 
         for attempt in range(max_attempts):
             try:
                 imu = BNO085()
+                rospy.logwarn(f"INIT SUCC IMU IN RETRY {attempt}/{max_attempts}")
                 return imu
-            except SensorInitializationError as e:
+            except Exception as e:
                 if attempt < max_attempts - 1:
+                    rospy.logwarn(f"IMU In retry {attempt}/{max_attempts}")
                     time.sleep(1)
                 else:
                     raise SensorInitializationError("IMU sensor initialization failed after all retries.")
