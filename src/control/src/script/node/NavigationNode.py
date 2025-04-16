@@ -55,7 +55,8 @@ class NavigationNode:
         self.PID_configs = Configurator().fetchData(Configurator.PID_PARAMS)
         self.pid_yaw   = PIDController(self.PID_configs['yaw_KP'], self.PID_configs['yaw_KI'], self.PID_configs['yaw_KD'])
         self.pid_pitch = PIDController(self.PID_configs['pitch_KP'], self.PID_configs['pitch_KI'], self.PID_configs['pitch_KD'])
-        self.pid_pitch_horizontal = PIDController(self.PID_configs['live_pitch_KP'], self.PID_configs['live_pitch_KI'], self.PID_configs['live_pitch_KD'])
+        self.pid_pitch_horizontal = PIDController(self.PID_configs['horizontal_pitch_KP'], self.PID_configs['horizontal_pitch_KI'], self.PID_configs['horizontal_pitch_KD'])
+        self.pid_pitch_vertical = PIDController(self.PID_configs['vertical_pitch_KP'], self.PID_configs['vertical_pitch_KI'], self.PID_configs['vertical_pitch_KD'])
         self.pid_heave = PIDController(self.PID_configs['heave_KP'], self.PID_configs['heave_KI'], self.PID_configs['heave_KD'])
         self.pid_heave_live = PIDController(self.PID_configs['live_heave_KP'], self.PID_configs['live_heave_KI'], self.PID_configs['live_heave_KD'])
         
@@ -97,10 +98,16 @@ class NavigationNode:
 
     def constantsCallback(self, msg):
         rospy.logwarn(msg.data)
+        
+        ####### Rest Controllers #######
         # self.pid_yaw.updateConstants(msg.data[0], msg.data[1], msg.data[2])
-        # self.pid_pitch_horizontal.updateConstants(msg.data[3], msg.data[4], msg.data[5])
-        self.pid_pitch_vertical.updateConstants(msg.data[0], msg.data[1], msg.data[2])
-        # self.pid_heave_live.updateConstants(msg.data[6], msg.data[7], msg.data[8])
+        # self.pid_pitch.updateConstants(msg.data[3], msg.data[4], msg.data[5])
+        # self.pid_heave.updateConstants(msg.data[6], msg.data[7], msg.data[8])
+        
+        ####### Live Controllers #######
+        self.pid_pitch_horizontal.updateConstants(msg.data[0], msg.data[1], msg.data[2])
+        self.pid_pitch_vertical.updateConstants(msg.data[3], msg.data[4], msg.data[5])
+        self.pid_heave_live.updateConstants(msg.data[6], msg.data[7], msg.data[8])
 
     def setpointCallback(self, msg):
             rospy.logwarn(msg.data)
@@ -115,7 +122,6 @@ class NavigationNode:
                 # self.pid_heave.updateSetpoint(self.depth)
                 # self.pid_heave_live.updateSetpoint(self.depth)
                 
-    
     def factorCallback(self, msg):
         if msg.data is not None:
             rospy.logwarn(msg.data)
@@ -145,12 +151,14 @@ class NavigationNode:
                 self.z = min(self.z + 0.07, 1)
             elif self.joystick.isPressed("HEAVE_DOWN"):
                 self.z = max(self.z - 0.07, -1)
+            else:
+                self.z = 0.0
 
     def stabilizeAtRest(self):
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
         pitch_output = self.pid_pitch.stabilize(self.imu_data['pitch'])
         heave_output = self.pid_heave.stabilize(self.depth)
-        Navigation.navigate(0, 0, pitch_output, heave_output, yaw_output)
+        Navigation.navigate(self.x, self.y, pitch_output, heave_output, yaw_output)
 
     def stabilizeHorizontal(self):
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
@@ -247,14 +255,21 @@ class NavigationNode:
 
     def navigate(self):    
         self.handleJoystickInput()
-        
+            
         if not self._isRestYawAxis() and not self._isFixing() and not self.manualSetpoint:
             self.pid_yaw.updateSetpoint(self.imu_data['yaw'])
 
         if self._isRestPitchAxis() and not self._isFixing():
-            self.pid_pitch.updateSetpoint(-8.69)
-            self.pid_pitch_horizontal.updateSetpoint(-8.69)
-            self.pid_pitch_vertical.updateSetpoint(-8.69)
+
+            ####### If we want to stabilize on the Horizon #######
+            self.pid_pitch.updateSetpoint(-6.7)
+            self.pid_pitch_horizontal.updateSetpoint(-6.7)
+            self.pid_pitch_vertical.updateSetpoint(-6.7)
+
+            ####### If we want to stabilize on the last setpoint #######
+            # self.pid_pitch.updateSetpoint(self.imu_data['pitch'])
+            # self.pid_pitch_horizontal.updateSetpoint(self.imu_data['pitch'])
+            # self.pid_pitch_vertical.updateSetpoint(self.imu_data['pitch'])
         else:
             if not self._isFixing():
                 self.pid_pitch.updateSetpoint(self.imu_data['pitch'])
@@ -302,10 +317,9 @@ class NavigationNode:
 
         else:
             # rospy.logerr("ROV in manual control: Using joystick input")
-            Navigation.navigate(self.x, self.y, -self.pitch, self.z, self.yaw * 0.65)
+            Navigation.navigate(self.x, self.y, -self.pitch, self.z, self.yaw * 0.5)
 
         self.extractDir()
-        # rospy.logerr(f"YAW: {self.imu_data['yaw']}")
 
 if __name__ == "__main__":
     Vectorizer.yaw_only = False
