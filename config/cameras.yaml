@@ -1,5 +1,5 @@
 net_camera:
-  index: /dev/zrbew_camera
+  index: /dev/logitech_camera_1
   width: 640
   height: 480
   format: MJPG
@@ -30,36 +30,52 @@ photosphere:
   type: FISHEYE
   fps: 30
   port: 8084
-stereo:
-  index: /dev/stereo_camera #/dev/stereo_camera
-  focal_length: 3 #mm
-  baseline: 12 #cm
-  width: 2560
-  height: 960
-  format: MJPG
-  type: STEREO
-  fps: 30
-  left_cam:
-    index: /dev/stereo_left #/dev/stereo_left --> video17
+left_cam:
+    index: /dev/video17 #/dev/stereo_left --> video17
     width: 640
     height: 480
     format: MJPG
-    fps: 30
+    type: NORMAL
+    fps: 20
     port: 8085
-  right_cam:
-    index: /dev/stereo_right #/dev/stereo_right --> video18
+right_cam:
+    index: /dev/video18 #/dev/stereo_right --> video18
     width: 640
     height: 480
     format: MJPG
-    fps: 30
+    type: NORMAL
+    fps: 20
     port: 8086
-  stitched:
-    index: /dev/stereo_stitched #/dev/stereo_stitched --> video19
-    width: 1280
-    height: 480
-    format: MJPG
-    fps: 30
-    port: 8087
+# stereo:
+#   index: /dev/stereo_camera #/dev/stereo_camera
+#   focal_length: 3 #mm
+#   baseline: 12 #cm
+#   width: 2560
+#   height: 720
+#   format: MJPG
+#   type: STEREO
+#   fps: 20
+#   left_cam:
+#     index: /dev/stereo_left #/dev/stereo_left --> video17
+#     width: 640
+#     height: 480
+#     format: MJPG
+#     fps: 20
+#     port: 8088
+#   right_cam:
+#     index: /dev/stereo_right #/dev/stereo_right --> video18
+#     width: 640
+#     height: 480
+#     format: MJPG
+#     fps: 20
+#     port: 8089
+#   stitched:
+#     index: /dev/stereo_stitched #/dev/stereo_stitched --> video19
+#     width: 1280
+#     height: 480
+#     format: MJPG
+#     fps: 20
+#     port: 8090
 
 
-#Rapoo and left cameras probably doesnt not suppoer mjpg format
+# # #Rapoo and left cameras probably doesnt not suppoer mjpg format

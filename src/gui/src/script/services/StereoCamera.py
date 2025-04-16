@@ -26,40 +26,33 @@ class StereoCamera:
         self.focal_length = cameraDetails['focal_length']
         self.baseline = cameraDetails['baseline']
         self.capture = None
-        self.process = None
+        self.stitch_process = None
+        self.split_process = None
         self.standalone_camera_details = {}
         self.stereo_stitcher = StereoStitcher(cameraDetails)
-        self.__splitStereo()
+        # self.__splitStereo()
         self.__stitch()
 
     def __splitStereo(self):
-        # command = [
-        #     "gst-launch-1.0", "-v", "v4l2src", f"device={self.cameraIndex}",
-        #     "!", f"video/x-raw,width={int(self.width)},height={int(self.height)}",
-        #     "!", "videoconvert", "!", "tee", "name=t",
-        #     "t.", "!", "queue", "!", "videocrop", f"right={int(self.width / 2)}", "!", "videoconvert", "!", "v4l2sink", "device=/dev/video17",
-        #     "t.", "!", "queue", "!", "videocrop", f"left={int(self.width / 2)}", "!", "videoconvert", "!", "v4l2sink", "device=/dev/video18"
-        # ]
-        print(f"{self.cameraIndex}, {type(self.cameraIndex)}")
+        self.split_process = Process(target=self.__runSplitter)
+        self.split_process.daemon = True
+        self.split_process.start()
+
+    def __runSplitter(self):
+        self.cameraIndex = "/dev/video4"
         command = f"""
-        gst-launch-1.0 -v v4l2src device={self.cameraIndex} ! \
-            video/x-raw,width={int(self.width)},height={int(self.width)} ! videoconvert ! tee name=t \
-            t. ! queue ! videocrop right={int(self.width / 2)} ! videoconvert ! v4l2sink device=/dev/video17 \
-            t. ! queue ! videocrop left={int(self.width / 2)} ! videoconvert ! v4l2sink device=/dev/video18
-        """
-        # command = """
-        #     gst-launch-1.0 -v v4l2src device=/dev/stereo_camera ! \
-        #         video/x-raw,width=2560,height=720 ! videoconvert ! tee name=t \
-        #         t. ! queue ! videocrop right=1280 ! videoconvert ! v4l2sink device=/dev/video17 \
-        #         t. ! queue ! videocrop left=1280 ! videoconvert ! v4l2sink device=/dev/video18
-        #     """
-        self.process = subprocess.Popen(command, shell=True, executable="/bin/bash")
+            gst-launch-1.0 -v v4l2src device={self.cameraIndex} ! \
+                video/x-raw,width={int(self.width)},height={int(self.height)} ! videoconvert ! tee name=t \
+                t. ! queue ! videocrop right={int(self.width / 2)} ! videoconvert ! v4l2sink device=/dev/video17 \
+                t. ! queue ! videocrop left={int(self.width / 2)} ! videoconvert ! v4l2sink device=/dev/video18
+            """
+        subprocess.run(command, shell=True, executable="/bin/bash")
 
     def __stitch(self):
-        print("anaaaaa henaaaaaaa")
-        self.process = Process(target=self.__runStitcher)
-        self.process.daemon = True
-        self.process.start()
+        print("anaaaaaaaa b stitchhhhh")
+        self.stitch_process = Process(target=self.__runStitcher)
+        self.stitch_process.daemon = True
+        self.stitch_process.start()
 
     def __runStitcher(self):
         try:
@@ -67,8 +60,8 @@ class StereoCamera:
         except Exception as e:
             print(f"Error occurred: {e}")
         finally:
-            self.process.terminate()
-            self.process.join()
+            self.stitch_process.terminate()
+            self.stitch_process.join()
     
     
     def setupCamera(self) -> cv.VideoCapture:
@@ -133,8 +126,10 @@ class StereoCamera:
 
     def release(self):
         self.capture.release()
-        self.process.terminate()
-        self.process.join()
+        self.stitch_process.terminate()
+        self.stitch_process.join()
+        self.split_process.terminate()
+        self.split_process.join()
 
     def get(self, prop_id):
         return self.capture.get(prop_id)
