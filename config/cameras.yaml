@@ -1,60 +1,61 @@
-net_camera:
-  index: /dev/logitech_camera_1
-  width: 640
-  height: 480
+# net_camera:
+#   index: /dev/logitech_camera_1
+#   width: 640
+#   height: 480
+#   format: MJPG
+#   type: NORMAL
+#   fps: 20
+#   port: 8081
+# horizontal_gripper_camera:
+#   index: /dev/logitech_camera_2
+#   width: 640
+#   height: 480
+#   format: MJPG
+#   type: NORMAL
+#   fps: 30
+#   port: 8082
+# vertical_gripper_camera:
+#   index: /dev/rapoo_camera
+#   width: 640
+#   height: 480
+#   format: MJPG
+#   type: NORMAL
+#   fps: 30
+#   port: 8083
+# photosphere:
+#   index: /dev/fisheye_camera
+#   width: 640
+#   height: 480
+#   format: MJPG
+#   type: FISHEYE
+#   fps: 30
+#   port: 8084
+# left_cam:
+#     index: /dev/video17 #/dev/stereo_left --> video17
+#     width: 640
+#     height: 480
+#     format: MJPG
+#     type: NORMAL
+#     fps: 20
+#     port: 8085
+# right_cam:
+#     index: /dev/video18 #/dev/stereo_right --> video18
+#     width: 640
+#     height: 480
+#     format: MJPG
+#     type: NORMAL
+#     fps: 20
+#     port: 8086
+stereo:
+  index: /dev/stereo_camera #/dev/stereo_camera
+  focal_length: 3 #mm
+  baseline: 12 #cm
+  width: 1280
+  height: 720
   format: MJPG
   type: NORMAL
   fps: 20
   port: 8081
-horizontal_gripper_camera:
-  index: /dev/logitech_camera_2
-  width: 640
-  height: 480
-  format: MJPG
-  type: NORMAL
-  fps: 30
-  port: 8082
-vertical_gripper_camera:
-  index: /dev/rapoo_camera
-  width: 640
-  height: 480
-  format: MJPG
-  type: NORMAL
-  fps: 30
-  port: 8083
-photosphere:
-  index: /dev/fisheye_camera
-  width: 640
-  height: 480
-  format: MJPG
-  type: FISHEYE
-  fps: 30
-  port: 8084
-left_cam:
-    index: /dev/video17 #/dev/stereo_left --> video17
-    width: 640
-    height: 480
-    format: MJPG
-    type: NORMAL
-    fps: 20
-    port: 8085
-right_cam:
-    index: /dev/video18 #/dev/stereo_right --> video18
-    width: 640
-    height: 480
-    format: MJPG
-    type: NORMAL
-    fps: 20
-    port: 8086
-# stereo:
-#   index: /dev/stereo_camera #/dev/stereo_camera
-#   focal_length: 3 #mm
-#   baseline: 12 #cm
-#   width: 2560
-#   height: 720
-#   format: MJPG
-#   type: STEREO
-#   fps: 20
 #   left_cam:
 #     index: /dev/stereo_left #/dev/stereo_left --> video17
 #     width: 640
