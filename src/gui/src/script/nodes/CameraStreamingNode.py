@@ -30,12 +30,7 @@ class CameraStreamerNode:
             elif details['type'] == 'FISHEYE':
                 self.cameras.append(FishEyeCamera(details))
             elif details['type'] == 'STEREO':             
-                self.stereo_cameras.append(StereoCamera(details))
-                # left_stereo, right_stereo, stitched = StereoCamera(details).getCameras()
-                # self.cameras.extend([Camera(left_stereo), Camera(right_stereo), Camera(stitched)])
-                # self.stereo_cameras.extend(StereoCamera(details).getCameras())
-                # for stereo_camera in self.stereo_cameras:             
-                    # self.cameras.append(Camera(stereo_camera))
+                pass
             else:
                 raise Exception(f"Unsupported camera type. Couldn't find {details['type']}")
             
