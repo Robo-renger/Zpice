@@ -17,7 +17,7 @@
 #   fps: 20
 #   port: 8083
 camera3:
-  index: '/dev/video4'
+  index: '/dev/rapoo_camera'
   width: 1280
   height: 720
   fps: 15
