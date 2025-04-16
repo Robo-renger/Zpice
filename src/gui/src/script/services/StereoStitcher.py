@@ -8,7 +8,7 @@ class StereoStitcher:
     def __init__(self, cameraDetails: dict):
         rospack = rospkg.RosPack()
         workspace_path = rospack.get_path('gui')
-        self.homography_file = workspace_path + f'/../../calibrationMatricies/stitched/homography.npy'
+        self.homography_file = workspace_path + f'/../../calibrationMatricies/Stereo/stitched/homography.npy'
         self.camera_details = cameraDetails
         self.left_video_path = cameraDetails['left_cam']['index']
         self.right_video_path = cameraDetails['right_cam']['index']

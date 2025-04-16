@@ -1,5 +1,5 @@
 net_camera:
-  index: /home/amansour/Zpice/src/gui/src/guiContent/test.mp4
+  index: /dev/zrbew_camera
   width: 640
   height: 480
   format: MJPG
@@ -7,7 +7,7 @@ net_camera:
   fps: 20
   port: 8081
 horizontal_gripper_camera:
-  index: /home/amansour/Zpice/src/gui/src/guiContent/left_view.mp4
+  index: /dev/logitech_camera_2
   width: 640
   height: 480
   format: MJPG
@@ -15,7 +15,7 @@ horizontal_gripper_camera:
   fps: 30
   port: 8082
 vertical_gripper_camera:
-  index: /home/amansour/Zpice/src/gui/src/guiContent/right_view.mp4
+  index: /dev/rapoo_camera
   width: 640
   height: 480
   format: MJPG
@@ -23,7 +23,7 @@ vertical_gripper_camera:
   fps: 30
   port: 8083
 photosphere:
-  index: /home/amansour/Zpice/src/gui/src/guiContent/test2.mp4
+  index: /dev/fisheye_camera
   width: 640
   height: 480
   format: MJPG
@@ -31,7 +31,7 @@ photosphere:
   fps: 30
   port: 8084
 stereo:
-  index: /home/amansour/Zpice/src/gui/src/guiContent/test3.mp4 #/dev/stereo_camera
+  index: /dev/stereo_camera #/dev/stereo_camera
   focal_length: 3 #mm
   baseline: 12 #cm
   width: 2560
@@ -40,21 +40,21 @@ stereo:
   type: STEREO
   fps: 30
   left_cam:
-    index: /home/amansour/Zpice/src/gui/src/guiContent/test4.mp4 #/dev/stereo_left --> video17
+    index: /dev/stereo_left #/dev/stereo_left --> video17
     width: 640
     height: 480
     format: MJPG
     fps: 30
     port: 8085
   right_cam:
-    index: /home/amansour/Zpice/src/gui/src/guiContent/test5.mp4 #/dev/stereo_right --> video18
+    index: /dev/stereo_right #/dev/stereo_right --> video18
     width: 640
     height: 480
     format: MJPG
     fps: 30
     port: 8086
   stitched:
-    index: /home/amansour/Zpice/src/gui/src/guiContent/test6.mp4 #/dev/stereo_stitched --> video19
+    index: /dev/stereo_stitched #/dev/stereo_stitched --> video19
     width: 1280
     height: 480
     format: MJPG

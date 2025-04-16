@@ -33,16 +33,30 @@ class StereoCamera:
         self.__stitch()
 
     def __splitStereo(self):
-        command = [
-            "gst-launch-1.0", "-v", "v4l2src", f"device={self.cameraIndex}",
-            "!", f"video/x-raw,width={self.width},height={self.height}",
-            "!", "videoconvert", "!", "tee", "name=t",
-            "t.", "!", "queue", "!", "videocrop", f"right={self.width / 2}", "!", "videoconvert", "!", "v4l2sink", "device=/dev/video17",
-            "t.", "!", "queue", "!", "videocrop", f"left={self.width / 2}", "!", "videoconvert", "!", "v4l2sink", "device=/dev/video18"
-        ]
-        self.process = subprocess.Popen(command)
+        # command = [
+        #     "gst-launch-1.0", "-v", "v4l2src", f"device={self.cameraIndex}",
+        #     "!", f"video/x-raw,width={int(self.width)},height={int(self.height)}",
+        #     "!", "videoconvert", "!", "tee", "name=t",
+        #     "t.", "!", "queue", "!", "videocrop", f"right={int(self.width / 2)}", "!", "videoconvert", "!", "v4l2sink", "device=/dev/video17",
+        #     "t.", "!", "queue", "!", "videocrop", f"left={int(self.width / 2)}", "!", "videoconvert", "!", "v4l2sink", "device=/dev/video18"
+        # ]
+        print(f"{self.cameraIndex}, {type(self.cameraIndex)}")
+        command = f"""
+        gst-launch-1.0 -v v4l2src device={self.cameraIndex} ! \
+            video/x-raw,width={int(self.width)},height={int(self.width)} ! videoconvert ! tee name=t \
+            t. ! queue ! videocrop right={int(self.width / 2)} ! videoconvert ! v4l2sink device=/dev/video17 \
+            t. ! queue ! videocrop left={int(self.width / 2)} ! videoconvert ! v4l2sink device=/dev/video18
+        """
+        # command = """
+        #     gst-launch-1.0 -v v4l2src device=/dev/stereo_camera ! \
+        #         video/x-raw,width=2560,height=720 ! videoconvert ! tee name=t \
+        #         t. ! queue ! videocrop right=1280 ! videoconvert ! v4l2sink device=/dev/video17 \
+        #         t. ! queue ! videocrop left=1280 ! videoconvert ! v4l2sink device=/dev/video18
+        #     """
+        self.process = subprocess.Popen(command, shell=True, executable="/bin/bash")
 
     def __stitch(self):
+        print("anaaaaa henaaaaaaa")
         self.process = Process(target=self.__runStitcher)
         self.process.daemon = True
         self.process.start()
