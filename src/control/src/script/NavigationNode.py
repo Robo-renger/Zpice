@@ -140,7 +140,7 @@ class NavigationNode:
         axis_values = self.joystick.getAxis()
         self.x = -1 * axis_values.get('left_x_axis', 0)
         self.y = axis_values.get('left_y_axis', 0)
-        self.pitch = -1 * axis_values.get('right_y_axis', 0)
+        self.pitch = axis_values.get('right_y_axis', 0)
         self.yaw = -1 * axis_values.get('right_x_axis', 0)
 
         if self.joystick.isPressed("HEAVE_DOWN") and self.joystick.isPressed("HEAVE_UP"):
@@ -151,8 +151,7 @@ class NavigationNode:
                 self.z = min(self.z + 0.07, 1)
             elif self.joystick.isPressed("HEAVE_DOWN"):
                 self.z = max(self.z - 0.07, -1)
-            else:
-                self.z = 0.0
+
 
     def stabilizeAtRest(self):
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
@@ -317,7 +316,7 @@ class NavigationNode:
 
         else:
             # rospy.logerr("ROV in manual control: Using joystick input")
-            Navigation.navigate(self.x, self.y, -self.pitch, self.z, self.yaw * 0.5)
+            Navigation.navigate(self.x, self.y, -self.pitch*0.5, self.z, self.yaw * 0.5)
 
         self.extractDir()
 
