@@ -10,10 +10,10 @@ class StereoStitcher:
         workspace_path = rospack.get_path('gui')
         self.homography_file = workspace_path + f'/../../calibrationMatricies/Stereo/stitched/homography.npy'
         self.camera_details = cameraDetails
-        self.left_video_path = cameraDetails['left_cam']['index']
-        self.right_video_path = cameraDetails['right_cam']['index']
+        self.left_video_path = cameraDetails['left_stereo']['index']
+        self.right_video_path = cameraDetails['right_stereo']['index']
         self.output_index = cameraDetails['stitched']['index']
-        self.output_stream = cv.VideoWriter('/dev/video19', cv.VideoWriter_fourcc(*'MJPG'), cameraDetails['stitched']['fps'], (cameraDetails['stitched']['width'], cameraDetails['stitched']['height']))
+        self.output_stream = cv.VideoWriter(self.output_index, cv.VideoWriter_fourcc(*'MJPG'), cameraDetails['stitched']['fps'], (cameraDetails['stitched']['width'], cameraDetails['stitched']['height']))
         self.H = None
         self.cap_left = None
         self.cap_right = None
@@ -69,13 +69,14 @@ class StereoStitcher:
         self.output_size = (output_width, self.frame_height)
 
     def __stitch(self):
+        print("anaaaaa heaaaaaaa")
         while True:
             ret_left, frame_left = self.cap_left.read()
             ret_right, frame_right = self.cap_right.read()
             
             if not ret_left or not ret_right:
                 print("Error: Could not capture frames")
-                exit("Error : Could not capture frames EXITING....")
+                exit("Error: Could not capture frames EXITING....")
             aligned = cv.warpPerspective(frame_right, self.H, self.output_size)
             aligned[0:self.frame_height, 0:self.frame_width] = frame_left
             self.output_stream.write(aligned)
