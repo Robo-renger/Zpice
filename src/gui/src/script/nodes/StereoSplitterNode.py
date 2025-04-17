@@ -3,15 +3,20 @@ import os
 import rospy
 import subprocess
 from utils.Configurator import Configurator
+from gui.msg import splitState
 
 class StereoSplitter:
     def __init__(self):
         rospy.init_node('stereo_splitter_node', anonymous=False)
+        self.splitStatePub = rospy.Publisher('split_state', splitState, queue_size=10)
         self.configurator = Configurator()
         self.cameraDetails = self.configurator.fetchData(Configurator.CAMERAS)['stereo']
         self.index = self.cameraDetails['index']
         self.width = self.cameraDetails['width']
         self.height = self.cameraDetails['height']
+        self.splitState = splitState()
+        self.splitState.splitted = False
+        self.splitStatePub.publish(self.splitState)
 
     def run(self):
         rospy.loginfo("Running spitting pipeline...")
@@ -21,6 +26,8 @@ class StereoSplitter:
               t. ! queue ! videocrop right={int(self.width / 2)} ! videoconvert ! v4l2sink device=/dev/video17 \
               t. ! queue ! videocrop left={int(self.width / 2)} ! videoconvert ! v4l2sink device=/dev/video18
             """
+        self.splitState.splitted = True
+        self.splitStatePub.publish(self.splitState)
         subprocess.run(command, shell=True, executable="/bin/bash")
 
 if __name__ == "__main__":
