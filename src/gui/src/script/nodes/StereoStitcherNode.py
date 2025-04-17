@@ -12,7 +12,7 @@ class StereoStitcherNode:
         self.stitcher = StereoStitcher(self.cameraDetails)
         self.split_state = False
         
-    def splitStatecallback(self, msg):
+    def splitStateCallback(self, msg):
         self.split_state = msg.splitted
         if self.split_state:
             self.stitcher.stitch()
@@ -23,13 +23,12 @@ class StereoStitcherNode:
 
     def run(self):
         while not rospy.is_shutdown():
-            rospy.Subscriber('split_state', splitState, self.splitstatecallback)
+            rospy.Subscriber('split_state', splitState, self.splitStateCallback)
             rospy.spin()
 
 if __name__ == "__main__":
-    try:
+
         node = StereoStitcherNode()
         node.run()
-    except Exception as e:
-        rospy.logerr(f"Error while stitching... {e}")
+
     
