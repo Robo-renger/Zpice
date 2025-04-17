@@ -14,6 +14,7 @@ class Servo180Node:
         self.__pins =  Configurator().fetchData(Configurator().PINS)
         
         self.stereoServo = Servo180(self.__pins['STEREO_SERVO'], PCA.getInst(),2500,500)
+        self.photosphereServo = Servo180(self.__pins['PHOTOSPHERE_SERVO'], PCA.getInst(),2500,500)
 
     def run(self):
         try:
@@ -27,6 +28,15 @@ class Servo180Node:
                     self.stereoServo.setStep(-20)
                     self.stereoServo.move()
                     rospy.loginfo("STEREO DOWN")
+                    
+                if self.joystick.isPressed("PHOTOSPHERE_SERVO_LEFT"):
+                    self.photosphereServo.setStep(20)
+                    self.photosphereServo.move()
+                    rospy.loginfo("PHOTOSPHERE LEFT")
+                elif self.joystick.isPressed("PHOTOSPHERE_SERVO_RIGHT"):
+                    self.photosphereServo.setStep(-20)
+                    self.photosphereServo.move()
+                    rospy.loginfo("PHOTOSPHERE RIGHT")
                     
         except Exception as e:
             rospy.logerr(f"Error in Servo180Node: {e}")
