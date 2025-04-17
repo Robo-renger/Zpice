@@ -22,12 +22,12 @@ camera2:
 #   height: 720
 #   fps: 15
 #   port: 8081
-camera4:
-  index: '/dev/video2'
-  width: 640
-  height: 480
-  fps: 20
-  port: 8082
+# camera4:
+#   index: '/dev/video2'
+#   width: 640
+#   height: 480
+#   fps: 20
+#   port: 8082
 # camera5:
 #   index: '/dev/video8'
 #   width: 1280

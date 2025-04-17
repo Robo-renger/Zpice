@@ -1,9 +1,14 @@
 [
     {
-        "severity": "ERROR",
-        "message": "Shared memory update failed: 'NoneType' object does not support item assignment",
-        "component_name": "CJoystick",
-        "timestamp": "2025-04-17T11:32:14.939359"
+        "severity": "INFO",
+        "message": "Switching close.",
+        "component_name": "Switching",
+        "timestamp": "2025-04-17T11:20:54.250060"
+    }
+]6598"
+    }
+]    }
+]stamp": "2025-04-17T11:32:14.939359"
     }
 ]4956"
     }
