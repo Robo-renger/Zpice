@@ -1,7 +1,7 @@
 {
     "view1": {
         "left_camera": {
-            "url": "http://localhost/testing_stream/right_3.png",
+            "url": "http://192.168.1.233:8081/stream.mjpg",
             "geometry": {
                 "top": "1%",
                 "left": "0%",
@@ -10,7 +10,7 @@
             }
         },
         "right_camera": {
-            "url": "http://localhost/testing_stream/right_6.png",
+            "url": "http://192.168.1.233:8082/stream.mjpg",
             "geometry": {
                 "top": "1%",
                 "left": "75%",
@@ -19,7 +19,7 @@
             }
         },
         "rapoo_camera": {
-            "url": "http://localhost/testing_stream/right_4.png",
+            "url": "http://192.168.1.233:8083/stream.mjpg",
             "geometry": {
                 "top": "38%",
                 "left": "0%",
@@ -28,7 +28,7 @@
             }
         },
         "camera4": {
-            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test4.mp4",
+            "url": "http://192.168.1.233:8084/stream.mjpg",
             "geometry": {
                 "top": "38%",
                 "left": "75%",
@@ -37,7 +37,7 @@
             }
         },
         "camera5": {
-            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "url": "http://192.168.1.233:8085/stream.mjpg",
             "geometry": {
                 "top": "74%",
                 "left": "0%",
@@ -46,7 +46,7 @@
             }
         },
         "camera6": {
-            "url": "http://localhost/home/amansour/Zpice/src/gui/src/guiContent/test.mp4",
+            "url": "http://192.168.1.233:8086/stream.mjpg",
             "geometry": {
                 "top": "74%",
                 "left": "75%",

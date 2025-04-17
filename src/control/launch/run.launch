@@ -19,7 +19,7 @@
     <!-- <node pkg="gui" type="StereoSplitterNode.py" name="stereo_splitter_node" output="screen"></node> -->
     <!-- <node pkg="gui" type="StereoStitcherNode.py" name="stereo_stitcher_node" output="screen"></node> -->
     <node pkg="gui" type="GUIStreamingNode.py" name="gui_streamer" output="screen"></node>
-    <!-- <node pkg="gui" type="CameraStreamingNode.py" name="cameras_streamer" output="screen"></node> -->
+    <node pkg="gui" type="CameraStreamingNode.py" name="cameras_streamer" output="screen"></node>
 
     <!-- SERVERS -->
     <node pkg="control" type="ControllerModeServer.py" name="controller_mode_server" output="screen"></node>
