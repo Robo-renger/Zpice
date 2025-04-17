@@ -8,6 +8,8 @@ script/interface/__init__.py
 script/nodes/CameraStreamingNode.py
 script/nodes/GUIStreamingNode.py
 script/nodes/StereoCameraCalibrationNode.py
+script/nodes/StereoSplitterNode.py
+script/nodes/StereoStitcherNode.py
 script/nodes/__init__.py
 script/services/Camera.py
 script/services/CameraStreamer.py

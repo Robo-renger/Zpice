@@ -3,7 +3,7 @@ import rospy
 from utils.Configurator import Configurator
 from services.StereoStitcher import StereoStitcher
 
-class StereoStitcher:
+class StereoStitcherNode:
     def __init__(self):
         rospy.init_node('stereo_stitcher_node', anonymous=False)
         self.configurator = Configurator()
@@ -18,7 +18,7 @@ class StereoStitcher:
 
 if __name__ == "__main__":
     try:
-        node = StereoStitcher()
+        node = StereoStitcherNode()
         node.run()
     except Exception as e:
         rospy.logerr(f"Error while stitching... {e}")
