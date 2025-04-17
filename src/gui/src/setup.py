@@ -4,9 +4,9 @@ from setuptools import setup, find_packages
 setup(
     name="gui2",         
 <<<<<<< HEAD
-    version="0.0.136",
+    version="0.0.140",
 =======
-    version="0.0.107",
+    version="0.0.140",
 >>>>>>> 6f7786ade4db56176ece1001047e47f71303bd2e
     packages=find_packages(where="script"),  
     package_dir={"": "script"},   
