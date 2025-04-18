@@ -2,7 +2,8 @@ import cv2 as cv
 import numpy as np
 import os
 import rospkg
-
+import rospy
+import pyfakewebcam
 
 class StereoStitcher:
     def __init__(self, cameraDetails: dict):
@@ -41,7 +42,7 @@ class StereoStitcher:
         H, _ = cv.findHomography(pts_right, pts_left, cv.RANSAC)
         
         np.save(self.homography_file, H)
-        print("Homography matrix saved.")
+        rospy.loginfo("Homography matrix saved.")
         
         return H
 
@@ -53,14 +54,14 @@ class StereoStitcher:
         ret2, ref_right = self.cap_right.read()
         
         if not ret1 or not ret2:
-            print("Error: Could not capture reference frames")
+            rospy.logerr("Error: Could not capture reference frames")
             exit()
 
         self.frame_height, self.frame_width = ref_left.shape[:2]
 
         if os.path.exists(self.homography_file):
             self.H = np.load(self.homography_file)
-            print("Loaded precomputed homography matrix.")
+            rospy.loginfo("Loaded precomputed homography matrix.")
         else:
             self.H = self.__compute_homography(ref_left, ref_right)
 

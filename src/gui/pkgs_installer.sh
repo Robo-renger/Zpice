@@ -40,7 +40,7 @@ fi
 
 pip install --no-cache-dir --force-reinstall .
 
-cd /home/amansour/Zpice/src/gui/src
+cd /home/mypi/Zpice/src/gui/src
 pip install --no-cache-dir --force-reinstall .
 
 echo "Installation complete with version ${NEW_VERSION}."
