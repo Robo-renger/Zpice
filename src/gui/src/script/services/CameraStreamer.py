@@ -27,6 +27,7 @@ class CameraStreamer:
             StreamProps.set_Mode(StreamProps, 'cv2')
             StreamProps.set_Capture(StreamProps, self.camera)
             StreamProps.set_Quality(StreamProps, 90)
+            print(f"Port: {self.port}")
     
             # width = self.capture.get(cv2.CAP_PROP_FRAME_WIDTH)
             # height = self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT)

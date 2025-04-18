@@ -70,7 +70,7 @@ stitched:
   width: 1280
   height: 480
   format: MJPG
-  type: NORMAL
+  type: STITCHED
   fps: 30
   port: 8087
 

@@ -4,23 +4,20 @@ import rospy
 import subprocess
 from multiprocessing import Process
 from utils.Configurator import Configurator
-from gui.msg import splitState
+from std_srvs.srv import SetBool, SetBoolResponse
 
 class StereoSplitter:
     def __init__(self):
         rospy.init_node('stereo_splitter_node', anonymous=False)
-        self.splitStatePub = rospy.Publisher('split_state', splitState, queue_size=10)
+        self.split_service = rospy.Service('split_stereo', SetBool, self.handle_split_request)
         self.configurator = Configurator()
         self.cameraDetails = self.configurator.fetchData(Configurator.CAMERAS)['stereo']
         self.index = self.cameraDetails['index']
         self.width = self.cameraDetails['width']
         self.height = self.cameraDetails['height']
-        self.msg = splitState()
-        self.msg.splitted = False
         self.split_process = None
-        self.splitStatePub.publish(self.msg)
 
-    def start_split_pipeline(self):
+    def startSplitPipeline(self):
         """Starts the GStreamer pipeline in a separate process"""
         command = f"""
             gst-launch-1.0 -v v4l2src device={self.index} ! \
@@ -30,22 +27,34 @@ class StereoSplitter:
             """
         subprocess.run(command, shell=True, executable="/bin/bash")
 
+    def handle_split_request(self, req):
+        """Handle incoming service requests"""
+        response = SetBoolResponse()
+        
+        if req.data:  # If request is to start splitting
+            try:
+                if not self.split_process or not self.split_process.is_alive():
+                    self.split_process = Process(target=self.startSplitPipeline)
+                    self.split_process.daemon = True
+                    self.split_process.start()
+                response.success = True
+                response.message = "Stereo split started successfully"
+            except Exception as e:
+                response.success = False
+                response.message = f"Failed to start stereo split: {str(e)}"
+        else:  # If request is to stop splitting
+            if self.split_process:
+                self.split_process.terminate()
+                self.split_process.join()
+            response.success = True
+            response.message = "Stereo split stopped"
+            
+        return response
+
     def run(self):
-        """Main run loop that handles publishing"""
+        """Main run loop that handles service requests"""
         rospy.loginfo("Starting stereo splitter node...")
-        # Start the pipeline in a separate process
-        self.split_process = Process(target=self.start_split_pipeline)
-        self.split_process.daemon = True
-        self.split_process.start()
-        
-        # Set split state to true
-        self.msg.splitted = True
-        
-        # Keep publishing the state
-        rate = rospy.Rate(1)  # 1 Hz
-        while not rospy.is_shutdown():
-            self.splitStatePub.publish(self.msg)
-            rate.sleep()
+        rospy.spin()
 
     def __del__(self):
         """Cleanup when the node is destroyed"""
@@ -58,5 +67,5 @@ if __name__ == "__main__":
         node = StereoSplitter()
         node.run()
     except Exception as e:
-        rospy.logerr(f"Error while splitting... {e}")
+        rospy.logerr(f"Error in stereo splitter node: {e}")
     

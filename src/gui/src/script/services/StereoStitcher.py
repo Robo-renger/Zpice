@@ -3,25 +3,26 @@ import numpy as np
 import os
 import rospkg
 import rospy
-import pyfakewebcam
+from interface.ICamera import ICamera
+from zope.interface import implementer
 
+@implementer(ICamera)
 class StereoStitcher:
     def __init__(self, cameraDetails: dict):
         rospack = rospkg.RosPack()
         workspace_path = rospack.get_path('gui')
         self.homography_file = workspace_path + f'/../../calibrationMatricies/Stereo/stitched/homography.npy'
         self.camera_details = cameraDetails
-        self.left_video_path = cameraDetails['left_stereo']['index']
-        self.right_video_path = cameraDetails['right_stereo']['index']
+        self.left_video_path = "/dev/video17"  # Fixed path for left camera
+        self.right_video_path = "/dev/video18"  # Fixed path for right camera
         self.stitched_port = cameraDetails['stitched']['port']
-        self.H = None
+   # Initialize to None - will be set up in setupCamera()
         self.cap_left = None
         self.cap_right = None
+        self.H = None
         self.frame_width = None
         self.frame_height = None
         self.output_size = None
-        self.capture = None
-        self.frame = None
         self.aligned = None
 
     def __compute_homography(self, ref_left, ref_right):
@@ -47,15 +48,25 @@ class StereoStitcher:
         return H
 
     def setupCamera(self):
-        self.cap_left = cv.VideoCapture(self.left_video_path)
-        self.cap_right = cv.VideoCapture(self.right_video_path)
+        """Initialize camera captures and compute homography"""
+        rospy.loginfo("Setting up stereo cameras...")
+        
+        # Initialize captures if not already done
+        if self.cap_left is None:
+            self.cap_left = cv.VideoCapture(self.left_video_path)
+        if self.cap_right is None:
+            self.cap_right = cv.VideoCapture(self.right_video_path)
+
+        if not self.cap_left.isOpened() or not self.cap_right.isOpened():
+            rospy.logerr("Failed to open one or both cameras")
+            return False
 
         ret1, ref_left = self.cap_left.read()
         ret2, ref_right = self.cap_right.read()
-        
+
         if not ret1 or not ret2:
             rospy.logerr("Error: Could not capture reference frames")
-            exit()
+            return False
 
         self.frame_height, self.frame_width = ref_left.shape[:2]
 
@@ -70,39 +81,67 @@ class StereoStitcher:
         min_x = int(min(transformed_corners[:, 0]))
         output_width = self.frame_width + abs(min_x)
         self.output_size = (output_width, self.frame_height)
+        return self.cap_left
 
     def getPort(self):
         return self.stitched_port
 
-    def cleanup(self):
-        self.cap_left.release()
-        self.cap_right.release()
-        cv.destroyAllWindows()
-
-     def getFrame(self):
-        if self.aligned is not None:
-            return self.aligned
+    def getFrame(self):
+        return self.aligned
 
     def read(self):
+        """Read and stitch frames from both cameras"""
+        if not self.isOpened():
+            rospy.logerr("Cameras are not properly initialized")
+            return False, None
+
         ret_left, frame_left = self.cap_left.read()
         ret_right, frame_right = self.cap_right.read()
-        if not ret_left or not ret_right:
-                print("Error: Could not capture frames")
-                exit("Error: Could not capture frames EXITING....")
-        self.aligned = cv.warpPerspective(frame_right, self.H, self.output_size)
-        self.aligned[0:self.frame_height, 0:self.frame_width] = frame_left
-        return ret_left, self.aligned
 
+        if not ret_left or not ret_right:
+            rospy.logerr("Failed to capture frames from one or both cameras")
+            return False, None
+
+        try:
+            self.aligned = cv.warpPerspective(frame_right, self.H, self.output_size)
+            self.aligned[0:self.frame_height, 0:self.frame_width] = frame_left
+            return True, self.aligned
+        except Exception as e:
+            rospy.logerr(f"Error during frame stitching: {str(e)}")
+            return False, None
 
     def isOpened(self):
-        return self.cap_left.isOpened() and self.cap_right.isOpened()
+        return (self.cap_left is not None and self.cap_right is not None and 
+                self.cap_left.isOpened() and self.cap_right.isOpened())
 
     def release(self):
-        self.cap_left.release()
-        self.cap_right.release()
+        if self.cap_left is not None:
+            self.cap_left.release()
+            self.cap_left = None
+        if self.cap_right is not None:
+            self.cap_right.release()
+            self.cap_right = None
 
     def get(self, prop_id):
-        return self.cap_left.get(prop_id)
+        if self.cap_left is not None:
+            return self.cap_left.get(prop_id)
+        return 0
+
+    def _setup_mjpg(self) -> cv.VideoCapture:
+        """Sets up MJPEG streaming using OpenCV.
+        @returns object of cv2.VideoCapture"""
+        pass
+
+    def _setup_h264(self) -> cv.VideoCapture:
+        """Sets up H.264 streaming using GStreamer.
+        @returns object of cv2.VideoCapture"""
+        pass
+
+    def __setCVAttrs(self) -> None:
+        """Sets CV attributes"""
+        pass
+
+    
 
 
 

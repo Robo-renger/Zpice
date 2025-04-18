@@ -12,6 +12,8 @@ from services.FishEyeCamera import FishEyeCamera
 from services.StereoCamera import StereoCamera
 from services.StereoStitcher import StereoStitcher
 import time
+from std_srvs.srv import SetBool, SetBoolRequest
+
 class CameraStreamerNode:
     def __init__(self):
         rospy.init_node('cameras_streamer', anonymous=False)
@@ -20,6 +22,11 @@ class CameraStreamerNode:
         self.cameraStreamers = []
         self.cameras = []
         self.stereo_cameras = []
+        
+        # Wait for the stereo split service to be available
+        rospy.loginfo("Waiting for split_stereo service...")
+        rospy.wait_for_service('split_stereo')
+        self.split_stereo_client = rospy.ServiceProxy('split_stereo', SetBool)
 
     def __getCameraSteamDetails(self):
         return self.configurator.fetchData(Configurator.CAMERAS)
@@ -30,42 +37,47 @@ class CameraStreamerNode:
                 self.cameras.append(Camera(details))
             elif details['type'] == 'FISHEYE':
                 self.cameras.append(FishEyeCamera(details))
-            elif details['type'] == 'STEREO':             
+            elif details['type'] == 'STITCHED':             
                 self.cameras.append(StereoStitcher(self.camerasDetails))
+            elif details['type'] == 'STEREO':
+                pass
             else:
                 raise Exception(f"Unsupported camera type. Couldn't find {details['type']}")
             
-    def runStreams(self):
-        self.__getCameraCaptures()
-        for camera in self.cameras:
-            cameraStreamer = CameraStreamer(camera)
-            self.cameraStreamers.append(cameraStreamer)
-            cameraStreamer.stream()
-        # for stereo_camera in self.stereo_cameras:
-        #     cameraStreamer = StereoCameraStreamer(stereo_camera)
-        #     self.cameraStreamers.append(cameraStreamer)
-        #     cameraStreamer.stream()
-
+    def startStreaming(self):
+        try:
+            # Call the stereo split service
+            req = SetBoolRequest(data=True)
+            response = self.split_stereo_client(req)
+            
+            if response.success:
+                rospy.loginfo("Stereo split successful. Starting camera streams...")
+                self.__getCameraCaptures()
+                for camera in self.cameras:
+                    cameraStreamer = CameraStreamer(camera)
+                    self.cameraStreamers.append(cameraStreamer)
+                    cameraStreamer.stream()
+            else:
+                rospy.logerr(f"Failed to start stereo split: {response.message}")
+                
+        except rospy.ServiceException as e:
+            rospy.logerr(f"Service call failed: {e}")
 
     def stopAllStreams(self):
+        try:
+            # Stop the stereo split
+            req = SetBoolRequest(data=False)
+            self.split_stereo_client(req)
+        except rospy.ServiceException as e:
+            rospy.logwarn(f"Failed to stop stereo split service: {e}")
+            
+        # Stop all camera streams
         for cameraStreamer in self.cameraStreamers:
             cameraStreamer.releaseCapture()
         rospy.logwarn("All streams terminated")
 
     def main(self):
-        self.runStreams()
-        time.sleep(5)
-        # self.cameraStreamers[0].releaseCapture()
-        # rospy.logwarn("Camera with index 0 has been terminated")
-        # time.sleep(2)
-        # for camera, details in self.camerasDetails.items():
-        #     cameraStreamer = CameraStreamer(details['index'],details['port'])
-        #     self.cameraStreamers.append(cameraStreamer)
-        #     cameraStreamer.setFPS(details['fps'])
-        #     cameraStreamer.setFrameSize(details['width'], details['height'])
-        #     cameraStreamer.stream()
-        #     break
-        # rospy.logwarn("Camera with index 0 is now ready!")
+        self.startStreaming()
         rospy.spin()
 
 def signal_handler(sig, frame):
