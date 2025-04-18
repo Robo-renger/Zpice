@@ -10,6 +10,7 @@ from services.GUIPresistence import GUIPresistence
 from services.Camera import Camera
 from services.FishEyeCamera import FishEyeCamera
 from services.StereoCamera import StereoCamera
+from services.StereoStitcher import StereoStitcher
 import time
 class CameraStreamerNode:
     def __init__(self):
@@ -30,7 +31,7 @@ class CameraStreamerNode:
             elif details['type'] == 'FISHEYE':
                 self.cameras.append(FishEyeCamera(details))
             elif details['type'] == 'STEREO':             
-                pass
+                self.cameras.append(StereoStitcher(self.camerasDetails))
             else:
                 raise Exception(f"Unsupported camera type. Couldn't find {details['type']}")
             
@@ -40,10 +41,10 @@ class CameraStreamerNode:
             cameraStreamer = CameraStreamer(camera)
             self.cameraStreamers.append(cameraStreamer)
             cameraStreamer.stream()
-        for stereo_camera in self.stereo_cameras:
-            cameraStreamer = StereoCameraStreamer(stereo_camera)
-            self.cameraStreamers.append(cameraStreamer)
-            cameraStreamer.stream()
+        # for stereo_camera in self.stereo_cameras:
+        #     cameraStreamer = StereoCameraStreamer(stereo_camera)
+        #     self.cameraStreamers.append(cameraStreamer)
+        #     cameraStreamer.stream()
 
 
     def stopAllStreams(self):

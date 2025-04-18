@@ -65,8 +65,6 @@ class Camera:
     def getPort(self):
         return self.port
  
-    def getPort(self):
-        return self.port
     
     def getFrame(self):
         if self.capture is not None:

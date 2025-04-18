@@ -17,7 +17,6 @@ class StereoStitcherNode:
         if self.split_state:
             self.stitcher.stitch()
 
-
     def __getCameraSteamDetails(self):
         return self.configurator.fetchData(Configurator.CAMERAS)
 
