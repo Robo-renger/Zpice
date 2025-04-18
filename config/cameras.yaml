@@ -44,8 +44,8 @@ stereo:
   index: /dev/stereo_camera
   focal_length: 3 #mm
   baseline: 12 #cm
-  width: 2560
-  height: 720
+  width: 1280
+  height: 480
   format: MJPG
   type: STEREO
   fps: 30

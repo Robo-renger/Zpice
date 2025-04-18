@@ -11,17 +11,17 @@ class StereoCalibrator:
         self.frame_count = 0
         self.right_images_path = workspace_path + f'/../../calibrationImages/Stereo/right/'
         self.left_images_path = workspace_path + f'/../../calibrationImages/Stereo/left/'
-        self.left_dist = workspace_path + f'/../../calibrationMatricies/Stereo/left/distL.npy' # Distortion matrix for left
-        self.right_dist = workspace_path + f'/../../calibrationMatricies/Stereo/right/distR.npy' # Distortion matrix for right
-        self.left_matrix = workspace_path + f'/../../calibrationMatricies/Stereo/left/mtxL.npy' # Intrinsic matrix for left
-        self.right_matrix = workspace_path + f'/../../calibrationMatricies/Stereo/right/mtxR.npy' # Intrinsic matrix for right
-        self.left_P = workspace_path + f'/../../calibrationMatricies/Stereo/left/P1.npy' # Projection matrix for left
-        self.right_P = workspace_path + f'/../../calibrationMatricies/Stereo/right/P2.npy' # Projection matrix for right 
-        self.left_R = workspace_path + f'/../../calibrationMatricies/Stereo/left/R1.npy' # Rectification transforms for left 
-        self.right_R = workspace_path + f'/../../calibrationMatricies/Stereo/right/R2.npy' # Rectification transforms for right
-        self.Q_path = workspace_path + f'/../../calibrationMatricies/Stereo/Q.npy' # Disparity-to-depth map matrix
-        self.R_path = workspace_path + f'/../../calibrationMatricies/Stereo/R.npy' # Rotation matrix from left to right
-        self.T_path = workspace_path + f'/../../calibrationMatricies/Stereo/T.npy' # Translation matrix from left to right
+        self.left_dist = workspace_path + f'/../../calibrationMatricies/calibration_data/distL.npy' # Distortion matrix for left
+        self.right_dist = workspace_path + f'/../../calibrationMatricies/calibration_data/distR.npy' # Distortion matrix for right
+        self.left_matrix = workspace_path + f'/../../calibrationMatricies/calibration_data/mtxL.npy' # Intrinsic matrix for left
+        self.right_matrix = workspace_path + f'/../../calibrationMatricies/calibration_data/mtxR.npy' # Intrinsic matrix for right
+        self.left_P = workspace_path + f'/../../calibrationMatricies/calibration_data/P1.npy' # Projection matrix for left
+        self.right_P = workspace_path + f'/../../calibrationMatricies/calibration_data/P2.npy' # Projection matrix for right 
+        self.left_R = workspace_path + f'/../../calibrationMatricies/calibration_data/R1.npy' # Rectification transforms for left 
+        self.right_R = workspace_path + f'/../../calibrationMatricies/calibration_data/R2.npy' # Rectification transforms for right
+        self.Q_path = workspace_path + f'/../../calibrationMatricies/calibration_data/Q.npy' # Disparity-to-depth map matrix
+        self.R_path = workspace_path + f'/../../calibrationMatricies/calibration_data/R.npy' # Rotation matrix from left to right
+        self.T_path = workspace_path + f'/../../calibrationMatricies/calibration_data/T.npy' # Translation matrix from left to right
         self.camera_details = cameraDetails
         self.chessboard_size = chessboard_size
         self.index = self.camera_details['index']
@@ -163,3 +163,54 @@ class StereoCalibrator:
             cv.destroyAllWindows()
         except Exception as e:
             print(f"Error occured saving calibration matricies: {e}")
+
+    def testCalibration(self):
+        cap = cv.VideoCapture(self.index)
+        cap.set(cv.CAP_PROP_FRAME_WIDTH, self.width)  # Stereo frame width
+        cap.set(cv.CAP_PROP_FRAME_HEIGHT, self.height)  # Frame height
+
+        if not cap.isOpened():
+            print("Error: Could not open camera.")
+            exit()
+
+        mapL1, mapL2 = cv.initUndistortRectifyMap(self.mtxL, self.distL, self.R1, self.P1, (self.width, self.height), cv.CV_16SC2)
+        mapR1, mapR2 = cv.initUndistortRectifyMap(self.mtxR, self.distR, self.R2, self.P2, (self.width, self.height), cv.CV_16SC2)
+
+        frame_count = 0  # Counter for naming saved images
+
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                print("Failed to grab frame")
+                break
+            
+            height, width, _ = frame.shape
+            half_width = width // 2
+            left_frame = frame[:, :half_width]
+            right_frame = frame[:, half_width:]
+        
+            # Undistort and rectify images
+            rectified_left = cv.remap(left_frame, mapL1, mapL2, cv.INTER_LINEAR)
+            rectified_right = cv.remap(right_frame, mapR1, mapR2, cv.INTER_LINEAR)
+        
+            # Display results
+            cv.imshow("Rectified Left", rectified_left)
+            cv.imshow("Rectified Right", rectified_right)
+        
+            key = cv.waitKey(1) & 0xFF
+            if key == ord('s'):
+                left_path = f"calibration_data/rectified_left_{frame_count}.png"
+                right_path = f"calibration_data/rectified_right_{frame_count}.png"
+                cv.imwrite(left_path, rectified_left)
+                cv.imwrite(right_path, rectified_right)
+                print(f"Saved: {left_path}, {right_path}")
+                frame_count += 1
+            
+            if key == ord('q'):
+                break
+            
+        cap.release()
+        cv.destroyAllWindows()
+
+            
+h

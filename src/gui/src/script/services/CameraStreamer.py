@@ -5,6 +5,11 @@ import cv2
 from utils.EnvParams import EnvParams
 from interface.ICamera import ICamera
 import pyshine as ps
+import os
+import sys
+
+sys.stderr = open(os.devnull, 'w')
+sys.stdout = open(os.devnull, 'w')
 
 class CameraStreamer:
     def __init__(self, camera: ICamera) -> None:

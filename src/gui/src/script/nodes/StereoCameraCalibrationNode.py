@@ -17,7 +17,8 @@ class StereoCalibrationNode:
     
     def run(self):
         # self.calibrator.captureCalibrationImages()
-        self.calibrator.calibrate() ## Could be done outside of the raspberry
+        # self.calibrator.calibrate() ## Could be done outside of the raspberry
+        self.calibrator.testCalibration()
 
 if __name__ == "__main__":
     try:
