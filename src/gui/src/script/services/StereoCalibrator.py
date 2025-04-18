@@ -35,6 +35,17 @@ class StereoCalibrator:
         self.objpoints = []
         self.imgpoints_left = []
         self.imgpoints_right = []
+        
+        # Calibration matrices
+        self.mtx_left = None
+        self.dist_left = None
+        self.mtx_right = None
+        self.dist_right = None
+        self.R1 = None
+        self.R2 = None
+        self.P1 = None
+        self.P2 = None
+        self.Q = None
 
     def __initalizeCamera(self):
         try:
@@ -164,53 +175,83 @@ class StereoCalibrator:
         except Exception as e:
             print(f"Error occured saving calibration matricies: {e}")
 
+    def __loadCalibrationMatrices(self):
+        """Load calibration matrices from saved files"""
+        try:
+            self.mtx_left = np.load(self.left_matrix)
+            self.dist_left = np.load(self.left_dist)
+            self.mtx_right = np.load(self.right_matrix)
+            self.dist_right = np.load(self.right_dist)
+            self.R1 = np.load(self.left_R)
+            self.R2 = np.load(self.right_R)
+            self.P1 = np.load(self.left_P)
+            self.P2 = np.load(self.right_P)
+            self.Q = np.load(self.Q_path)
+            return True
+        except Exception as e:
+            print(f"Error loading calibration matrices: {e}")
+            return False
+
     def testCalibration(self):
+        """Test stereo camera calibration with live feed"""
+        if not self.__loadCalibrationMatrices():
+            print("Failed to load calibration matrices. Please run calibration first.")
+            return
+
         cap = cv.VideoCapture(self.index)
-        cap.set(cv.CAP_PROP_FRAME_WIDTH, self.width)  # Stereo frame width
-        cap.set(cv.CAP_PROP_FRAME_HEIGHT, self.height)  # Frame height
+        cap.set(cv.CAP_PROP_FRAME_WIDTH, self.width)
+        cap.set(cv.CAP_PROP_FRAME_HEIGHT, self.height)
 
         if not cap.isOpened():
             print("Error: Could not open camera.")
-            exit()
+            return
 
-        mapL1, mapL2 = cv.initUndistortRectifyMap(self.mtxL, self.distL, self.R1, self.P1, (self.width, self.height), cv.CV_16SC2)
-        mapR1, mapR2 = cv.initUndistortRectifyMap(self.mtxR, self.distR, self.R2, self.P2, (self.width, self.height), cv.CV_16SC2)
+        try:
+            # Initialize undistortion maps
+            mapL1, mapL2 = cv.initUndistortRectifyMap(
+                self.mtx_left, self.dist_left, self.R1, self.P1, 
+                (int(self.width/2), self.height), cv.CV_16SC2
+            )
+            mapR1, mapR2 = cv.initUndistortRectifyMap(
+                self.mtx_right, self.dist_right, self.R2, self.P2, 
+                (int(self.width/2), self.height), cv.CV_16SC2
+            )
 
-        frame_count = 0  # Counter for naming saved images
+            frame_count = 0
 
-        while True:
-            ret, frame = cap.read()
-            if not ret:
-                print("Failed to grab frame")
-                break
+            while True:
+                ret, frame = cap.read()
+                if not ret:
+                    print("Failed to grab frame")
+                    break
+                
+                height, width = frame.shape[:2]
+                half_width = width // 2
+                left_frame = frame[:, :half_width]
+                right_frame = frame[:, half_width:]
             
-            height, width, _ = frame.shape
-            half_width = width // 2
-            left_frame = frame[:, :half_width]
-            right_frame = frame[:, half_width:]
-        
-            # Undistort and rectify images
-            rectified_left = cv.remap(left_frame, mapL1, mapL2, cv.INTER_LINEAR)
-            rectified_right = cv.remap(right_frame, mapR1, mapR2, cv.INTER_LINEAR)
-        
-            # Display results
-            cv.imshow("Rectified Left", rectified_left)
-            cv.imshow("Rectified Right", rectified_right)
-        
-            key = cv.waitKey(1) & 0xFF
-            if key == ord('s'):
-                left_path = f"calibration_data/rectified_left_{frame_count}.png"
-                right_path = f"calibration_data/rectified_right_{frame_count}.png"
-                cv.imwrite(left_path, rectified_left)
-                cv.imwrite(right_path, rectified_right)
-                print(f"Saved: {left_path}, {right_path}")
-                frame_count += 1
+                # Undistort and rectify images
+                rectified_left = cv.remap(left_frame, mapL1, mapL2, cv.INTER_LINEAR)
+                rectified_right = cv.remap(right_frame, mapR1, mapR2, cv.INTER_LINEAR)
             
-            if key == ord('q'):
-                break
+                # Display results
+                cv.imshow("Rectified Left", rectified_left)
+                cv.imshow("Rectified Right", rectified_right)
             
-        cap.release()
-        cv.destroyAllWindows()
-
-            
-h
+                key = cv.waitKey(1) & 0xFF
+                if key == ord('s'):
+                    left_path = f"calibration_data/rectified_left_{frame_count}.png"
+                    right_path = f"calibration_data/rectified_right_{frame_count}.png"
+                    cv.imwrite(left_path, rectified_left)
+                    cv.imwrite(right_path, rectified_right)
+                    print(f"Saved: {left_path}, {right_path}")
+                    frame_count += 1
+                
+                if key == ord('q'):
+                    break
+                
+        except Exception as e:
+            print(f"Error during calibration testing: {e}")
+        finally:
+            cap.release()
+            cv.destroyAllWindows()
