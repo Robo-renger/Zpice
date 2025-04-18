@@ -4,9 +4,14 @@ from multiprocessing import Process
 import cv2
 from utils.EnvParams import EnvParams
 import pyshine as ps
+import os
+import sys
 
+sys.stderr = open(os.devnull, 'w')
+sys.stdout = open(os.devnull, 'w')
 class CameraStreamer:
     def __init__(self, cameraIndex, port,format = "MJPG") -> None:
+        # cv2.utils.logging.setLogLevel(cv2.utils.logging.LOG_LEVEL_SILENT)
         self.address = EnvParams().WEB_DOMAIN
         self.cameraIndex = cameraIndex
         self.width = 1280

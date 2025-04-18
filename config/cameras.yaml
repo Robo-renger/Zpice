@@ -6,22 +6,22 @@ camera1:
   port: 8081
 camera2:
   index: /dev/fisheye_camera
-  width: 352
-  height: 288
+  width: 640
+  height: 480
   fps: 30
   port: 8082
 # camera3:
-#   index: '/dev/rapoo_camera'
-#   width: 1280
-#   height: 960
-#   fps: 30
-#   port: 8083
-# camera3:
-#   index: '/dev/rapoo_camera'
+#   index: '/dev/logitech_camera_1'
 #   width: 1280
 #   height: 720
-#   fps: 15
-#   port: 8081
+#   fps: 30
+#   port: 8083
+# camera4:
+#   index: '/dev/logitech_camera_2'
+#   width: 352
+#   height: 288
+#   fps: 30
+#   port: 8084
 # camera4:
 #   index: '/dev/video2'
 #   width: 640
