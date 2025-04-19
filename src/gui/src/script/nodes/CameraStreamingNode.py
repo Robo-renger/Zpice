@@ -41,9 +41,10 @@ class CameraStreamerNode:
                 # self.cameras.append(StereoStitcher(self.camerasDetails))
             elif details['type'] == 'STEREO':
                 # self.stereo_cameras.append(StereoCamera(details))
-                self.cameras.append(LeftStereoCamera(details))
+                # self.cameras.append(LeftStereoCamera(details))
                 # self.cameras.append(RightStereoCamera(details))
                 # self.cameras.append(VisualizeDepthMap(details))
+                pass
             else:
                 raise Exception(f"Unsupported camera type. Couldn't find {details['type']}")
             
