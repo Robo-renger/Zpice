@@ -25,57 +25,24 @@ class StereoCamera:
         self.compression = cameraDetails['format']
         self.focal_length = cameraDetails['focal_length']
         self.baseline = cameraDetails['baseline']
+        self.port = cameraDetails['port']
+        self.left_port = cameraDetails['left_stereo']['port']
+        self.right_port = cameraDetails['right_stereo']['port']
         self.capture = None
-        self.stitch_process = None
-        self.split_process = None
-        self.standalone_camera_details = {}
-        self.stereo_stitcher = StereoStitcher(cameraDetails)
-        # self.__splitStereo()
-        self.__stitch()
+        self.frame = None
+        self.frame_left = None
+        self.frame_right = None
 
-    def __splitStereo(self):
-        self.split_process = Process(target=self.__runSplitter)
-        self.split_process.daemon = True
-        self.split_process.start()
-
-    def __runSplitter(self):
-        self.cameraIndex = "/dev/video4"
-        command = f"""
-            gst-launch-1.0 -v v4l2src device={self.cameraIndex} ! \
-                video/x-raw,width={int(self.width)},height={int(self.height)} ! videoconvert ! tee name=t \
-                t. ! queue ! videocrop right={int(self.width / 2)} ! videoconvert ! v4l2sink device=/dev/video17 \
-                t. ! queue ! videocrop left={int(self.width / 2)} ! videoconvert ! v4l2sink device=/dev/video18
-            """
-        subprocess.run(command, shell=True, executable="/bin/bash")
-
-    def __stitch(self):
-        print("anaaaaaaaa b stitchhhhh")
-        self.stitch_process = Process(target=self.__runStitcher)
-        self.stitch_process.daemon = True
-        self.stitch_process.start()
-
-    def __runStitcher(self):
-        try:
-            self.stereo_stitcher.stitch()
-        except Exception as e:
-            print(f"Error occurred: {e}")
-        finally:
-            self.stitch_process.terminate()
-            self.stitch_process.join()
-    
+ 
     
     def setupCamera(self) -> cv.VideoCapture:
-        pass
-
-    def setupStereoCamera(self, camera_details: dict) -> cv.VideoCapture:
-        """Sets up the camera capture based on the selected format.""" 
-        self.standalone_camera_details = camera_details   
+        """Sets up the camera capture based on the selected format."""   
         if self.compression == "H264":
             return self._setupH264()
         elif self.compression == "MJPG":
             return self._setupMJPG()
         else:
-            raise ValueError("Unsupported format. Choose either 'MJPG' or 'H264'.")
+            raise ValueError("Unsupported format. Choose either 'MJPG' or 'H264'.")     
         
     def _setupMJPG(self):
         """Sets up MJPEG streaming using OpenCV."""
@@ -111,29 +78,51 @@ class StereoCamera:
     def getPort(self):
         return self.port
     
+    def getLeftPort(self):
+        return self.left_port
+    
+    def getRightPort(self):
+        return self.right_port
+    
+    def left_frame_gen(self):
+        while True:
+            ret, frame = self.capture.read()
+            if not ret:
+                continue
+            frame_left = frame[:, int(self.width / 2):]
+            yield frame_left
+    
+    def right_frame_gen(self):
+        while True:
+            ret, frame = self.capture.read()
+            if not ret:
+                continue
+            frame_right = frame[:, :int(self.width / 2)]
+            yield frame_right
+    
     def getFrame(self):
         if self.capture is not None:
             self.frame = self.capture.read()
+            return self.frame
+        else:
+            return None
 
     def read(self):
         ret, frame = self.capture.read()
         if ret:
-            frame = cv.undistort(frame, self.mtx, self.dist, None, self.newCameraMtx)
+            self.frame = frame
+            self.frame_left = frame[:, :int(self.width / 2)]
+            self.frame_right = frame[:, int(self.width / 2):]
         return ret, frame
 
     def isOpened(self):
         return self.capture.isOpened()
 
     def release(self):
-        self.capture.release()
-        self.stitch_process.terminate()
-        self.stitch_process.join()
-        self.split_process.terminate()
-        self.split_process.join()
+        if self.capture is not None:
+            self.capture.release()
+
 
     def get(self, prop_id):
         return self.capture.get(prop_id)
     
-    def getCameras(self) -> list:
-        return [self.camera_details['left_cam'], self.camera_details['right_cam'], self.camera_details['stitched']]
- 

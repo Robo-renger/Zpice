@@ -21,6 +21,7 @@ class CameraStreamerNode:
         self.configurator = Configurator()
         self.camerasDetails = self.__getCameraSteamDetails()
         self.cameraStreamers = []
+        self.stereoCameraStreamers = []
         self.cameras = []
         self.stereo_cameras = []
         
@@ -38,7 +39,7 @@ class CameraStreamerNode:
                 pass
                 # self.cameras.append(StereoStitcher(self.camerasDetails))
             elif details['type'] == 'STEREO':
-                pass
+                self.stereo_cameras.append(StereoCamera(details))
                 # self.cameras.append(RightStereoCamera(details))
                 # self.cameras.append(LeftStereoCamera(details))
             else:
@@ -50,14 +51,21 @@ class CameraStreamerNode:
             cameraStreamer = CameraStreamer(camera)
             self.cameraStreamers.append(cameraStreamer)
             cameraStreamer.stream()
+        for stereo_camera in self.stereo_cameras:
+            stereoCameraStreamer = StereoCameraStreamer(stereo_camera)
+            self.stereoCameraStreamers.append(stereoCameraStreamer)
+            stereoCameraStreamer.stream()
 
     def stopAllStreams(self):
         for cameraStreamer in self.cameraStreamers:
             cameraStreamer.releaseCapture()
+        for stereoCameraStreamer in self.stereoCameraStreamers:
+            stereoCameraStreamer.closeStream()
         rospy.logwarn("All streams terminated")
 
     def main(self):
         self.startStreaming()
+        time.sleep(5)
         rospy.spin()
 
 def signal_handler(sig, frame):

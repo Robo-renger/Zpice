@@ -5,70 +5,62 @@ import cv2
 from utils.EnvParams import EnvParams
 from interface.ICamera import ICamera
 import pyshine as ps
+import os
+import sys
 
+sys.stderr = open(os.devnull, 'w')
+sys.stdout = open(os.devnull, 'w')
 class StereoCameraStreamer:
     def __init__(self, camera: ICamera) -> None:
         self.address = EnvParams().WEB_DOMAIN
         self.camera = camera
-        self.processes = []
-        self.captures = []
-        self.servers = []
+        self.left_port = self.camera.getLeftPort()
+        self.right_port = self.camera.getRightPort()
         self.capture = None
+        self.left_process = None
+        self.right_process = None
         self.server = None
-        self.process = None
         
-    def __run(self):
+    def __run(self, port):
         try:
             StreamProps = ps.StreamProps
             StreamProps.set_Page(StreamProps, "")
-            capture = self.camera.setupStereoCamera(self.camera_details)
-            port = self.camera_details['port']
-            self.captures.append(capture)
-            server = None
+            self.capture = self.camera.setupCamera()
             address = (self.address, port)
-            if not capture.isOpened():
+            if not self.capture.isOpened():
                 raise Exception("Failed to open camera with GStreamer pipeline.")
     
             StreamProps.set_Mode(StreamProps, 'cv2')
-            StreamProps.set_Capture(StreamProps, capture)
             StreamProps.set_Quality(StreamProps, 90)
-    
-            width = capture.get(cv2.CAP_PROP_FRAME_WIDTH)
-            height = capture.get(cv2.CAP_PROP_FRAME_HEIGHT)
-            fps = capture.get(cv2.CAP_PROP_FPS)
-            fourcc_code = int(capture.get(cv2.CAP_PROP_FOURCC))
-            format_used = "".join([chr((fourcc_code >> 8 * i) & 0xFF) for i in range(4)])
-    
-            print(f"Resolution: {int(width)}x{int(height)}, FPS: {int(fps)}, Format: {format_used}")
-    
-            server = ps.Streamer(address, StreamProps)
-            self.servers.append(server)
-            server.serve_forever()
+            if port == self.left_port:  
+                self.server = ps.Streamer(address=address, frame=self.camera.left_frame_gen())
+            else:
+                self.server = ps.Streamer(address=address, frame=self.camera.right_frame_gen())
+            print(f"Port: {port}")
+            self.server.serve_forever()
 
         except Exception as e:
+            pass
             print(f"Error occurred: {e}")
         finally:
-            if capture is not None:
-                capture.release()
-            if server is not None:
-                server.socket.close()
+            if self.capture is not None:
+                self.capture.release()
+            if self.server is not None:
+                self.server.socket.close()
 
     def stream(self):
-        for camera_details in self.camera.getCameras():
-            self.camera_details = camera_details
-            process = Process(target=self.__run)
-            process.daemon = True
-            process.start()
-            self.processes.append(process)
+        self.left_process = Process(target=self.__run, args=(self.left_port,))
+        self.right_process = Process(target=self.__run, args=(self.right_port,))
+        self.left_process.daemon = True
+        self.right_process.daemon = True
+        self.left_process.start()
+        self.right_process.start()
 
     def closeStream(self):
-        for capture in self.captures:
-            if capture is not None:
-                capture.release()
-        for server in self.servers:
-            if server is not None:
-                server.socket.close()
-        for process in self.processes:
-            if process is not None:
-                process.terminate()
-                process.join()
+        if self.capture is not None:
+            self.capture.release()
+        if self.server is not None:
+            self.server.socket.close()
+        if self.process is not None:
+            self.process.terminate()
+            self.process.join()

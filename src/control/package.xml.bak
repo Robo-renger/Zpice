@@ -1,7 +1,11 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>control</name>
+<<<<<<< HEAD
   <version>1.1.246</version>
+=======
+  <version>1.1.289</version>
+>>>>>>> 377c306f72658b404f66fd76f20d52f333f52da9
   <description>The control package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
