@@ -69,30 +69,30 @@ stereo:
   format: MJPG
   type: STEREO
   fps: 30
-left_stereo:
-  index: /dev/stereo_left #--> video17
-  width: 640
-  height: 480
-  format: MJPG
-  type: NORMAL
-  fps: 30
-  port: 8085
-right_stereo:
-  index: /dev/stereo_right  #--> video18
-  width: 640
-  height: 480
-  format: MJPG
-  type: NORMAL
-  fps: 30
-  port: 8086
-stitched:
-  index: /dev/stereo_stitched #--> video19
-  width: 1280
-  height: 480
-  format: MJPG
-  type: STITCHED
-  fps: 30
-  port: 8087
+  left_stereo:
+    index: /dev/stereo_left #--> video17
+    width: 640
+    height: 480
+    format: MJPG
+    type: NORMAL
+    fps: 30
+    port: 8085
+  right_stereo:
+    index: /dev/stereo_right  #--> video18
+    width: 640
+    height: 480
+    format: MJPG
+    type: NORMAL
+    fps: 30
+    port: 8086
+  stitched:
+    index: /dev/stereo_stitched #--> video19
+    width: 1280
+    height: 480
+    format: MJPG
+    type: STITCHED
+    fps: 30
+    port: 8087
 
 
 # # #Rapoo and left cameras probably doesnt not suppoer mjpg format

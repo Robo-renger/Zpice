@@ -8,7 +8,6 @@ import pyshine as ps
 import os
 import sys
 
-
 sys.stderr = open(os.devnull, 'w')
 sys.stdout = open(os.devnull, 'w')
 class CameraStreamer:
