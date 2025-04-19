@@ -14,6 +14,8 @@ class RightStereoCamera:
     def __init__(self, cameraDetails: dict) -> None:
         """Initialize the camera
         @param cameraDetails: all details of the camera found in the config"""
+        rospack = rospkg.RosPack()
+        workspace_path = rospack.get_path('gui')
         self.address = EnvParams().WEB_DOMAIN
         self.cameraIndex = cameraDetails['index']
         self.width = cameraDetails['width']
@@ -21,8 +23,24 @@ class RightStereoCamera:
         self.FPS = cameraDetails['fps']
         self.compression = cameraDetails['format']
         self.port = cameraDetails['right_stereo']['port']
+        self.mtx_path = workspace_path + f'/../../calibrationMatricies/calibration_data2/mtxR.npy'
+        self.dist_path = workspace_path + f'/../../calibrationMatricies/calibration_data2/distR.npy'
+        self.P1_path = workspace_path + f'/../../calibrationMatricies/calibration_data2/P2.npy'
+        self.Q_path = workspace_path + f'/../../calibrationMatricies/calibration_data2/Q.npy'
+        self.R_path = workspace_path + f'/../../calibrationMatricies/calibration_data2/R.npy'
+        self.R1_path = workspace_path + f'/../../calibrationMatricies/calibration_data2/R2.npy'
+        self.T_path = workspace_path + f'/../../calibrationMatricies/calibration_data2/T.npy'
         self.capture = None
         self.frame = None
+        self.mtx = None
+        self.dist = None
+        self.P2 = None
+        self.Q = None
+        self.R = None
+        self.R2 = None
+        self.T = None
+        self.loadCalibrationData()
+        self.mapR1, self.mapR2 = cv.initUndistortRectifyMap(self.mtx, self.dist, self.R2, self.P2, (640, 480), cv.CV_16SC2)
         
 
     def setupCamera(self) -> cv.VideoCapture:
@@ -71,12 +89,14 @@ class RightStereoCamera:
     def getFrame(self):
         if self.capture is not None:
             self.frame = self.capture.read()
-            self.frame = self.frame[:, self.width/2:]
+            self.frame = self.frame[:, int(self.width/2):]
+            self.frame = cv.remap(self.frame, self.mapR1, self.mapR2, cv.INTER_LINEAR)
 
     def read(self):
         ret, frame = self.capture.read()
         if ret:
-            frame = self.frame[:, self.width/2:]
+            frame = frame[:, int(self.width/2):]
+            frame = cv.remap(frame, self.mapR1, self.mapR2, cv.INTER_LINEAR)
         return ret, frame
 
     def isOpened(self):
@@ -87,5 +107,13 @@ class RightStereoCamera:
 
     def get(self, prop_id):
         return self.capture.get(prop_id)
+
+    def loadCalibrationData(self):
+        self.mtx = np.load(self.mtx_path)
+        self.dist = np.load(self.dist_path)
+        self.P1 = np.load(self.P1_path)
+        self.Q = np.load(self.Q_path)
+        self.R = np.load(self.R_path)
+        
  
  

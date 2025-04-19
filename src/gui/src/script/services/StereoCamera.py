@@ -47,7 +47,7 @@ class StereoCamera:
     def _setupMJPG(self):
         """Sets up MJPEG streaming using OpenCV."""
         print("Initializing camera with MJPEG format...")
-        self.capture = cv.VideoCapture(self.standalone_camera_details['index'])
+        self.capture = cv.VideoCapture(self.cameraIndex)
         fourcc = cv.VideoWriter_fourcc(*'MJPG')
         self.capture.set(cv.CAP_PROP_FOURCC, fourcc)
         self.__setCVAttrs()
@@ -58,12 +58,12 @@ class StereoCamera:
         """Sets up H.264 streaming using GStreamer."""
         print("Initializing camera with H.264 format...")
         gst_pipeline = (
-            f"v4l2src device={self.standalone_camera_details['index']} ! "
-            f"image/jpeg, width={self.standalone_camera_details['width']}, height={self.standalone_camera_details['height']}, framerate={self.standalone_camera_details['fps']}/1 ! "
+            f"v4l2src device={self.cameraIndex} ! "
+            f"image/jpeg, width={self.width}, height={self.height}, framerate={self.FPS}/1 ! "
             "jpegparse ! jpegdec ! videoconvert ! "
             "x264enc speed-preset=ultrafast tune=zerolatency bitrate=2000 ! "
             "rtph264pay config-interval=1 pt=96 ! "
-            f"udpsink host={self.address} port={self.standalone_camera_details['port']}"
+            f"udpsink host={self.address} port={self.port}"
         )
         self.capture = cv.VideoCapture(gst_pipeline, cv.CAP_GSTREAMER)
         self.__setCVAttrs()
@@ -71,9 +71,9 @@ class StereoCamera:
         
     def __setCVAttrs(self) -> None:
         self.capture.set(cv.CAP_PROP_BUFFERSIZE, 4)
-        self.capture.set(cv.CAP_PROP_FRAME_WIDTH, self.standalone_camera_details['width'])
-        self.capture.set(cv.CAP_PROP_FRAME_HEIGHT, self.standalone_camera_details['height'])
-        self.capture.set(cv.CAP_PROP_FPS, self.standalone_camera_details['fps'])
+        self.capture.set(cv.CAP_PROP_FRAME_WIDTH, self.width)
+        self.capture.set(cv.CAP_PROP_FRAME_HEIGHT, self.height)
+        self.capture.set(cv.CAP_PROP_FPS, self.FPS)
 
     def getPort(self):
         return self.port

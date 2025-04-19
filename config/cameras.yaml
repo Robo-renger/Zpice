@@ -1,57 +1,19 @@
-camera1:
-  index: '/dev/stereo_camera'
-  width: 340
-  height: 240
-  fps: 20
-  port: 8081
-camera2:
-  index: /dev/fisheye_camera
-  width: 320
-  height: 240
-  fps: 30
-  port: 8082
-camera3:
-  index: '/dev/rapoo_camera'
-  width: 640
-  height: 480
-  fps: 20
-  port: 8083
-camera4:
-  index: '/dev/logitech_camera_2'
-  width: 320
-  height: 240
-  fps: 30
-  port: 8084
-# camera5:
-#   index: '/dev/logitech_camera_2'
-#   width: 1280
-#   height: 720
-#   fps: 15
-#   port: 8081
-# camera5:
-#   index: '/dev/video8'
-#   width: 1280
-#   height: 720
+# horizontal_gripper_camera:
+#   index: /dev/logitech_camera_1
+#   width: 640
+#   height: 480
 #   format: MJPG
 #   type: NORMAL
-#   fps: 20
+#   fps: 30
 #   port: 8081
-horizontal_gripper_camera:
-  index: /dev/logitech_camera1
-  width: 640
-  height: 480
-  format: MJPG
-  type: NORMAL
-  fps: 30
-  port: 8082
-vertical_gripper_camera:
-  index: /dev/logitech_camera2
-  width: 640
-  height: 480
-  format: MJPG
-  type: NORMAL
-  fps: 30
-  port: 8083
+# vertical_gripper_camera:
+#   index: /dev/logitech_camera_2
+#   width: 640
+#   height: 480
+#   format: MJPG
+#   type: NORMAL
+#   fps: 30
+#   port: 8082
 photosphere:
   index: /dev/fisheye_camera
   width: 640
@@ -59,7 +21,32 @@ photosphere:
   format: MJPG
   type: FISHEYE
   fps: 30
-  port: 8084
+  port: 8083
+# rapoo:
+#   index: /dev/rapoo_camera
+#   width: 640
+#   height: 480
+#   format: MJPG
+#   type: NORMAL
+#   fps: 30
+#   port: 8084
+# left_stereo:
+#   index: /dev/stereo_left #--> video17
+#   width: 640
+#   height: 480
+#   format: MJPG
+#   type: NORMAL
+#   fps: 30
+#   port: 8085
+# right_stereo:
+#   index: /dev/stereo_right  #--> video18
+#   width: 640
+#   height: 480
+#   format: MJPG
+#   type: NORMAL
+#   fps: 30
+#   port: 8086
+
 stereo:
   index: /dev/stereo_camera
   focal_length: 3 #mm
@@ -68,7 +55,8 @@ stereo:
   height: 480
   format: MJPG
   type: STEREO
-  fps: 30
+  port: 8085
+  fps: 20
   left_stereo:
     index: /dev/stereo_left #--> video17
     width: 640
@@ -76,7 +64,7 @@ stereo:
     format: MJPG
     type: NORMAL
     fps: 30
-    port: 8085
+    port: 8086
   right_stereo:
     index: /dev/stereo_right  #--> video18
     width: 640
@@ -84,7 +72,7 @@ stereo:
     format: MJPG
     type: NORMAL
     fps: 30
-    port: 8086
+    port: 8087
   stitched:
     index: /dev/stereo_stitched #--> video19
     width: 1280
@@ -92,7 +80,9 @@ stereo:
     format: MJPG
     type: STITCHED
     fps: 30
-    port: 8087
+    port: 8088
+
+
 
 
 # # #Rapoo and left cameras probably doesnt not suppoer mjpg format

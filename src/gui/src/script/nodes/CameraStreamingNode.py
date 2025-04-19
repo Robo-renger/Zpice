@@ -14,6 +14,7 @@ from services.StereoStitcher import StereoStitcher
 import time
 from services.RightStereoCamera import RightStereoCamera
 from services.LeftStereoCamera import LeftStereoCamera
+from services.VisualizeDepthMap import VisualizeDepthMap
 
 class CameraStreamerNode:
     def __init__(self):
@@ -39,9 +40,10 @@ class CameraStreamerNode:
                 pass
                 # self.cameras.append(StereoStitcher(self.camerasDetails))
             elif details['type'] == 'STEREO':
-                self.stereo_cameras.append(StereoCamera(details))
+                # self.stereo_cameras.append(StereoCamera(details))
+                self.cameras.append(LeftStereoCamera(details))
                 # self.cameras.append(RightStereoCamera(details))
-                # self.cameras.append(LeftStereoCamera(details))
+                # self.cameras.append(VisualizeDepthMap(details))
             else:
                 raise Exception(f"Unsupported camera type. Couldn't find {details['type']}")
             
@@ -51,16 +53,16 @@ class CameraStreamerNode:
             cameraStreamer = CameraStreamer(camera)
             self.cameraStreamers.append(cameraStreamer)
             cameraStreamer.stream()
-        for stereo_camera in self.stereo_cameras:
-            stereoCameraStreamer = StereoCameraStreamer(stereo_camera)
-            self.stereoCameraStreamers.append(stereoCameraStreamer)
-            stereoCameraStreamer.stream()
+        # for stereo_camera in self.stereo_cameras:
+        #     stereoCameraStreamer = StereoCameraStreamer(stereo_camera)
+        #     self.stereoCameraStreamers.append(stereoCameraStreamer)
+        #     stereoCameraStreamer.stream()
 
     def stopAllStreams(self):
         for cameraStreamer in self.cameraStreamers:
             cameraStreamer.releaseCapture()
-        for stereoCameraStreamer in self.stereoCameraStreamers:
-            stereoCameraStreamer.closeStream()
+        # for stereoCameraStreamer in self.stereoCameraStreamers:
+        #     stereoCameraStreamer.closeStream()
         rospy.logwarn("All streams terminated")
 
     def main(self):

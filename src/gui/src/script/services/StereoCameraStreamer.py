@@ -8,8 +8,8 @@ import pyshine as ps
 import os
 import sys
 
-sys.stderr = open(os.devnull, 'w')
-sys.stdout = open(os.devnull, 'w')
+# sys.stderr = open(os.devnull, 'w')
+# sys.stdout = open(os.devnull, 'w')
 class StereoCameraStreamer:
     def __init__(self, camera: ICamera) -> None:
         self.address = EnvParams().WEB_DOMAIN
@@ -21,21 +21,22 @@ class StereoCameraStreamer:
         self.right_process = None
         self.server = None
         
-    def __run(self, port):
+    def __run(self, port, capture):
         try:
             StreamProps = ps.StreamProps
             StreamProps.set_Page(StreamProps, "")
-            self.capture = self.camera.setupCamera()
+            # self.capture = self.camera.setupCamera()
             address = (self.address, port)
-            if not self.capture.isOpened():
-                raise Exception("Failed to open camera with GStreamer pipeline.")
+            # if not self.capture.isOpened():
+            #     raise Exception("Failed to open camera with GStreamer pipeline.")
     
             StreamProps.set_Mode(StreamProps, 'cv2')
             StreamProps.set_Quality(StreamProps, 90)
             if port == self.left_port:  
-                self.server = ps.Streamer(address=address, frame=self.camera.left_frame_gen())
+                print("anaaaaa henaaaaaa")
+                self.server = ps.Streamer(address, frame_generator=self.camera.left_frame_gen)
             else:
-                self.server = ps.Streamer(address=address, frame=self.camera.right_frame_gen())
+                self.server = ps.Streamer(address, frame_generator=self.camera.right_frame_gen)
             print(f"Port: {port}")
             self.server.serve_forever()
 
@@ -49,12 +50,16 @@ class StereoCameraStreamer:
                 self.server.socket.close()
 
     def stream(self):
-        self.left_process = Process(target=self.__run, args=(self.left_port,))
-        self.right_process = Process(target=self.__run, args=(self.right_port,))
-        self.left_process.daemon = True
-        self.right_process.daemon = True
-        self.left_process.start()
-        self.right_process.start()
+        self.capture = self.camera.setupCamera()
+        if self.capture is None:
+            raise Exception("Failed to open camera with GStreamer pipeline.")
+        else:
+            self.left_process = Process(target=self.__run, args=(self.left_port,self.capture))
+            self.right_process = Process(target=self.__run, args=(self.right_port,self.capture))
+            self.left_process.daemon = True
+            self.right_process.daemon = True
+            self.left_process.start()
+            self.right_process.start()
 
     def closeStream(self):
         if self.capture is not None:
