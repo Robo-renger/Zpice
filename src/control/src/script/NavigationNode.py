@@ -144,7 +144,7 @@ class NavigationNode:
         self.pitch = axis_values.get('right_y_axis', 0)
         self.yaw = -1 * axis_values.get('right_x_axis', 0)
 
-        if self.joystick.isPressed("HEAVE_DOWN") and self.joystick.isPressed("HEAVE_UP"):
+        if self.joystick.isPressed("RESET_HEAVE"):
             self.z = 0.0
             self.last_reset_time = current_time 
         elif current_time - self.last_reset_time > 0.2:  

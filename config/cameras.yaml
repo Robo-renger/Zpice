@@ -1,33 +1,33 @@
 camera1:
-  index: '/dev/video4'
-  width: 640
-  height: 480
-  fps: 60
+  index: '/dev/stereo_camera'
+  width: 340
+  height: 240
+  fps: 20
   port: 8081
 camera2:
   index: /dev/fisheye_camera
-  width: 640
-  height: 480
+  width: 320
+  height: 240
   fps: 30
   port: 8082
-# camera3:
-#   index: '/dev/logitech_camera_1'
+camera3:
+  index: '/dev/rapoo_camera'
+  width: 640
+  height: 480
+  fps: 20
+  port: 8083
+camera4:
+  index: '/dev/logitech_camera_2'
+  width: 320
+  height: 240
+  fps: 30
+  port: 8084
+# camera5:
+#   index: '/dev/logitech_camera_2'
 #   width: 1280
 #   height: 720
-#   fps: 30
-#   port: 8083
-# camera4:
-#   index: '/dev/logitech_camera_2'
-#   width: 352
-#   height: 288
-#   fps: 30
-#   port: 8084
-# camera4:
-#   index: '/dev/video2'
-#   width: 640
-#   height: 480
-#   fps: 20
-#   port: 8082
+#   fps: 15
+#   port: 8081
 # camera5:
 #   index: '/dev/video8'
 #   width: 1280

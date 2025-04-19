@@ -1,13 +1,11 @@
 [
     {
         "severity": "ERROR",
-        "message": "Failed to deserialize data.",
-        "component_name": "CJoystick",
-        "timestamp": "2025-04-18T14:04:08.401894"
+        "message": "Failed to read sensor data: [Errno 5] Input/output error",
+        "component_name": "DepthSensor",
+        "timestamp": "2025-04-18T14:42:57.053193"
     }
-]
-    }
-]stamp": "2025-04-17T14:19:43.945620"
+]38:22.098217"
     }
 ]4956"
     }
