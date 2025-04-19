@@ -1,13 +1,13 @@
-# Goal (The angle you want to rotate with)
+# Goal (The angle that we need to increment and send feedback with) 
+float64 angle
 
 ---
 
-# Result
-bool success
-string[] screenshots
+# Result (Directory at which the screenshots are taken)
+string directory
 
 ---
 
-# Feedback
+# Feedback (Incrementer -> percentage, URL -> Link to the screenshot)
 float64 incrementer
-string discription
+string url

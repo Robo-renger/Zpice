@@ -59,6 +59,7 @@ catkin_python_setup()
   Depth.msg
   Status.msg
   GPIOStatus.msg
+  SetTarget.msg
 )
 
 ## Generate services in the 'srv' folder

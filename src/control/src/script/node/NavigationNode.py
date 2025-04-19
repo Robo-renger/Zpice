@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import rospy
-from control.msg import IMU, Depth
+from control.msg import IMU, Depth, SetTarget
 from std_msgs.msg import String, Float32MultiArray, Float32
 from services.Joystick import CJoystick
 from services.Navigation import Navigation
@@ -45,6 +45,7 @@ class NavigationNode:
         
         rospy.Subscriber("IMU", IMU, self._imuCallback)
         rospy.Subscriber("depth", Depth, self._depthCallback)
+        rospy.Subscriber("set_target", SetTarget, self._setTargetCallback)
         rospy.Subscriber("constants", Float32MultiArray, self.constantsCallback)
         rospy.Subscriber("factor", Float32MultiArray, self.factorCallback)
         rospy.Subscriber("setpoint", Float32, self.setpointCallback)
@@ -84,7 +85,31 @@ class NavigationNode:
                 self.pid_pitch.updateSetpoint(msg.target)
 
         elif msg.type == "heave":
+            if msg.reached:
+                self.fix_heading = False        
+            if not msg.reached:
+                self.pid_yaw.updateSetpoint(msg.target)
+
+        elif msg.type == "tilting":
+            self.fix_tilting = True
+            if msg.reached:
+                self.fix_tilting = False        
+            if not msg.reached:
+                self.pid_pitch.updateSetpoint(msg.target)
+
+        elif msg.type == "heave":
             self.fix_heave = True
+            if msg.reached:
+                self.fix_heave = False
+            if not msg.reached:
+                self.pid_heave.updateSetpoint(msg.target)
+
+        elif msg.type == "rotate":
+            self.is_rotating = True
+            if msg.reached:
+                self.is_rotating = False
+            if not msg.reached:
+                self.pid_yaw.updateSetpoint(self.depth)
             if msg.reached:
                 self.fix_heave = False
             if not msg.reached:
@@ -135,6 +160,7 @@ class NavigationNode:
         self.fix_tilting = False
         self.fix_heave = False
         self.is_rotating = False
+        self.is_rotating = False
 
     def handleJoystickInput(self):
         current_time = time.time()
@@ -172,18 +198,27 @@ class NavigationNode:
         Navigation.navigate(self.x, self.y, pitch_output, self.z, yaw_output)
 
     def setHeading(self):
+    def setHeading(self):
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
+        Navigation.navigate(self.x, self.y, -self.pitch, self.z, yaw_output)
         Navigation.navigate(self.x, self.y, -self.pitch, self.z, yaw_output)
     
     def setTilting(self):
+    def setTilting(self):
         pitch_output = self.pid_pitch.stabilize(self.imu_data['pitch'])
+        Navigation.navigate(self.x, self.y, pitch_output, self.z, self.yaw)
         Navigation.navigate(self.x, self.y, pitch_output, self.z, self.yaw)
 
     def setDepth(self):
         heave_output = self.pid_heave.stabilize(self.depth)
         Navigation.navigate(self.x, self.y, -self.pitch, heave_output, self.yaw)
+    def setDepth(self):
+        heave_output = self.pid_heave.stabilize(self.depth)
+        Navigation.navigate(self.x, self.y, -self.pitch, heave_output, self.yaw)
 
     def rotate(self):
+        heave_output = self.pid_heave.stabilize(self.depth)
+        Navigation.navigate(self.x, self.y, 0.5, heave_output, 0.5)
         heave_output = self.pid_heave.stabilize(self.depth)
         Navigation.navigate(self.x, self.y, 0.5, heave_output, 0.5)
     
@@ -337,6 +372,7 @@ class NavigationNode:
 
 if __name__ == "__main__":
     Vectorizer.yaw_only = False
+    Vectorizer.yaw_only = False
     rospy.init_node("navigation_node")
     try:
         node = NavigationNode()
@@ -345,5 +381,7 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         rospy.loginfo("Exiting Navigation Node...")
     finally:
+        Navigation.stopAll()
+        rospy.logwarn("Stopped all motors")
         Navigation.stopAll()
         rospy.logwarn("Stopped all motors")
