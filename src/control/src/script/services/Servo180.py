@@ -29,7 +29,7 @@ class Servo180:
         self.__pwm_driver = pwm_driver
         self.__max_limit = max_limit
         self.__min_limit = min_limit
-        self.__prev_value = 1500
+        self.__prev_value = (min_limit+max_limit) // 2
         self.__step = 1
         self.setAngle() # Initialize the servo to angle 90 should be the center forward 
 

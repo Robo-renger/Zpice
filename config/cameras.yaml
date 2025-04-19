@@ -1,15 +1,35 @@
-net_camera:
-  index: /dev/logitech_camera_1
-  width: 640
-  height: 480
-  format: MJPG
-  type: NORMAL
+camera1:
+  index: '/dev/stereo_camera'
+  width: 340
+  height: 240
   fps: 20
   port: 8081
-# stereo:
-#   index: /dev/stereo_camera #/dev/stereo_camera
-#   focal_length: 3 #mm
-#   baseline: 12 #cm
+camera2:
+  index: /dev/fisheye_camera
+  width: 320
+  height: 240
+  fps: 30
+  port: 8082
+camera3:
+  index: '/dev/rapoo_camera'
+  width: 640
+  height: 480
+  fps: 20
+  port: 8083
+camera4:
+  index: '/dev/logitech_camera_2'
+  width: 320
+  height: 240
+  fps: 30
+  port: 8084
+# camera5:
+#   index: '/dev/logitech_camera_2'
+#   width: 1280
+#   height: 720
+#   fps: 15
+#   port: 8081
+# camera5:
+#   index: '/dev/video8'
 #   width: 1280
 #   height: 720
 #   format: MJPG
