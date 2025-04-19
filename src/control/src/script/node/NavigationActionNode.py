@@ -116,11 +116,10 @@ class NavigationActionNode:
         rotating_msg.target = 360
         self.set_target_pub.publish(rotating_msg)
 
-        paths = []
         index = 0
         start_yaw = self.yaw
         previous_yaw = start_yaw
-        feedback_increment = 20
+        feedback_increment = goal.angle
         current_increment = 0
         rotation_goal = 360
         rospy.loginfo(f"Starting photosphere action at yaw: {start_yaw} degrees, goal: {rotation_goal} degrees")
@@ -144,14 +143,13 @@ class NavigationActionNode:
             if abs(delta_yaw) >= feedback_increment:
                 current_increment += feedback_increment
                 previous_yaw = current_yaw
-                self.photosphere_feedback.incrementer = current_increment
+                self.photosphere_feedback.incrementer = (current_increment / 360.0) * 100.0
+                self.photosphere_feedback.url = f"/var/www/html/photosphere_mission/photosphere{index:02d}.jpg"
                 self.photosphere_action_server.publish_feedback(self.photosphere_feedback)
                 ret, frame = self.camera.capture.read()
                 if ret:
-                    screenshot_num = current_increment // feedback_increment
-                    screenshot_path = f"/var/www/html/photosphere_mission/photosphere{screenshot_num:02d}.jpg"
+                    screenshot_path = f"/var/www/html/photosphere_mission/photosphere{index:02d}.jpg"
                     cv2.imwrite(screenshot_path)
-                    paths.append(screenshot_path)
                     rospy.loginfo(f"Saved: {screenshot_path}")
                 else:
                     rospy.logwarn("Failed to capture frame")
@@ -162,7 +160,7 @@ class NavigationActionNode:
                 rospy.loginfo("Photosphere action completed.")
                 rotating_msg.reached = True
                 self.set_target_pub.publish(rotating_msg)
-                self.photosphere_result.screenshots = paths
+                self.photosphere_result.directory = f"/var/www/html/photosphere_mission/"
                 self.photosphere_action_server.set_succeeded(self.photosphere_result)
                 return
 
