@@ -5,7 +5,7 @@ horizontal_gripper_camera:
   format: MJPG
   type: NORMAL
   fps: 30
-  port: 8081
+  port: 8084
 vertical_gripper_camera:
   index: /dev/logitech_camera_2
   width: 640
@@ -13,7 +13,7 @@ vertical_gripper_camera:
   format: MJPG
   type: NORMAL
   fps: 30
-  port: 8082
+  port: 8085
 photosphere:
   index: /dev/fisheye_camera
   width: 640
@@ -21,7 +21,7 @@ photosphere:
   format: MJPG
   type: FISHEYE
   fps: 30
-  port: 8083
+  port: 8082
 rapoo:
   index: /dev/rapoo_camera
   width: 640
@@ -29,34 +29,35 @@ rapoo:
   format: MJPG
   type: NORMAL
   fps: 30
-  port: 8084
-left_stereo:
-  index: /dev/stereo_left #--> video17
-  width: 640
-  height: 480
-  format: MJPG
-  type: NORMAL
-  fps: 30
-  port: 8085
-right_stereo:
-  index: /dev/stereo_right  #--> video18
-  width: 640
-  height: 480
-  format: MJPG
-  type: NORMAL
-  fps: 30
-  port: 8086
-
+  port: 8083
 stereo:
   index: /dev/stereo_camera
   focal_length: 3 #mm
   baseline: 12 #cm
-  width: 1280
+  width: 640
   height: 480
   format: MJPG
-  type: STEREO
-  port: 8085
+  type: NORMAL
+  port: 8081
   fps: 20
+# left_stereo:
+#   index: /dev/stereo_left #--> video17
+#   width: 640
+#   height: 480
+#   format: MJPG
+#   type: NORMAL
+#   fps: 30
+#   port: 8085
+# right_stereo:
+#   index: /dev/stereo_right  #--> video18
+#   width: 640
+#   height: 480
+#   format: MJPG
+#   type: NORMAL
+#   fps: 30
+#   port: 8086
+
+
   # left_stereo:
   #   index: /dev/stereo_left #--> video17
   #   width: 640
