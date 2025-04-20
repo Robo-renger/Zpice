@@ -18,6 +18,7 @@ class Servo180Node:
 
     def run(self):
         try:
+            rate = rospy.Rate(20)
             while not rospy.is_shutdown():
                 # rospy.loginfo(self.joystick.isPressed(self.__up))
                 if self.joystick.isPressed("STEREO_SERVO_UP"):
@@ -37,7 +38,8 @@ class Servo180Node:
                     self.photosphereServo.setStep(-20)
                     self.photosphereServo.move()
                     rospy.loginfo("PHOTOSPHERE RIGHT")
-                    
+                rate.sleep()  # <-- This is the key fix
+
         except Exception as e:
             rospy.logerr(f"Error in Servo180Node: {e}")
 

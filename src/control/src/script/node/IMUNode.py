@@ -61,8 +61,10 @@ if __name__ == "__main__":
         imu.enableFeature(bno.BNO_REPORT_GYROSCOPE)
         imu.enableFeature(bno.BNO_REPORT_MAGNETOMETER)
         imu.enableFeature(bno.BNO_REPORT_ROTATION_VECTOR)
+        rate = rospy.Rate(70)  # 70 Hz loop
         while not rospy.is_shutdown():
             imu.run()
+            rate.sleep()
     except SensorInitializationError as e:
         rospy.logerr(f"Sensor initialization failed. {e}")
     except KeyboardInterrupt:

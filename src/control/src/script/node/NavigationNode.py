@@ -19,7 +19,7 @@ class NavigationNode:
         self.pitch = 0
         self.yaw = 0
         self.last_reset_time = 0  
-        
+        self.manualSpeedFactor = 0.91
         self.pub = rospy.Publisher("Direction", String, queue_size=10)
 
         self.PID_configs = Configurator().fetchData(Configurator.PID_PARAMS)        
@@ -164,7 +164,7 @@ class NavigationNode:
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
         pitch_output = self.pid_pitch_horizontal.stabilize(self.imu_data['pitch'])
         heave_output = self.pid_heave_live.stabilize(self.depth)
-        Navigation.navigate(self.x, self.y, pitch_output, heave_output, yaw_output)
+        Navigation.navigate(self.x*self.manualSpeedFactor, self.y*self.manualSpeedFactor, pitch_output, heave_output, yaw_output)
 
     def stabilizeVertical(self):
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
@@ -328,10 +328,10 @@ class NavigationNode:
             if self._isHeaveControllerReady():
                 # #rospy.loginfo("Setting Depth")
                 self.setDepth()
-
         else:
             # #rospy.logerr("ROV in manual control: Using joystick input")
-            Navigation.navigate(self.x, self.y, -self.pitch*0.5, self.z, self.yaw * 0.5)
+            rospy.logwarn(f"{self.x*self.manualSpeedFactor},{self.y*self.manualSpeedFactor}")
+            Navigation.navigate(self.x*self.manualSpeedFactor, self.y*self.manualSpeedFactor, -self.pitch*0.7, self.z, self.yaw * 0.5)
 
         self.extractDir()
 
