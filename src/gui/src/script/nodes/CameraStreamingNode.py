@@ -15,6 +15,7 @@ import time
 from services.RightStereoCamera import RightStereoCamera
 from services.LeftStereoCamera import LeftStereoCamera
 from services.VisualizeDepthMap import VisualizeDepthMap
+from services.FisheyeStreamer import FisheyeStreamer
 
 class CameraStreamerNode:
     def __init__(self):
@@ -23,6 +24,8 @@ class CameraStreamerNode:
         self.camerasDetails = self.__getCameraSteamDetails()
         self.cameraStreamers = []
         self.stereoCameraStreamers = []
+        self.fisheyeStreamers = []
+        self.fisheyeCameras = []
         self.cameras = []
         self.stereo_cameras = []
         
@@ -35,7 +38,8 @@ class CameraStreamerNode:
             if details['type'] == 'NORMAL':
                 self.cameras.append(Camera(details))
             elif details['type'] == 'FISHEYE':
-                self.cameras.append(FishEyeCamera(details))
+                self.fisheyeCameras.append(FishEyeCamera(details))
+                # self.cameras.append(FishEyeCamera(details))
             elif details['type'] == 'STITCHED':             
                 pass
                 # self.cameras.append(StereoStitcher(self.camerasDetails))
@@ -54,6 +58,10 @@ class CameraStreamerNode:
             cameraStreamer = CameraStreamer(camera)
             self.cameraStreamers.append(cameraStreamer)
             cameraStreamer.stream()
+        for camera in self.fisheyeCameras:
+            fisheyeStreamer = FisheyeStreamer(camera)
+            self.fisheyeStreamers.append(fisheyeStreamer)
+            fisheyeStreamer.stream()
         # for stereo_camera in self.stereo_cameras:
         #     stereoCameraStreamer = StereoCameraStreamer(stereo_camera)
         #     self.stereoCameraStreamers.append(stereoCameraStreamer)
@@ -62,6 +70,8 @@ class CameraStreamerNode:
     def stopAllStreams(self):
         for cameraStreamer in self.cameraStreamers:
             cameraStreamer.releaseCapture()
+        for fisheyeStreamer in self.fisheyeStreamers:
+            fisheyeStreamer.releaseCapture()
         # for stereoCameraStreamer in self.stereoCameraStreamers:
         #     stereoCameraStreamer.closeStream()
         rospy.logwarn("All streams terminated")

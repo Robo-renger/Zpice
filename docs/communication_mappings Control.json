@@ -575,15 +575,16 @@
         "actionType": "Derived from components",
         "sample": {
             "goal": {
-                "goal": 10,
-                "discription": "Angle you want to rotate with"
+                "angle": 30,
+                "discription": "Angle after which you screenshots are taken"
             },
             "feedback": {
                 "incrementer": 20,
-                "discription": "Status representing the current angle we've rotated"
+                "discription": "Status representing the percentage of rotation",
+                "url": "/var/www/html/photosphere_mission/photosphere{index:02d}.jpg"
             },
             "response":{
-                "success": false
+                "directory": "/var/www/html/photosphere_mission/"
             }
         },
         "components": [
