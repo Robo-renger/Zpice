@@ -3,6 +3,8 @@
 import rospy
 import actionlib
 import cv2
+from utils.Configurator import Configurator
+from utils.EnvParams import EnvParams
 from gui.src.script.services.FishEyeCamera import FishEyeCamera
 from control.msg import IMU, Depth, SetTarget
 from control.msg import SetDepthAction, SetDepthGoal, SetDepthResult, SetDepthFeedback, SetAngleAction, SetAngleGoal, SetAngleResult, SetAngleFeedback
@@ -12,8 +14,10 @@ class NavigationActionNode:
     def __init__(self):
         self.yaw = None
         self.depth = None
-        self.camera = FishEyeCamera()
-        self.camera.setupCamera()
+        self.ip = EnvParams().WEB_DOMAIN
+        self.cameras = Configurator().fetchData(Configurator.CAMERAS)
+        self.port = self.cameras['photosphere']['port']
+        self.stream_url = f"http://{self.ip}:{self.port}/stream"  
 
         self.set_target_pub = rospy.Publisher("set_target", SetTarget, queue_size=10)
         rospy.Subscriber("IMU", IMU, self._imuCallback)
@@ -113,7 +117,7 @@ class NavigationActionNode:
         rotating_msg = SetTarget()
         rotating_msg.type = "rotate"
         rotating_msg.reached = False
-        rotating_msg.target = 360
+        rotating_msg.target = 360  # Neglected anyways
         self.set_target_pub.publish(rotating_msg)
 
         index = 0
@@ -122,6 +126,8 @@ class NavigationActionNode:
         feedback_increment = goal.angle
         current_increment = 0
         rotation_goal = 360
+        cap = cv2.VideoCapture(self.stream_url)
+        
         rospy.loginfo(f"Starting photosphere action at yaw: {start_yaw} degrees, goal: {rotation_goal} degrees")
 
         while not rospy.is_shutdown():
@@ -144,26 +150,39 @@ class NavigationActionNode:
                 current_increment += feedback_increment
                 previous_yaw = current_yaw
                 self.photosphere_feedback.incrementer = (current_increment / 360.0) * 100.0
-                self.photosphere_feedback.url = f"/var/www/html/photosphere_mission/photosphere{index:02d}.jpg"
+
+                if not cap.isOpened():
+                    rospy.loginfo("Failed to open stream.")
+                    rotating_msg.reached = True
+                    self.set_target_pub.publish(rotating_msg)
+                    self.photosphere_action_server.set_preempted()
+                    return
+
+                ret, frame = cap.read()
+                if not ret:
+                    rospy.loginfo("Failed to grab frame")
+                    rotating_msg.reached = True
+                    self.set_target_pub.publish(rotating_msg)
+                    self.photosphere_action_server.set_preempted()
+                    return
+                
+                screenshot_path = f"/var/www/html/photosphere_mission/photosphere{index:02d}.jpg"
+                self.photosphere_feedback.url = screenshot_path
+                cv2.imwrite(screenshot_path, frame)
                 self.photosphere_action_server.publish_feedback(self.photosphere_feedback)
-                ret, frame = self.camera.capture.read()
-                if ret:
-                    screenshot_path = f"/var/www/html/photosphere_mission/photosphere{index:02d}.jpg"
-                    cv2.imwrite(screenshot_path)
-                    rospy.loginfo(f"Saved: {screenshot_path}")
-                else:
-                    rospy.logwarn("Failed to capture frame")
                 index += 1
                 rospy.loginfo(f"Feedback: Increment = {current_increment} degrees")
 
             if current_increment >= (rotation_goal + 10):
                 rospy.loginfo("Photosphere action completed.")
+                cap.release()
+                self.release = True
                 rotating_msg.reached = True
                 self.set_target_pub.publish(rotating_msg)
                 self.photosphere_result.directory = f"/var/www/html/photosphere_mission/"
                 self.photosphere_action_server.set_succeeded(self.photosphere_result)
                 return
-
+            
 if __name__ == "__main__":
     rospy.init_node("navigation_action_node")
     try:

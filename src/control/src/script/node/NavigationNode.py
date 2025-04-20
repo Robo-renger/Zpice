@@ -96,7 +96,7 @@ class NavigationNode:
             if msg.reached:
                 self.is_rotating = False
             if not msg.reached:
-                self.pid_pitch.updateSetpoint(-30)
+                self.pid_pitch.updateSetpoint(self.neutralPitch + 60)
                 self.pid_yaw.updateSetpoint(self.depth)
 
     def constantsCallback(self, msg):
@@ -303,7 +303,7 @@ class NavigationNode:
                 #rospy.logwarn("ROV at rest: Stabilizing Heading, Tilting and Depth")
                 self.stabilizeAtRest()
         
-        elif self.activePID and self._isMovingHorizontally() and self._isRestPitchAxis() and self._isRestHeaveAxis() and not self._isFixing():
+        elif self.activePID and self._isMovingHorizontally() and (self._isRestPitchAxis() and self._isRestHeaveAxis()) and not self._isFixing():
             if self._isReadyControllers():
                 #rospy.loginfo("ROV moving Horizontally: Stabilizing Heading, Tilting and Depth")
                 self.stabilizeHorizontal()
@@ -314,8 +314,8 @@ class NavigationNode:
                 self.stabilizeVertical()
 
         elif self.is_rotating:
-            if self._isHeaveControllerReady():
-                # #rospy.logwarn("ROV rotating: Stabilizing Depth")
+            if self._isHeaveControllerReady() and self._isPitchControllerReady():
+                rospy.logwarn("ROV rotating: Stabilizing Depth")
                 self.rotate()
         
         elif self.fix_heading:

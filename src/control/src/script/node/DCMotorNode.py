@@ -10,9 +10,9 @@ class DCNode:
         rospy.init_node("dc_motor_node", anonymous=False)
         self.pca = PCA.getInst()
         self.__pins = Configurator().fetchData(Configurator().PINS)
-        self.verticalDC = SinglePWMDCMotor(self.pca, self.__pins['DC_VERTICALGRIPPER_PCA_CHANNEL'], self.__pins['DC_VERTICALGRIPPER_GPIO'])
+        self.verticalDC = SinglePWMDCMotor(self.pca, self.__pins['DC_VERTICALGRIPPER_PCA_CHANNEL'], self.__pins['DC_VERTICALGRIPPER_GPIO'],0,19500)
         self.frontDC = SinglePWMDCMotor(self.pca, self.__pins['DC_FRONTGRIPPER_PCA_CHANNEL'], self.__pins['DC_FRONTGRIPPER_GPIO'])
-        self.verticalDC.setPWM(9000,350)
+        self.verticalDC.setPWM(11000,900)
         self.frontDC.setPWM(19500,350)
         self.joystick = CJoystick()
         

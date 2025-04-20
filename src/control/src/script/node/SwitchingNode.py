@@ -26,12 +26,14 @@ class SwitchingNode:
 
     def run(self):
         try:
+            rate = rospy.Rate(20)
             while not rospy.is_shutdown():
                 self.__leftGripperVeticalMechanism()
                 self.__verticalGripper()
                 self.__leftGripper()
                 self.__syringe()
                 self.__frontGripper()
+                rate.sleep()  # <-- This is the key fix
 
         except Exception as e:
             rospy.logerr(f"Error in Switching Node: {e}")
