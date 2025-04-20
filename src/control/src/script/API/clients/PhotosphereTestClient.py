@@ -5,7 +5,8 @@ import actionlib
 from control.msg import PhotosphereAction, PhotosphereGoal
 
 def feedback_cb(feedback):
-    rospy.loginfo(f"[Feedback] {feedback.discription} ({feedback.incrementer}°)")
+    # rospy.loginfo(f"[Feedback] {feedback.discription} ({feedback.incrementer}°)")
+    pass
 
 def photosphere_client():
     rospy.init_node('photosphere_action_client')
