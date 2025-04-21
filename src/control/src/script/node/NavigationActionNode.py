@@ -130,7 +130,7 @@ class NavigationActionNode:
         previous_yaw = start_yaw
         feedback_increment = goal.angle
         current_increment = 0
-        rotation_goal = 480
+        rotation_goal = 360
         cap = cv2.VideoCapture(self.stream_url)
         
         rospy.loginfo(f"Starting photosphere action at yaw: {start_yaw} degrees, goal: {rotation_goal} degrees")
@@ -153,10 +153,6 @@ class NavigationActionNode:
                 delta_yaw += 360
 
             if abs(delta_yaw) >= feedback_increment:
-                capture_msg.data = True
-                self.capture_pub.publish(capture_msg)
-                rospy.sleep(1)
-
                 current_increment += feedback_increment
                 previous_yaw = current_yaw
                 self.photosphere_feedback.incrementer = (current_increment / 360.0) * 100.0
@@ -168,7 +164,12 @@ class NavigationActionNode:
                     self.photosphere_action_server.set_preempted()
                     return
 
-                for _ in range(20):
+                capture_msg.data = True
+                self.capture_pub.publish(capture_msg)
+                rospy.sleep(0.5)
+                rospy.loginfo("Emptying the buffer...")
+
+                for _ in range(15):
                     cap.read()
 
                 ret, frame = cap.read()
@@ -187,15 +188,13 @@ class NavigationActionNode:
                 rospy.logwarn(f"Screenshoot{index:02d} at time: {current_time}")
                 self.photosphere_action_server.publish_feedback(self.photosphere_feedback)
                 index += 1
-                rospy.loginfo(f"Feedback: Increment = {current_increment} degrees")
-
                 capture_msg.data = False
                 self.capture_pub.publish(capture_msg)
+                rospy.loginfo(f"Captured the frame at Feedback: Increment = {current_increment} degrees")
 
             if current_increment >= (rotation_goal + 10):
                 rospy.loginfo("Photosphere action completed.")
                 cap.release()
-                self.release = True
                 rotating_msg.reached = True
                 self.set_target_pub.publish(rotating_msg)
                 self.photosphere_result.directory = f"/var/www/html/photosphere_mission/"

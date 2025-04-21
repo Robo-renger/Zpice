@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,50 +9,64 @@
     <script src="roslib.min.js"></script>
     <script src="joystick.js"></script>
 </head>
+
 <body>
     <div class="stream-container">
         <div class="stream">
             <h3>Stream 1</h3>
-            <img id="stream1" src="http://192.168.1.233:8081/stream.mjpg" width="720" height="540" style="transform: rotate(180deg);">
-            <button onclick="refreshStream('stream1', 'http://192.168.1.233:8081/stream.mjpg')">Refresh Stream 1</button>
-        </div> 
+            <img id="stream1" src="http://192.168.1.233:8081/stream.mjpg" width="720" height="540"
+                style="transform: rotate(180deg);">
+            <button onclick="refreshStream('stream1', 'http://192.168.1.233:8081/stream.mjpg')">Refresh Stream
+                1</button>
+        </div>
         <div class="stream">
             <h3>Stream 2</h3>
-            <img id="stream2" src="http://192.168.1.233:8082/stream.mjpg" width="720" height="540" style="transform: rotateZ(270deg);">
-            <button onclick="refreshStream('stream2', 'http://192.168.1.233:8082/stream.mjpg')">Refresh Stream 2</button>
+            <img id="stream2" src="http://192.168.1.233:8082/stream.mjpg" width="720" height="540"
+                style="transform: rotateZ(270deg);">
+            <button onclick="refreshStream('stream2', 'http://192.168.1.233:8082/stream.mjpg')">Refresh Stream
+                2</button>
         </div>
         <div class="stream">
             <h3>Stream 3</h3>
             <img id="stream3" src="http://192.168.1.233:8083/stream.mjpg" width="720" height="540">
-            <button onclick="refreshStream('stream3', 'http://192.168.1.233:8083/stream.mjpg')">Refresh Stream 3</button>
+            <button onclick="refreshStream('stream3', 'http://192.168.1.233:8083/stream.mjpg')">Refresh Stream
+                3</button>
         </div>
         <div class="stream">
             <h3>Stream 4</h3>
             <img id="stream4" src="http://192.168.1.233:8084/stream.mjpg" width="720" height="540">
-            <button onclick="refreshStream('stream4', 'http://192.168.1.233:8084/stream.mjpg')">Refresh Stream 4</button>
+            <button onclick="refreshStream('stream4', 'http://192.168.1.233:8084/stream.mjpg')">Refresh Stream
+                4</button>
         </div>
         <div class="stream">
             <h3>Stream 5</h3>
             <img id="stream5" src="http://192.168.1.233:8085/stream.mjpg" width="720" height="540">
-            <button onclick="refreshStream('stream5', 'http://192.168.1.233:8085/stream.mjpg')">Refresh Stream 5</button>
+            <button onclick="refreshStream('stream5', 'http://192.168.1.233:8085/stream.mjpg')">Refresh Stream
+                5</button>
         </div>
         <div class="stream">
             <h3>Stream 6</h3>
             <img id="stream6" src="http://192.168.1.233:8086/stream.mjpg" width="720" height="540">
-            <button onclick="refreshStream('stream6', 'http://192.168.1.233:8086/stream.mjpg')">Refresh Stream 6</button>
+            <button onclick="refreshStream('stream6', 'http://192.168.1.233:8086/stream.mjpg')">Refresh Stream
+                6</button>
         </div>
         <div class="stream">
             <h3>Stream 7</h3>
             <img id="stream7" src="http://192.168.1.233:8087/stream.mjpg" width="720" height="540">
-            <button onclick="refreshStream('stream7', 'http://192.168.1.233:8087/stream.mjpg')">Refresh Stream 7</button>
+            <button onclick="refreshStream('stream7', 'http://192.168.1.233:8087/stream.mjpg')">Refresh Stream
+                7</button>
         </div>
     </div>
 
+    <div class="screenshot-controls">
+        <h3>Screenshot Service</h3>
+        <button onclick="callScreenshotService()">Take Screenshot</button>
+    </div>
     <div class="action-controls">
         <h3>Photosphere Action</h3>
         <button onclick="triggerPhotosphereAction()">Start Photosphere Action</button>
     </div>
-    
+
     <!-- <div class="pid-controls">
         <h3>PID Constants</h3>
         <label>Kp1: <input type="number" id="kp1"></label>
@@ -69,30 +84,41 @@
         function triggerPhotosphereAction() {
             // Implement ROS functionality here to trigger the action
             var client = new ROSLIB.ActionClient({
-                ros : ros,
-                serverName : '/photosphere',
-                actionName : 'control/PhotosphereAction'
+                ros: ros,
+                serverName: '/photosphere',
+                actionName: 'control/PhotosphereAction'
             });
 
             var goal = new ROSLIB.Goal({
-                actionClient : client,
-                goalMessage : {
+                actionClient: client,
+                goalMessage: {
                     angle: 30 // Example: Set your desired angle here
                 }
             });
 
-            goal.on('feedback', function(feedback) {
+            goal.on('feedback', function (feedback) {
                 console.log('Feedback: ' + feedback);
                 // Update UI with feedback if needed
             });
 
-            goal.on('result', function(result) {
+            goal.on('result', function (result) {
                 console.log('Result: ' + result);
                 // Handle result, e.g., show success message
             });
 
             goal.send();
         }
+        function callScreenshotService() {
+            const screenshotService = new ROSLIB.Service({
+                ros: ros,
+                name: '/screenshotsService',
+                serviceType: 'gui/screenshots'
+            });
+                const request = new ROSLIB.ServiceRequest({});
+                screenshotService.callService(request, function (result) {
+                    console.log('Screenshot service response:', result.success);
+                });
+            }
     </script>
 </body>
 <script src="roslib.min.js"></script>
@@ -104,4 +130,5 @@
         document.getElementById(streamId).src = streamUrl;
     }
 </script>
+
 </html>

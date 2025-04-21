@@ -37,25 +37,25 @@ stereo:
   width: 640
   height: 480
   format: MJPG
-  type: NORMAL
+  type: STEREO
   port: 8081
   fps: 30
-# left_stereo:
-#   index: /dev/stereo_left #--> video17
-#   width: 640
-#   height: 480
-#   format: MJPG
-#   type: NORMAL
-#   fps: 30
-#   port: 8085
-# right_stereo:
-#   index: /dev/stereo_right  #--> video18
-#   width: 640
-#   height: 480
-#   format: MJPG
-#   type: NORMAL
-#   fps: 30
-#   port: 8086
+left_stereo:
+  index: /dev/stereo_left #--> video17
+  width: 640
+  height: 480
+  format: MJPG
+  type: NORMAL
+  fps: 30
+  port: 8085
+right_stereo:
+  index: /dev/stereo_right  #--> video18
+  width: 640
+  height: 480
+  format: MJPG
+  type: NORMAL
+  fps: 30
+  port: 8086
 
 
   # left_stereo:

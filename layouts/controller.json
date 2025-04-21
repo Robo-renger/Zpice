@@ -62,7 +62,8 @@
                 "2": "right_x_axis",
                 "3": "right_y_axis"
             }
-        },
+        }
+    },
     "ps5": {
         "ids": [
             "DualSense Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 0ce6)",
@@ -138,6 +139,7 @@
         }
     },
     "xbox": {
+        "ids": [],
         "switch_key_binding": [
             "button_l1",
             "button_r1"
@@ -201,5 +203,4 @@
             }
         }
     }
-}
 }
