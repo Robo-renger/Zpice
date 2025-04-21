@@ -15,9 +15,13 @@ script/services/Camera.py
 script/services/CameraStreamer.py
 script/services/DirectoryChanger.py
 script/services/FishEyeCamera.py
+script/services/FisheyeStreamer.py
 script/services/GUIPresistence.py
+script/services/LeftStereoCamera.py
+script/services/RightStereoCamera.py
 script/services/StereoCalibrator.py
 script/services/StereoCamera.py
 script/services/StereoCameraStreamer.py
 script/services/StereoStitcher.py
+script/services/VisualizeDepthMap.py
 script/services/__init__.py
