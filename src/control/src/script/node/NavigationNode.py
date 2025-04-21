@@ -173,11 +173,13 @@ class NavigationNode:
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
         pitch_output = self.pid_pitch_horizontal.stabilize(self.imu_data['pitch'])
         heave_output = self.pid_heave_live.stabilize(self.depth)
+        # heave_output = self.pid_heave.stabilize(self.depth)
         Navigation.navigate(self.x, self.y, pitch_output, heave_output, yaw_output)
 
     def stabilizeVertical(self):
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
         pitch_output = self.pid_pitch_vertical.stabilize(self.imu_data['pitch'])
+        # rospy.logwarn(f"Z: {self.z}")
         Navigation.navigate(self.x, self.y, pitch_output, self.z, yaw_output)
 
     def setHeading(self):
@@ -307,7 +309,7 @@ class NavigationNode:
         if not self._isRestHeaveAxis() and not self._isFixing() or self.joystick.isPressed("RESET_HEAVE"):
             self.pid_heave.updateSetpoint(self.depth)
             self.pid_heave_live.updateSetpoint(self.depth)
-            rospy.logwarn(self.depth)
+            # rospy.logwarn(self.depth)
         
         if self._isRest() and not self._isFixing():
             if self._isReadyControllers():
