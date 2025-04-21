@@ -305,9 +305,10 @@ class NavigationNode:
                 self.pid_pitch_horizontal.updateSetpoint(self.imu_data['pitch'])
                 self.pid_pitch_vertical.updateSetpoint(self.imu_data['pitch'])
         
-        if not self._isRestHeaveAxis() and not self._isFixing():
+        if not self._isRestHeaveAxis() and not self._isFixing() or self.joystick.isPressed("RESET_HEAVE"):
             self.pid_heave.updateSetpoint(self.depth)
             self.pid_heave_live.updateSetpoint(self.depth)
+            rospy.logwarn(self.depth)
         
         if self.activePID and self._isRest() and not self._isFixing():
             if self._isReadyControllers():

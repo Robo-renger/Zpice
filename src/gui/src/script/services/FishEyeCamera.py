@@ -82,8 +82,8 @@ class FishEyeCamera:
 
     def read(self):
         ret, frame = self.capture.read()
-        if ret:
-            frame = cv.undistort(frame, self.mtx, self.dist, None, self.newCameraMtx)
+        # if ret:
+        #     frame = cv.undistort(frame, self.mtx, self.dist, None, self.newCameraMtx)
         return ret, frame
 
     def isOpened(self):

@@ -2,7 +2,7 @@
 
 import rospy
 import actionlib
-import cv2
+import cv2, time
 from utils.Configurator import Configurator
 from utils.EnvParams import EnvParams
 from std_msgs.msg import Bool
@@ -17,7 +17,7 @@ class NavigationActionNode:
         self.ip = EnvParams().WEB_DOMAIN
         self.cameras = Configurator().fetchData(Configurator.CAMERAS)
         self.port = self.cameras['photosphere']['port']
-        self.stream_url = f"http://{self.ip}:{self.port}/stream"  
+        self.stream_url = f"http://{self.ip}:{self.port}/stream.mjpg"
 
         self.set_target_pub = rospy.Publisher("set_target", SetTarget, queue_size=10)
         self.capture_pub = rospy.Publisher("capture", Bool, queue_size=10)
@@ -130,12 +130,13 @@ class NavigationActionNode:
         previous_yaw = start_yaw
         feedback_increment = goal.angle
         current_increment = 0
-        rotation_goal = 360
+        rotation_goal = 480
         cap = cv2.VideoCapture(self.stream_url)
         
         rospy.loginfo(f"Starting photosphere action at yaw: {start_yaw} degrees, goal: {rotation_goal} degrees")
 
         while not rospy.is_shutdown():
+
             if self.photosphere_action_server.is_preempt_requested():
                 rospy.loginfo("Photosphere action preempted.")
                 rotating_msg.reached = True
@@ -178,17 +179,20 @@ class NavigationActionNode:
                     self.set_target_pub.publish(rotating_msg)
                     self.photosphere_action_server.set_preempted()
                     return
-                
+
+                current_time = time.strftime("%I:%M:%S %p")
                 screenshot_path = f"/var/www/html/photosphere_mission/photosphere{index:02d}.jpg"
                 self.photosphere_feedback.url = screenshot_path
                 cv2.imwrite(screenshot_path, frame)
+
+                rospy.logwarn(f"Screenshoot{index:02d} at time: {current_time}")
                 self.photosphere_action_server.publish_feedback(self.photosphere_feedback)
                 index += 1
                 capture_msg.data = False
                 self.capture_pub.publish(capture_msg)
                 rospy.loginfo(f"Captured the frame at Feedback: Increment = {current_increment} degrees")
 
-            if current_increment >= (rotation_goal + 5):
+            if current_increment >= (rotation_goal + 10):
                 rospy.loginfo("Photosphere action completed.")
                 cap.release()
                 rotating_msg.reached = True

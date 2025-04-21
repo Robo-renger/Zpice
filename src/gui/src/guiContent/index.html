@@ -46,6 +46,11 @@
             <button onclick="refreshStream('stream7', 'http://192.168.1.233:8087/stream.mjpg')">Refresh Stream 7</button>
         </div>
     </div>
+
+    <div class="action-controls">
+        <h3>Photosphere Action</h3>
+        <button onclick="triggerPhotosphereAction()">Start Photosphere Action</button>
+    </div>
     
     <!-- <div class="pid-controls">
         <h3>PID Constants</h3>
@@ -60,6 +65,35 @@
         <label>Kd3: <input type="number" id="kd3"></label>
         <button onclick="sendPIDConstants()">Send PID Constants</button>
     </div> -->
+    <script>
+        function triggerPhotosphereAction() {
+            // Implement ROS functionality here to trigger the action
+            var client = new ROSLIB.ActionClient({
+                ros : ros,
+                serverName : '/photosphere',
+                actionName : 'control/PhotosphereAction'
+            });
+
+            var goal = new ROSLIB.Goal({
+                actionClient : client,
+                goalMessage : {
+                    angle: 30 // Example: Set your desired angle here
+                }
+            });
+
+            goal.on('feedback', function(feedback) {
+                console.log('Feedback: ' + feedback);
+                // Update UI with feedback if needed
+            });
+
+            goal.on('result', function(result) {
+                console.log('Result: ' + result);
+                // Handle result, e.g., show success message
+            });
+
+            goal.send();
+        }
+    </script>
 </body>
 <script src="roslib.min.js"></script>
 <script src="joystick.js"></script>
