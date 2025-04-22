@@ -3,7 +3,7 @@
         <arg name="port" value="9090"/>
     </include>
     <!-- NODES-->
-    <!-- <node pkg="control" type="JoystickNode.py" name="joystick_node" output="screen"></node> -->
+    <node pkg="control" type="JoystickNode.py" name="joystick_node" output="screen"></node>
     <!-- <node pkg="control" type="DCMotorNode.py" name="dc_motor_node" output="screen"></node> -->
     <!-- <node pkg="control" type="Servo360Node.py" name="servo360_node" output="screen"></node> -->
     <!-- <node pkg="control" type="Servo180Node.py" name="servo180_node" output="screen"></node> -->

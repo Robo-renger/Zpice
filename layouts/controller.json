@@ -64,6 +64,80 @@
             }
         }
     },
+    "ps5": {
+        "ids": [
+            "DualSense Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 0ce6)",
+            "Sony Interactive Entertainment DualSense Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 0ce6)"
+          ],
+        "switch_key_binding": [
+            "button_l1",
+            "button_r1"
+        ],
+        "modes": [
+            {
+                "button_l1": "RESET_HEAVE",
+                "button_l2": "LEFTGRIPPER",
+                "button_l3": "HEAVE_DOWN",
+                "button_r1": "VERTICALGRIPPER_LEFT_RIGHT",
+                "button_r2": "FRONTGRIPPER",
+                "button_r3": "HEAVE_UP",
+                "button_left": "LEFTGRIPPER_UP_DOWN",
+                "button_right": "LEFTGRIPPER_UP_OPEN",
+                "button_rect": "DCFRONTGRIPPER_LEFT",
+                "button_o": "DCFRONTGRIPPER_RIGHT",
+                "button_top": "STEREO_SERVO_UP",
+                "button_bot": "STEREO_SERVO_DOWN",
+                "button_x": "VERTICALGRIPPER",
+                "button_tri": "SYRINGE", 
+                "button_share":"PHOTOSPHERE_SERVO_LEFT",
+                "button_options":"PHOTOSPHERE_SERVO_RIGHT"
+            },
+            {
+                "button_l1": "RESET_HEAVE",
+                "button_l2": "LEFTGRIPPER",
+                "button_l3": "HEAVE_DOWN",
+                "button_r1": "VERTICALGRIPPER_LEFT_RIGHT",
+                "button_r2": "FRONTGRIPPER",
+                "button_r3": "HEAVE_UP",
+                "button_left": "LEFTGRIPPER_UP_DOWN",
+                "button_right": "LEFTGRIPPER_UP_OPEN",
+                "button_rect": "DCFRONTGRIPPER_LEFT",
+                "button_o": "DCFRONTGRIPPER_RIGHT",
+                "button_top": "STEREO_SERVO_UP",
+                "button_bot": "STEREO_SERVO_DOWN",
+                "button_x": "VERTICALGRIPPER",
+                "button_tri": "SYRINGE", 
+                "button_share":"PHOTOSPHERE_SERVO_LEFT",
+                "button_options":"PHOTOSPHERE_SERVO_RIGHT"
+            }
+        ],
+        "index_map": {
+            "digital": {
+                "0": "button_x",
+                "1": "button_o",
+                "2": "button_rect",
+                "3": "button_tri",
+                "4": "button_l1",
+                "5": "button_r1",
+                "6": "button_l2",
+                "7": "button_r2",
+                "10": "button_l3",
+                "11": "button_r3",
+                "12": "button_top",
+                "13": "button_bot",
+                "14": "button_left",
+                "15": "button_right",
+                "8": "button_share",
+                "9": "button_options"
+            },
+            "analog": {
+                "0": "left_x_axis",
+                "1": "left_y_axis",
+                "2": "right_x_axis",
+                "3": "right_y_axis"
+            }
+        }
+    },
     "xbox": {
         "switch_key_binding": [
             "button_l1",
