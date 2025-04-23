@@ -9,11 +9,10 @@ class PipePointsService:
         self.length_estimator = LengthEstimator()
 
     def handleSetPipePoints(self, req):
-        rospy.loginfo("Recieved Request to estimate the length of the pipe")
+        rospy.loginfo(f"Recieved Request to estimate the length of the pipe: {req.reference_points}, {req.target_points}")
+        rospy.loginfo(f"ref_points: {ast.literal_eval(req.reference_points)}\n target_points: {ast.literal_eval(req.target_points)}")
         pipe_length = self.length_estimator.estimateLength(
-            ast.literal_eval(req.right_cam_right_point),
-            ast.literal_eval(req.right_cam_left_point),
-            ast.literal_eval(req.left_cam_right_point),
-            ast.literal_eval(req.left_cam_left_point)
+            ast.literal_eval(req.reference_points),
+            ast.literal_eval(req.target_points)
         )
         return setPipePointsResponse(pipe_length)
