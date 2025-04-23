@@ -54,7 +54,6 @@ class NavigationNode:
         rospy.Subscriber("set_target", SetTarget, self._setTargetCallback)
         rospy.Subscriber("capture", Bool, self._captureCallback)
         self.neutralPitch = self.__calibratePitch()
-        #rospy.logwarn(f"NEUTRAAAAAAAAAAAAL {self.neutralPitch}")
         
     def reload(self):
         self.PID_configs = Configurator().fetchData(Configurator.PID_PARAMS)
@@ -99,7 +98,6 @@ class NavigationNode:
                 self.is_rotating = False
             if not msg.reached:
                 self.pid_heave.updateSetpoint(self.depth)
-                self.pid_pitch.updateSetpoint(self.neutralPitch + 60)
 
     def _captureCallback(self, msg: Bool):
         if msg.data:
@@ -196,7 +194,7 @@ class NavigationNode:
     def rotate(self):
         if not self.capture:
             heave_output = self.pid_heave.stabilize(self.depth)
-            Navigation.navigate(0, 0, 0, heave_output, -0.23)
+            Navigation.navigate(0, 0, 0, heave_output, -0.15)
         else:
             Navigation.navigate(0, 0, 0, heave_output, 0)
 
