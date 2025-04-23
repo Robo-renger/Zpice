@@ -1,4 +1,5 @@
 string reference_points
 string target_points
+float64 ref_true_length
 --- 
 float64 pipe_length
