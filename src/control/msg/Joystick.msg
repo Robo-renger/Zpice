@@ -18,3 +18,4 @@ bool button_top
 bool button_bot
 bool button_options
 bool button_share
+bool button_pad

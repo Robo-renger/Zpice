@@ -12,7 +12,7 @@
     <!-- <node pkg="control" type="LEDbash.sh" name="led_driver_node" output="screen"/> -->
     <node pkg="control" type="IMUNode.py" name="IMU" output="screen"></node> 
     <node pkg="control" type="DepthNode.py" name="depth" output="screen"></node>
-    <node pkg="control" type="NavigationNode.py" name="navigation_node" output="screen"></node>
+    <!-- <node pkg="control" type="NavigationNode.py" name="navigation_node" output="screen"></node> -->
     <node pkg="control" type="NavigationActionNode.py" name="navigation_action_node" output="screen"></node>
     <!-- <node pkg="control" type="Pressurebash.sh" name="pressure_node" output="screen"/> -->
     <!-- <node pkg="control" type="PressureNode.py" name="pressure_node" output="screen"></node> -->

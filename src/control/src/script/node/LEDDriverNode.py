@@ -32,17 +32,18 @@ class LEDDriverNode:
             # rospy.loginfo(f"LED color set for direction: {dir}")
 
     def run(self):
-        rospy.Subscriber("Direction", String, self.directionCallback)
+        pass
+        # rospy.Subscriber("Direction", String, self.directionCallback)
 
 
 if __name__ == '__main__':
     try:
         node = LEDDriverNode()
         node.run()
-        node.led_driver.setAllColors((255,0,0))
+        # node.led_driver.setAllColors((255,0,0))
         # print("8AMZA")
         # node.led_driver.setBrightness(0.2)
-        # node.led_driver.clear()
+        node.led_driver.clear()
         rospy.spin()
     except rospy.ROSInterruptException:
         pass

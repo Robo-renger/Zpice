@@ -30,7 +30,6 @@ class NavigationNode:
         self.pid_heave = PIDController(self.PID_configs['heave_KP'], self.PID_configs['heave_KI'], self.PID_configs['heave_KD'])
         self.pid_heave_live = PIDController(self.PID_configs['live_heave_KP'], self.PID_configs['live_heave_KI'], self.PID_configs['live_heave_KD'])
         self.pid_yaw.isHeading = True
-
         self.imu_data = {
             'pitch': None,
             'yaw' : None
@@ -47,15 +46,14 @@ class NavigationNode:
         
         rospy.Subscriber("IMU", IMU, self._imuCallback)
         rospy.Subscriber("depth", Depth, self._depthCallback)
-        rospy.Subscriber("set_target", SetTarget, self._setTargetCallback)
         rospy.Subscriber("constants", Float32MultiArray, self.constantsCallback)
         rospy.Subscriber("factor", Float32MultiArray, self.factorCallback)
         rospy.Subscriber("setpoint", Float32, self.setpointCallback)
         rospy.Subscriber("set_target", SetTarget, self._setTargetCallback)
-        rospy.Subscriber("capture", Bool, self._captureCallback)
+        rospy.Subscriber("capture", Bool, self._setCaptureCallback)
         self.neutralPitch = self.__calibratePitch()
         #rospy.logwarn(f"NEUTRAAAAAAAAAAAAL {self.neutralPitch}")
-        
+    
     def reload(self):
         self.PID_configs = Configurator().fetchData(Configurator.PID_PARAMS)
         self.pid_yaw   = PIDController(self.PID_configs['yaw_KP'], self.PID_configs['yaw_KI'], self.PID_configs['yaw_KD'])
@@ -88,10 +86,11 @@ class NavigationNode:
                 self.pid_pitch.updateSetpoint(msg.target)
 
         elif msg.type == "heave":
+            self.fix_heave = True
             if msg.reached:
-                self.fix_heading = False        
+                self.fix_heave = False
             if not msg.reached:
-                self.pid_yaw.updateSetpoint(msg.target)
+                self.pid_heave.updateSetpoint(msg.target)
 
         elif msg.type == "rotate":
             self.is_rotating = True
@@ -99,16 +98,15 @@ class NavigationNode:
                 self.is_rotating = False
             if not msg.reached:
                 self.pid_heave.updateSetpoint(self.depth)
-                self.pid_pitch.updateSetpoint(self.neutralPitch + 60)
 
-    def _captureCallback(self, msg: Bool):
+    def _setCaptureCallback(self, msg: Bool):
         if msg.data:
             self.capture = True
         else:
             self.capture = False
 
     def constantsCallback(self, msg):
-        #rospy.logwarn(msg.data)
+        rospy.logwarn(msg.data)
         
         ####### Rest Controllers #######
         # self.pid_yaw.updateConstants(msg.data[0], msg.data[1], msg.data[2])
@@ -116,9 +114,9 @@ class NavigationNode:
         # self.pid_heave.updateConstants(msg.data[6], msg.data[7], msg.data[8])
         
         ####### Live Controllers #######
-        self.pid_pitch_horizontal.updateConstants(msg.data[0], msg.data[1], msg.data[2])
-        self.pid_pitch_vertical.updateConstants(msg.data[3], msg.data[4], msg.data[5])
-        self.pid_heave_live.updateConstants(msg.data[6], msg.data[7], msg.data[8])
+        # self.pid_pitch_horizontal.updateConstants(msg.data[0], msg.data[1], msg.data[2])
+        self.pid_pitch_vertical.updateConstants(msg.data[0], msg.data[1], msg.data[2])
+        # self.pid_heave_live.updateConstants(msg.data[6], msg.data[7], msg.data[8])
 
     def setpointCallback(self, msg):
             #rospy.logwarn(msg.data)
@@ -177,10 +175,16 @@ class NavigationNode:
 
     def stabilizeVertical(self):
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
-        pitch_output = self.pid_pitch_vertical.stabilize(self.imu_data['pitch'])
-        rospy.logerr(f"Z: {self.z}")
-        rospy.loginfo(f"Yaw_Output: {yaw_output}")
+        if self.z > 0:
+            pitch_output = self.pid_pitch_vertical.stabilize(self.imu_data['pitch'])
+        else:
+            pitch_output = self.pitch
         Navigation.navigate(self.x, self.y, pitch_output, self.z, yaw_output)
+
+    def stabilizeWhileHeading(self):
+        pitch_output = self.pid_pitch_horizontal.stabilize(self.imu_data['pitch'])
+        heave_output = self.pid_heave_live.stabilize(self.depth)
+        Navigation.navigate(self.x, self.y, pitch_output, heave_output, self.yaw)
 
     def setHeading(self):
         yaw_output = self.pid_yaw.stabilize(self.imu_data['yaw'])
@@ -197,10 +201,10 @@ class NavigationNode:
     def rotate(self):
         if not self.capture:
             heave_output = self.pid_heave.stabilize(self.depth)
-            Navigation.navigate(0, 0, 0, heave_output, -0.23)
+            Navigation.navigate(0, 0, 0, heave_output, -0.25)
         else:
-            Navigation.navigate(0, 0, 0, heave_output, 0)
-
+            Navigation.navigate(0, 0, 0, 0, 0)
+    
     def extractDir(self):
         dir = None
         if self.z > 0.3:
@@ -282,10 +286,14 @@ class NavigationNode:
         
         print(readings)
         return sum(readings) / len(readings) if readings else -6.7
-    
+
     def navigate(self):    
         self.handleJoystickInput()
-            
+
+        if self.joystick.isClicked("RESET"):
+            Navigation.navigate(0,0,0,0,0)
+            return
+
         if not self._isRestYawAxis() and not self._isFixing() and not self.manualSetpoint:
             self.pid_yaw.updateSetpoint(self.imu_data['yaw'])
 
@@ -306,29 +314,33 @@ class NavigationNode:
                 self.pid_pitch_horizontal.updateSetpoint(self.imu_data['pitch'])
                 self.pid_pitch_vertical.updateSetpoint(self.imu_data['pitch'])
         
-        if not self._isRestHeaveAxis() and not self._isFixing() or self.joystick.isPressed("RESET_HEAVE"):
+        if not self._isRestHeaveAxis() and not self._isFixing():
             self.pid_heave.updateSetpoint(self.depth)
             self.pid_heave_live.updateSetpoint(self.depth)
-            rospy.logwarn(self.depth)
         
-        if self.activePID and self._isRest() and not self._isFixing():
+        if self._isRest() and not self._isFixing():
             if self._isReadyControllers():
-                rospy.logwarn("ROV at rest: Stabilizing Heading, Tilting and Depth")
+                # rospy.logwarn("ROV at rest: Stabilizing Heading, Tilting and Depth")
                 self.stabilizeAtRest()
         
-        elif self.activePID and self._isMovingHorizontally() and (self._isRestPitchAxis() and self._isRestHeaveAxis()) and not self._isFixing():
+        elif self.activePID and self._isMovingHorizontally() and self._isRestAxes() and not self._isFixing():
             if self._isReadyControllers():
-                rospy.loginfo("ROV moving Horizontally: Stabilizing Heading, Tilting and Depth")
+                # rospy.loginfo("ROV moving Horizontally: Stabilizing Heading, Tilting and Depth")
                 self.stabilizeHorizontal()
 
         elif self.activePID and self._isMovingVertically() and (self._isRestYawAxis() and self._isRestPitchAxis()) and not self._isFixing():
             if self._isYawControllerReady() and self._isPitchControllerReady():
                 rospy.loginfo("ROV moving Vertically: Stabilizing Heading and Tilting")
                 self.stabilizeVertical()
+        
+        elif self.activePID and not self._isRestYawAxis() and (self._isRestPitchAxis and self._isRestHeaveAxis()):
+            if self._isHeaveControllerReady() and self._isPitchControllerReady():
+                # rospy.loginfo("ROV Heading: Stabilizing Tilting and Depth")
+                self.stabilizeWhileHeading()
 
         elif self.is_rotating:
             if self._isHeaveControllerReady():
-                # rospy.logwarn("ROV rotating: Stabilizing Depth")
+                # #rospy.logwarn("ROV rotating: Stabilizing Depth")
                 self.rotate()
         
         elif self.fix_heading:
@@ -348,7 +360,7 @@ class NavigationNode:
 
         else:
             # rospy.logerr("ROV in manual control: Using joystick input")
-            Navigation.navigate(self.x, self.y, -self.pitch*0.5, self.z, self.yaw * 0.5)
+            Navigation.navigate(self.x, self.y, -self.pitch*0.8, self.z, self.yaw * 0.5)
 
         self.extractDir()
 

@@ -169,7 +169,7 @@ class NavigationActionNode:
                 rospy.sleep(0.5)
                 rospy.loginfo("Emptying the buffer...")
 
-                for _ in range(15):
+                for _ in range(30):
                     cap.read()
 
                 ret, frame = cap.read()

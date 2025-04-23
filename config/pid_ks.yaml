@@ -13,9 +13,12 @@ heave_KD: 60.0
 horizontal_pitch_KP: 400.0
 horizontal_pitch_KI: 0.0
 horizontal_pitch_KD: 200.0
+# vertical_pitch_KP: 10.0
+# vertical_pitch_KI: 0.0
+# vertical_pitch_KD: 7.0
 vertical_pitch_KP: 400.0
 vertical_pitch_KI: 0.0
-vertical_pitch_KD: 220.0
+vertical_pitch_KD: 200.0
 live_heave_KP: 20.0
 live_heave_KI: 0.0
 live_heave_KD: 3.0

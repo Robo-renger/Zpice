@@ -90,7 +90,8 @@
                 "button_x": "VERTICALGRIPPER",
                 "button_tri": "SYRINGE", 
                 "button_share":"PHOTOSPHERE_SERVO_LEFT",
-                "button_options":"PHOTOSPHERE_SERVO_RIGHT"
+                "button_options":"PHOTOSPHERE_SERVO_RIGHT",
+                "button_pad": "REST"
             },
             {
                 "button_l1": "RESET_HEAVE",
@@ -108,7 +109,9 @@
                 "button_x": "VERTICALGRIPPER",
                 "button_tri": "SYRINGE", 
                 "button_share":"PHOTOSPHERE_SERVO_LEFT",
-                "button_options":"PHOTOSPHERE_SERVO_RIGHT"
+                "button_options":"PHOTOSPHERE_SERVO_RIGHT",
+                "button_pad": "REST",
+                "button_ps": ""
             }
         ],
         "index_map": {
@@ -121,14 +124,16 @@
                 "5": "button_r1",
                 "6": "button_l2",
                 "7": "button_r2",
+                "8": "button_share",
+                "9": "button_options",
                 "10": "button_l3",
                 "11": "button_r3",
                 "12": "button_top",
                 "13": "button_bot",
                 "14": "button_left",
                 "15": "button_right",
-                "8": "button_share",
-                "9": "button_options"
+                "16": "button_ps",
+                "17": "button_pad"
             },
             "analog": {
                 "0": "left_x_axis",

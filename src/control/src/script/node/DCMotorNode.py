@@ -12,7 +12,7 @@ class DCNode:
         self.__pins = Configurator().fetchData(Configurator().PINS)
         self.verticalDC = SinglePWMDCMotor(self.pca, self.__pins['DC_VERTICALGRIPPER_PCA_CHANNEL'], self.__pins['DC_VERTICALGRIPPER_GPIO'],0,19500)
         self.frontDC = SinglePWMDCMotor(self.pca, self.__pins['DC_FRONTGRIPPER_PCA_CHANNEL'], self.__pins['DC_FRONTGRIPPER_GPIO'])
-        self.verticalDC.setPWM(11000,900)
+        self.verticalDC.setPWM(19500,350)
         self.frontDC.setPWM(19500,350)
         self.joystick = CJoystick()
         
