@@ -11,7 +11,7 @@ class MapService:
         self.json_handler = JSONFileHandler()
 
     def handleSetMap(self, req):
-        rospy.loginfo(f"Recived Request to set map data: {req.mapData}")
+        # rospy.loginfo(f"Recived Request to set map data: {req.mapData}")
         rospy.loginfo("Recived Request to set map data")
         try:
             new_data = json.loads(req.mapData)

@@ -13,8 +13,8 @@ class Map:
         workspace_path = rospack.get_path('cv')
         self.base_dir = Path(__file__).resolve().parent.parent
         self.DATA_FILE = workspace_path + f'/../../mapData/map_data.json' 
-        self.CONTOURS_FILE = self.base_dir / "data" / "contours_all.pkl"
-        self.MAP_FILE = self.base_dir / "data" / "Map.webp"
+        self.CONTOURS_FILE = workspace_path + f'/../../mapData/contours_all.pkl'
+        self.MAP_FILE = workspace_path + f'/../../mapData/Map.webp'
         self.OUTPUT_VID_DIR="/var/www/html/mapMission/output.mp4"
 
     def run(self):
