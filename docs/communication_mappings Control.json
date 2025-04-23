@@ -485,10 +485,9 @@
         "serviceType": "cv/setPipePoints",
         "args": {
             "request": {
-                "right_cam_right_point": "",
-                "right_cam_left_point": "",
-                "left_cam_right_point": "",
-                "left_cam_left_point": ""
+                "reference_points": "",
+                "target_points": "",
+                "ref_true_length": 0.0
             },
             "response": {
                 "pipe_length": 0.0
@@ -496,13 +495,12 @@
         },
         "sample": {
             "request": {
-                "right_cam_right_point": "(25, 50)",
-                "right_cam_left_point": "(50, 50)",
-                "left_cam_right_point": "(25, 50)",
-                "left_cam_left_point": "(50, 50)"
+                "reference_points": "[[[100,200],[100,300]],[[100,200],[100,400]], [[100,200],[100,500]], [[100,200],[100,600]]] ",
+                "target_points": "[[[100,200],[100,300]],[[100,200],[100,400]], [[100,200],[100,500]], [[100,200],[100,600]]] ",
+                "ref_true_length": 30
             },
             "response": {
-                "pipe_length": 0.0
+                "pipe_length": 12
             }
         }
     },
@@ -581,10 +579,11 @@
             "feedback": {
                 "incrementer": 20,
                 "discription": "Status representing the percentage of rotation",
-                "url": "/var/www/html/photosphere_mission/photosphere{index:02d}.jpg"
+                "screenshot_link": "http:192.168.1.233/photosphere_mission/photosphere{index:02d}.jpg"
             },
             "response":{
-                "directory": "/var/www/html/photosphere_mission/"
+                "directory": "http:192.168.1.233/photosphere_mission/",
+                "video_link": "http:192.168.1.233/photosphere_mission/photosphere_video.mp4"
             }
         },
         "components": [

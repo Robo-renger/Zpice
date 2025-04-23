@@ -17,6 +17,7 @@ class MapService:
             new_data = json.loads(req.mapData)
             self.json_handler.setData("map_data", new_data)
             video_path = self.map.run()
+            rospy.loginfo(f"Video path: {video_path}")
             return setMapResponse(video_path)
 
         except json.JSONDecodeError as e:

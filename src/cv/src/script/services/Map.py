@@ -22,7 +22,7 @@ class Map:
             image_handler = ImageHandler(self.MAP_FILE, RegionLoader(self.CONTOURS_FILE), DataReader(self.DATA_FILE))
             video_creator = VideoCreator(image_handler.draw_images())
             video_creator.create_video(self.OUTPUT_VID_DIR)
-            return f"{EnvParams().WEB_DOMAIN}/mapMission/output.mp4"
+            return f"http://{EnvParams().WEB_DOMAIN}/mapMission/output.mp4"
         except FileNotFoundError as e:
             print(f"File not found: {str(e)}")
         except ValueError as e:

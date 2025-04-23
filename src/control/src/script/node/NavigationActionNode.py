@@ -121,26 +121,34 @@ class NavigationActionNode:
         rotating_msg.target = 360  # Neglected anyways
         self.set_target_pub.publish(rotating_msg)
 
-        capture_msg = Bool()
-        capture_msg.data = False
-        self.capture_pub.publish(capture_msg)
-
         index = 0
         start_yaw = self.yaw
         previous_yaw = start_yaw
-        feedback_increment = goal.angle
+        feedback_increment = goal.angle_increment
         current_increment = 0
         rotation_goal = 360
+
         cap = cv2.VideoCapture(self.stream_url)
+        frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        fps = 20  
+        video_path = "/var/www/html/photosphere_mission/video.mp4"
+        video_writer = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (frame_width, frame_height))
         
         rospy.loginfo(f"Starting photosphere action at yaw: {start_yaw} degrees, goal: {rotation_goal} degrees")
 
         while not rospy.is_shutdown():
-
+            
+            ret, frame = cap.read()
+            if ret:
+                video_writer.write(frame)
+            
             if self.photosphere_action_server.is_preempt_requested():
                 rospy.loginfo("Photosphere action preempted.")
                 rotating_msg.reached = True
                 self.set_target_pub.publish(rotating_msg)
+                video_writer.release()
+                cap.release()
                 self.photosphere_action_server.set_preempted()
                 return
 
@@ -161,43 +169,41 @@ class NavigationActionNode:
                     rospy.loginfo("Failed to open stream.")
                     rotating_msg.reached = True
                     self.set_target_pub.publish(rotating_msg)
+                    video_writer.release()
                     self.photosphere_action_server.set_preempted()
                     return
 
-                capture_msg.data = True
-                self.capture_pub.publish(capture_msg)
-                rospy.sleep(0.5)
-                rospy.loginfo("Emptying the buffer...")
-
-                for _ in range(30):
-                    cap.read()
+                for _ in range(15):
+                    cap.read()  # Emptying the buffer for more readable frame
 
                 ret, frame = cap.read()
                 if not ret:
                     rospy.loginfo("Failed to grab frame")
                     rotating_msg.reached = True
                     self.set_target_pub.publish(rotating_msg)
+                    video_writer.release()
                     self.photosphere_action_server.set_preempted()
                     return
 
                 current_time = time.strftime("%I:%M:%S %p")
+                screenshot_link = f"http://192.168.1.233/photosphere_mission/photosphere{index:02d}.jpg"
                 screenshot_path = f"/var/www/html/photosphere_mission/photosphere{index:02d}.jpg"
-                self.photosphere_feedback.url = screenshot_path
+                self.photosphere_feedback.screenshot_link = screenshot_link
                 cv2.imwrite(screenshot_path, frame)
 
-                rospy.logwarn(f"Screenshoot{index:02d} at time: {current_time}")
+                rospy.logwarn(f"Saved photosphere{index:02d} at time: {current_time}")
                 self.photosphere_action_server.publish_feedback(self.photosphere_feedback)
                 index += 1
-                capture_msg.data = False
-                self.capture_pub.publish(capture_msg)
-                rospy.loginfo(f"Captured the frame at Feedback: Increment = {current_increment} degrees")
 
             if current_increment >= (rotation_goal + 10):
                 rospy.loginfo("Photosphere action completed.")
+                video_writer.release()
                 cap.release()
                 rotating_msg.reached = True
                 self.set_target_pub.publish(rotating_msg)
-                self.photosphere_result.directory = f"/var/www/html/photosphere_mission/"
+                self.photosphere_result.directory = "/var/www/html/photosphere_mission"
+                video_link = f"http://192.168.1.233/photosphere_mission/video.mp4"
+                self.photosphere_result.video_link = video_link
                 self.photosphere_action_server.set_succeeded(self.photosphere_result)
                 return
             

@@ -52,6 +52,7 @@ class NavigationNode:
         rospy.Subscriber("set_target", SetTarget, self._setTargetCallback)
         rospy.Subscriber("capture", Bool, self._setCaptureCallback)
         self.neutralPitch = self.__calibratePitch()
+        
         #rospy.logwarn(f"NEUTRAAAAAAAAAAAAL {self.neutralPitch}")
     
     def reload(self):
@@ -318,7 +319,7 @@ class NavigationNode:
             self.pid_heave.updateSetpoint(self.depth)
             self.pid_heave_live.updateSetpoint(self.depth)
         
-        if self._isRest() and not self._isFixing():
+        if self.activePID and self._isRest() and not self._isFixing():
             if self._isReadyControllers():
                 # rospy.logwarn("ROV at rest: Stabilizing Heading, Tilting and Depth")
                 self.stabilizeAtRest()
