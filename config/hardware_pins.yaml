@@ -28,3 +28,5 @@ STEREO_SERVO: 7
 PHOTOSPHERE_SERVO: 14
 #------ SYRINGE-----------------#
 SYRINGE_SWITCH: 16
+#------ RAIN -------------------#
+RAIN_GPIO: 1

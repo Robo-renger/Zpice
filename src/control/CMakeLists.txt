@@ -60,6 +60,7 @@ catkin_python_setup()
   Status.msg
   GPIOStatus.msg
   SetTarget.msg
+  WaterDetection.msg
 )
 
 ## Generate services in the 'srv' folder
