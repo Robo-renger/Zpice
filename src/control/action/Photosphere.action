@@ -1,13 +1,14 @@
 # Goal (The angle that we need to increment and send feedback with) 
-float64 angle
+float64 angle_increment
 
 ---
 
 # Result (Directory at which the screenshots are taken)
 string directory
+string video_link
 
 ---
 
 # Feedback (Incrementer -> percentage, URL -> Link to the screenshot)
 float64 incrementer
-string url
+string screenshot_link
