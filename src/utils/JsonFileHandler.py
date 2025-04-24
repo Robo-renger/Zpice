@@ -76,7 +76,6 @@ class JSONFileHandler:
 
             # Update existing data with new_layout (merge dictionaries)
             updated_data = {**existing_data, **new_data}
-
             # Write back to file
             with open(self.__jsonFile, 'w') as file:
                 pass
@@ -87,7 +86,7 @@ class JSONFileHandler:
         except json.JSONDecodeError as e:
             print(f"Error: Failed to write JSON data. Details: {e}")
         except TypeError as e:
-            print(e)
+            print(f"Error: Type error: {e}")
 
     def __updateYamlConfig(self, file_name, new_layout):
         """Update the yaml file with the required data

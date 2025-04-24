@@ -15,6 +15,8 @@ class MapService:
         rospy.loginfo("Recived Request to set map data")
         try:
             new_data = json.loads(req.mapData)
+            new_data = json.loads(new_data)
+            rospy.loginfo(f"new_data: {new_data}")
             self.json_handler.setData("map_data", new_data)
             video_path = self.map.run()
             rospy.loginfo(f"Video path: {video_path}")

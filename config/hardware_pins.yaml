@@ -27,6 +27,6 @@ SERVO_CHANNEL: 6
 STEREO_SERVO: 7
 PHOTOSPHERE_SERVO: 14
 #------ SYRINGE-----------------#
-SYRINGE_SWITCH: 16
+SYRINGE_SWITCH: 1
 #------ RAIN -------------------#
 RAIN_GPIO: 1
