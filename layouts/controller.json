@@ -110,8 +110,7 @@
                 "button_tri": "SYRINGE", 
                 "button_share":"PHOTOSPHERE_SERVO_LEFT",
                 "button_options":"PHOTOSPHERE_SERVO_RIGHT",
-                "button_pad": "REST",
-                "button_ps": ""
+                "button_pad": "REST"
             }
         ],
         "index_map": {

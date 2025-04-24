@@ -1,6 +1,6 @@
 {
     "view1": {
-        "left_camera": {
+        "horizontal_gripper_camera": {
             "url": "http://192.168.1.233:8081/stream.mjpg",
             "geometry": {
                 "top": "1%",
@@ -9,7 +9,7 @@
                 "height": "25%"
             }
         },
-        "right_camera": {
+        "vertical_gripper_camera": {
             "url": "http://192.168.1.233:8082/stream.mjpg",
             "geometry": {
                 "top": "1%",
@@ -18,7 +18,7 @@
                 "height": "25%"
             }
         },
-        "rapoo_camera": {
+        "photosphere": {
             "url": "http://192.168.1.233:8083/stream.mjpg",
             "geometry": {
                 "top": "38%",
@@ -27,7 +27,7 @@
                 "height": "25%"
             }
         },
-        "camera4": {
+        "rapoo_camera": {
             "url": "http://192.168.1.233:8084/stream.mjpg",
             "geometry": {
                 "top": "38%",
@@ -36,7 +36,7 @@
                 "height": "25%"
             }
         },
-        "camera5": {
+        "stereo_camera": {
             "url": "http://192.168.1.233:8085/stream.mjpg",
             "geometry": {
                 "top": "74%",

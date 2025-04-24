@@ -1,7 +1,15 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>cv</name>
+<<<<<<< HEAD
   <version>0.0.50</version>
+=======
+<<<<<<< HEAD
+  <version>0.0.29</version>
+=======
+  <version>0.0.40</version>
+>>>>>>> 099835675c842664e564d56d2a542ff37f33b00a
+>>>>>>> 8219a68fa1b381d5e25423c6027f498701b95ef6
   <description>The cv package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->

@@ -3,7 +3,15 @@ from setuptools import setup, find_packages
 # This setup is used to make (test, script, mock and ms5837) visible for each other
 setup(
     name='cv',  # Replace with your package name
+<<<<<<< HEAD
     version='0.0.50',
+=======
+<<<<<<< HEAD
+    version='0.0.29',
+=======
+    version='0.0.40',
+>>>>>>> 099835675c842664e564d56d2a542ff37f33b00a
+>>>>>>> 8219a68fa1b381d5e25423c6027f498701b95ef6
     packages=find_packages(where='src'),  # Automatically find packages under 'src'
     package_dir={'': 'src'},  # Specify that packages are located in 'src'
     install_requires=[],  # Add any Python dependencies here

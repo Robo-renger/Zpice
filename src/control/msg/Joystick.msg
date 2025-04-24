@@ -19,3 +19,4 @@ bool button_bot
 bool button_options
 bool button_share
 bool button_pad
+bool button_ps

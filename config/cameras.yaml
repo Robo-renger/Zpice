@@ -1,64 +1,64 @@
-# horizontal_gripper_camera:
-#   index: /dev/logitech_camera_1
-#   width: 352
-#   height: 480
-#   format: MJPG
-#   type: NORMAL
-#   fps: 15
-#   port: 8084
-# vertical_gripper_camera:
-#   index: /dev/logitech_camera_2
-#   width: 352
+horizontal_gripper_camera:
+  index: /dev/logitech_camera_1
+  width: 352
+  height: 480
+  format: MJPG
+  type: NORMAL
+  fps: 15
+  port: 8081
+vertical_gripper_camera:
+  index: /dev/logitech_camera_2
+  width: 352
+  height: 480
+  format: MJPG
+  type: NORMAL
+  fps: 15
+  port: 8082
+photosphere:
+  index: /dev/fisheye_camera
+  width: 640
+  height: 480
+  format: MJPG
+  type: NORMAL
+  fps: 15
+  port: 8083
+rapoo_camera:
+  index: /dev/rapoo_camera
+  width: 352
+  height: 288
+  format: MJPG
+  type: NORMAL
+  fps: 15
+  port: 8084
+stereo_camera:
+  index: /dev/stereo_camera
+  focal_length: 3 #mm
+  baseline: 12 #cm
+  width: 640
+  height: 480
+  format: MJPG
+  type: NORMAL
+  port: 8085
+  fps: 30
+# left_stereo:
+#   index: /dev/stereo_left #--> video17
+#   width: 640
 #   height: 480
 #   format: MJPG
 #   type: NORMAL
 #   fps: 15
 #   port: 8085
-# photosphere:
-#   index: /dev/fisheye_camera
+# right_stereo:
+#   index: /dev/stereo_right  #--> video18
 #   width: 640
 #   height: 480
 #   format: MJPG
 #   type: NORMAL
-#   fps: 30
-#   port: 8082
-# rapoo:
-#   index: /dev/rapoo_camera
-#   width: 352
-#   height: 288
-#   format: MJPG
-#   type: NORMAL
-#   fps: 30
-#   port: 8083
-stereo:
-  index: /dev/stereo_camera
-  focal_length: 3 #mm
-  baseline: 12 #cm
-  width: 1280
-  height: 480
-  format: MJPG
-  type: STEREO
-  port: 8081
-  fps: 30
-left_stereo:
-  index: /dev/stereo_left #--> video17
-  width: 640
-  height: 480
-  format: MJPG
-  type: NORMAL
-  fps: 30
-  port: 8085
-right_stereo:
-  index: /dev/stereo_right  #--> video18
-  width: 640
-  height: 480
-  format: MJPG
-  type: NORMAL
-  fps: 30
-  port: 8086
+#   fps: 15
+#   port: 8086
 
 
-  # left_stereo:
+  left_stereo:
   #   index: /dev/stereo_left #--> video17
   #   width: 640
   #   height: 480
