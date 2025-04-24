@@ -485,8 +485,10 @@
         "serviceType": "cv/setPipePoints",
         "args": {
             "request": {
-                "reference_points": "",
-                "target_points": "",
+                "reference_points_left": "",
+                "reference_points_right": "",
+                "target_points_left": "",
+                "target_points_right": "",
                 "ref_true_length": 0.0
             },
             "response": {
@@ -495,8 +497,10 @@
         },
         "sample": {
             "request": {
-                "reference_points": "[[[100,200],[100,300]],[[100,200],[100,400]], [[100,200],[100,500]], [[100,200],[100,600]]] ",
-                "target_points": "[[[100,200],[100,300]],[[100,200],[100,400]], [[100,200],[100,500]], [[100,200],[100,600]]] ",
+                "reference_points_left": "[[100,200], [100,200], [100,200], [100,200]]",
+                "reference_points_right": "[[100,300], [100,400], [100,500], [100,600]]",
+                "target_points_left": "[[100,200], [100,200], [100,200], [100,200]]",
+                "target_points_right": "[[100,200], [100,200], [100,200], [100,200]]",
                 "ref_true_length": 30
             },
             "response": {

@@ -34,7 +34,7 @@
     <node pkg="control" type="SpeedPercentageServer.py" name="speed_percentage_server" output="screen"></node>
     <node pkg="cv" type="PipePointsServer.py" name="pipe_server" output="screen"></node>
     <node pkg="cv" type="MapServer.py" name="map_server" output="screen"></node>
-    <node pkg="gui" type="screenshotsServer.py" name="screenshots_server" output="screen"></node>
+    <!-- <node pkg="gui" type="screenshotsServer.py" name="screenshots_server" output="screen"></node> -->
     <!-- <node pkg="control" type="CommunicationMappings.py" name="ros_json_generator" output="screen"></node> -->
     
     

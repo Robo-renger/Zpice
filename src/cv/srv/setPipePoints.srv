@@ -1,5 +1,7 @@
-string reference_points
-string target_points
+string reference_points_left
+string reference_points_right
+string target_points_left
+string target_points_right
 float64 ref_true_length
 --- 
 float64 pipe_length
